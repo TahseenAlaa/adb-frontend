@@ -1,40 +1,43 @@
 <template>
   <v-app>
     <v-app-bar
-      app
-      color="primary"
+      color="deep-purple darken-2"
       dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-container class="fill-height">
+        <v-row align="center" justify="center" class="fill-height">
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+          <v-spacer></v-spacer>
 
-      <v-spacer></v-spacer>
+            <v-img
+                :src="require('./assets/logo.png')"
+                contain
+                height="25"
+                width="25"
+                max-width="25px"
+                max-height="25px"
+            />
+            <h3>Alhasan Diabetes Center</h3>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+          <v-spacer></v-spacer>
+
+          <div>
+            <v-row>
+              <v-img
+                  :src="require('./assets/logo.png')"
+                  contain
+                  height="25"
+                  width="25"
+                  max-width="25px"
+                  max-height="25px"
+                  class="mr-6"
+              />
+              <h4>Username</h4>
+            </v-row>
+          </div>
+        </v-row>
+      </v-container>
+
     </v-app-bar>
 
     <v-main>
