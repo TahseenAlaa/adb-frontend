@@ -3,6 +3,7 @@
     <v-app-bar
       color="deep-purple darken-2"
       dark
+      max-height="64px"
     >
       <v-container class="fill-height">
         <v-row align="center" justify="center" class="fill-height">
@@ -43,6 +44,22 @@
     <v-main>
       <router-view/>
     </v-main>
+
+    <v-footer>
+      <v-container class="fill-height">
+        <v-divider></v-divider>
+        <v-row align="center" justify="center" class="fill-height">
+          <p>@ 2022 Alhasan Diabetes Center. All Right Reserved.</p>
+          <v-spacer></v-spacer>
+          <div class="">
+            <span class="px-2">Contact US</span>
+            <span class="px-2">FAQ</span>
+            <span class="px-2">Terms</span>
+            <span class="px-2">Privacy</span>
+          </div>
+        </v-row>
+      </v-container>
+    </v-footer>
   </v-app>
 </template>
 
