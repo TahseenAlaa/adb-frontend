@@ -18,7 +18,7 @@
                 max-width="25px"
                 max-height="25px"
             />
-            <h3>Alhasan Diabetes Center</h3>
+            <router-link to="/" class="text-decoration-none white--text"><h3>Alhasan Diabetes Center</h3></router-link>
 
           <v-spacer></v-spacer>
 

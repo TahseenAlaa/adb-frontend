@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from "@/views/HomeView";
 import DashboardView from "@/views/DashboardView";
+import SearchView from "@/views/SearchView";
+import PharmacyView from "@/views/PharmacyView";
 
 Vue.use(VueRouter)
 
@@ -15,6 +17,16 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardView
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: SearchView
+  },
+  {
+    path: '/pharmacy',
+    name: 'pharmacy',
+    component: PharmacyView
   },
   {
     path: '/about',

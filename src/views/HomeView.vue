@@ -26,7 +26,7 @@
                       depressed
                       class="mt-2"
                   >
-                    Reception & Statistics
+                    <router-link to="/search" class="text-decoration-none black--text">Reception & Statistics</router-link>
                   </v-btn>
                 </v-card-actions>
       </v-col>
@@ -52,7 +52,7 @@
               depressed
               class="mt-2"
           >
-            Doctors
+            <router-link to="/search" class="text-decoration-none black--text">Doctors</router-link>
           </v-btn>
         </v-card-actions>
       </v-col>
@@ -83,7 +83,7 @@
                 depressed
                 class="mt-2"
             >
-              Medical Lab
+              <router-link to="/search" class="text-decoration-none black--text">Medical Lab</router-link>
             </v-btn>
           </v-card-actions>
         </v-col>
@@ -109,7 +109,7 @@
                 depressed
                 class="mt-2"
             >
-              Pharmacy
+              <router-link to="/pharmacy" class="text-decoration-none black--text">Pharmacy</router-link>
             </v-btn>
           </v-card-actions>
         </v-col>
