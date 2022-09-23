@@ -20,6 +20,7 @@
                       v-model="auth.email"
                       type="text"
                       @keyup.enter="login()"
+                      @keydown="toggleShowSignInBtn"
                   ></v-text-field>
 
                   <v-text-field
@@ -31,6 +32,7 @@
                       type="password"
                       v-model="auth.password"
                       @keyup.enter="login()"
+                      @keydown="toggleShowSignInBtn"
                   ></v-text-field>
                 </v-form>
                 <v-banner
@@ -47,7 +49,7 @@
                     color="primary"
                     @click="login()"
                     :loading="loadingbtn"
-                    :disabled="disabled"
+                    :disabled="ShowSignInBtn"
                 >Sign In</v-btn
                 >
               </v-card-actions>
@@ -72,13 +74,15 @@ export default {
         password:""
       },
       processing:false,
-      errorMsg: null
+      errorMsg: null,
+      ShowSignInBtn: true
     }
   },
   methods:{
     ...mapActions({
       signIn:'auth/login'
     }),
+
     async login(){
       const baseURL = 'http://127.0.0.1:8000/';
       this.errorMsg = null;
@@ -101,6 +105,14 @@ export default {
       }).catch(({response:{data}})=>{
         this.errorMsg = data.message;
       })
+    },
+  },
+
+  computed: {
+    toggleShowSignInBtn() {
+      if (this.auth.email && this.auth.password) {
+        this.ShowSignInBtn = null
+      }
     },
   }
 }

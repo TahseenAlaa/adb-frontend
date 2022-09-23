@@ -67,10 +67,22 @@
 <script>
 
 import Login from "@/views/LoginView";
+import { mapActions} from "vuex";
 
 export default {
   name: 'App',
   components: {Login},
+
+  methods: {
+    ...mapActions({
+      validateLogin: 'auth/validateLogin'
+    })
+  },
+
+  created() {
+    this.validateLogin()
+  },
+
   computed: {
     isLoggedIn() {
       return this.$store.state.isLoggedIn
