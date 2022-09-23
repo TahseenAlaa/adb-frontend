@@ -5,7 +5,7 @@
         <v-row align="center" justify="center">
 
           <v-col cols="12" sm="8" md="4">
-            <div class="justify-center align-center align-content-center d-flex flex">
+            <div class="justify-center align-center align-content-center d-flex flex pb-12 mb-6">
               <v-img contain class="printlogo mb-3" src="../assets/esite_logo.png" />
             </div>
             <v-card class="elevation-12">
