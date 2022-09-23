@@ -48,7 +48,7 @@
                 <v-btn
                     color="primary"
                     @click="login()"
-                    :loading="loadingbtn"
+                    :loading="showLoadingBtn"
                     :disabled="ShowSignInBtn"
                 >Sign In</v-btn
                 >
@@ -64,6 +64,7 @@
 <script>
 import { mapActions } from 'vuex'
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name:"login",
@@ -75,17 +76,19 @@ export default {
       },
       processing:false,
       errorMsg: null,
-      ShowSignInBtn: true
+      ShowSignInBtn: true,
+      showLoadingBtn: false
     }
   },
   methods:{
     ...mapActions({
-      signIn:'auth/login'
+      signIn:'login'
     }),
 
     async login(){
       const baseURL = 'http://127.0.0.1:8000/';
       this.errorMsg = null;
+      this.showLoadingBtn = true;
 
       await axios.get(baseURL + 'sanctum/csrf-cookie', {
         headers: {
@@ -101,9 +104,10 @@ export default {
       }).then(({data})=>{
         localStorage.setItem('esite_token', data['token'].toString())
         this.signIn()
-        this.$store.state.isLoggedIn = true
+        router.push({name: 'home'})
       }).catch(({response:{data}})=>{
         this.errorMsg = data.message;
+        this.showLoadingBtn = false;
       })
     },
   },

@@ -22,7 +22,9 @@
 
           <v-spacer></v-spacer>
 
-          <div>
+          <div
+          v-if="isAuthenticated"
+          >
             <v-row>
               <v-img
                   :src="require('./assets/logo.png')"
@@ -42,8 +44,8 @@
     </v-app-bar>
 
     <v-main>
-      <Login v-if="!isLoggedIn"/>
-      <router-view v-if="isLoggedIn"/>
+      <Login v-if="!isAuthenticated"/>
+      <router-view v-if="isAuthenticated"/>
     </v-main>
 
     <v-footer>
@@ -75,7 +77,7 @@ export default {
 
   methods: {
     ...mapActions({
-      validateLogin: 'auth/validateLogin'
+      validateLogin: 'validateLogin'
     })
   },
 
@@ -84,8 +86,8 @@ export default {
   },
 
   computed: {
-    isLoggedIn() {
-      return this.$store.state.isLoggedIn
+    isAuthenticated() {
+      return this.$store.state.authenticated
     }
   },
   data: () => ({
