@@ -42,7 +42,8 @@
     </v-app-bar>
 
     <v-main>
-      <router-view/>
+      <Login v-if="!isLoggedIn"/>
+      <router-view v-if="isLoggedIn"/>
     </v-main>
 
     <v-footer>
@@ -65,9 +66,16 @@
 
 <script>
 
+import Login from "@/views/LoginView";
+
 export default {
   name: 'App',
-
+  components: {Login},
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.isLoggedIn
+    }
+  },
   data: () => ({
     //
   }),

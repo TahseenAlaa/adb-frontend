@@ -95,9 +95,9 @@ export default {
           'Accept'       : 'application/json'
         },
       }).then(({data})=>{
-        localStorage.setItem('token', data['token'].toString())
+        localStorage.setItem('esite_token', data['token'].toString())
         this.signIn()
-        console.log(this.auth)
+        this.$store.state.isLoggedIn = true
       }).catch(({response:{data}})=>{
         this.errorMsg = data.message;
       })
