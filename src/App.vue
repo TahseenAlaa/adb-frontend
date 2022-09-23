@@ -35,7 +35,7 @@
                   max-height="25px"
                   class="mr-6"
               />
-              <h4>Username</h4>
+              <h4>{{ getUser['full_name'] }}</h4>
 
               <span class="text-center">
                 <v-menu offset-y>
@@ -128,6 +128,10 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.state.authenticated
+    },
+
+    getUser() {
+      return this.$store.getters.user
     }
   },
   data: () => ({
