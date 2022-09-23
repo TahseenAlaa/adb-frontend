@@ -4,10 +4,16 @@ import HomeView from "@/views/HomeView";
 import DashboardView from "@/views/DashboardView";
 import SearchView from "@/views/SearchView";
 import PharmacyView from "@/views/PharmacyView";
+import LoginView from "@/views/LoginView";
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
   {
     path: '/',
     name: 'home',
