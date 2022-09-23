@@ -36,6 +36,39 @@
                   class="mr-6"
               />
               <h4>Username</h4>
+
+              <span class="text-center">
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="deep-purple darken-2"
+                        dark
+                        depressed
+                        v-bind="attrs"
+                        v-on="on"
+                        class="px-0 mx-0"
+                    >
+                      <v-img
+                      :src="require('../src/assets/3_dots_icon.svg')"
+                      contain
+                      height="25"
+                      width="25"
+                      max-width="25px"
+                      max-height="25px"
+                      class="mr-6"
+                      />
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item link dense>
+                      <v-list-item-title
+                          @click="logout"
+                      >Logout</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </span>
+
             </v-row>
           </div>
         </v-row>
@@ -78,8 +111,15 @@ export default {
   methods: {
     ...mapActions({
       validateLogin: 'validateLogin'
-    })
-  },
+    }),
+
+    logout(){
+       this.$store.commit('SET_AUTHENTICATED', false)
+       this.$store.commit('SET_USER', {})
+       localStorage.clear()
+       this.$router.push({name: 'login'})
+     },
+    },
 
   created() {
     this.validateLogin()

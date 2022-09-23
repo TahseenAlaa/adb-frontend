@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
+import router from "@/router";
 
 Vue.use(Vuex)
 
@@ -50,8 +51,21 @@ export default new Vuex.Store({
     },
 
     logout({commit}){
-      commit('SET_USER',{})
-      commit('SET_AUTHENTICATED',false)
+      const baseURL = 'http://127.0.0.1:8000/';
+      const token = localStorage.getItem('esite_token');
+
+      return axios.post(baseURL + 'api/v1/auth/logout', {
+        timeout: 1000,
+        headers: {
+          'Content-Type'     : 'application/json',
+          'Accept'           : 'application/json',
+          'Authorization'    : 'Bearer ' + token
+        },
+      }).then(() => {
+        commit('SET_AUTHENTICATED', false)
+        commit('SET_USER', {})
+        localStorage.clear()
+      })
     },
 
     validateLogin({commit}) {
