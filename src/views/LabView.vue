@@ -1,10 +1,10 @@
 <template>
-  <h1>Doctors</h1>
+  <h1>Lab</h1>
 </template>
 
 <script>
 export default {
-  name: "DoctorsView"
+  name: "LabView"
 }
 </script>
 

@@ -6,6 +6,8 @@ import SearchView from "@/views/SearchView";
 import PharmacyView from "@/views/PharmacyView";
 import LoginView from "@/views/LoginView";
 import ReceptionView from "@/views/ReceptionView";
+import DoctorsView from "@/views/DoctorsView";
+import LabView from "@/views/LabView";
 
 Vue.use(VueRouter)
 
@@ -24,6 +26,16 @@ const routes = [
     path: '/reception',
     name: 'reception',
     component: ReceptionView
+  },
+  {
+    path: '/doctors',
+    name: 'doctors',
+    component: DoctorsView
+  },
+  {
+    path: '/lab',
+    name: 'lab',
+    component: LabView
   },
   {
     path: '/dashboard',
