@@ -5,6 +5,7 @@ import DashboardView from "@/views/DashboardView";
 import SearchView from "@/views/SearchView";
 import PharmacyView from "@/views/PharmacyView";
 import LoginView from "@/views/LoginView";
+import ReceptionView from "@/views/ReceptionView";
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/reception',
+    name: 'reception',
+    component: ReceptionView
   },
   {
     path: '/dashboard',
