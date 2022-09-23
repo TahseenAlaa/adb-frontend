@@ -50,23 +50,23 @@ export default new Vuex.Store({
         })
     },
 
-    logout({commit}){
-      const baseURL = 'http://127.0.0.1:8000/';
-      const token = localStorage.getItem('esite_token');
-
-      return axios.post(baseURL + 'api/v1/auth/logout', {
-        timeout: 1000,
-        headers: {
-          'Content-Type'     : 'application/json',
-          'Accept'           : 'application/json',
-          'Authorization'    : 'Bearer ' + token
-        },
-      }).then(() => {
-        commit('SET_AUTHENTICATED', false)
-        commit('SET_USER', {})
-        localStorage.clear()
-      })
-    },
+    // logout({commit}){
+    //   const baseURL = 'http://127.0.0.1:8000/';
+    //   const token = localStorage.getItem('esite_token');
+    //
+    //   return axios.post(baseURL + 'api/v1/auth/logout', {
+    //     timeout: 1000,
+    //     headers: {
+    //       'Content-Type'     : 'application/json',
+    //       'Accept'           : 'application/json',
+    //       'Authorization'    : 'Bearer ' + token
+    //     },
+    //   }).then(() => {
+    //     commit('SET_AUTHENTICATED', false)
+    //     commit('SET_USER', {})
+    //     localStorage.clear()
+    //   })
+    // },
 
     validateLogin({commit}) {
       const baseURL = 'http://127.0.0.1:8000/';
