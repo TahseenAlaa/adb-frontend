@@ -7,7 +7,7 @@
         v-model="autoOpenPanel"
     >
       <v-expansion-panel>
-      <v-expansion-panel-header><h2>Reception and Statistics</h2></v-expansion-panel-header>
+      <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
         <v-expansion-panel-content>Content goes here</v-expansion-panel-content>
       </v-expansion-panel>
 
