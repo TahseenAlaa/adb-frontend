@@ -72,7 +72,7 @@ export default new Vuex.Store({
       const baseURL = 'http://127.0.0.1:8000/';
       const token = localStorage.getItem('esite_token');
 
-      if (token.toString().length === 43) {
+      if (token.toString().length >= 1) {
         return axios.get(baseURL + 'api/v1/auth/user', {
           timeout: 10000,
           headers: {
