@@ -1,7 +1,7 @@
 <template>
 
   <v-container>
-    <v-form>
+    <v-form @submit="postReceptionData()" >
       <v-card class="px-6">
         <v-card-title>Reception & Statistics</v-card-title>
         <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
@@ -11,6 +11,7 @@
           <v-col cols="12">
             <v-text-field
                 label="Full Name"
+                v-model="full_name"
                 outlined
                 dense
             ></v-text-field>
@@ -30,8 +31,8 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                      v-model="dateOfBirthday"
                       label="Date of Birthday"
+                      v-model="date_of_birthday"
                       prepend-icon="mdi-calendar"
                       readonly
                       v-bind="attrs"
@@ -41,7 +42,7 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                    v-model="dateOfBirthday"
+                    v-model="date_of_birthday"
                     :active-picker.sync="activePicker"
                     :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
                     min="1900-01-01"
@@ -53,6 +54,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Phone"
+                v-model="phone"
                 outlined
                 dense
             ></v-text-field>
@@ -61,6 +63,7 @@
             <v-select
                 :items="gender"
                 label="Gender"
+                v-model="gender"
                 dense
                 outlined
             ></v-select>
@@ -71,6 +74,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Occupation"
+                v-model="occupation"
                 outlined
                 dense
             ></v-text-field>
@@ -79,6 +83,7 @@
             <v-select
                 :items="educationQualification"
                 label="Education Qualification"
+                v-model="education_qualification"
                 dense
                 outlined
             ></v-select>
@@ -87,6 +92,7 @@
             <v-select
                 :items="maritalStatus"
                 label="Marital Status"
+                v-model="marital_status"
                 dense
                 outlined
             ></v-select>
@@ -97,6 +103,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Address"
+                v-model="address"
                 outlined
                 dense
             ></v-text-field>
@@ -105,6 +112,7 @@
             <v-select
                 :items="smoker"
                 label="Smoker"
+                v-model="smoker"
                 dense
                 outlined
             ></v-select>
@@ -113,6 +121,7 @@
             <v-select
                 :items="drinker"
                 label="Drinker"
+                v-model="drinker"
                 dense
                 outlined
             ></v-select>
@@ -124,6 +133,7 @@
             <v-select
                 :items="familyHistoryOfDM"
                 label="Family History of DM"
+                v-model="family_history_of_dm"
                 dense
                 outlined
             ></v-select>
@@ -132,6 +142,7 @@
             <v-select
                 :items="gestationalDM"
                 label="Gestational DM"
+                v-model="gestational_dm"
                 dense
                 outlined
             ></v-select>
@@ -139,6 +150,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Weight of Baby at Birthday"
+                v-model="weight_of_baby_at_birthday"
                 outlined
                 dense
             ></v-text-field>
@@ -150,6 +162,7 @@
             <v-select
                 :items="hypertension"
                 label="Hypertension"
+                v-model="hypertension"
                 dense
                 outlined
             ></v-select>
@@ -157,6 +170,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Family History of IHD"
+                v-model="family_history_of_ihd"
                 outlined
                 dense
             ></v-text-field>
@@ -164,6 +178,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Parity"
+                v-model="parity"
                 outlined
                 dense
             ></v-text-field>
@@ -175,6 +190,7 @@
             <v-select
                 :items="smbg"
                 label="SMBG"
+                v-model="smbg"
                 dense
                 outlined
             ></v-select>
@@ -183,6 +199,7 @@
             <v-select
                 :items="ihd"
                 label="IHD"
+                v-model="ihd"
                 dense
                 outlined
             ></v-select>
@@ -191,6 +208,7 @@
             <v-select
                 :items="cva"
                 label="CVA"
+                v-model="cva"
                 dense
                 outlined
             ></v-select>
@@ -202,6 +220,7 @@
             <v-select
                 :items="pvd"
                 label="PVD"
+                v-model="pvd"
                 dense
                 outlined
             ></v-select>
@@ -210,6 +229,7 @@
             <v-select
                 :items="neuropathy"
                 label="Neuropathy"
+                v-model="neuropathy"
                 dense
                 outlined
             ></v-select>
@@ -221,6 +241,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Weight"
+                v-model="weight"
                 outlined
                 dense
             ></v-text-field>
@@ -228,6 +249,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Height"
+                v-model="height"
                 outlined
                 dense
             ></v-text-field>
@@ -235,6 +257,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Waist Circumference"
+                v-model="waist_circumference"
                 outlined
                 dense
             ></v-text-field>
@@ -245,6 +268,7 @@
           <v-col cols="4">
             <v-text-field
                 label="BMI"
+                v-model="bmi"
                 outlined
                 dense
             ></v-text-field>
@@ -257,6 +281,7 @@
           <v-col cols="4">
             <v-text-field
                 label="HIP"
+                v-model="hip"
                 outlined
                 dense
             ></v-text-field>
@@ -268,6 +293,7 @@
             <v-select
                 :items="retinopathy"
                 label="Retinopathy"
+                v-model="retinopathy"
                 dense
                 outlined
             ></v-select>
@@ -276,6 +302,7 @@
             <v-select
                 :items="nonProliferative"
                 label="Non proliferative"
+                v-model="nonProliferative"
                 dense
                 outlined
             ></v-select>
@@ -284,6 +311,7 @@
             <v-select
                 :items="proliferativeDR"
                 label="Proliferative DR"
+                v-model="proliferativeDR"
                 dense
                 outlined
             ></v-select>
@@ -295,6 +323,7 @@
             <v-select
                 :items="maculopathy"
                 label="Maculopathy"
+                v-model="maculopathy"
                 dense
                 outlined
             ></v-select>
@@ -303,6 +332,7 @@
             <v-select
                 :items="insulin"
                 label="Insulin"
+                v-model="insulin"
                 dense
                 outlined
             ></v-select>
@@ -311,6 +341,7 @@
             <v-select
                 :items="amputation"
                 label="Amputation"
+                v-model="amputation"
                 dense
                 outlined
             ></v-select>
@@ -322,6 +353,7 @@
             <v-select
                 :items="ed"
                 label="ED"
+                v-model="ed"
                 dense
                 outlined
             ></v-select>
@@ -330,6 +362,7 @@
             <v-select
                 :items="nafld"
                 label="NAFLD"
+                v-model="nafld"
                 dense
                 outlined
             ></v-select>
@@ -338,6 +371,7 @@
             <v-select
                 :items="dermopathy"
                 label="Dermopathy"
+                v-model="dermopathy"
                 dense
                 outlined
             ></v-select>
@@ -349,6 +383,7 @@
             <v-select
                 :items="diabeticFood"
                 label="Diabetic Food"
+                v-model="diabetic_food"
                 dense
                 outlined
             ></v-select>
@@ -365,8 +400,8 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                      v-model="dateOfInsulin"
                       label="Date of Insulin"
+                      v-model="date_of_insulin"
                       prepend-icon="mdi-calendar"
                       readonly
                       outlined
@@ -376,7 +411,7 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                    v-model="dateOfInsulin"
+                    v-model="date_of_insulin"
                     @input="DateOfInsulinMenu = false"
                 ></v-date-picker>
               </v-menu>
@@ -385,6 +420,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Duration of Insulin"
+                v-model="duration_of_insulin"
                 outlined
                 dense
             ></v-text-field>
@@ -395,6 +431,7 @@
           <v-col cols="4">
             <v-text-field
                 label="Duration of DM"
+                v-model="duration_of_dm"
                 outlined
                 dense
             ></v-text-field>
@@ -403,6 +440,7 @@
             <v-select
                 :items="glycemicControl"
                 label="Glycemic Control"
+                v-model="glycemic_control"
                 dense
                 outlined
             ></v-select>
@@ -411,6 +449,7 @@
             <v-select
                 :items="lipidControl"
                 label="Lipid Control"
+                v-model="lipid_control"
                 dense
                 outlined
             ></v-select>
@@ -421,6 +460,7 @@
           <v-col cols="2">
             <v-text-field
                 label="Pressure Control"
+                v-model="pressure_control"
                 outlined
                 dense
             ></v-text-field>
@@ -428,26 +468,34 @@
           <v-col cols="2">
             <v-text-field
                 label="Father's Height"
+                v-model="father_height"
                 outlined
                 dense
+                :rules="[numberRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="2">
             <v-text-field
                 label="Mother's Height"
+                v-model="mother_height"
                 outlined
                 dense
+                :rules="[numberRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="2">
             <v-text-field
                 label="Mid-Parent Height"
+                v-model="mid_parent_height"
                 outlined
                 dense
+                readonly
+                hint="ReadOnly"
             ></v-text-field>
           </v-col>
           <v-col cols="2">
             <v-btn
+                @click="calcMidParentHeight()"
                 class="deep-purple white--text"
             >Calculate</v-btn>
           </v-col>
@@ -457,6 +505,7 @@
           <v-col cols="6">
             <v-text-field
                 label="First A1c"
+                v-model="first_a1c"
                 outlined
                 dense
             ></v-text-field>
@@ -464,6 +513,7 @@
           <v-col cols="6">
             <v-text-field
                 label="Second A1c"
+                v-model="second_a1c"
                 outlined
                 dense
             ></v-text-field>
@@ -473,6 +523,7 @@
           <v-col cols="12">
             <v-text-field
                 label="Source of referral"
+                v-model="source_of_referral"
                 outlined
                 dense
             ></v-text-field>
@@ -498,37 +549,70 @@
 
 <script>
 export default {
-  data: () => ({
-    dateOfInsulin: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-    activePicker: null,
-    dateOfBirthday: null,
-    menu: false,
-    gender: ['Male', 'Female', 'Other'],
-    maritalStatus: ['Single', 'Married', 'Divorced'],
-    smoker: ['Yes', 'No'],
-    drinker: ['Yes', 'No'],
-    educationQualification :['Yes', 'No'],
-    familyHistoryOfDM: ['Yes', 'No'],
-    gestationalDM: ['Yes', 'No'],
-    hypertension: ['Yes', 'No'],
-    smbg: ['Yes', 'No'],
-    ihd: ['Yes', 'No'],
-    cva: ['Yes', 'No'],
-    pvd: ['Yes', 'No'],
-    neuropathy: ['Yes', 'No'],
-    retinopathy: ['Yes', 'No'],
-    nonProliferative: ['Yes', 'No'],
-    proliferativeDR: ['Yes', 'No'],
-    maculopathy: ['Yes', 'No'],
-    insulin: ['Yes', 'No'],
-    amputation: ['Yes', 'No'],
-    ed: ['Yes', 'No'],
-    nafld: ['Yes', 'No'],
-    dermopathy: ['Yes', 'No'],
-    diabeticFood: ['Yes', 'No'],
-    glycemicControl: ['Yes', 'No'],
-    lipidControl: ['Yes', 'No']
-  }),
+  data() {
+    return {
+      date_of_insulin: null,
+      DateOfInsulinMenu: null,
+      activePicker: null,
+      date_of_birthday: null,
+      menu: false,
+      gender: ['Male', 'Female', 'Other'],
+      maritalStatus: ['Single', 'Married', 'Divorced'],
+      smoker: ['Yes', 'No'],
+      drinker: ['Yes', 'No'],
+      educationQualification :['Yes', 'No'],
+      familyHistoryOfDM: ['Yes', 'No'],
+      gestationalDM: ['Yes', 'No'],
+      hypertension: ['Yes', 'No'],
+      smbg: ['Yes', 'No'],
+      ihd: ['Yes', 'No'],
+      cva: ['Yes', 'No'],
+      pvd: ['Yes', 'No'],
+      neuropathy: ['Yes', 'No'],
+      retinopathy: ['Yes', 'No'],
+      nonProliferative: ['Yes', 'No'],
+      proliferativeDR: ['Yes', 'No'],
+      maculopathy: ['Yes', 'No'],
+      insulin: ['Yes', 'No'],
+      amputation: ['Yes', 'No'],
+      ed: ['Yes', 'No'],
+      nafld: ['Yes', 'No'],
+      dermopathy: ['Yes', 'No'],
+      diabeticFood: ['Yes', 'No'],
+      glycemicControl: ['Yes', 'No'],
+      lipidControl: ['Yes', 'No'],
+      full_name: null,
+      dateOfBirthday: null,
+      phone: null,
+      occupation: null,
+      education_qualification: null,
+      marital_status: null,
+      address: null,
+      family_history_of_dm: null,
+      gestational_dm: null,
+      weight_of_baby_at_birthday: null,
+      family_history_of_ihd: null,
+      parity: null,
+      weight: null,
+      height: null,
+      waist_circumference: null,
+      bmi: null,
+      hip: null,
+      diabetic_food: null,
+      duration_of_insulin: null,
+      duration_of_dm: null,
+      glycemic_control: null,
+      lipid_control: null,
+      pressure_control: null,
+      father_height: null,
+      mother_height: null,
+      mid_parent_height: null,
+      first_a1c: null,
+      second_a1c: null,
+      source_of_referral: null,
+
+    }
+  },
   watch: {
     menu (val) {
       val && setTimeout(() => (this.activePicker = 'YEAR'))
@@ -537,6 +621,18 @@ export default {
   methods: {
     save (date) {
       this.$refs.menu.save(date)
+    },
+    postReceptionData(e) {
+      console.log(this.gender);
+      e.preventDefault()
+    },
+    calcMidParentHeight() {
+      this.mid_parent_height = (parseInt(this.father_height) + parseInt(this.mother_height)) / 2
+    },
+    numberRule: v  => {
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
+      return 'Number has to be between 0 and 999';
     },
   },
   name: "ReceptionView.vue"
