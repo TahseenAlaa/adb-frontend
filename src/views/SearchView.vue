@@ -39,20 +39,16 @@
         <v-row dense align="center" justify="center">
           <v-spacer></v-spacer>
             <v-btn
-                class="px-8 py-12 mt-6 mx-8 white--text"
+                dark
+                class="px-8 py-12 mt-6 mx-8"
                 color="#6200EE"
             >
-              <v-col>
-                <v-img
-                    src="../assets/search_icon.svg"
-                    width="50px"
-                    height="50px"
-                    class="mx-auto"
-                >
+              <div class="d-flex flex-column align-content-center justify-center">
 
-                </v-img>
-                <h2 class="text-capitalize">Search</h2>
-              </v-col>
+
+                <v-icon size="40">mdi-magnify</v-icon>
+                <div class="text-capitalize text-center">Search</div>
+              </div>
             </v-btn>
         </v-row>
     </v-form>
