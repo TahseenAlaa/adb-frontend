@@ -1,7 +1,7 @@
 <template>
 
   <v-container>
-    <v-form @submit="postReceptionData()" >
+    <v-form>
       <v-card class="px-6">
         <v-card-title>Reception & Statistics</v-card-title>
         <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
@@ -63,7 +63,7 @@
             <v-select
                 :items="gender"
                 label="Gender"
-                v-model="gender"
+                v-model="selectedGender"
                 dense
                 outlined
             ></v-select>
@@ -112,7 +112,7 @@
             <v-select
                 :items="smoker"
                 label="Smoker"
-                v-model="smoker"
+                v-model="selectedSmoker"
                 dense
                 outlined
             ></v-select>
@@ -121,7 +121,7 @@
             <v-select
                 :items="drinker"
                 label="Drinker"
-                v-model="drinker"
+                v-model="selectedDrinker"
                 dense
                 outlined
             ></v-select>
@@ -162,7 +162,7 @@
             <v-select
                 :items="hypertension"
                 label="Hypertension"
-                v-model="hypertension"
+                v-model="selectedHypertension"
                 dense
                 outlined
             ></v-select>
@@ -190,7 +190,7 @@
             <v-select
                 :items="smbg"
                 label="SMBG"
-                v-model="smbg"
+                v-model="selectedSmbg"
                 dense
                 outlined
             ></v-select>
@@ -199,7 +199,7 @@
             <v-select
                 :items="ihd"
                 label="IHD"
-                v-model="ihd"
+                v-model="selectedIhd"
                 dense
                 outlined
             ></v-select>
@@ -208,7 +208,7 @@
             <v-select
                 :items="cva"
                 label="CVA"
-                v-model="cva"
+                v-model="selectedCva"
                 dense
                 outlined
             ></v-select>
@@ -220,7 +220,7 @@
             <v-select
                 :items="pvd"
                 label="PVD"
-                v-model="pvd"
+                v-model="selectedPvd"
                 dense
                 outlined
             ></v-select>
@@ -229,7 +229,7 @@
             <v-select
                 :items="neuropathy"
                 label="Neuropathy"
-                v-model="neuropathy"
+                v-model="selectedNeuropathy"
                 dense
                 outlined
             ></v-select>
@@ -293,7 +293,7 @@
             <v-select
                 :items="retinopathy"
                 label="Retinopathy"
-                v-model="retinopathy"
+                v-model="selectedRetinopathy"
                 dense
                 outlined
             ></v-select>
@@ -302,7 +302,7 @@
             <v-select
                 :items="nonProliferative"
                 label="Non proliferative"
-                v-model="nonProliferative"
+                v-model="selectedNonProliferative"
                 dense
                 outlined
             ></v-select>
@@ -311,7 +311,7 @@
             <v-select
                 :items="proliferativeDR"
                 label="Proliferative DR"
-                v-model="proliferativeDR"
+                v-model="selectedProliferativeDR"
                 dense
                 outlined
             ></v-select>
@@ -323,7 +323,7 @@
             <v-select
                 :items="maculopathy"
                 label="Maculopathy"
-                v-model="maculopathy"
+                v-model="selectedMaculopathy"
                 dense
                 outlined
             ></v-select>
@@ -332,7 +332,7 @@
             <v-select
                 :items="insulin"
                 label="Insulin"
-                v-model="insulin"
+                v-model="selectedInsulin"
                 dense
                 outlined
             ></v-select>
@@ -341,7 +341,7 @@
             <v-select
                 :items="amputation"
                 label="Amputation"
-                v-model="amputation"
+                v-model="selectedAmputation"
                 dense
                 outlined
             ></v-select>
@@ -353,7 +353,7 @@
             <v-select
                 :items="ed"
                 label="ED"
-                v-model="ed"
+                v-model="selectedEd"
                 dense
                 outlined
             ></v-select>
@@ -362,7 +362,7 @@
             <v-select
                 :items="nafld"
                 label="NAFLD"
-                v-model="nafld"
+                v-model="selectedNafld"
                 dense
                 outlined
             ></v-select>
@@ -371,7 +371,7 @@
             <v-select
                 :items="dermopathy"
                 label="Dermopathy"
-                v-model="dermopathy"
+                v-model="selectedDermopathy"
                 dense
                 outlined
             ></v-select>
@@ -535,6 +535,7 @@
       <v-row dense align="center" justify="center">
         <v-spacer></v-spacer>
         <v-btn
+            @click="postReceptionData"
             class="mt-6 deep-purple white--text"
         >
           <v-col>
@@ -610,7 +611,24 @@ export default {
       first_a1c: null,
       second_a1c: null,
       source_of_referral: null,
-
+      selectedGender: null,
+      selectedCva: null,
+      selectedPvd: null,
+      selectedNeuropathy: null,
+      selectedRetinopathy: null,
+      selectedNonProliferative: null,
+      selectedProliferativeDR: null,
+      selectedMaculopathy: null,
+      selectedInsulin: null,
+      selectedAmputation: null,
+      selectedEd: null,
+      selectedNafld: null,
+      selectedDermopathy: null,
+      selectedSmoker: null,
+      selectedDrinker: null,
+      selectedSmbg: null,
+      selectedIhd: null,
+      selectedHypertension: null
     }
   },
   watch: {
@@ -623,7 +641,52 @@ export default {
       this.$refs.menu.save(date)
     },
     postReceptionData(e) {
-      console.log(this.gender);
+      console.log({
+        full_name: this.full_name,
+        date_of_birthday: this.date_of_birthday,
+        occupation: this.occupation,
+        address: this.address,
+        smoker: this.selectedSmoker,
+        drinker: this.selectedDrinker,
+        family_dm: this.family_history_of_dm,
+        gestational_dm: this.gestational_dm,
+        weight_baby: this.weight_of_baby_at_birthday,
+        hypert: this.selectedHypertension,
+        family_ihd: this.family_history_of_ihd,
+        parity: this.parity,
+        smbg: this.selectedSmbg,
+        ihd: this.selectedIhd,
+        cva: this.selectedCva,
+        pvd: this.selectedPvd,
+        neuro: this.selectedNeuropathy,
+        weight: this.weight,
+        height: this.height,
+        wc: this.waist_circumference,
+        bmi: this.bmi,
+        hip: this.hip,
+        retino: this.selectedRetinopathy,
+        nonpro: this.selectedNonProliferative,
+        prolif: this.selectedProliferativeDR,
+        macul: this.selectedMaculopathy,
+        insul: this.selectedInsulin,
+        amput: this.selectedAmputation,
+        ed: this.selectedEd,
+        nafld: this.selectedNafld,
+        dermo: this.selectedDermopathy,
+        dfoot: this.diabetic_food,
+        date_insulin: this.date_of_insulin,
+        duration_insulin: this.duration_of_insulin,
+        duration_dm: this.duration_of_dm,
+        glycemic: this.glycemic_control,
+        lipid: this.lipid_control,
+        pressure: this.pressure_control,
+        f_height: this.father_height,
+        m_height: this.mother_height,
+        mid_height: this.mid_parent_height,
+        fa1c: this.first_a1c,
+        sa2c: this.second_a1c,
+        referral: this.source_of_referral
+      });
       e.preventDefault()
     },
     calcMidParentHeight() {
