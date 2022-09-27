@@ -89,6 +89,7 @@
 
     <v-row dense>
       <v-col>
+        <router-link to="/reception">
         <v-btn
             class="px-8 py-12 mt-6 mx-8 white--text"
             color="#FFFFFF"
@@ -105,6 +106,7 @@
             <h2 class="text-capitalize" style="color: #6200EE">New Patient</h2>
           </v-col>
         </v-btn>
+        </router-link>
       </v-col>
     </v-row>
   </v-container>

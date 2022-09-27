@@ -14,6 +14,7 @@
         min-height="250"
     >
       <v-col>
+        <router-link to="/search" class="text-decoration-none black--text">
         <v-img
             src="../assets/reception.svg"
             max-width="160"
@@ -26,9 +27,10 @@
                       depressed
                       class="mt-2"
                   >
-                    <router-link to="/search" class="text-decoration-none black--text">Reception & Statistics</router-link>
+                    <span>Reception & Statistics</span>
                   </v-btn>
                 </v-card-actions>
+        </router-link>
       </v-col>
     </v-card>
 
@@ -40,6 +42,7 @@
         min-height="250"
     >
       <v-col>
+        <router-link to="/search" class="text-decoration-none black--text">
         <v-img
             src="../assets/doctors.svg"
             max-width="160"
@@ -52,9 +55,10 @@
               depressed
               class="mt-2"
           >
-            <router-link to="/search" class="text-decoration-none black--text">Doctors</router-link>
+            <span>Doctors</span>
           </v-btn>
         </v-card-actions>
+        </router-link>
       </v-col>
     </v-card>
   </v-row>
@@ -71,6 +75,7 @@
           min-height="250"
       >
         <v-col>
+          <router-link to="/search" class="text-decoration-none black--text">
           <v-img
               src="../assets/lab.svg"
               max-width="160"
@@ -83,9 +88,10 @@
                 depressed
                 class="mt-2"
             >
-              <router-link to="/search" class="text-decoration-none black--text">Medical Lab</router-link>
+              <span>Medical Lab</span>
             </v-btn>
           </v-card-actions>
+          </router-link>
         </v-col>
       </v-card>
 
@@ -97,6 +103,7 @@
           min-height="250"
       >
         <v-col>
+          <router-link to="/pharmacy" class="text-decoration-none black--text">
           <v-img
               src="../assets/pharmacy.svg"
               max-width="160"
@@ -109,9 +116,10 @@
                 depressed
                 class="mt-2"
             >
-              <router-link to="/pharmacy" class="text-decoration-none black--text">Pharmacy</router-link>
+              <span>Pharmacy</span>
             </v-btn>
           </v-card-actions>
+          </router-link>
         </v-col>
       </v-card>
     </v-row>
