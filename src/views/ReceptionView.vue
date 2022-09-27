@@ -534,6 +534,18 @@
 
       <v-row dense align="center" justify="center">
         <v-spacer></v-spacer>
+        <v-alert
+            type="success"
+            class="mt-10 mr-4"
+            v-if="successAlert"
+            dense
+        >Patient Information stored successfully!</v-alert>
+        <v-alert
+            type="error"
+            class="mt-10 mr-4"
+            v-if="errorAlert"
+            dense
+        >Save data Failed!</v-alert>
         <v-btn
             @click="postReceptionData"
             class="mt-6 deep-purple white--text"
@@ -549,9 +561,13 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
+      successAlert: false,
+      errorAlert: false,
       date_of_insulin: null,
       DateOfInsulinMenu: null,
       activePicker: null,
@@ -641,9 +657,10 @@ export default {
       this.$refs.menu.save(date)
     },
     postReceptionData(e) {
-      console.log({
+      axios.post('http://127.0.0.1:8000/api/v1/patients/store' , {
         full_name: this.full_name,
-        date_of_birthday: this.date_of_birthday,
+        phone: this.phone,
+        birthday: this.date_of_birthday,
         occupation: this.occupation,
         address: this.address,
         smoker: this.selectedSmoker,
@@ -686,7 +703,66 @@ export default {
         fa1c: this.first_a1c,
         sa2c: this.second_a1c,
         referral: this.source_of_referral
+      }, {
+        headers: {
+          'Content-Type' : 'application/json',
+          'Accept'       : 'application/json',
+          'Authorization': 'Bearer '+localStorage.getItem('esite_token')
+        }
+      }).then(({data})=>{
+        this.successAlert = true
+        console.log(data)
+      }).catch(({response:{data}})=>{
+        console.log(data)
       });
+
+      // console.log({
+      //   full_name: this.full_name,
+      //   phone: this.phone,
+      //   birthday: this.date_of_birthday,
+      //   occupation: this.occupation,
+      //   address: this.address,
+      //   smoker: this.selectedSmoker,
+      //   drinker: this.selectedDrinker,
+      //   family_dm: this.family_history_of_dm,
+      //   gestational_dm: this.gestational_dm,
+      //   weight_baby: this.weight_of_baby_at_birthday,
+      //   hypert: this.selectedHypertension,
+      //   family_ihd: this.family_history_of_ihd,
+      //   parity: this.parity,
+      //   smbg: this.selectedSmbg,
+      //   ihd: this.selectedIhd,
+      //   cva: this.selectedCva,
+      //   pvd: this.selectedPvd,
+      //   neuro: this.selectedNeuropathy,
+      //   weight: this.weight,
+      //   height: this.height,
+      //   wc: this.waist_circumference,
+      //   bmi: this.bmi,
+      //   hip: this.hip,
+      //   retino: this.selectedRetinopathy,
+      //   nonpro: this.selectedNonProliferative,
+      //   prolif: this.selectedProliferativeDR,
+      //   macul: this.selectedMaculopathy,
+      //   insul: this.selectedInsulin,
+      //   amput: this.selectedAmputation,
+      //   ed: this.selectedEd,
+      //   nafld: this.selectedNafld,
+      //   dermo: this.selectedDermopathy,
+      //   dfoot: this.diabetic_food,
+      //   date_insulin: this.date_of_insulin,
+      //   duration_insulin: this.duration_of_insulin,
+      //   duration_dm: this.duration_of_dm,
+      //   glycemic: this.glycemic_control,
+      //   lipid: this.lipid_control,
+      //   pressure: this.pressure_control,
+      //   f_height: this.father_height,
+      //   m_height: this.mother_height,
+      //   mid_height: this.mid_parent_height,
+      //   fa1c: this.first_a1c,
+      //   sa2c: this.second_a1c,
+      //   referral: this.source_of_referral
+      // });
       e.preventDefault()
     },
     calcMidParentHeight() {
