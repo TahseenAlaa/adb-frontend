@@ -6,14 +6,16 @@
       max-height="64px"
     >
       <v-container class="fill-height">
-        <v-row align="center" class="fill-height d-flex justify-space-between">
+        <v-row align="center" :class="isAuthenticated? 'fill-height d-flex justify-space-between' : 'justify-center'">
           <div>
-            <router-link to="/dashboard" class="text-decoration-none white--text">
+            <router-link
+                v-if="isAuthenticated"
+                to="/dashboard" class="text-decoration-none white--text">
               <v-icon size="30" class="px-2">mdi-monitor-dashboard</v-icon>
               <span>Dashboard</span>
             </router-link>
           </div>
-          <div class="align-self-center">
+          <div>
             <router-link to="/" class="text-decoration-none white--text"><h2>Alhasan Diabetes Center</h2></router-link>
           </div>
 
