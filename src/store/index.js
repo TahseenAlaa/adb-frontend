@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
-import router from "@/router";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     authenticated: false,
-    user: {}
+    user: {},
+    baseURL: 'http://127.0.0.1:8000/',
   },
 
   getters: {
@@ -17,6 +17,9 @@ export default new Vuex.Store({
     },
     user(state) {
       return state.user
+    },
+    baseURL(state) {
+      return state.baseURL
     }
   },
 
