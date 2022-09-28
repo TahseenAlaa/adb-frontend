@@ -13,6 +13,7 @@
                       label="Full Name"
                       outlined
                       dense
+                      v-model="full_name"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -23,6 +24,7 @@
                       label="Phone"
                       outlined
                       dense
+                      v-model="phone"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
@@ -30,6 +32,7 @@
                       label="Patient ID"
                       outlined
                       dense
+                      v-model="patient_id"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -42,6 +45,7 @@
                 dark
                 class="px-8 py-12 mt-6 mx-8"
                 color="#6200EE"
+                @click="searchPatient"
             >
               <div class="d-flex flex-column align-content-center justify-center">
 
@@ -114,8 +118,63 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "SearchView"
+  name: "SearchView",
+  data() {
+    return {
+      full_name: null,
+      phone: null,
+      patient_id: null
+    }
+  },
+
+  methods: {
+    searchPatient() {
+      let baseURL = 'http://127.0.0.1:8000/';
+
+      if (this.patient_id) {
+        axios.get(baseURL + 'api/v1/patients/search-by-patient-id/' + this.patient_id, {
+          headers: {
+            'Content-Type' : 'application/json',
+            'Accept'       : 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
+          }
+        }).then(({data})=>{
+          console.log(data)
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+      } else if (this.phone) {
+        axios.get(baseURL + 'api/v1/patients/search-by-phone/' + this.phone, {
+          headers: {
+            'Content-Type' : 'application/json',
+            'Accept'       : 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
+          }
+        }).then(({data})=>{
+          console.log(data)
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+
+      } else if (this.full_name) {
+        axios.get(baseURL + 'api/v1/patients/search-by-full-name/' + this.full_name, {
+          headers: {
+            'Content-Type' : 'application/json',
+            'Accept'       : 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
+          }
+        }).then(({data})=>{
+          console.log(data)
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+
+      }
+    }
+  }
 }
 </script>
 
