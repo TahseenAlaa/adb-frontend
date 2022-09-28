@@ -74,15 +74,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Mohammed Ali Qlay</td>
-              <td>0781456325</td>
-              <td>16/2/1990</td>
-              <td>Male</td>
-              <td>1/1/2021</td>
+            <tr v-for="item in search_result['data']">
+              <td>{{ item.full_name }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.birthday }}</td>
+              <td>{{ item.gender }}</td>
+              <td>{{ humanReadableDateConverter(item.updated_at) }}</td>
               <td>
-                <v-btn dark>View</v-btn>
-                <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                <router-link :to="'/reception/' + item.uuid"><v-btn dark>View</v-btn></router-link>
+                <router-link :to="'/reception/' + item.uuid"><v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn></router-link>
               </td>
             </tr>
             </tbody>
@@ -126,7 +126,8 @@ export default {
     return {
       full_name: null,
       phone: null,
-      patient_id: null
+      patient_id: null,
+      search_result: [],
     }
   },
 
@@ -142,6 +143,7 @@ export default {
             'Authorization': 'Bearer '+localStorage.getItem('esite_token')
           }
         }).then(({data})=>{
+          this.search_result = data
           console.log(data)
         }).catch(({response:{data}})=>{
           console.log(data)
@@ -154,6 +156,7 @@ export default {
             'Authorization': 'Bearer '+localStorage.getItem('esite_token')
           }
         }).then(({data})=>{
+          this.search_result = data
           console.log(data)
         }).catch(({response:{data}})=>{
           console.log(data)
@@ -167,12 +170,16 @@ export default {
             'Authorization': 'Bearer '+localStorage.getItem('esite_token')
           }
         }).then(({data})=>{
-          console.log(data)
+          this.search_result = data
+          console.log(this.search_result)
         }).catch(({response:{data}})=>{
           console.log(data)
         });
-
       }
+    },
+    humanReadableDateConverter (date) {
+      let newDate = new Date(date)
+      return newDate.toLocaleDateString()
     }
   }
 }
