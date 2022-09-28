@@ -6,35 +6,24 @@
       max-height="64px"
     >
       <v-container class="fill-height">
-        <v-row align="center" justify="center" class="fill-height">
+        <v-row align="center" class="fill-height d-flex justify-space-between">
+          <div>
+            <router-link to="/dashboard" class="text-decoration-none white--text">
+              <v-icon size="30" class="px-2">mdi-monitor-dashboard</v-icon>
+              <span>Dashboard</span>
+            </router-link>
+          </div>
+          <div class="align-self-center">
+            <router-link to="/" class="text-decoration-none white--text"><h2>Alhasan Diabetes Center</h2></router-link>
+          </div>
 
-          <v-spacer></v-spacer>
 
-            <v-img
-                :src="require('./assets/logo.png')"
-                contain
-                height="25"
-                width="25"
-                max-width="25px"
-                max-height="25px"
-            />
-            <router-link to="/" class="text-decoration-none white--text"><h3>Alhasan Diabetes Center</h3></router-link>
-
-          <v-spacer></v-spacer>
 
           <div
           v-if="isAuthenticated"
           >
             <v-row>
-              <v-img
-                  :src="require('./assets/logo.png')"
-                  contain
-                  height="25"
-                  width="25"
-                  max-width="25px"
-                  max-height="25px"
-                  class="mr-6"
-              />
+              <v-icon size="40">mdi-account-circle</v-icon>
               <h4>{{ getUser['full_name'] }}</h4>
 
               <span class="text-center">
@@ -48,15 +37,11 @@
                         v-on="on"
                         class="px-0 mx-0"
                     >
-                      <v-img
-                      :src="require('../src/assets/3_dots_icon.svg')"
-                      contain
-                      height="25"
-                      width="25"
-                      max-width="25px"
-                      max-height="25px"
-                      class="mr-6"
-                      />
+                      <v-col class="d-flex flex-column">
+                        <v-icon size="10" dense>mdi-circle</v-icon>
+                        <v-icon size="10" dense>mdi-circle</v-icon>
+                        <v-icon size="10" dense>mdi-circle</v-icon>
+                      </v-col>
                     </v-btn>
                   </template>
                   <v-list>
