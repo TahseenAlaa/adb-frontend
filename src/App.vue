@@ -48,8 +48,8 @@
                   </template>
                   <v-list>
                     <v-list-item link dense>
-                       <router-link to="/dashboard" class="text-decoration-none black--text">
-                          <v-list-item-title>Dashboard</v-list-item-title>
+                       <router-link to="/signup" class="text-decoration-none black--text">
+                          <v-list-item-title>Signup</v-list-item-title>
                        </router-link>
                       </v-list-item>
                     <v-list-item link dense>

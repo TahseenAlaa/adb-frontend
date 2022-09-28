@@ -8,6 +8,7 @@ import LoginView from "@/views/LoginView";
 import ReceptionView from "@/views/ReceptionView";
 import DoctorsView from "@/views/DoctorsView";
 import LabView from "@/views/LabView";
+import SignupView from "@/views/SignupView";
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: SignupView
   },
   {
     path: '/',
