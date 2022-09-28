@@ -23,17 +23,17 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/reception',
+    path: '/reception/:patient_uuid?',
     name: 'reception',
     component: ReceptionView
   },
   {
-    path: '/doctors',
+    path: '/doctors/:patient_uuid?',
     name: 'doctors',
     component: DoctorsView
   },
   {
-    path: '/lab',
+    path: '/lab/:patient_uuid?',
     name: 'lab',
     component: LabView
   },
@@ -48,7 +48,7 @@ const routes = [
     component: SearchView
   },
   {
-    path: '/pharmacy',
+    path: '/pharmacy/:patient_uuid?',
     name: 'pharmacy',
     component: PharmacyView
   },
