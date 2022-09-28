@@ -74,15 +74,64 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in search_result['data']">
-              <td>{{ item.full_name }}</td>
-              <td>{{ item.phone }}</td>
-              <td>{{ item.birthday }}</td>
-              <td>{{ item.gender }}</td>
-              <td>{{ humanReadableDateConverter(item.updated_at) }}</td>
+            <tr v-for="patient in search_result['data']">
+              <td>{{ patient.full_name }}</td>
+              <td>{{ patient.phone }}</td>
+              <td>{{ patient.birthday }}</td>
+              <td>{{ patient.gender }}</td>
+              <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
               <td>
-                <router-link :to="'/reception/' + item.uuid"><v-btn dark>View</v-btn></router-link>
-                <router-link :to="'/reception/' + item.uuid"><v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn></router-link>
+                <router-link
+                    v-if="receptionTeam"
+                    :to="'/reception/' + patient.uuid"
+                >
+                  <v-btn dark>View</v-btn>
+                </router-link>
+                <router-link
+                    v-if="receptionTeam"
+                    :to="'/reception/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="doctorsTeam"
+                    :to="'/doctors/' + patient.uuid"
+                >
+                  <v-btn dark>View</v-btn>
+                </router-link>
+                <router-link
+                    v-if="doctorsTeam"
+                    :to="'/doctors/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="labTeam"
+                    :to="'/lab/' + patient.uuid"
+                >
+                  <v-btn dark>View</v-btn>
+                </router-link>
+                <router-link
+                    v-if="labTeam"
+                    :to="'/lab/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="pharmacyTeam"
+                    :to="'/pharmacy/' + patient.uuid"
+                >
+                  <v-btn dark>View</v-btn>
+                </router-link>
+                <router-link
+                    v-if="pharmacyTeam"
+                    :to="'/pharmacy/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
               </td>
             </tr>
             </tbody>
@@ -128,6 +177,10 @@ export default {
       phone: null,
       patient_id: null,
       search_result: [],
+      receptionTeam: null,
+      doctorsTeam: null,
+      labTeam: null,
+      pharmacyTeam: null
     }
   },
 
@@ -175,6 +228,15 @@ export default {
         }).catch(({response:{data}})=>{
           console.log(data)
         });
+      }
+      if (this.$store.getters.user.role === 'receptionTeam') {
+        this.receptionTeam = true
+      } else if (this.$store.getters.user.role === 'doctorsTeam') {
+        this.doctorsTeam = true
+      } else if (this.$store.getters.user.role === 'labTeam') {
+        this.labTeam = true
+      } else if (this.$store.getters.user.role === 'pharmacyTeam') {
+        this.pharmacyTeam = true
       }
     },
     humanReadableDateConverter (date) {
