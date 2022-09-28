@@ -43,7 +43,7 @@ const routes = [
     component: DashboardView
   },
   {
-    path: '/search',
+    path: '/search/:department?',
     name: 'search',
     component: SearchView
   },

@@ -14,7 +14,7 @@
         min-height="250"
     >
       <v-col>
-        <router-link to="/search" class="text-decoration-none black--text">
+        <router-link to="/search/reception" class="text-decoration-none black--text">
         <v-img
             src="../assets/reception.svg"
             max-width="160"
@@ -42,7 +42,7 @@
         min-height="250"
     >
       <v-col>
-        <router-link to="/search" class="text-decoration-none black--text">
+        <router-link to="/search/doctors" class="text-decoration-none black--text">
         <v-img
             src="../assets/doctors.svg"
             max-width="160"
@@ -75,7 +75,7 @@
           min-height="250"
       >
         <v-col>
-          <router-link to="/search" class="text-decoration-none black--text">
+          <router-link to="/search/lab" class="text-decoration-none black--text">
           <v-img
               src="../assets/lab.svg"
               max-width="160"
@@ -103,7 +103,7 @@
           min-height="250"
       >
         <v-col>
-          <router-link to="/pharmacy" class="text-decoration-none black--text">
+          <router-link to="/search/pharmacy" class="text-decoration-none black--text">
           <v-img
               src="../assets/pharmacy.svg"
               max-width="160"

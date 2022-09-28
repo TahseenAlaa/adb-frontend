@@ -180,7 +180,8 @@ export default {
       receptionTeam: null,
       doctorsTeam: null,
       labTeam: null,
-      pharmacyTeam: null
+      pharmacyTeam: null,
+      department: this.$route.params.department
     }
   },
 
@@ -229,13 +230,13 @@ export default {
           console.log(data)
         });
       }
-      if (this.$store.getters.user.role === 'receptionTeam') {
+      if (this.department === 'reception') {
         this.receptionTeam = true
-      } else if (this.$store.getters.user.role === 'doctorsTeam') {
+      } else if (this.department === 'doctors') {
         this.doctorsTeam = true
-      } else if (this.$store.getters.user.role === 'labTeam') {
+      } else if (this.department === 'lab') {
         this.labTeam = true
-      } else if (this.$store.getters.user.role === 'pharmacyTeam') {
+      } else if (this.department === 'pharmacy') {
         this.pharmacyTeam = true
       }
     },
