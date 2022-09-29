@@ -46,10 +46,11 @@ import PharmacyCompo from "@/components/PharmacyCompo";
 
 
 export default {
+  name: "ViewPanels",
   data() {
     return {
       'patient_uuid': this.$route.params.patient_uuid,
-      autoOpenPanel: [0, 1, 2, 3],
+      autoOpenPanel: [0],
     }
   },
   components: {
@@ -57,8 +58,7 @@ export default {
     DoctorCompo,
     LabCompo,
     PharmacyCompo
-  },
-  name: "ViewPanels"
+  }
 }
 </script>
 
