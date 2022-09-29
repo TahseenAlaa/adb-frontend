@@ -9,7 +9,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
-          <ReceptionCompo></ReceptionCompo>
+          <ReceptionCompo :selectedGender="this.patient_uuid"></ReceptionCompo>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
