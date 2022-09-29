@@ -24,6 +24,7 @@
                 <v-col cols="12">
                   <v-text-field
                       label="Patient Number"
+                      v-model="patient_number"
                       outlined
                       dense
                   ></v-text-field>
@@ -33,7 +34,8 @@
               <v-row dense>
                 <v-col cols="4">
                   <v-text-field
-                      label="Date of Visit"
+                      label="Age at Visit"
+                      v-model="age_at_visit"
                       outlined
                       dense
                   ></v-text-field>
@@ -41,6 +43,7 @@
                 <v-col cols="4">
                   <v-text-field
                       label="Blood Pressure Systolic"
+                      v-model="blood_pressure_systolic"
                       outlined
                       dense
                   ></v-text-field>
@@ -48,6 +51,7 @@
                 <v-col cols="4">
                   <v-text-field
                       label="Blood Pressure Diastolic"
+                      v-model="blood_pressure_diastolic"
                       outlined
                       dense
                   ></v-text-field>
@@ -58,6 +62,7 @@
                 <v-col cols="4">
                   <v-text-field
                       label="Weight"
+                      v-model="weight"
                       outlined
                       dense
                   ></v-text-field>
@@ -65,6 +70,7 @@
                 <v-col cols="4">
                   <v-text-field
                       label="Height"
+                      v-model="height"
                       outlined
                       dense
                   ></v-text-field>
@@ -72,6 +78,7 @@
                 <v-col cols="4">
                   <v-text-field
                       label="Waist Circumference"
+                      v-model="waist_circumference"
                       outlined
                       dense
                   ></v-text-field>
@@ -79,19 +86,52 @@
               </v-row>
 
               <v-row dense>
-                <v-col cols="6">
+                <v-col cols="4">
                   <v-text-field
                       label="BMI"
+                      v-model="bmi"
                       outlined
                       dense
+                      readonly
+                      hint="ReadOnly"
+                      persistent-hint
                   ></v-text-field>
                 </v-col>
-                <v-col cols="6">
-                  <v-text-field
-                      label="Age at Visit"
-                      outlined
-                      dense
-                  ></v-text-field>
+                <v-col cols="4">
+                  <v-btn
+                      dark
+                      class="deep-purple"
+                      @click="calcBMI"
+                  >Calculate</v-btn>
+                </v-col>
+                <v-col cols="4">
+                  <div>
+                    <v-menu
+                        v-model="DateOfNextVisitMenu"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                            label="Date of Next Visit"
+                            v-model="date_of_next_visit"
+                            prepend-icon="mdi-calendar"
+                            readonly
+                            outlined
+                            dense
+                            v-bind="attrs"
+                            v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker
+                          v-model="date_of_next_visit"
+                          @input="DateOfNextVisitMenu = false"
+                      ></v-date-picker>
+                    </v-menu>
+                  </div>
                 </v-col>
               </v-row>
 
@@ -99,6 +139,7 @@
                 <v-col cols="12">
                   <v-textarea
                       label="Clinical Notes"
+                      v-model="clinical_notes"
                       outlined
                       dense
                   ></v-textarea>
@@ -335,7 +376,7 @@
                   <div>
                     <v-col>
                       <v-dialog
-                          v-model="testDialog"
+                          v-model="labDialog"
                           max-width="800px"
                       >
                         <template v-slot:activator="{ on, attrs }">
@@ -386,14 +427,14 @@
                             <v-btn
                                 class="deep-purple white--text"
                                 text
-                                @click="testDialog = false"
+                                @click="labDialog = false"
                             >
                               Close
                             </v-btn>
                             <v-btn
                                 class="deep-purple white--text"
                                 text
-                                @click="testDialog = false"
+                                @click="labDialog = false"
                             >
                               Save
                             </v-btn>
@@ -439,6 +480,35 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+
+    <v-row dense align="center" justify="center">
+      <v-spacer></v-spacer>
+      <v-btn
+          class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
+      >
+        <v-col>
+          <v-icon size="60">mdi-camera</v-icon>
+          <h3 class="text-capitalize">CAPTURE PHOTO</h3>
+        </v-col>
+      </v-btn>
+      <v-btn
+          class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
+      >
+        <v-col>
+          <v-icon size="60">mdi-printer</v-icon>
+          <h3 class="text-capitalize">PRINT</h3>
+        </v-col>
+      </v-btn>
+      <v-btn
+          class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
+      >
+        <v-col>
+          <v-icon size="60">mdi-content-save</v-icon>
+          <h3 class="text-capitalize">SAVE CHANGES</h3>
+        </v-col>
+      </v-btn>
+    </v-row>
+
   </v-container>
 
 </template>
@@ -449,8 +519,28 @@ export default {
     return {
       diagnosisDialog: false,
       treatmentDialog: false,
-      testDialog: false,
-      autoOpenPanel:[1]
+      labDialog: false,
+      autoOpenPanel:[1],
+      weight: null,
+      height: null,
+      bmi: null,
+      clinical_notes: null,
+      waist_circumference: null,
+      blood_pressure_diastolic: null,
+      blood_pressure_systolic: null,
+      age_at_visit: null,
+      patient_number: null,
+      date_of_next_visit: null,
+      DateOfNextVisitMenu: false
+    }
+  },
+  methods: {
+    calcBMI() {
+      if (this.weight && this.height) {
+        let weight = parseInt(this.weight)
+        let height = parseInt(this.height/100)
+        this.bmi = weight / (height ^ 2)
+      }
     }
   },
   name: "DoctorsView"
