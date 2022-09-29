@@ -240,7 +240,7 @@
         <v-row dense>
           <v-col cols="4">
             <v-text-field
-                label="Weight"
+                label="Weight in kg"
                 v-model="weight"
                 outlined
                 dense
@@ -248,7 +248,7 @@
           </v-col>
           <v-col cols="4">
             <v-text-field
-                label="Height"
+                label="Height in cm"
                 v-model="height"
                 outlined
                 dense
@@ -270,13 +270,19 @@
                 label="BMI"
                 v-model="bmi"
                 outlined
+                readonly
+                hint="ReadOnly"
+                persistent-hint
                 dense
             ></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-btn
             class="deep-purple white--text"
-            >Calculate</v-btn>
+            @click="calcBMI"
+            >
+              Calculate
+            </v-btn>
           </v-col>
           <v-col cols="4">
             <v-text-field
@@ -712,6 +718,7 @@ export default {
         }
       }).then(({data})=>{
         this.successAlert = true
+        setTimeout(() => {this.$router.push({path: '/'})}, 2000)
         console.log(data)
       }).catch(({response:{data}})=>{
         console.log(data)
@@ -719,13 +726,23 @@ export default {
       e.preventDefault()
     },
     calcMidParentHeight() {
-      this.mid_parent_height = (parseInt(this.father_height) + parseInt(this.mother_height)) / 2
+      if (this.father_height && this.mother_height) {
+        this.mid_parent_height = (parseInt(this.father_height) + parseInt(this.mother_height)) / 2
+      }
     },
     numberRule: v  => {
       if (!v.trim()) return true;
       if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
       return 'Number has to be between 0 and 999';
     },
+
+    calcBMI() {
+      if (this.weight && this.height) {
+        let weight = parseInt(this.weight)
+        let height = parseInt(this.height/100)
+        this.bmi = weight / (height ^ 2)
+      }
+    }
   },
 
   created() {
