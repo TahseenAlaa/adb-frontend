@@ -82,11 +82,11 @@
               <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
               <td>
                 <router-link
-                    v-if="receptionTeam"
-                    :to="'/reception/' + patient.uuid"
+                    :to="'/viewpanels/' + patient.uuid"
                 >
                   <v-btn dark>View</v-btn>
                 </router-link>
+
                 <router-link
                     v-if="receptionTeam"
                     :to="'/reception/' + patient.uuid"
@@ -98,12 +98,6 @@
                     v-if="doctorsTeam"
                     :to="'/doctors/' + patient.uuid"
                 >
-                  <v-btn dark>View</v-btn>
-                </router-link>
-                <router-link
-                    v-if="doctorsTeam"
-                    :to="'/doctors/' + patient.uuid"
-                >
                   <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
                 </router-link>
 
@@ -111,21 +105,9 @@
                     v-if="labTeam"
                     :to="'/lab/' + patient.uuid"
                 >
-                  <v-btn dark>View</v-btn>
-                </router-link>
-                <router-link
-                    v-if="labTeam"
-                    :to="'/lab/' + patient.uuid"
-                >
                   <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
                 </router-link>
 
-                <router-link
-                    v-if="pharmacyTeam"
-                    :to="'/pharmacy/' + patient.uuid"
-                >
-                  <v-btn dark>View</v-btn>
-                </router-link>
                 <router-link
                     v-if="pharmacyTeam"
                     :to="'/pharmacy/' + patient.uuid"
