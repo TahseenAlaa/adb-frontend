@@ -54,6 +54,32 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-row class="mt-4">
+      <v-col cols="8">
+          <v-card min-width="100%" min-height="100%" class="white">
+            <v-card-subtitle>Number of visits this month</v-card-subtitle>
+          </v-card>
+      </v-col>
+      <v-col cols="4">
+        <v-card min-width="100%" min-height="100%" class="white">
+          <v-card-subtitle>Most used drugs this month</v-card-subtitle>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row class="mt-4">
+      <v-col cols="6">
+        <v-card min-width="100%" min-height="100%" class="white">
+          <v-card-subtitle>Critical Storage drugs</v-card-subtitle>
+        </v-card>
+      </v-col>
+      <v-col cols="6">
+        <v-card min-width="100%" min-height="100%" class="white">
+          <v-card-subtitle>Nearly expired drugs</v-card-subtitle>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 
 </template>
