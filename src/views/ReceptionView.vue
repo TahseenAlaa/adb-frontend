@@ -669,6 +669,7 @@ export default {
       axios.post(baseURL + 'api/v1/patients/store' , {
         full_name: this.full_name,
         phone: this.phone,
+        gender: this.selectedGender,
         birthday: this.date_of_birthday,
         occupation: this.occupation,
         address: this.address,
