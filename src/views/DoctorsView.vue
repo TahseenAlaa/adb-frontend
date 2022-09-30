@@ -282,6 +282,7 @@
                                 >
                                   <v-text-field
                                       label="Name"
+                                      v-model="treatment_name"
                                       required
                                       outlined
                                       dense
@@ -294,21 +295,11 @@
                                 >
                                   <v-text-field
                                       label="Dose"
+                                      v-model="treatment_dose"
                                       required
                                       outlined
                                       dense
                                   ></v-text-field>
-                                </v-col>
-                              </v-row>
-                              <v-row>
-                                <v-col
-                                    cols="12"
-                                >
-                                  <v-textarea
-                                      outlined
-                                      dense
-                                      label="Notes"
-                                  >Notes</v-textarea>
                                 </v-col>
                               </v-row>
                             </v-container>
@@ -325,7 +316,7 @@
                             <v-btn
                                 class="deep-purple white--text"
                                 text
-                                @click="treatmentDialog = false"
+                                @click="storeTreatmentData"
                             >
                               Save
                             </v-btn>
@@ -348,12 +339,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>Paracetamol</td>
-                      <td>100mg</td>
-                      <td><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-                      <td>16/2/1990</td>
-                      <td>Dr. Mohamed Ali</td>
+                    <tr v-for="item in treatments">
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.dose }}</td>
+                      <td v-if="item.status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="item.status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="item.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+                      <td>{{ item.created_at }}</td>
+                      <td>{{ item.created_by }}</td>
                     </tr>
                     </tbody>
                   </template>
@@ -544,7 +537,10 @@ export default {
       symptoms: null,
       is_confirmed: null,
       created_by: null,
-      created_at: null
+      created_at: null,
+      treatment_name: null,
+      treatment_dose: null,
+      treatments: []
     }
   },
 
@@ -580,6 +576,7 @@ export default {
       });
       e.preventDefault()
     },
+
     calcBMI() {
       if (this.weight && this.height) {
         let weight = parseInt(this.weight)
@@ -613,6 +610,34 @@ export default {
         });
         e.preventDefault()
         this.diagnosisDialog = false
+      }
+    },
+
+    storeTreatmentData(e) {
+      let baseURL = this.$store.getters.baseURL
+
+      if (this.treatment_name && this.treatment_dose) {
+        axios.post(baseURL + 'api/v1/treatment/store', {
+          patient_uuid: this.$route.params.patient_uuid,
+          name: this.treatment_name,
+          dose: this.treatment_dose,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
+          }
+        }).then(({data}) => {
+
+          this.treatments.push(data.data)
+          data.data.created_by = data.doctor_name
+          data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
+          console.log(this.diagnosis)
+        }).catch(({response: {data}}) => {
+          console.log(data)
+        });
+        e.preventDefault()
+        this.treatmentDialog = false
       }
     },
 
