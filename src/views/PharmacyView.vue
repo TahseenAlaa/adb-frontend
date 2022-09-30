@@ -54,12 +54,26 @@
                       <v-card-text>
                         <v-card-subtitle class="subtitle-2">Treatment Information</v-card-subtitle>
                         <v-container>
+                          <v-row>
+                            <v-col
+                                cols="12"
+                            >
+                              <v-text-field
+                                  label="Name"
+                                  v-model="name"
+                                  required
+                                  outlined
+                                  dense
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
                           <v-row dense>
                             <v-col
                                 cols="6"
                             >
                               <v-text-field
                                   label="Batch No."
+                                  v-model="batch_no"
                                   required
                                   outlined
                                   dense
@@ -103,6 +117,7 @@
                             >
                               <v-text-field
                                   label="Treatment Type"
+                                  v-model="treatment_type"
                                   required
                                   outlined
                                   dense
@@ -113,6 +128,7 @@
                             >
                               <v-text-field
                                   label="Dosage"
+                                  v-model="dosage"
                                   required
                                   outlined
                                   dense
@@ -122,7 +138,8 @@
                                 cols="4"
                             >
                               <v-text-field
-                                  label="Quality"
+                                  label="Quantity"
+                                  v-model="quantity"
                                   required
                                   outlined
                                   dense
@@ -137,6 +154,7 @@
                                   outlined
                                   dense
                                   label="Notes"
+                                  v-model="notes"
                               >
                                 Notes
                               </v-textarea>
@@ -156,7 +174,7 @@
                         <v-btn
                             class="deep-purple white--text"
                             text
-                            @click="pharmacyDialog = false"
+                            @click="storePharmacyData"
                         >
                           Save
                         </v-btn>
@@ -171,6 +189,7 @@
               <template>
                 <thead>
                 <tr>
+                  <th>Name</th>
                   <th>Batch No.</th>
                   <th>Expire Date</th>
                   <th>Treatment Type</th>
@@ -180,13 +199,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>452</td>
-                  <td>16/2/2023</td>
-                  <td>Any</td>
-                  <td>5</td>
-                  <td>700</td>
-                  <td>Notes Here</td>
+                <tr v-for="drug in drugs">
+                  <td>{{ drug.name }}</td>
+                  <td>{{ drug.batch_no }}</td>
+                  <td>{{ drug.expire_date }}</td>
+                  <td>{{ drug.treatment_type }}</td>
+                  <td>{{ drug.dosage }}</td>
+                  <td>{{ drug.quantity }}</td>
+                  <td>{{ drug.notes }}</td>
                 </tr>
                 </tbody>
               </template>
@@ -198,6 +218,18 @@
 
     <v-row dense align="center" justify="center">
       <v-spacer></v-spacer>
+      <v-alert
+          type="success"
+          class="mt-10 mr-4"
+          v-if="successAlert"
+          dense
+      >Patient Information stored successfully!</v-alert>
+      <v-alert
+          type="error"
+          class="mt-10 mr-4"
+          v-if="errorAlert"
+          dense
+      >Save data Failed!</v-alert>
       <v-btn
           class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
       >
@@ -223,6 +255,7 @@
         </v-col>
       </v-btn>
       <v-btn
+          @click="backToHome"
           class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
       >
         <v-col>
@@ -236,15 +269,72 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       expireDateMenu: false,
-      expire_date: null,
       pharmacyDialog: false,
-      autoOpenPanel: [3]
+      autoOpenPanel: [3],
+      name: null,
+      batch_no: null,
+      expire_date: null,
+      treatment_type: null,
+      dosage: null,
+      quantity: null,
+      notes: null,
+      drugs: [],
+      successAlert: false,
+      errorAlert: false
     }
   },
+
+  methods: {
+    storePharmacyData(e) {
+      let baseURL = this.$store.getters.baseURL
+
+      if (this.dosage) {
+        axios.post(baseURL + 'api/v1/pharmacy/store', {
+          patient_uuid: this.$route.params.patient_uuid,
+          name: this.name,
+          batch_no: this.batch_no,
+          expire_date: this.expire_date,
+          treatment_type: this.treatment_type,
+          dosage: this.dosage,
+          quantity: this.quantity,
+          notes: this.notes,
+
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
+          }
+        }).then(({data}) => {
+          data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
+          this.drugs.push(data.data)
+
+          console.log(this.drugs)
+        }).catch(({response: {data}}) => {
+          console.log(data)
+        });
+        e.preventDefault()
+        this.pharmacyDialog = false
+      }
+    },
+
+    humanReadableDateConverter (date) {
+      let newDate = new Date(date)
+      return newDate.toLocaleDateString()
+    },
+
+    backToHome() {
+      this.successAlert = true
+      setTimeout(() => {this.$router.push({path: '/'})}, 2000)
+    }
+  },
+
   name: "PharmacyView"
 }
 </script>
