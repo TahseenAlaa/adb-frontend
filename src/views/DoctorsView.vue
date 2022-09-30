@@ -387,6 +387,7 @@
                                 >
                                   <v-text-field
                                       label="Name"
+                                      v-model="test_name"
                                       required
                                       outlined
                                       dense
@@ -401,6 +402,7 @@
                                       outlined
                                       dense
                                       label="Notes"
+                                      v-model="test_notes"
                                   >Notes</v-textarea>
                                 </v-col>
                               </v-row>
@@ -418,7 +420,7 @@
                             <v-btn
                                 class="deep-purple white--text"
                                 text
-                                @click="labDialog = false"
+                                @click="storeTestData"
                             >
                               Save
                             </v-btn>
@@ -441,19 +443,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>LDL</td>
-                      <td>-</td>
-                      <td><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-                      <td>16/2/1990</td>
-                      <td>Dr. Mohamed Ali</td>
-                    </tr>
-                    <tr>
-                      <td>HDL</td>
-                      <td>-</td>
-                      <td><span class="green px-2 py-2 rounded-xl">Done</span></td>
-                      <td>16/2/1990</td>
-                      <td>Dr. Mohamed Ali</td>
+                    <tr v-for="test in tests">
+                      <td>{{ test.test_name }}</td>
+                      <td>{{ test.notes }}</td>
+                      <td v-if="test.status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="test.status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="test.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+                      <td>{{ test.created_at }}</td>
+                      <td>{{ test.created_by }}</td>
                     </tr>
                     </tbody>
                   </template>
@@ -540,7 +537,10 @@ export default {
       created_at: null,
       treatment_name: null,
       treatment_dose: null,
-      treatments: []
+      treatments: [],
+      test_name: null,
+      test_notes: null,
+      tests: []
     }
   },
 
@@ -638,6 +638,33 @@ export default {
         });
         e.preventDefault()
         this.treatmentDialog = false
+      }
+    },
+
+    storeTestData(e) {
+      let baseURL = this.$store.getters.baseURL
+
+      if (this.test_name && this.test_notes) {
+        axios.post(baseURL + 'api/v1/lab/store', {
+          patient_uuid: this.$route.params.patient_uuid,
+          test_name: this.test_name,
+          test_notes: this.test_notes,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
+          }
+        }).then(({data}) => {
+          data.data.created_by = data.doctor_name
+          data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
+          this.tests.push(data.data)
+          console.log(this.tests)
+        }).catch(({response: {data}}) => {
+          console.log(data)
+        });
+        e.preventDefault()
+        this.labDialog = false
       }
     },
 
