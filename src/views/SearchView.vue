@@ -77,7 +77,7 @@
             <tr v-for="patient in search_result['data']">
               <td>{{ patient.full_name }}</td>
               <td>{{ patient.phone }}</td>
-              <td>{{ patient.birthday }}</td>
+              <td>{{ patient.birthdate }}</td>
               <td>{{ patient.gender }}</td>
               <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
               <td>
@@ -135,6 +135,7 @@ export default {
     return {
       full_name: null,
       phone: null,
+      gender: null,
       patient_id: null,
       search_result: [],
       receptionTeam: null,
