@@ -88,29 +88,7 @@
                 </router-link>
 
                 <router-link
-                    v-if="receptionTeam"
-                    :to="'/reception/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="doctorsTeam"
-                    :to="'/doctors/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="labTeam"
-                    :to="'/lab/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="pharmacyTeam"
-                    :to="'/pharmacy/' + patient.uuid"
+                    :to="'/reception/newvisit/' + patient.uuid"
                 >
                   <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
                 </router-link>
@@ -169,7 +147,7 @@ export default {
 
   methods: {
     searchPatient() {
-      let baseURL = 'http://127.0.0.1:8000/';
+      let baseURL = this.$store.getters.baseURL
 
       if (this.patient_id) {
         axios.get(baseURL + 'api/v1/patients/search-by-patient-id/' + this.patient_id, {

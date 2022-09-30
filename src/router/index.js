@@ -10,6 +10,7 @@ import DoctorsView from "@/views/DoctorsView";
 import LabView from "@/views/LabView";
 import SignupView from "@/views/SignupView";
 import ViewPanels from "@/views/ViewPanels";
+import ReceptionNewVisitView from "@/views/ReceptionNewVisitView";
 
 Vue.use(VueRouter)
 
@@ -30,9 +31,14 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/reception/:patient_uuid?',
+    path: '/reception',
     name: 'reception',
     component: ReceptionView
+  },
+  {
+    path: '/reception/newvisit/:patient_uuid',
+    name: 'patientnewvisit',
+    component: ReceptionNewVisitView
   },
   {
     path: '/doctors/:patient_uuid?',

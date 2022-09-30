@@ -8,69 +8,6 @@
         <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
         <v-row dense>
-          <v-col cols="12">
-            <v-text-field
-                label="Full Name"
-                v-model="full_name"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <div>
-              <v-menu
-                  ref="menu"
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                      label="Date of Birthday"
-                      v-model="date_of_birthday"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                      dense
-                      outlined
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                    v-model="date_of_birthday"
-                    :active-picker.sync="activePicker"
-                    :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                    min="1900-01-01"
-                    @change="save"
-                ></v-date-picker>
-              </v-menu>
-            </div>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Phone"
-                v-model="phone"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="gender"
-                label="Gender"
-                v-model="selectedGender"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
           <v-col cols="4">
             <v-text-field
                 label="Occupation"
@@ -278,8 +215,8 @@
           </v-col>
           <v-col cols="4">
             <v-btn
-            class="deep-purple white--text"
-            @click="calcBMI"
+                class="deep-purple white--text"
+                @click="calcBMI"
             >
               Calculate
             </v-btn>
@@ -545,7 +482,7 @@
             class="mt-10 mr-4"
             v-if="successAlert"
             dense
-        >Patient Information stored successfully!</v-alert>
+        >Patient Information Stored Successfully!</v-alert>
         <v-alert
             type="error"
             class="mt-10 mr-4"
@@ -553,11 +490,11 @@
             dense
         >Save data Failed!</v-alert>
         <v-btn
-            @click="postReceptionData"
+            @click="postNewVisitData"
             class="mt-6 deep-purple white--text"
         >
           <v-col>
-            <span class="text-capitalize">Create Patient Profile</span>
+            <span class="text-capitalize">Create New Visit</span>
           </v-col>
         </v-btn>
       </v-row>
@@ -570,6 +507,7 @@
 import axios from "axios";
 
 export default {
+  name: "ReceptionNewVisitView",
   data() {
     return {
       successAlert: false,
@@ -659,18 +597,37 @@ export default {
       val && setTimeout(() => (this.activePicker = 'YEAR'))
     },
   },
+
   methods: {
     save (date) {
       this.$refs.menu.save(date)
     },
-    postReceptionData(e) {
+    calcMidParentHeight() {
+      if (this.father_height && this.mother_height) {
+        this.mid_parent_height = (parseInt(this.father_height) + parseInt(this.mother_height)) / 2
+      }
+    },
+    numberRule: v  => {
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
+      return 'Number has to be between 0 and 999';
+    },
+
+    calcBMI() {
+      if (this.weight && this.height) {
+        let weight = parseInt(this.weight)
+        let height = parseInt(this.height/100)
+        this.bmi = weight / (height ^ 2)
+      }
+    },
+    postNewVisitData(e) {
       let baseURL = this.$store.getters.baseURL
 
-      axios.post(baseURL + 'api/v1/patients/store' , {
-        full_name: this.full_name,
-        phone: this.phone,
-        birthday: this.date_of_birthday,
+      axios.post(baseURL + 'api/v1/patients/store/newvisit' , {
+        patient_uuid: this.$route.params.patient_uuid,
         occupation: this.occupation,
+        education_qualification: this.education_qualification,
+        maritalStatus: this.maritalStatus,
         address: this.address,
         smoker: this.selectedSmoker,
         drinker: this.selectedDrinker,
@@ -726,47 +683,14 @@ export default {
         console.log(data)
       });
       e.preventDefault()
-    },
-    calcMidParentHeight() {
-      if (this.father_height && this.mother_height) {
-        this.mid_parent_height = (parseInt(this.father_height) + parseInt(this.mother_height)) / 2
-      }
-    },
-    numberRule: v  => {
-      if (!v.trim()) return true;
-      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
-      return 'Number has to be between 0 and 999';
-    },
-
-    calcBMI() {
-      if (this.weight && this.height) {
-        let weight = parseInt(this.weight)
-        let height = parseInt(this.height/100)
-        this.bmi = weight / (height ^ 2)
-      }
     }
   },
-
   created() {
-    const baseURL = this.$store.getters.baseURL
-    axios.get(baseURL + 'api/v1/patients/' + this.patient_uuid, {
-      timeout: 2000,
-      headers: {
-        'Content-Type' : 'application/json',
-        'Accept'       : 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-      }
-    }).then(({data})=>{
-      console.log(data)
-    }).catch(({response:{data}})=>{
-      console.log(data)
-    });
-  },
-  name: "ReceptionView.vue"
+    // TODO fetch basic patient info and insert them in readOnly fields
+  }
 }
 </script>
 
 <style scoped>
-
 
 </style>
