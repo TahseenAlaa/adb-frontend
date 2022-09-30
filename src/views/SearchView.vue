@@ -88,7 +88,29 @@
                 </router-link>
 
                 <router-link
+                    v-if="receptionTeam"
                     :to="'/reception/newvisit/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="doctorsTeam"
+                    :to="'/doctors/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="labTeam"
+                    :to="'/lab/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="pharmacyTeam"
+                    :to="'/pharmacy/' + patient.uuid"
                 >
                   <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
                 </router-link>
