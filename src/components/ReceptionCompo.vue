@@ -5,7 +5,7 @@
     <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
     <v-row dense>
-      <v-col cols="6">
+      <v-col cols="5">
         <v-text-field
             label="Full Name"
             v-model="full_name"
@@ -15,7 +15,17 @@
             hint="ReadOnly"
         ></v-text-field>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="2">
+        <v-text-field
+            label="ID"
+            v-model="id"
+            outlined
+            dense
+            readonly
+            hint="ReadOnly"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="5">
         <v-text-field
             label="Last Visit"
             v-model="last_visit"
@@ -554,6 +564,7 @@
 export default {
   props: [
       'full_name',
+      'id',
       'last_visit',
       'date_of_birthday',
       'phone',

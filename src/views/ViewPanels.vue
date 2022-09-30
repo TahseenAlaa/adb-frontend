@@ -11,6 +11,7 @@
         <v-expansion-panel-content>
           <ReceptionCompo
               :full_name="this.full_name"
+              :id="this.id"
               :last_visit="this.last_visit"
               :date_of_birthday="this.date_of_birthday"
               :phone="this.phone"
@@ -103,6 +104,7 @@ export default {
       patient_uuid: this.$route.params.patient_uuid,
       autoOpenPanel: [0],
       full_name: null,
+      id: null,
       last_visit: null,
       date_of_birthday: null,
       phone: null,
@@ -171,6 +173,7 @@ export default {
       }
     }).then(({data})=>{
       this.full_name = data.patient_info.full_name
+      this.id = data.patient_info.id
       this.last_visit = data.patient_info.last_visit
       this.date_of_birthday = data.patient_info.birthdate
       this.phone = data.patient_info.phone
