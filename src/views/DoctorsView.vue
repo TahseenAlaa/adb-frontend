@@ -180,6 +180,7 @@
                                 >
                                   <v-text-field
                                       label="Symptoms"
+                                      v-model="symptoms"
                                       required
                                       outlined
                                       dense
@@ -193,21 +194,11 @@
                                   <v-select
                                       :items="['Suspected', 'Confirmed']"
                                       label="Suspected or Confirmed"
+                                      v-model="is_confirmed"
                                       required
                                       outlined
                                       dense
                                   ></v-select>
-                                </v-col>
-                              </v-row>
-                              <v-row>
-                                <v-col
-                                    cols="12"
-                                >
-                                  <v-textarea
-                                      outlined
-                                      dense
-                                      label="Clinical Notes"
-                                  >Clinical Notes</v-textarea>
                                 </v-col>
                               </v-row>
                             </v-container>
@@ -224,7 +215,7 @@
                             <v-btn
                                 class="deep-purple white--text"
                                 text
-                                @click="diagnosisDialog = false"
+                                @click="storeDiagnosisDate"
                             >
                               Save
                             </v-btn>
@@ -246,11 +237,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>Diabetes type C</td>
-                      <td>Confirmed</td>
-                      <td>16/2/1990</td>
-                      <td>Dr. Mohamed Ali</td>
+                    <tr v-for="item in diagnosis">
+                      <td>{{ item.symptoms }}</td>
+                      <td>{{ item.is_confirmed }}</td>
+                      <td>{{ item.created_at }}</td>
+                      <td>{{ item.created_by }}</td>
                     </tr>
                     </tbody>
                   </template>
@@ -483,6 +474,19 @@
 
     <v-row dense align="center" justify="center">
       <v-spacer></v-spacer>
+      <v-alert
+          type="success"
+          class="mt-10 mr-4"
+          v-if="successAlert"
+          dense
+      >Patient Information stored successfully!</v-alert>
+      <v-alert
+          type="error"
+          class="mt-10 mr-4"
+          v-if="errorAlert"
+          dense
+      >Save data Failed!</v-alert>
+
       <v-btn
           class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
       >
@@ -502,7 +506,7 @@
       <v-btn
           class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
       >
-        <v-col>
+        <v-col @click="postPatientData">
           <v-icon size="60">mdi-content-save</v-icon>
           <h3 class="text-capitalize">SAVE CHANGES</h3>
         </v-col>
@@ -514,6 +518,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -531,16 +537,88 @@ export default {
       age_at_visit: null,
       patient_number: null,
       date_of_next_visit: null,
-      DateOfNextVisitMenu: false
+      DateOfNextVisitMenu: false,
+      successAlert: false,
+      errorAlert: false,
+      diagnosis: [],
+      symptoms: null,
+      is_confirmed: null,
+      created_by: null,
+      created_at: null
     }
   },
+
   methods: {
+    postPatientData(e) {
+      let baseURL = this.$store.getters.baseURL
+
+      axios.post(baseURL + 'api/v1/patients/store-by-dr' , {
+        patient_uuid: this.$route.params.patient_uuid,
+        patient_number: this.patient_number,
+        age_at_visit: this.age_at_visit,
+        blood_pressure_systolic: this.blood_pressure_systolic,
+        blood_pressure_diastolic: this.blood_pressure_diastolic,
+        weight_by_dr: this.weight,
+        height_by_dr: this.height,
+        waist_circumference_by_dr: this.waist_circumference,
+        bmi_by_dr: this.bmi,
+        clinical_notes: this.clinical_notes,
+        next_visit: this.date_of_next_visit,
+      }, {
+        headers: {
+          'Content-Type' : 'application/json',
+          'Accept'       : 'application/json',
+          'Authorization': 'Bearer '+localStorage.getItem('esite_token')
+        }
+      }).then(({data})=>{
+        this.successAlert = true
+        setTimeout(() => {this.$router.push({path: '/'})}, 2000)
+        console.log(data)
+      }).catch(({response:{data}})=>{
+        this.errorAlert = true
+        console.log(data)
+      });
+      e.preventDefault()
+    },
     calcBMI() {
       if (this.weight && this.height) {
         let weight = parseInt(this.weight)
         let height = parseInt(this.height/100)
         this.bmi = weight / (height ^ 2)
       }
+    },
+    storeDiagnosisDate(e) {
+      let baseURL = this.$store.getters.baseURL
+
+      if (this.symptoms && this.is_confirmed) {
+        axios.post(baseURL + 'api/v1/diagnosis/store' , {
+          patient_uuid: this.$route.params.patient_uuid,
+          symptoms: this.symptoms,
+          is_confirmed: this.is_confirmed
+
+        }, {
+          headers: {
+            'Content-Type' : 'application/json',
+            'Accept'       : 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
+          }
+        }).then(({data})=>{
+          data.data.created_by = data.doctor_name
+          data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
+          this.diagnosis.push(data.data)
+
+          console.log(this.diagnosis)
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+        e.preventDefault()
+        this.diagnosisDialog = false
+      }
+    },
+
+    humanReadableDateConverter (date) {
+      let newDate = new Date(date)
+      return newDate.toLocaleDateString()
     }
   },
   name: "DoctorsView"
