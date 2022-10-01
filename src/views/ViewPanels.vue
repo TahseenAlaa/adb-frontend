@@ -271,19 +271,18 @@ export default {
 
       // START Diagnosis Info
       this.diagnosisList = data.diagnosis
-      this.treatmentList = data.treatment
-      this.testsList = data.tests
       this.DoctorOfDiagnosis = data.DoctorOfDiagnosis
-      this.DoctorOfTreatment = data.DoctorOfTreatment
-      this.DoctorOfTests = data.DoctorOfTests
       console.log(data.DoctorOfDiagnosis)
       // END Diagnosis Info
 
       // START Treatment
+      this.treatmentList = data.treatment
+      this.DoctorOfTreatment = data.DoctorOfTreatment
       // END Treatment
 
       // START Tests
-
+      this.testsList = data.tests
+      this.DoctorOfTests = data.DoctorOfTests
       // END Tests
     }).catch(({response:{data}})=>{
       console.log(data)
