@@ -14,10 +14,9 @@
                 <v-form>
                   <v-text-field
                       outlined
-                      label="Email"
-                      name="Email"
+                      label="Username"
                       append-icon="mdi-account"
-                      v-model="auth.email"
+                      v-model="auth.username"
                       type="text"
                       @keyup.enter="login()"
                       @keydown="toggleShowSignInBtn"
@@ -27,7 +26,6 @@
                       outlined
                       id="password"
                       label="Password"
-                      name="password"
                       append-icon="mdi-lock"
                       type="password"
                       v-model="auth.password"
@@ -71,7 +69,7 @@ export default {
   data(){
     return {
       auth:{
-        email:"",
+        username:"",
         password:""
       },
       processing:false,
@@ -103,7 +101,7 @@ export default {
 
   computed: {
     toggleShowSignInBtn() {
-      if (this.auth.email && this.auth.password) {
+      if (this.auth.username && this.auth.password) {
         this.ShowSignInBtn = null
       }
     },
