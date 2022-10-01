@@ -52,10 +52,8 @@
                           <v-list-item-title>Signup</v-list-item-title>
                        </router-link>
                       </v-list-item>
-                    <v-list-item link dense>
-                      <v-list-item-title
-                          @click="logout"
-                      >Logout</v-list-item-title>
+                    <v-list-item link dense @click="logout">
+                      <v-list-item-title>Logout</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
