@@ -155,11 +155,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Diabetes type C</td>
-              <td>Confirmed</td>
-              <td>16/2/1990</td>
-              <td>Dr. Mohamed Ali</td>
+            <tr v-for="diagnosis in diagnosisList">
+              <td>{{ diagnosis.symptoms }}</td>
+              <td>{{ diagnosis.is_confirmed }}</td>
+              <td>{{ humanReadableDateConverter(diagnosis.created_at) }}</td>
+              <td>{{ diagnosis.created_by }}</td>
             </tr>
             </tbody>
           </template>
@@ -184,12 +184,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Paracetamol</td>
-              <td>100mg</td>
-              <td><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-              <td>16/2/1990</td>
-              <td>Dr. Mohamed Ali</td>
+            <tr v-for="drug in treatmentList">
+              <td>{{ drug.name }}</td>
+              <td>{{ drug.dose }}</td>
+              <td v-if="parseInt(drug.status) === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="parseInt(drug.status) === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="parseInt(drug.status) === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+              <td>{{ humanReadableDateConverter(drug.created_at) }}</td>
+              <td>{{ drug.created_by }}</td>
             </tr>
             </tbody>
           </template>
@@ -214,19 +216,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>LDL</td>
-              <td>-</td>
-              <td><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-              <td>16/2/1990</td>
-              <td>Dr. Mohamed Ali</td>
-            </tr>
-            <tr>
-              <td>HDL</td>
-              <td>-</td>
-              <td><span class="green px-2 py-2 rounded-xl">Done</span></td>
-              <td>16/2/1990</td>
-              <td>Dr. Mohamed Ali</td>
+            <tr v-for="test in testsList">
+              <td>{{ test.test_name }}</td>
+              <td>{{ test.notes }}</td>
+              <td v-if="parseInt(test.status) === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="parseInt(test.status) === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="parseInt(test.status) === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+              <td>{{ humanReadableDateConverter(test.created_at) }}</td>
+              <td>{{ test.created_by }}</td>
             </tr>
             </tbody>
           </template>
@@ -250,9 +247,21 @@ export default {
       'age_at_visit',
       'clinical_notes',
       'next_visit',
-      'created_by_dr'
+      'created_by_dr',
+      'diagnosisList',
+      'treatmentList',
+      'testsList'
+      // 'DoctorOfDiagnosis',
+      // 'DoctorOfTreatment',
+      // 'DoctorOfTests',
   ],
-  name: "DoctorCompo"
+  name: "DoctorCompo",
+  methods: {
+    humanReadableDateConverter (date) {
+      let newDate = new Date(date)
+      return newDate.toLocaleDateString()
+    }
+  },
 }
 </script>
 

@@ -80,6 +80,12 @@
               :clinical_notes="this.clinical_notes"
               :next_visit="this.next_visit"
               :created_by_dr="this.created_by_dr"
+              :diagnosisList="this.diagnosisList"
+              :treatmentList="this.treatmentList"
+              :testsList="this.testsList"
+              :DoctorOfDiagnosis="this.DoctorOfDiagnosis"
+              :DoctorOfTreatment="this.DoctorOfTreatment"
+              :DoctorOfTests="this.DoctorOfTests"
           >
           </DoctorCompo>
         </v-expansion-panel-content>
@@ -178,7 +184,13 @@ export default {
       age_at_visit: null,
       clinical_notes: null,
       next_visit: null,
-      created_by_dr: null
+      created_by_dr: null,
+      diagnosisList: [],
+      treatmentList: [],
+      testsList: [],
+      DoctorOfDiagnosis: null,
+      DoctorOfTreatment: null,
+      DoctorOfTests: null
 
     }
   },
@@ -262,25 +274,28 @@ export default {
       this.clinical_notes = data.patient_latest_history.clinical_notes
       this.next_visit = data.patient_latest_history.next_visit
       this.created_by_dr = data.doctorName.full_name
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       // END Doctor Info
+
+      // START Diagnosis Info
+      this.diagnosisList = data.diagnosis
+      this.treatmentList = data.treatment
+      this.testsList = data.tests
+      this.DoctorOfDiagnosis = data.DoctorOfDiagnosis
+      this.DoctorOfTreatment = data.DoctorOfTreatment
+      this.DoctorOfTests = data.DoctorOfTests
+      console.log(data.DoctorOfDiagnosis)
+      // END Diagnosis Info
+
+      // START Treatment
+      // END Treatment
+
+      // START Tests
+
+      // END Tests
     }).catch(({response:{data}})=>{
       console.log(data)
     });
-  }
+  },
 }
 </script>
 
