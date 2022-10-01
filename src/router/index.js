@@ -18,57 +18,57 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
   },
   {
     path: '/signup',
     name: 'signup',
-    component: SignupView
+    component: () => import(/* webpackChunkName: "about" */ '../views/SignupView.vue')
   },
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: () => import(/* webpackChunkName: "about" */ '../views/HomeView.vue')
   },
   {
     path: '/reception',
     name: 'reception',
-    component: ReceptionView
+    component: () => import(/* webpackChunkName: "about" */ '../views/ReceptionView.vue')
   },
   {
     path: '/reception/newvisit/:patient_uuid',
     name: 'patientnewvisit',
-    component: ReceptionNewVisitView
+    component: () => import(/* webpackChunkName: "about" */ '../views/ReceptionNewVisitView.vue')
   },
   {
     path: '/doctors/:patient_uuid?',
     name: 'doctors',
-    component: DoctorsView
+    component: () => import(/* webpackChunkName: "about" */ '../views/DoctorsView.vue')
   },
   {
     path: '/lab/:patient_uuid?',
     name: 'lab',
-    component: LabView
+    component: () => import(/* webpackChunkName: "about" */ '../views/LabView.vue')
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: DashboardView
+    component: () => import(/* webpackChunkName: "about" */ '../views/DashboardView.vue')
   },
   {
     path: '/search/:department?',
     name: 'search',
-    component: SearchView
+    component: () => import(/* webpackChunkName: "about" */ '../views/SearchView.vue')
   },
   {
     path: '/pharmacy/:patient_uuid?',
     name: 'pharmacy',
-    component: PharmacyView
+    component: () => import(/* webpackChunkName: "about" */ '../views/PharmacyView.vue')
   },
   {
     path: '/viewpanels/:patient_uuid',
     name: 'viewpanels',
-    component: ViewPanels
+    component: () => import(/* webpackChunkName: "about" */ '../views/ViewPanels.vue')
   },
   {
     path: '/about',
