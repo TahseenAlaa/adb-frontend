@@ -7,6 +7,7 @@
         <v-col cols="12">
           <v-text-field
               label="Patient Number"
+              v-model="patient_number"
               outlined
               dense
               readonly
@@ -19,6 +20,7 @@
         <v-col cols="4">
           <v-text-field
               label="Date of Visit"
+              v-model="date_of_visit"
               outlined
               dense
               readonly
@@ -28,6 +30,7 @@
         <v-col cols="4">
           <v-text-field
               label="Blood Pressure Systolic"
+              v-model="blood_pressure_systolic"
               outlined
               dense
               readonly
@@ -37,6 +40,7 @@
         <v-col cols="4">
           <v-text-field
               label="Blood Pressure Diastolic"
+              v-model="blood_pressure_diastolic"
               outlined
               dense
               readonly
@@ -49,6 +53,7 @@
         <v-col cols="4">
           <v-text-field
               label="Weight"
+              v-model="weight_by_doctor"
               outlined
               dense
               readonly
@@ -58,6 +63,7 @@
         <v-col cols="4">
           <v-text-field
               label="Height"
+              v-model="height_by_doctor"
               outlined
               dense
               readonly
@@ -67,6 +73,7 @@
         <v-col cols="4">
           <v-text-field
               label="Waist Circumference"
+              v-model="waist_circumference_by_doctor"
               outlined
               dense
               readonly
@@ -76,18 +83,40 @@
       </v-row>
 
       <v-row dense>
-        <v-col cols="6">
+        <v-col cols="3">
           <v-text-field
               label="BMI"
+              v-model="bmi_by_doctor"
               outlined
               dense
               readonly
               hint="ReadOnly"
           ></v-text-field>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="3">
           <v-text-field
               label="Age at Visit"
+              v-model="age_at_visit"
+              outlined
+              dense
+              readonly
+              hint="ReadOnly"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3">
+          <v-text-field
+              label="Next Visit"
+              v-model="next_visit"
+              outlined
+              dense
+              readonly
+              hint="ReadOnly"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3">
+          <v-text-field
+              label="Doctor's Name"
+              v-model="created_by_dr"
               outlined
               dense
               readonly
@@ -100,6 +129,7 @@
         <v-col cols="12">
           <v-textarea
               label="Clinical Notes"
+              v-model="clinical_notes"
               outlined
               dense
               readonly
@@ -208,6 +238,20 @@
 
 <script>
 export default {
+  props: [
+      'patient_number',
+      'date_of_visit',
+      'blood_pressure_systolic',
+      'blood_pressure_diastolic',
+      'weight_by_doctor',
+      'height_by_doctor',
+      'waist_circumference_by_doctor',
+      'bmi_by_doctor',
+      'age_at_visit',
+      'clinical_notes',
+      'next_visit',
+      'created_by_dr'
+  ],
   name: "DoctorCompo"
 }
 </script>

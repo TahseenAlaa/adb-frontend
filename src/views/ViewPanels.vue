@@ -67,7 +67,21 @@
       <v-expansion-panel>
         <v-expansion-panel-header><h2>Doctors</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
-          <DoctorCompo></DoctorCompo>
+          <DoctorCompo
+              :patient_number="this.patient_number"
+              :date_of_visit="this.last_visit"
+              :blood_pressure_systolic="this.blood_pressure_systolic"
+              :blood_pressure_diastolic="this.blood_pressure_diastolic"
+              :weight_by_doctor="this.weight_by_doctor"
+              :height_by_doctor="this.height_by_doctor"
+              :waist_circumference_by_doctor="this.waist_circumference_by_doctor"
+              :bmi_by_doctor="this.bmi_by_doctor"
+              :age_at_visit="this.age_at_visit"
+              :clinical_notes="this.clinical_notes"
+              :next_visit="this.next_visit"
+              :created_by_dr="this.created_by_dr"
+          >
+          </DoctorCompo>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -153,6 +167,19 @@ export default {
       first_a1c: null,
       second_a1c: null,
       source_of_referral: null,
+
+      patient_number: null,
+      blood_pressure_systolic: null,
+      blood_pressure_diastolic: null,
+      weight_by_doctor: null,
+      height_by_doctor: null,
+      waist_circumference_by_doctor: null,
+      bmi_by_doctor: null,
+      age_at_visit: null,
+      clinical_notes: null,
+      next_visit: null,
+      created_by_dr: null
+
     }
   },
   components: {
@@ -222,6 +249,34 @@ export default {
       this.first_a1c = data.patient_latest_history.fa1c
       this.second_a1c = data.patient_latest_history.sa2c
       this.source_of_referral = data.patient_latest_history.referral
+
+      // START Doctor Info
+      this.patient_number = data.patient_latest_history.patient_number
+      this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic
+      this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
+      this.weight_by_doctor = data.patient_latest_history.weight_by_dr
+      this.height_by_doctor = data.patient_latest_history.height_by_dr
+      this.waist_circumference_by_doctor = data.patient_latest_history.waist_circumference_by_dr
+      this.bmi_by_doctor = data.patient_latest_history.bmi_by_dr
+      this.age_at_visit = data.patient_latest_history.age_at_visit
+      this.clinical_notes = data.patient_latest_history.clinical_notes
+      this.next_visit = data.patient_latest_history.next_visit
+      this.created_by_dr = data.doctorName.full_name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // END Doctor Info
     }).catch(({response:{data}})=>{
       console.log(data)
     });
