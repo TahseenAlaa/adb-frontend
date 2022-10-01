@@ -5,22 +5,26 @@
       <template>
         <thead>
         <tr>
+          <th>Name</th>
           <th>Batch No.</th>
           <th>Expire Date</th>
           <th>Treatment Type</th>
           <th>Dosage</th>
           <th>Quantity</th>
           <th>Notes</th>
+          <th>Tester Name</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>452</td>
-          <td>16/2/2023</td>
-          <td>Any</td>
-          <td>5</td>
-          <td>700</td>
-          <td>Notes Here</td>
+        <tr v-for="drug in drugsList">
+          <td>{{ drug.name }}</td>
+          <td>{{ drug.batch_no }}</td>
+          <td>{{ drug.expire_date }}</td>
+          <td>{{ drug.treatment_type }}</td>
+          <td>{{ drug.dosage }}</td>
+          <td>{{ drug.quantity }}</td>
+          <td>{{ drug.notes }}</td>
+          <td>{{ drug.created_by }}</td>
         </tr>
         </tbody>
       </template>
@@ -31,7 +35,17 @@
 
 <script>
 export default {
-  name: "PharmacyCompo"
+  name: "PharmacyCompo",
+  props: [
+      'drugsList'
+  ],
+
+  methods: {
+    humanReadableDateConverter (date) {
+      let newDate = new Date(date)
+      return newDate.toLocaleDateString()
+    }
+  },
 }
 </script>
 

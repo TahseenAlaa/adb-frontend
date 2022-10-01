@@ -181,7 +181,9 @@
       <v-expansion-panel>
         <v-expansion-panel-header><h2>Pharmacy</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
-          <PharmacyCompo></PharmacyCompo>
+          <PharmacyCompo
+              :drugsList="this.drugsList"
+          ></PharmacyCompo>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -352,6 +354,7 @@ export default {
       status: null,
       created_by: null,
 
+      drugsList: []
     }
   },
   components: {
@@ -524,8 +527,12 @@ export default {
       this.osmolamity = data.medical_history.osmolamity,
       this.notes = data.medical_history.notes,
       this.status = data.medical_history.status,
-      this.created_by = data.medical_history.created_by
+      this.created_by = data.medical_history.created_by,
       // END Medical Lab
+
+      // START Drugs Listing
+      this.drugsList = data.drugs_list
+      // END Drugs Listing
     }).catch(({response:{data}})=>{
       console.log(data)
     });
