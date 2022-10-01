@@ -63,8 +63,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import axios from "axios";
 import router from "@/router";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   name:"login",
@@ -86,22 +86,11 @@ export default {
     }),
 
     async login(){
-      const baseURL = 'http://127.0.0.1:8000/';
       this.errorMsg = null;
       this.showLoadingBtn = true;
 
-      await axios.get(baseURL + 'sanctum/csrf-cookie', {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Accept'       : 'application/json'
-        }
-      })
-      await axios.post(baseURL + 'api/v1/auth/login',this.auth, {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Accept'       : 'application/json'
-        },
-      }).then(({data})=>{
+      httpPOST('api/v1/auth/login',this.auth)
+      .then(({data})=>{
         localStorage.setItem('esite_token', data['token'].toString())
         this.signIn()
         router.push({name: 'home'})

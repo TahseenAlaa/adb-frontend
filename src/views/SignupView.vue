@@ -87,6 +87,8 @@
 </template>
 
 <script>
+import {httpGET, httpPOST} from "@/utils/utils";
+
 export default {
   name: "SignupView",
 }

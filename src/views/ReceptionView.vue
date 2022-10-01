@@ -567,7 +567,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   data() {
@@ -664,9 +664,7 @@ export default {
       this.$refs.menu.save(date)
     },
     postReceptionData(e) {
-      let baseURL = this.$store.getters.baseURL
-
-      axios.post(baseURL + 'api/v1/patients/store' , {
+      httpPOST('api/v1/patients/store', {
         full_name: this.full_name,
         phone: this.phone,
         gender: this.selectedGender,
@@ -713,13 +711,8 @@ export default {
         fa1c: this.first_a1c,
         sa2c: this.second_a1c,
         referral: this.source_of_referral
-      }, {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Accept'       : 'application/json',
-          'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-        }
-      }).then(({data})=>{
+      })
+      .then(({data})=>{
         this.successAlert = true
         setTimeout(() => {this.$router.push({path: '/'})}, 2000)
         console.log(data)
@@ -749,15 +742,8 @@ export default {
   },
 
   created() {
-    const baseURL = this.$store.getters.baseURL
-    axios.get(baseURL + 'api/v1/patients/' + this.patient_uuid, {
-      timeout: 2000,
-      headers: {
-        'Content-Type' : 'application/json',
-        'Accept'       : 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-      }
-    }).then(({data})=>{
+    httpGET('api/v1/patients/' + this.patient_uuid)
+    .then(({data})=>{
       console.log(data)
     }).catch(({response:{data}})=>{
       console.log(data)

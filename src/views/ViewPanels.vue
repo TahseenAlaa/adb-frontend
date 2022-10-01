@@ -110,11 +110,11 @@
 </template>
 
 <script>
+import {httpGET, httpPOST} from "@/utils/utils";
 import ReceptionCompo from "@/components/ReceptionCompo";
 import DoctorCompo from "@/components/DoctorCompo";
 import LabCompo from "@/components/LabCompo";
 import PharmacyCompo from "@/components/PharmacyCompo";
-import axios from "axios";
 
 
 export default {
@@ -202,15 +202,8 @@ export default {
   },
 
   created() {
-    let baseURL = this.$store.getters.baseURL
-
-    axios.get(baseURL + 'api/v1/patients/' + this.patient_uuid, {
-      headers: {
-        'Content-Type' : 'application/json',
-        'Accept'       : 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-      }
-    }).then(({data})=>{
+    httpGET('api/v1/patients/' + this.patient_uuid)
+    .then(({data})=>{
       this.full_name = data.patient_info.full_name
       this.id = data.patient_info.id
       this.last_visit = data.patient_info.last_visit

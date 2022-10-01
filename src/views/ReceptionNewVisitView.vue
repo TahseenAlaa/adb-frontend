@@ -504,7 +504,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   name: "ReceptionNewVisitView",
@@ -621,9 +621,7 @@ export default {
       }
     },
     postNewVisitData(e) {
-      let baseURL = this.$store.getters.baseURL
-
-      axios.post(baseURL + 'api/v1/patients/store/newvisit' , {
+      httpPOST('api/v1/patients/store/newvisit', {
         patient_uuid: this.$route.params.patient_uuid,
         occupation: this.occupation,
         education_qualification: this.education_qualification,
@@ -669,13 +667,8 @@ export default {
         fa1c: this.first_a1c,
         sa2c: this.second_a1c,
         referral: this.source_of_referral
-      }, {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Accept'       : 'application/json',
-          'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-        }
-      }).then(({data})=>{
+      })
+          .then(({data})=>{
         this.successAlert = true
         setTimeout(() => {this.$router.push({path: '/'})}, 2000)
         console.log(data)

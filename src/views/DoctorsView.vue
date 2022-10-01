@@ -509,6 +509,7 @@
 
 <script>
 import axios from "axios";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   data() {
@@ -546,9 +547,7 @@ export default {
 
   methods: {
     postPatientData(e) {
-      let baseURL = this.$store.getters.baseURL
-
-      axios.post(baseURL + 'api/v1/patients/store-by-dr' , {
+      httpPOST('api/v1/patients/store-by-dr', {
         patient_uuid: this.$route.params.patient_uuid,
         patient_number: this.patient_number,
         age_at_visit: this.age_at_visit,
@@ -560,13 +559,8 @@ export default {
         bmi_by_dr: this.bmi,
         clinical_notes: this.clinical_notes,
         next_visit: this.date_of_next_visit,
-      }, {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Accept'       : 'application/json',
-          'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-        }
-      }).then(({data})=>{
+      })
+      .then(({data})=>{
         this.successAlert = true
         setTimeout(() => {this.$router.push({path: '/'})}, 2000)
         console.log(data)
@@ -585,21 +579,13 @@ export default {
       }
     },
     storeDiagnosisDate(e) {
-      let baseURL = this.$store.getters.baseURL
-
       if (this.symptoms && this.is_confirmed) {
-        axios.post(baseURL + 'api/v1/diagnosis/store' , {
+        httpPOST('api/v1/diagnosis/store', {
           patient_uuid: this.$route.params.patient_uuid,
           symptoms: this.symptoms,
           is_confirmed: this.is_confirmed
-
-        }, {
-          headers: {
-            'Content-Type' : 'application/json',
-            'Accept'       : 'application/json',
-            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-          }
-        }).then(({data})=>{
+        })
+        .then(({data})=>{
           data.data.created_by = data.doctor_name
           data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
           this.diagnosis.push(data.data)
@@ -614,21 +600,13 @@ export default {
     },
 
     storeTreatmentData(e) {
-      let baseURL = this.$store.getters.baseURL
-
       if (this.treatment_name && this.treatment_dose) {
-        axios.post(baseURL + 'api/v1/treatment/store', {
+        httpPOST('api/v1/treatment/store', {
           patient_uuid: this.$route.params.patient_uuid,
           name: this.treatment_name,
           dose: this.treatment_dose,
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
-          }
-        }).then(({data}) => {
-
+        })
+        .then(({data}) => {
           this.treatments.push(data.data)
           data.data.created_by = data.doctor_name
           data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
@@ -642,20 +620,13 @@ export default {
     },
 
     storeTestData(e) {
-      let baseURL = this.$store.getters.baseURL
-
       if (this.test_name && this.test_notes) {
-        axios.post(baseURL + 'api/v1/lab/store', {
+        httpPOST('api/v1/lab/store', {
           patient_uuid: this.$route.params.patient_uuid,
           test_name: this.test_name,
           test_notes: this.test_notes,
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
-          }
-        }).then(({data}) => {
+        })
+        .then(({data}) => {
           data.data.created_by = data.doctor_name
           data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
           this.tests.push(data.data)

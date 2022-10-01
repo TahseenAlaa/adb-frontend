@@ -269,7 +269,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   data() {
@@ -292,10 +292,8 @@ export default {
 
   methods: {
     storePharmacyData(e) {
-      let baseURL = this.$store.getters.baseURL
-
       if (this.dosage) {
-        axios.post(baseURL + 'api/v1/pharmacy/store', {
+        httpPOST('api/v1/pharmacy/store', {
           patient_uuid: this.$route.params.patient_uuid,
           name: this.name,
           batch_no: this.batch_no,
@@ -304,14 +302,8 @@ export default {
           dosage: this.dosage,
           quantity: this.quantity,
           notes: this.notes,
-
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
-          }
-        }).then(({data}) => {
+        })
+        .then(({data}) => {
           data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
           this.drugs.push(data.data)
 

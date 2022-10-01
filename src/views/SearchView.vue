@@ -150,6 +150,7 @@
 
 <script>
 import axios from "axios";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   name: "SearchView",
@@ -170,29 +171,17 @@ export default {
 
   methods: {
     searchPatient() {
-      let baseURL = this.$store.getters.baseURL
-
       if (this.patient_id) {
-        axios.get(baseURL + 'api/v1/patients/search-by-patient-id/' + this.patient_id, {
-          headers: {
-            'Content-Type' : 'application/json',
-            'Accept'       : 'application/json',
-            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-          }
-        }).then(({data})=>{
+        httpGET('api/v1/patients/search-by-patient-id/' + this.patient_id)
+            .then(({data})=>{
           this.search_result = data
           console.log(data)
         }).catch(({response:{data}})=>{
           console.log(data)
         });
       } else if (this.phone) {
-        axios.get(baseURL + 'api/v1/patients/search-by-phone/' + this.phone, {
-          headers: {
-            'Content-Type' : 'application/json',
-            'Accept'       : 'application/json',
-            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-          }
-        }).then(({data})=>{
+        httpGET('api/v1/patients/search-by-phone/' + this.phone)
+        .then(({data})=>{
           this.search_result = data
           console.log(data)
         }).catch(({response:{data}})=>{
@@ -200,13 +189,8 @@ export default {
         });
 
       } else if (this.full_name) {
-        axios.get(baseURL + 'api/v1/patients/search-by-full-name/' + this.full_name, {
-          headers: {
-            'Content-Type' : 'application/json',
-            'Accept'       : 'application/json',
-            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-          }
-        }).then(({data})=>{
+        httpGET('api/v1/patients/search-by-full-name/' + this.full_name)
+        .then(({data})=>{
           this.search_result = data
           console.log(this.search_result)
         }).catch(({response:{data}})=>{
