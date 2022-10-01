@@ -1,16 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from "@/views/HomeView";
-import DashboardView from "@/views/DashboardView";
-import SearchView from "@/views/SearchView";
-import PharmacyView from "@/views/PharmacyView";
-import LoginView from "@/views/LoginView";
-import ReceptionView from "@/views/ReceptionView";
-import DoctorsView from "@/views/DoctorsView";
-import LabView from "@/views/LabView";
-import SignupView from "@/views/SignupView";
-import ViewPanels from "@/views/ViewPanels";
-import ReceptionNewVisitView from "@/views/ReceptionNewVisitView";
 
 Vue.use(VueRouter)
 
