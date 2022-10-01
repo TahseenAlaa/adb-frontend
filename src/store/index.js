@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from "axios";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 Vue.use(Vuex)
 
@@ -8,7 +8,6 @@ export default new Vuex.Store({
   state: {
     authenticated: false,
     user: {},
-    baseURL: 'http://127.0.0.1:8000/',
   },
 
   getters: {
@@ -18,9 +17,6 @@ export default new Vuex.Store({
     user(state) {
       return state.user
     },
-    baseURL(state) {
-      return state.baseURL
-    }
   },
 
   mutations: {
@@ -34,17 +30,8 @@ export default new Vuex.Store({
 
   actions: {
     login({commit}) {
-      const baseURL = 'http://127.0.0.1:8000/';
-      const token = localStorage.getItem('esite_token');
-
-        return axios.get(baseURL + 'api/v1/auth/user', {
-          timeout: 1000,
-          headers: {
-            'Content-Type'     : 'application/json',
-            'Accept'           : 'application/json',
-            'Authorization'    : 'Bearer ' + token
-          },
-        }).then(({data}) => {
+      httpGET('api/v1/auth/user')
+        .then(({data}) => {
           commit('SET_AUTHENTICATED', true)
           commit('SET_USER', data)
         }).catch(() => {
@@ -72,18 +59,9 @@ export default new Vuex.Store({
     // },
 
     validateLogin({commit}) {
-      const baseURL = 'http://127.0.0.1:8000/';
-      const token = localStorage.getItem('esite_token');
-
-      if (token.toString().length >= 1) {
-        return axios.get(baseURL + 'api/v1/auth/user', {
-          timeout: 10000,
-          headers: {
-            'Content-Type'    : 'application/json',
-            'Accept'          : 'application/json',
-            'Authorization'   : 'Bearer ' + token
-          },
-        }).then(({data}) => {
+      if (localStorage.getItem('esite_token').toString().length >= 1) {
+        httpGET('api/v1/auth/user')
+        .then(({data}) => {
           commit('SET_AUTHENTICATED', true)
           commit('SET_USER', data)
         })
