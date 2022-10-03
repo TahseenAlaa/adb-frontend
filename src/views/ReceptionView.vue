@@ -61,7 +61,7 @@
           </v-col>
           <v-col cols="4">
             <v-select
-                :items="gender"
+                :items="['Male', 'Female']"
                 label="Gender"
                 v-model="selectedGender"
                 dense
@@ -80,17 +80,16 @@
             ></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-select
-                :items="educationQualification"
-                label="Education Qualification"
-                v-model="education_qualification"
-                dense
+            <v-text-field
+                label="Weight of Baby at Birthday"
+                v-model="weight_of_baby_at_birthday"
                 outlined
-            ></v-select>
+                dense
+            ></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-select
-                :items="maritalStatus"
+                :items="['Single', 'Married', 'Divorced']"
                 label="Marital Status"
                 v-model="marital_status"
                 dense
@@ -107,65 +106,6 @@
                 outlined
                 dense
             ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="smoker"
-                label="Smoker"
-                v-model="selectedSmoker"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="drinker"
-                label="Drinker"
-                v-model="selectedDrinker"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="familyHistoryOfDM"
-                label="Family History of DM"
-                v-model="family_history_of_dm"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="gestationalDM"
-                label="Gestational DM"
-                v-model="gestational_dm"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Weight of Baby at Birthday"
-                v-model="weight_of_baby_at_birthday"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="hypertension"
-                label="Hypertension"
-                v-model="selectedHypertension"
-                dense
-                outlined
-            ></v-select>
           </v-col>
           <v-col cols="4">
             <v-text-field
@@ -185,54 +125,112 @@
           </v-col>
         </v-row>
 
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="smbg"
-                label="SMBG"
-                v-model="selectedSmbg"
+        <v-row
+            dense
+        >
+          <v-col cols="3">
+            <v-checkbox
+                label="Family History of DM"
+                v-model="family_history_of_dm"
                 dense
                 outlined
-            ></v-select>
+            ></v-checkbox>
           </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="ihd"
-                label="IHD"
-                v-model="selectedIhd"
+
+          <v-col cols="3">
+            <v-checkbox
+                label="Gestational DM"
+                v-model="gestationalDm"
                 dense
                 outlined
-            ></v-select>
+            ></v-checkbox>
           </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="cva"
-                label="CVA"
-                v-model="selectedCva"
+
+          <v-col cols="3">
+            <v-checkbox
+                label="Education Qualification"
+                v-model="education_qualification"
                 dense
                 outlined
-            ></v-select>
+            ></v-checkbox>
+          </v-col>
+
+          <v-col cols="3">
+            <v-checkbox
+                label="Hypertension"
+                v-model="hypertension"
+                dense
+                outlined
+            ></v-checkbox>
           </v-col>
         </v-row>
-
-        <v-row dense>
-          <v-col cols="6">
-            <v-select
-                :items="pvd"
-                label="PVD"
-                v-model="selectedPvd"
+        <v-row
+            dense
+        >
+          <v-col cols="3">
+            <v-checkbox
+                label="Smoker"
+                v-model="smoker"
                 dense
                 outlined
-            ></v-select>
+            ></v-checkbox>
           </v-col>
-          <v-col cols="6">
-            <v-select
-                :items="neuropathy"
-                label="Neuropathy"
-                v-model="selectedNeuropathy"
+
+          <v-col cols="3">
+            <v-checkbox
+                label="Drinker"
+                v-model="drinker"
                 dense
                 outlined
-            ></v-select>
+            ></v-checkbox>
+          </v-col>
+
+          <v-col cols="3">
+            <v-checkbox
+                label="SMBG"
+                v-model="smbg"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+
+          <v-col cols="3">
+            <v-checkbox
+                label="IHD"
+                v-model="ihd"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+        </v-row>
+        <v-row
+            dense
+        >
+          <v-col cols="3">
+            <v-checkbox
+                label="CVA"
+                v-model="cva"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+
+          <v-col cols="3">
+            <v-checkbox
+                label="PVD"
+                v-model="pvd"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+
+          <v-col cols="3">
+            <v-checkbox
+                label="Neuropathy"
+                v-model="neuropathy"
+                dense
+                outlined
+            ></v-checkbox>
           </v-col>
         </v-row>
 
@@ -296,103 +294,12 @@
 
         <v-row dense>
           <v-col cols="4">
-            <v-select
-                :items="retinopathy"
-                label="Retinopathy"
-                v-model="selectedRetinopathy"
-                dense
+            <v-text-field
+                label="Duration of DM"
+                v-model="duration_of_dm"
                 outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="nonProliferative"
-                label="Non proliferative"
-                v-model="selectedNonProliferative"
                 dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="proliferativeDR"
-                label="Proliferative DR"
-                v-model="selectedProliferativeDR"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="maculopathy"
-                label="Maculopathy"
-                v-model="selectedMaculopathy"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="insulin"
-                label="Insulin"
-                v-model="selectedInsulin"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="amputation"
-                label="Amputation"
-                v-model="selectedAmputation"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="ed"
-                label="ED"
-                v-model="selectedEd"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="nafld"
-                label="NAFLD"
-                v-model="selectedNafld"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="dermopathy"
-                label="Dermopathy"
-                v-model="selectedDermopathy"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="diabeticFood"
-                label="Diabetic Food"
-                v-model="diabetic_food"
-                dense
-                outlined
-            ></v-select>
+            ></v-text-field>
           </v-col>
           <v-col cols="4">
             <div>
@@ -435,30 +342,13 @@
 
         <v-row dense>
           <v-col cols="4">
-            <v-text-field
-                label="Duration of DM"
-                v-model="duration_of_dm"
-                outlined
-                dense
-            ></v-text-field>
+
           </v-col>
           <v-col cols="4">
-            <v-select
-                :items="glycemicControl"
-                label="Glycemic Control"
-                v-model="glycemic_control"
-                dense
-                outlined
-            ></v-select>
+
           </v-col>
           <v-col cols="4">
-            <v-select
-                :items="lipidControl"
-                label="Lipid Control"
-                v-model="lipid_control"
-                dense
-                outlined
-            ></v-select>
+
           </v-col>
         </v-row>
 
@@ -533,6 +423,111 @@
                 outlined
                 dense
             ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-row dense>
+          <v-col cols="3">
+            <v-checkbox
+                label="Retinopathy"
+                v-model="retinopathy"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Non proliferative"
+                v-model="nonProliferative"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Proliferative DR"
+                v-model="proliferativeDR"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Maculopathy"
+                v-model="maculopathy"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+        </v-row>
+
+        <v-row dense>
+          <v-col cols="3">
+            <v-checkbox
+                label="Insulin"
+                v-model="insulin"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Amputation"
+                v-model="amputation"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="ED"
+                v-model="ed"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="NAFLD"
+                v-model="nafld"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+        </v-row>
+
+        <v-row dense>
+          <v-col cols="3">
+            <v-checkbox
+                label="Dermopathy"
+                v-model="dermopathy"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Diabetic Food"
+                v-model="diabeticFood"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Glycemic Control"
+                v-model="glycemicControl"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Lipid Control"
+                v-model="lipidControl"
+                dense
+                outlined
+            ></v-checkbox>
           </v-col>
         </v-row>
       </v-card>
