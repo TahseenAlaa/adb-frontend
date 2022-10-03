@@ -57,7 +57,9 @@
         </v-row>
     </v-form>
 
-      <v-card class="px-6 mt-16">
+      <v-card class="px-6 mt-16"
+              v-if="toggles.showResultsPanel"
+      >
         <v-card-title>Search Results</v-card-title>
         <v-card-subtitle>You can select the matched result and acces patient information or create a new visit</v-card-subtitle>
         <v-card-title class="subtitle-2">Personal Information</v-card-title>
@@ -120,27 +122,25 @@
           </template>
         </v-simple-table>
       </v-card>
-    <p class="grey--text">Not found ?  You can create a new patient record by clicking on new patient button</p>
+    <p
+        v-if="toggles.showResultsPanel"
+       class="grey--text">Not found ?  You can create a new patient record by clicking on new patient button
+    </p>
 
-    <v-row dense>
+    <v-row
+        v-if="toggles.showResultsPanel && receptionTeam"
+        dense
+    >
       <v-col>
         <router-link to="/reception">
-        <v-btn
-            class="px-8 py-12 mt-6 mx-8 white--text"
-            color="#FFFFFF"
-        >
-          <v-col>
-            <v-img
-                src="../assets/loading_icon.svg"
-                width="50px"
-                height="50px"
-                class="mx-auto"
-            >
-
-            </v-img>
-            <h2 class="text-capitalize" style="color: #6200EE">New Patient</h2>
-          </v-col>
-        </v-btn>
+          <v-btn
+              class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
+          >
+            <v-col>
+              <v-icon size="60">mdi-folder-plus</v-icon>
+              <h3 class="text-capitalize">New Patient</h3>
+            </v-col>
+          </v-btn>
         </router-link>
       </v-col>
     </v-row>
@@ -149,7 +149,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
@@ -165,7 +164,10 @@ export default {
       doctorsTeam: null,
       labTeam: null,
       pharmacyTeam: null,
-      department: this.$route.params.department
+      department: this.$route.params.department,
+      toggles:{
+        showResultsPanel: false,
+      },
     }
   },
 
@@ -175,7 +177,9 @@ export default {
         httpGET('api/v1/patients/search-by-patient-id/' + this.patient_id)
             .then(({data})=>{
           this.search_result = data
-          console.log(data)
+          if (data) {
+            this.toggles.showResultsPanel = true
+          }
         }).catch(({response:{data}})=>{
           console.log(data)
         });
@@ -183,7 +187,9 @@ export default {
         httpGET('api/v1/patients/search-by-phone/' + this.phone)
         .then(({data})=>{
           this.search_result = data
-          console.log(data)
+          if (data) {
+            this.toggles.showResultsPanel = true
+          }
         }).catch(({response:{data}})=>{
           console.log(data)
         });
@@ -192,13 +198,15 @@ export default {
         httpGET('api/v1/patients/search-by-full-name/' + this.full_name)
         .then(({data})=>{
           this.search_result = data
-          console.log(this.search_result)
+          if (data) {
+            this.toggles.showResultsPanel = true
+          }
         }).catch(({response:{data}})=>{
           console.log(data)
         });
       }
       if (this.department === 'reception') {
-        this.receptionTeam = true
+        this.receptionTeam = true;
       } else if (this.department === 'doctors') {
         this.doctorsTeam = true
       } else if (this.department === 'lab') {
