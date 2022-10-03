@@ -30,7 +30,16 @@ export default new Vuex.Store({
 
   actions: {
     login({commit}) {
-      httpGET('api/v1/auth/user')
+      const token = localStorage.getItem('esite_token');
+
+      httpGET('api/v1/auth/user', {
+        timeout: 1000,
+        headers: {
+          'Content-Type'     : 'application/json',
+          'Accept'           : 'application/json',
+          'Authorization'    : 'Bearer ' + token
+        },
+      })
         .then(({data}) => {
           commit('SET_AUTHENTICATED', true)
           commit('SET_USER', data)
@@ -59,7 +68,7 @@ export default new Vuex.Store({
     // },
 
     validateLogin({commit}) {
-      if (localStorage.getItem('esite_token').toString().length >= 1) {
+      if (localStorage.getItem('esite_token')) {
         httpGET('api/v1/auth/user')
         .then(({data}) => {
           commit('SET_AUTHENTICATED', true)

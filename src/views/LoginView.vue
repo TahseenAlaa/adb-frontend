@@ -87,7 +87,10 @@ export default {
       this.errorMsg = null;
       this.showLoadingBtn = true;
 
-      httpPOST('api/v1/auth/login',this.auth)
+      httpPOST('api/v1/auth/login',{
+        username: this.auth.username,
+        password: this.auth.password
+      })
       .then(({data})=>{
         localStorage.setItem('esite_token', data['token'].toString())
         this.signIn()
