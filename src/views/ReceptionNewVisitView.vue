@@ -8,86 +8,10 @@
         <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
         <v-row dense>
-          <v-col cols="4">
+          <v-col cols="12">
             <v-text-field
-                label="Occupation"
-                v-model="occupation"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="educationQualification"
-                label="Education Qualification"
-                v-model="education_qualification"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="maritalStatus"
-                label="Marital Status"
-                v-model="marital_status"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="Address"
-                v-model="address"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="smoker"
-                label="Smoker"
-                v-model="selectedSmoker"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="drinker"
-                label="Drinker"
-                v-model="selectedDrinker"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="familyHistoryOfDM"
-                label="Family History of DM"
-                v-model="family_history_of_dm"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="gestationalDM"
-                label="Gestational DM"
-                v-model="gestational_dm"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Weight of Baby at Birthday"
-                v-model="weight_of_baby_at_birthday"
+                label="Patient Number"
+                v-model="patient_number"
                 outlined
                 dense
             ></v-text-field>
@@ -96,26 +20,28 @@
 
         <v-row dense>
           <v-col cols="4">
-            <v-select
-                :items="hypertension"
-                label="Hypertension"
-                v-model="selectedHypertension"
-                dense
+            <v-text-field
+                label="Age at Visit"
+                v-model="age_at_visit"
                 outlined
-            ></v-select>
+                dense
+                readonly
+                hint="ReadOnly"
+                persistent-hint
+            ></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-text-field
-                label="Family History of IHD"
-                v-model="family_history_of_ihd"
+                label="Blood Pressure Systolic"
+                v-model="blood_pressure_systolic"
                 outlined
                 dense
             ></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-text-field
-                label="Parity"
-                v-model="parity"
+                label="Blood Pressure Diastolic"
+                v-model="blood_pressure_diastolic"
                 outlined
                 dense
             ></v-text-field>
@@ -124,60 +50,8 @@
 
         <v-row dense>
           <v-col cols="4">
-            <v-select
-                :items="smbg"
-                label="SMBG"
-                v-model="selectedSmbg"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="ihd"
-                label="IHD"
-                v-model="selectedIhd"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="cva"
-                label="CVA"
-                v-model="selectedCva"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="6">
-            <v-select
-                :items="pvd"
-                label="PVD"
-                v-model="selectedPvd"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="6">
-            <v-select
-                :items="neuropathy"
-                label="Neuropathy"
-                v-model="selectedNeuropathy"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-card-title class="subtitle-2">Physical Information</v-card-title>
-        <v-row dense>
-          <v-col cols="4">
             <v-text-field
-                label="Weight in kg"
+                label="Weight"
                 v-model="weight"
                 outlined
                 dense
@@ -185,7 +59,7 @@
           </v-col>
           <v-col cols="4">
             <v-text-field
-                label="Height in cm"
+                label="Height"
                 v-model="height"
                 outlined
                 dense
@@ -207,269 +81,18 @@
                 label="BMI"
                 v-model="bmi"
                 outlined
+                dense
                 readonly
                 hint="ReadOnly"
                 persistent-hint
-                dense
             ></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-btn
-                class="deep-purple white--text"
+                dark
+                class="deep-purple"
                 @click="calcBMI"
-            >
-              Calculate
-            </v-btn>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="HIP"
-                v-model="hip"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="retinopathy"
-                label="Retinopathy"
-                v-model="selectedRetinopathy"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="nonProliferative"
-                label="Non proliferative"
-                v-model="selectedNonProliferative"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="proliferativeDR"
-                label="Proliferative DR"
-                v-model="selectedProliferativeDR"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="maculopathy"
-                label="Maculopathy"
-                v-model="selectedMaculopathy"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="insulin"
-                label="Insulin"
-                v-model="selectedInsulin"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="amputation"
-                label="Amputation"
-                v-model="selectedAmputation"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="ed"
-                label="ED"
-                v-model="selectedEd"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="nafld"
-                label="NAFLD"
-                v-model="selectedNafld"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="dermopathy"
-                label="Dermopathy"
-                v-model="selectedDermopathy"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-select
-                :items="diabeticFood"
-                label="Diabetic Food"
-                v-model="diabetic_food"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <div>
-              <v-menu
-                  v-model="DateOfInsulinMenu"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                      label="Date of Insulin"
-                      v-model="date_of_insulin"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      outlined
-                      dense
-                      v-bind="attrs"
-                      v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                    v-model="date_of_insulin"
-                    @input="DateOfInsulinMenu = false"
-                ></v-date-picker>
-              </v-menu>
-            </div>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Duration of Insulin"
-                v-model="duration_of_insulin"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="Duration of DM"
-                v-model="duration_of_dm"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="glycemicControl"
-                label="Glycemic Control"
-                v-model="glycemic_control"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-          <v-col cols="4">
-            <v-select
-                :items="lipidControl"
-                label="Lipid Control"
-                v-model="lipid_control"
-                dense
-                outlined
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="2">
-            <v-text-field
-                label="Pressure Control"
-                v-model="pressure_control"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-                label="Father's Height"
-                v-model="father_height"
-                outlined
-                dense
-                :rules="[numberRule]"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-                label="Mother's Height"
-                v-model="mother_height"
-                outlined
-                dense
-                :rules="[numberRule]"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-                label="Mid-Parent Height"
-                v-model="mid_parent_height"
-                outlined
-                dense
-                readonly
-                hint="ReadOnly"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-btn
-                @click="calcMidParentHeight()"
-                class="deep-purple white--text"
             >Calculate</v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="6">
-            <v-text-field
-                label="First A1c"
-                v-model="first_a1c"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-                label="Second A1c"
-                v-model="second_a1c"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row dense>
-          <v-col cols="12">
-            <v-text-field
-                label="Source of referral"
-                v-model="source_of_referral"
-                outlined
-                dense
-            ></v-text-field>
           </v-col>
         </v-row>
       </v-card>
@@ -512,84 +135,16 @@ export default {
     return {
       successAlert: false,
       errorAlert: false,
-      date_of_insulin: null,
-      DateOfInsulinMenu: null,
       activePicker: null,
-      date_of_birthday: null,
-      menu: false,
-      gender: ['Male', 'Female', 'Other'],
-      maritalStatus: ['Single', 'Married', 'Divorced'],
-      smoker: ['Yes', 'No'],
-      drinker: ['Yes', 'No'],
-      educationQualification :['Yes', 'No'],
-      familyHistoryOfDM: ['Yes', 'No'],
-      gestationalDM: ['Yes', 'No'],
-      hypertension: ['Yes', 'No'],
-      smbg: ['Yes', 'No'],
-      ihd: ['Yes', 'No'],
-      cva: ['Yes', 'No'],
-      pvd: ['Yes', 'No'],
-      neuropathy: ['Yes', 'No'],
-      retinopathy: ['Yes', 'No'],
-      nonProliferative: ['Yes', 'No'],
-      proliferativeDR: ['Yes', 'No'],
-      maculopathy: ['Yes', 'No'],
-      insulin: ['Yes', 'No'],
-      amputation: ['Yes', 'No'],
-      ed: ['Yes', 'No'],
-      nafld: ['Yes', 'No'],
-      dermopathy: ['Yes', 'No'],
-      diabeticFood: ['Yes', 'No'],
-      glycemicControl: ['Yes', 'No'],
-      lipidControl: ['Yes', 'No'],
-      full_name: null,
-      dateOfBirthday: null,
-      phone: null,
-      occupation: null,
-      education_qualification: null,
-      marital_status: null,
-      address: null,
-      family_history_of_dm: null,
-      gestational_dm: null,
-      weight_of_baby_at_birthday: null,
-      family_history_of_ihd: null,
-      parity: null,
+      patient_uuid: this.$route.params.patient_uuid,
+      patient_number: null,
+      age_at_visit: null,
+      blood_pressure_systolic: null,
+      blood_pressure_diastolic: null,
       weight: null,
       height: null,
       waist_circumference: null,
       bmi: null,
-      hip: null,
-      diabetic_food: null,
-      duration_of_insulin: null,
-      duration_of_dm: null,
-      glycemic_control: null,
-      lipid_control: null,
-      pressure_control: null,
-      father_height: null,
-      mother_height: null,
-      mid_parent_height: null,
-      first_a1c: null,
-      second_a1c: null,
-      source_of_referral: null,
-      selectedGender: null,
-      selectedCva: null,
-      selectedPvd: null,
-      selectedNeuropathy: null,
-      selectedRetinopathy: null,
-      selectedNonProliferative: null,
-      selectedProliferativeDR: null,
-      selectedMaculopathy: null,
-      selectedInsulin: null,
-      selectedAmputation: null,
-      selectedEd: null,
-      selectedNafld: null,
-      selectedDermopathy: null,
-      selectedSmoker: null,
-      selectedDrinker: null,
-      selectedSmbg: null,
-      selectedIhd: null,
-      selectedHypertension: null,
-      patient_uuid: this.$route.params.patient_uuid,
     }
   },
   watch: {
@@ -599,14 +154,6 @@ export default {
   },
 
   methods: {
-    save (date) {
-      this.$refs.menu.save(date)
-    },
-    calcMidParentHeight() {
-      if (this.father_height && this.mother_height) {
-        this.mid_parent_height = (parseInt(this.father_height) + parseInt(this.mother_height)) / 2
-      }
-    },
     numberRule: v  => {
       if (!v.trim()) return true;
       if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
@@ -623,50 +170,14 @@ export default {
     postNewVisitData(e) {
       httpPOST('api/v1/patients/store/newvisit', {
         patient_uuid: this.$route.params.patient_uuid,
-        occupation: this.occupation,
-        education_qualification: this.education_qualification,
-        maritalStatus: this.maritalStatus,
-        address: this.address,
-        smoker: this.selectedSmoker,
-        drinker: this.selectedDrinker,
-        family_dm: this.family_history_of_dm,
-        gestational_dm: this.gestational_dm,
-        weight_baby: this.weight_of_baby_at_birthday,
-        hypert: this.selectedHypertension,
-        family_ihd: this.family_history_of_ihd,
-        parity: this.parity,
-        smbg: this.selectedSmbg,
-        ihd: this.selectedIhd,
-        cva: this.selectedCva,
-        pvd: this.selectedPvd,
-        neuro: this.selectedNeuropathy,
+        uuid: this.uuid,
+        patient_number: this.patient_number,
+        date_of_visit: this.date_of_visit,
+        blood_pressure_systolic: this.blood_pressure_systolic,
+        blood_pressure_diastolic: this.blood_pressure_diastolic,
         weight: this.weight,
         height: this.height,
-        wc: this.waist_circumference,
         bmi: this.bmi,
-        hip: this.hip,
-        retino: this.selectedRetinopathy,
-        nonpro: this.selectedNonProliferative,
-        prolif: this.selectedProliferativeDR,
-        macul: this.selectedMaculopathy,
-        insul: this.selectedInsulin,
-        amput: this.selectedAmputation,
-        ed: this.selectedEd,
-        nafld: this.selectedNafld,
-        dermo: this.selectedDermopathy,
-        dfoot: this.diabetic_food,
-        date_insulin: this.date_of_insulin,
-        duration_insulin: this.duration_of_insulin,
-        duration_dm: this.duration_of_dm,
-        glycemic: this.glycemic_control,
-        lipid: this.lipid_control,
-        pressure: this.pressure_control,
-        f_height: this.father_height,
-        m_height: this.mother_height,
-        mid_height: this.mid_parent_height,
-        fa1c: this.first_a1c,
-        sa2c: this.second_a1c,
-        referral: this.source_of_referral
       })
           .then(({data})=>{
         this.successAlert = true
@@ -679,7 +190,12 @@ export default {
     }
   },
   created() {
-    // TODO fetch basic patient info and insert them in readOnly fields
+    httpGET('api/v1/patients/patient-age/' + this.patient_uuid)
+        .then(({data}) => {
+          this.age_at_visit = data.data;
+        }).catch(({response:{data}})=>{
+      console.log(data)
+    });
   }
 }
 </script>
