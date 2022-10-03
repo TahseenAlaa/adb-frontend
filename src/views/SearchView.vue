@@ -69,7 +69,7 @@
             <tr>
               <th>Name</th>
               <th>Phone</th>
-              <th>Date of Birthday</th>
+              <th>Date of Birth</th>
               <th>Gender</th>
               <th>Last Visit</th>
               <th>Action</th>
@@ -79,7 +79,7 @@
             <tr v-for="patient in search_result['data']">
               <td>{{ patient.full_name }}</td>
               <td>{{ patient.phone }}</td>
-              <td>{{ patient.birthdate }}</td>
+              <td>{{ humanReadableDateConverter(patient.birthday) }}</td>
               <td>{{ patient.gender }}</td>
               <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
               <td>
@@ -92,27 +92,6 @@
                 <router-link
                     v-if="receptionTeam"
                     :to="'/reception/newvisit/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="doctorsTeam"
-                    :to="'/doctors/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="labTeam"
-                    :to="'/lab/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="pharmacyTeam"
-                    :to="'/pharmacy/' + patient.uuid"
                 >
                   <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
                 </router-link>
@@ -149,7 +128,7 @@
 </template>
 
 <script>
-import {httpGET, httpPOST} from "@/utils/utils";
+import {httpGET, httpPOST, humanReadableDateConverter} from "@/utils/utils";
 
 export default {
   name: "SearchView",
@@ -167,6 +146,7 @@ export default {
       department: this.$route.params.department,
       toggles:{
         showResultsPanel: false,
+        showNewVisit: false
       },
     }
   },
@@ -217,7 +197,7 @@ export default {
     },
     humanReadableDateConverter (date) {
       let newDate = new Date(date)
-      return newDate.toLocaleDateString()
+      return newDate.toLocaleDateString('en-GB')
     }
   }
 }
