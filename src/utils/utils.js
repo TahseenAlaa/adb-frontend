@@ -25,6 +25,11 @@ export function httpGET($URL, $JsonHeader) {
     }
 }
 
-export function httpPOST($URL, $data) {
-    return axios.post(baseURL + $URL, $data, JsonHeader );
+export function httpPOST($URL, $data, $JsonHeader) {
+    if ($JsonHeader) {
+        return axios.post(baseURL + $URL, $data, $JsonHeader );
+    } else {
+        return axios.post(baseURL + $URL, $data, JsonHeader );
+    }
+
 }

@@ -63,7 +63,7 @@
             <v-select
                 :items="['Male', 'Female']"
                 label="Gender"
-                v-model="selectedGender"
+                v-model="gender"
                 dense
                 outlined
             ></v-select>
@@ -140,7 +140,7 @@
           <v-col cols="3">
             <v-checkbox
                 label="Gestational DM"
-                v-model="gestationalDm"
+                v-model="gestational_dm"
                 dense
                 outlined
             ></v-checkbox>
@@ -419,7 +419,7 @@
           <v-col cols="12">
             <v-text-field
                 label="Source of referral"
-                v-model="source_of_referral"
+                v-model="referral"
                 outlined
                 dense
             ></v-text-field>
@@ -438,7 +438,7 @@
           <v-col cols="3">
             <v-checkbox
                 label="Non proliferative"
-                v-model="nonProliferative"
+                v-model="non_proliferative"
                 dense
                 outlined
             ></v-checkbox>
@@ -446,7 +446,7 @@
           <v-col cols="3">
             <v-checkbox
                 label="Proliferative DR"
-                v-model="proliferativeDR"
+                v-model="proliferative_dr"
                 dense
                 outlined
             ></v-checkbox>
@@ -508,7 +508,7 @@
           <v-col cols="3">
             <v-checkbox
                 label="Diabetic Food"
-                v-model="diabeticFood"
+                v-model="diabetic_food"
                 dense
                 outlined
             ></v-checkbox>
@@ -516,7 +516,7 @@
           <v-col cols="3">
             <v-checkbox
                 label="Glycemic Control"
-                v-model="glycemicControl"
+                v-model="glycemic_control"
                 dense
                 outlined
             ></v-checkbox>
@@ -524,7 +524,7 @@
           <v-col cols="3">
             <v-checkbox
                 label="Lipid Control"
-                v-model="lipidControl"
+                v-model="lipid_control"
                 dense
                 outlined
             ></v-checkbox>
@@ -574,36 +574,32 @@ export default {
       activePicker: null,
       date_of_birthday: null,
       menu: false,
-      gender: ['Male', 'Female', 'Other'],
-      maritalStatus: ['Single', 'Married', 'Divorced'],
-      smoker: ['Yes', 'No'],
-      drinker: ['Yes', 'No'],
-      educationQualification :['Yes', 'No'],
-      familyHistoryOfDM: ['Yes', 'No'],
-      gestationalDM: ['Yes', 'No'],
-      hypertension: ['Yes', 'No'],
-      smbg: ['Yes', 'No'],
-      ihd: ['Yes', 'No'],
-      cva: ['Yes', 'No'],
-      pvd: ['Yes', 'No'],
-      neuropathy: ['Yes', 'No'],
-      retinopathy: ['Yes', 'No'],
-      nonProliferative: ['Yes', 'No'],
-      proliferativeDR: ['Yes', 'No'],
-      maculopathy: ['Yes', 'No'],
-      insulin: ['Yes', 'No'],
-      amputation: ['Yes', 'No'],
-      ed: ['Yes', 'No'],
-      nafld: ['Yes', 'No'],
-      dermopathy: ['Yes', 'No'],
-      diabeticFood: ['Yes', 'No'],
-      glycemicControl: ['Yes', 'No'],
-      lipidControl: ['Yes', 'No'],
+      smoker: null,
+      drinker: null,
+      education_qualification: null,
+      familyHistoryOfDM: null,
+      gestationalDM: null,
+      hypertension: null,
+      smbg: null,
+      ihd: null,
+      cva: null,
+      pvd: null,
+      neuropathy: null,
+      retinopathy: null,
+      non_proliferative: null,
+      maculopathy: null,
+      insulin: null,
+      amputation: null,
+      ed: null,
+      nafld: null,
+      dermopathy: null,
+      diabeticFood: null,
+      glycemicControl: null,
+      lipidControl: null,
       full_name: null,
       dateOfBirthday: null,
       phone: null,
       occupation: null,
-      education_qualification: null,
       marital_status: null,
       address: null,
       family_history_of_dm: null,
@@ -627,25 +623,9 @@ export default {
       mid_parent_height: null,
       first_a1c: null,
       second_a1c: null,
-      source_of_referral: null,
-      selectedGender: null,
-      selectedCva: null,
-      selectedPvd: null,
-      selectedNeuropathy: null,
-      selectedRetinopathy: null,
-      selectedNonProliferative: null,
-      selectedProliferativeDR: null,
-      selectedMaculopathy: null,
-      selectedInsulin: null,
-      selectedAmputation: null,
-      selectedEd: null,
-      selectedNafld: null,
-      selectedDermopathy: null,
-      selectedSmoker: null,
-      selectedDrinker: null,
-      selectedSmbg: null,
-      selectedIhd: null,
-      selectedHypertension: null,
+      referral: null,
+      proliferative_dr: null,
+      gender: null,
       patient_uuid: this.$route.params.patient_uuid,
     }
   },
@@ -662,50 +642,52 @@ export default {
       httpPOST('api/v1/patients/store', {
         full_name: this.full_name,
         phone: this.phone,
-        gender: this.selectedGender,
+        gender: this.gender,
         birthday: this.date_of_birthday,
         occupation: this.occupation,
         address: this.address,
-        smoker: this.selectedSmoker,
-        drinker: this.selectedDrinker,
+        smoker: this.smoker,
+        drinker: this.drinker,
         family_dm: this.family_history_of_dm,
         gestational_dm: this.gestational_dm,
         weight_baby: this.weight_of_baby_at_birthday,
-        hypert: this.selectedHypertension,
+        hypertension: this.hypertension,
         family_ihd: this.family_history_of_ihd,
         parity: this.parity,
-        smbg: this.selectedSmbg,
-        ihd: this.selectedIhd,
-        cva: this.selectedCva,
-        pvd: this.selectedPvd,
-        neuro: this.selectedNeuropathy,
+        smbg: this.smbg,
+        ihd: this.ihd,
+        cva: this.cva,
+        pvd: this.pvd,
+        neuropathy: this.neuropathy,
         weight: this.weight,
         height: this.height,
-        wc: this.waist_circumference,
+        waist_circumference: this.waist_circumference,
         bmi: this.bmi,
         hip: this.hip,
-        retino: this.selectedRetinopathy,
-        nonpro: this.selectedNonProliferative,
-        prolif: this.selectedProliferativeDR,
-        macul: this.selectedMaculopathy,
-        insul: this.selectedInsulin,
-        amput: this.selectedAmputation,
-        ed: this.selectedEd,
-        nafld: this.selectedNafld,
-        dermo: this.selectedDermopathy,
-        dfoot: this.diabetic_food,
+        retinopathy: this.retinopathy,
+        non_proliferative: this.non_proliferative,
+        proliferative_dr: this.proliferative_dr,
+        maculopathy: this.maculopathy,
+        insulin: this.insulin,
+        amputation: this.amputation,
+        ed: this.ed,
+        nafld: this.nafld,
+        dermopathy: this.dermopathy,
+        diabetic_food: this.diabetic_food,
         date_insulin: this.date_of_insulin,
         duration_insulin: this.duration_of_insulin,
         duration_dm: this.duration_of_dm,
-        glycemic: this.glycemic_control,
-        lipid: this.lipid_control,
-        pressure: this.pressure_control,
-        f_height: this.father_height,
+        glycemic_control: this.glycemic_control,
+        lipid_control: this.lipid_control,
+        pressure_control: this.pressure_control,
+        father_height: this.father_height,
         m_height: this.mother_height,
-        mid_height: this.mid_parent_height,
-        fa1c: this.first_a1c,
-        sa2c: this.second_a1c,
-        referral: this.source_of_referral
+        mother_height: this.mid_parent_height,
+        first_a1c: this.first_a1c,
+        second_a1c: this.second_a1c,
+        referral: this.referral,
+        education_qualification: this.education_qualification,
+        marital_status: this.marital_status
       })
       .then(({data})=>{
         this.successAlert = true
