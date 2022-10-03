@@ -31,7 +31,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                      label="Date of Birthday"
+                      label="Date of Birth"
                       v-model="date_of_birthday"
                       prepend-icon="mdi-calendar"
                       readonly
