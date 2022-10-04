@@ -84,14 +84,29 @@
               <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
               <td>
                 <router-link
-                    :to="'/doctors/' + patient.uuid"
+                    v-if="receptionTeam"
+                    :to="'/reception/newvisit/' + patient.uuid"
                 >
-                  <v-btn dark>View</v-btn>
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
                 </router-link>
 
                 <router-link
-                    v-if="receptionTeam"
-                    :to="'/reception/newvisit/' + patient.uuid"
+                    v-if="doctorsTeam"
+                    :to="'/doctors/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="labTeam"
+                    :to="'/lab/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="pharmacyTeam"
+                    :to="'/pharmacy/' + patient.uuid"
                 >
                   <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
                 </router-link>
@@ -196,8 +211,12 @@ export default {
       }
     },
     humanReadableDateConverter (date) {
-      let newDate = new Date(date)
-      return newDate.toLocaleDateString('en-GB')
+      if (date) {
+        let newDate = new Date(date)
+        return newDate.toLocaleDateString('en-GB')
+      } else {
+        return null
+      }
     }
   }
 }
