@@ -67,6 +67,18 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-alert
+              type="success"
+              class="mt-10 mr-4"
+              v-if="successAlert"
+              dense
+          >New User Created Successfully!</v-alert>
+          <v-alert
+              type="error"
+              class="mt-10 mr-4"
+              v-if="errorAlert"
+              dense
+          >Save Data Failed!</v-alert>
           <v-btn
               dark
               text
@@ -93,7 +105,9 @@ export default {
       username: null,
       job_title: null,
       role: null,
-      password: null
+      password: null,
+      successAlert: false,
+      errorAlert: false
     }
   },
 
@@ -106,10 +120,15 @@ export default {
         role: this.role,
         password: this.password
       }).then(() => {
-        console.log('User Registerd Succesfully!')
+        this.backToHome()
       }).catch(({res}) => {
+        this.errorAlert = true
         console.log(res)
       })
+    },
+    backToHome() {
+      this.successAlert = true
+      setTimeout(() => {this.$router.push({name: 'home'})}, 2000)
     }
   }
 }
