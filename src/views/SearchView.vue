@@ -107,7 +107,7 @@
     </p>
 
     <v-row
-        v-if="toggles.showResultsPanel && receptionTeam"
+        v-if="toggles.showResultsPanel === true && receptionTeam === true"
         dense
     >
       <v-col>
