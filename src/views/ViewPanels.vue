@@ -10,45 +10,49 @@
         <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
           <ReceptionCompo
-              :full_name="this.full_name"
-              :id="this.id"
-              :last_visit="this.last_visit"
+              :date_of_insulin="this.date_of_insulin"
+              :DateOfInsulinMenu="this.DateOfInsulinMenu"
+              :activePicker="this.activePicker"
               :date_of_birthday="this.date_of_birthday"
-              :phone="this.phone"
-              :selectedGender="this.selectedGender"
-              :occupation="this.occupation"
+              :menu="this.menu"
+              :smoker="this.smoker"
+              :drinker="this.drinker"
               :education_qualification="this.education_qualification"
+              :familyHistoryOfDM="this.familyHistoryOfDM"
+              :gestationalDM="this.gestationalDM"
+              :hypertension="this.hypertension"
+              :smbg="this.smbg"
+              :ihd="this.ihd"
+              :cva="this.cva"
+              :pvd="this.pvd"
+              :neuropathy="this.neuropathy"
+              :retinopathy="this.retinopathy"
+              :non_proliferative="this.non_proliferative"
+              :maculopathy="this.maculopathy"
+              :insulin="this.insulin"
+              :amputation="this.amputation"
+              :ed="this.ed"
+              :nafld="this.nafld"
+              :dermopathy="this.dermopathy"
+              :diabeticFood="this.diabeticFood"
+              :glycemicControl="this.glycemicControl"
+              :lipidControl="this.lipidControl"
+              :full_name="this.full_name"
+              :phone="this.phone"
+              :occupation="this.occupation"
               :marital_status="this.marital_status"
               :address="this.address"
-              :selectedSmoker="this.selectedSmoker"
-              :selectedDrinker="this.selectedDrinker"
               :family_history_of_dm="this.family_history_of_dm"
               :gestational_dm="this.gestational_dm"
               :weight_of_baby_at_birthday="this.weight_of_baby_at_birthday"
-              :selectedHypertension="this.selectedHypertension"
               :family_history_of_ihd="this.family_history_of_ihd"
               :parity="this.parity"
-              :selectedSmbg="this.selectedSmbg"
-              :selectedIhd="this.selectedIhd"
-              :selectedCva="this.selectedCva"
-              :selectedPvd="this.selectedPvd"
-              :selectedNeuropathy="this.selectedNeuropathy"
               :weight="this.weight"
               :height="this.height"
               :waist_circumference="this.waist_circumference"
               :bmi="this.bmi"
               :hip="this.hip"
-              :selectedRetinopathy="this.selectedRetinopathy"
-              :selectedNonProliferative="this.selectedNonProliferative"
-              :selectedProliferativeDR="this.selectedProliferativeDR"
-              :selectedMaculopathy="this.selectedMaculopathy"
-              :selectedInsulin="this.selectedInsulin"
-              :selectedAmputation="this.selectedAmputation"
-              :selectedEd="this.selectedEd"
-              :selectedNafld="this.selectedNafld"
-              :selectedDermopathy="this.selectedDermopathy"
               :diabetic_food="this.diabetic_food"
-              :date_of_insulin="this.date_of_insulin"
               :duration_of_insulin="this.duration_of_insulin"
               :duration_of_dm="this.duration_of_dm"
               :glycemic_control="this.glycemic_control"
@@ -59,7 +63,9 @@
               :mid_parent_height="this.mid_parent_height"
               :first_a1c="this.first_a1c"
               :second_a1c="this.second_a1c"
-              :source_of_referral="this.source_of_referral"
+              :referral="this.referral"
+              :proliferative_dr="this.proliferative_dr"
+              :gender="this.gender"
           ></ReceptionCompo>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -205,45 +211,50 @@ export default {
     return {
       patient_uuid: this.$route.params.patient_uuid,
       autoOpenPanel: [0],
-      full_name: null,
       id: null,
-      last_visit: null,
+      date_of_insulin: null,
+      DateOfInsulinMenu: null,
+      activePicker: null,
+      menu: null,
+      smoker: null,
+      drinker: null,
+      education_qualification: null,
+      familyHistoryOfDM: null,
+      gestationalDM: null,
+      hypertension: null,
+      smbg: null,
+      ihd: null,
+      cva: null,
+      pvd: null,
+      neuropathy: null,
+      retinopathy: null,
+      non_proliferative: null,
+      maculopathy: null,
+      insulin: null,
+      amputation: null,
+      ed: null,
+      nafld: null,
+      dermopathy: null,
+      diabeticFood: null,
+      glycemicControl: null,
+      lipidControl: null,
+      full_name: null,
       date_of_birthday: null,
       phone: null,
-      selectedGender: null,
       occupation: null,
-      education_qualification: null,
       marital_status: null,
       address: null,
-      selectedSmoker: null,
-      selectedDrinker: null,
       family_history_of_dm: null,
       gestational_dm: null,
       weight_of_baby_at_birthday: null,
-      selectedHypertension: null,
       family_history_of_ihd: null,
       parity: null,
-      selectedSmbg: null,
-      selectedIhd: null,
-      selectedCva: null,
-      selectedPvd: null,
-      selectedNeuropathy: null,
       weight: null,
       height: null,
       waist_circumference: null,
       bmi: null,
       hip: null,
-      selectedRetinopathy: null,
-      selectedNonProliferative: null,
-      selectedProliferativeDR: null,
-      selectedMaculopathy: null,
-      selectedInsulin: null,
-      selectedAmputation: null,
-      selectedEd: null,
-      selectedNafld: null,
-      selectedDermopathy: null,
       diabetic_food: null,
-      date_of_insulin: null,
       duration_of_insulin: null,
       duration_of_dm: null,
       glycemic_control: null,
@@ -254,7 +265,9 @@ export default {
       mid_parent_height: null,
       first_a1c: null,
       second_a1c: null,
-      source_of_referral: null,
+      referral: null,
+      proliferative_dr: null,
+      gender: null,
 
       patient_number: null,
       blood_pressure_systolic: null,
@@ -367,56 +380,62 @@ export default {
   created() {
     httpGET('api/v1/patients/' + this.patient_uuid)
     .then(({data})=>{
+      this.date_of_insulin = data.patient_info.date_insulin
+      this.DateOfInsulinMenu = data.patient_info.DateOfInsulinMenu
+      this.activePicker = data.patient_info.activePicker
+      this.date_of_birthday = data.patient_info.birthday
+      this.menu = data.patient_info.menu
+      this.smoker = data.patient_info.smoker
+      this.drinker = data.patient_info.drinker
+      this.education_qualification = data.patient_info.education_qualification
+      this.familyHistoryOfDM = data.patient_info.familyHistoryOfDM
+      this.gestationalDM = data.patient_info.gestationalDM
+      this.hypertension = data.patient_info.hypertension
+      this.smbg = data.patient_info.smbg
+      this.ihd = data.patient_info.ihd
+      this.cva = data.patient_info.cva
+      this.pvd = data.patient_info.pvd
+      this.neuropathy = data.patient_info.neuropathy
+      this.retinopathy = data.patient_info.retinopathy
+      this.non_proliferative = data.patient_info.non_proliferative
+      this.maculopathy = data.patient_info.maculopathy
+      this.insulin = data.patient_info.insulin
+      this.amputation = data.patient_info.amputation
+      this.ed = data.patient_info.ed
+      this.nafld = data.patient_info.nafld
+      this.dermopathy = data.patient_info.dermopathy
+      this.diabeticFood = data.patient_info.diabeticFood
+      this.glycemicControl = data.patient_info.glycemicControl
+      this.lipidControl = data.patient_info.lipidControl
       this.full_name = data.patient_info.full_name
-      this.id = data.patient_info.id
-      this.last_visit = data.patient_info.last_visit
-      this.date_of_birthday = data.patient_info.birthdate
       this.phone = data.patient_info.phone
-      this.selectedGender = data.patient_info.gender
-      this.occupation = data.patient_latest_history.occupation
-      this.education_qualification = data.patient_latest_history.education_qualification
-      this.marital_status = data.patient_latest_history.marital_status
-      this.address = data.patient_latest_history.address
-      this.selectedSmoker = data.patient_latest_history.smoker
-      this.selectedDrinker = data.patient_latest_history.drinker
-      this.family_history_of_dm = data.patient_latest_history.family_dm
-      this.gestational_dm = data.patient_latest_history.gestational_dm
-      this.weight_of_baby_at_birthday = data.patient_latest_history.weight_baby
-      this.selectedHypertension = data.patient_latest_history.hypert
-      this.family_history_of_ihd = data.patient_latest_history.family_ihd
-      this.parity = data.patient_latest_history.parity
-      this.selectedSmbg = data.patient_latest_history.smbg
-      this.selectedIhd = data.patient_latest_history.ihd
-      this.selectedCva = data.patient_latest_history.cva
-      this.selectedPvd = data.patient_latest_history.pvd
-      this.selectedNeuropathy = data.patient_latest_history.neuro
-      this.weight = data.patient_latest_history.weight
-      this.height = data.patient_latest_history.height
-      this.waist_circumference = data.patient_latest_history.wc
-      this.bmi = data.patient_latest_history.bmi
-      this.hip = data.patient_latest_history.hip
-      this.selectedRetinopathy = data.patient_latest_history.retino
-      this.selectedNonProliferative = data.patient_latest_history.nonpro
-      this.selectedProliferativeDR = data.patient_latest_history.prolif
-      this.selectedMaculopathy = data.patient_latest_history.macul
-      this.selectedInsulin = data.patient_latest_history.insul
-      this.selectedAmputation = data.patient_latest_history.amput
-      this.selectedEd = data.patient_latest_history.ed
-      this.selectedNafld = data.patient_latest_history.nafld
-      this.selectedDermopathy = data.patient_latest_history.dermo
-      this.diabetic_food = data.patient_latest_history.dfoot
-      this.date_of_insulin = data.patient_latest_history.date_insulin
-      this.duration_of_insulin = data.patient_latest_history.duration_insulin
-      this.duration_of_dm = data.patient_latest_history.duration_dm
-      this.glycemic_control = data.patient_latest_history.glycemic
-      this.lipid_control = data.patient_latest_history.lipid
-      this.pressure_control = data.patient_latest_history.pressure
-      this.father_height = data.patient_latest_history.f_height
-      this.mother_height = data.patient_latest_history.m_height
-      this.mid_parent_height = data.patient_latest_history.mid_height
-      this.first_a1c = data.patient_latest_history.fa1c
-      this.second_a1c = data.patient_latest_history.sa2c
-      this.source_of_referral = data.patient_latest_history.referral
+      this.occupation = data.patient_info.occupation
+      this.marital_status = data.patient_info.marital_status
+      this.address = data.patient_info.address
+      this.family_history_of_dm = data.patient_info.family_dm
+      this.gestational_dm = data.patient_info.gestational_dm
+      this.weight_of_baby_at_birthday = data.patient_info.weight_baby
+      this.family_history_of_ihd = data.patient_info.family_ihd
+      this.parity = data.patient_info.parity
+      this.weight = data.patient_info.weight
+      this.height = data.patient_info.height
+      this.waist_circumference = data.patient_info.waist_circumference
+      this.bmi = data.patient_info.bmi
+      this.hip = data.patient_info.hip
+      this.diabetic_food = data.patient_info.diabetic_food
+      this.duration_of_insulin = data.patient_info.duration_insulin
+      this.duration_of_dm = data.patient_info.duration_dm
+      this.glycemic_control = data.patient_info.glycemic_control
+      this.lipid_control = data.patient_info.lipid_control
+      this.pressure_control = data.patient_info.pressure_control
+      this.father_height = data.patient_info.father_height
+      this.mother_height = data.patient_info.mother_height
+      this.mid_parent_height = data.patient_info.mid_parent_height
+      this.first_a1c = data.patient_info.first_a1c
+      this.second_a1c = data.patient_info.second_a1c
+      this.referral = data.patient_info.referral
+      this.proliferative_dr = data.patient_info.proliferative_dr
+      this.gender = data.patient_info.gender
 
       // START Doctor Info
       this.patient_number = data.patient_latest_history.patient_number
