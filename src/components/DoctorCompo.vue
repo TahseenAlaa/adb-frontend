@@ -157,9 +157,10 @@
             <tbody>
             <tr v-for="diagnosis in diagnosisList">
               <td>{{ diagnosis.symptoms }}</td>
-              <td>{{ diagnosis.is_confirmed }}</td>
+              <td v-if="diagnosis.is_confirmed === 1">Confirmed</td>
+              <td v-if="diagnosis.is_confirmed === 0">Suspected</td>
               <td>{{ humanReadableDateConverter(diagnosis.created_at) }}</td>
-              <td>{{ diagnosis.created_by }}</td>
+              <td>Dr. Name</td>
             </tr>
             </tbody>
           </template>
@@ -191,7 +192,7 @@
               <td v-if="parseInt(drug.status) === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
               <td v-if="parseInt(drug.status) === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
               <td>{{ humanReadableDateConverter(drug.created_at) }}</td>
-              <td>{{ drug.created_by }}</td>
+              <td>Dr. Name</td>
             </tr>
             </tbody>
           </template>
@@ -223,7 +224,7 @@
               <td v-if="parseInt(test.status) === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
               <td v-if="parseInt(test.status) === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
               <td>{{ humanReadableDateConverter(test.created_at) }}</td>
-              <td>{{ test.created_by }}</td>
+              <td>Dr. Name</td>
             </tr>
             </tbody>
           </template>

@@ -441,10 +441,10 @@ export default {
       this.patient_number = data.patient_latest_history.patient_number
       this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic
       this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
-      this.weight_by_doctor = data.patient_latest_history.weight_by_dr
-      this.height_by_doctor = data.patient_latest_history.height_by_dr
-      this.waist_circumference_by_doctor = data.patient_latest_history.waist_circumference_by_dr
-      this.bmi_by_doctor = data.patient_latest_history.bmi_by_dr
+      this.weight_by_doctor = data.patient_latest_history.weight
+      this.height_by_doctor = data.patient_latest_history.height
+      this.waist_circumference_by_doctor = data.patient_latest_history.waist_circumference
+      this.bmi_by_doctor = data.patient_latest_history.bmi
       this.age_at_visit = data.patient_latest_history.age_at_visit
       this.clinical_notes = data.patient_latest_history.clinical_notes
       this.next_visit = data.patient_latest_history.next_visit
