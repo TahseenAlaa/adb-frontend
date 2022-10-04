@@ -763,8 +763,12 @@ export default {
     },
 
     humanReadableDateConverter (date) {
-      let newDate = new Date(date)
-      return newDate.toLocaleDateString('en-GB')
+      if (date) {
+        let newDate = new Date(date)
+        return newDate.toLocaleDateString('en-GB')
+      } else {
+        return null
+      }
     }
   },
   name: "DoctorsView",

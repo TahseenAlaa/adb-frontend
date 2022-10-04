@@ -202,7 +202,7 @@
                 <tr v-for="drug in drugs">
                   <td>{{ drug.name }}</td>
                   <td>{{ drug.batch_no }}</td>
-                  <td>{{ drug.expire_date }}</td>
+                  <td>{{ humanReadableDateConverter(drug.expire_date) }}</td>
                   <td>{{ drug.treatment_type }}</td>
                   <td>{{ drug.dosage }}</td>
                   <td>{{ drug.quantity }}</td>
@@ -317,8 +317,12 @@ export default {
     },
 
     humanReadableDateConverter (date) {
-      let newDate = new Date(date)
-      return newDate.toLocaleDateString()
+      if (date) {
+        let newDate = new Date(date)
+        return newDate.toLocaleDateString('en-GB')
+      } else {
+        return null
+      }
     },
 
     backToHome() {

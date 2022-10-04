@@ -85,6 +85,13 @@
               <td>
                 <router-link
                     v-if="receptionTeam"
+                    :to="'/viewpanels/' + patient.uuid"
+                >
+                  <v-btn dark>View</v-btn>
+                </router-link>
+
+                <router-link
+                    v-if="receptionTeam"
                     :to="'/reception/newvisit/' + patient.uuid"
                 >
                   <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
