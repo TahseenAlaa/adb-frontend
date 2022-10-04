@@ -40,7 +40,7 @@
     <v-row dense>
       <v-col cols="4">
         <v-text-field
-            label="Birthday Date"
+            label="Date of Birth"
             v-model="date_of_birthday"
             outlined
             dense

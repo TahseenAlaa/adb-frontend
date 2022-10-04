@@ -84,7 +84,7 @@
               <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
               <td>
                 <router-link
-                    :to="'/viewpanels/' + patient.uuid"
+                    :to="'/doctors/' + patient.uuid"
                 >
                   <v-btn dark>View</v-btn>
                 </router-link>

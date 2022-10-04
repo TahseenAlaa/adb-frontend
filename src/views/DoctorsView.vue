@@ -8,7 +8,62 @@
     >
       <v-expansion-panel>
       <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
-        <v-expansion-panel-content>Content goes here</v-expansion-panel-content>
+        <v-expansion-panel-content>
+          <ReceptionCompo
+              :full_name="this.receptionView.full_name"
+              :id="this.receptionView.id"
+              :last_visit="this.receptionView.last_visit"
+              :date_of_birthday="this.receptionView.date_of_birthday"
+              :phone="this.receptionView.phone"
+              :selectedGender="this.receptionView.gender"
+              :occupation="this.receptionView.occupation"
+              :education_qualification="this.receptionView.education_qualification"
+              :marital_status="this.receptionView.marital_status"
+              :address="this.receptionView.address"
+              :selectedSmoker="this.receptionView.smoker"
+              :selectedDrinker="this.receptionView.drinker"
+              :family_history_of_dm="this.receptionView.family_history_of_dm"
+              :gestational_dm="this.receptionView.gestational_dm"
+              :weight_of_baby_at_birthday="this.receptionView.weight_of_baby_at_birthday"
+              :selectedHypertension="this.receptionView.hypertension"
+              :family_history_of_ihd="this.receptionView.family_history_of_ihd"
+              :parity="this.receptionView.parity"
+              :selectedSmbg="this.receptionView.smbg"
+              :selectedIhd="this.receptionView.ihd"
+              :selectedCva="this.receptionView.cva"
+              :selectedPvd="this.receptionView.pvd"
+              :selectedNeuropathy="this.receptionView.neuropathy"
+              :weight="this.receptionView.weight"
+              :height="this.receptionView.height"
+              :waist_circumference="this.receptionView.waist_circumference"
+              :bmi="this.receptionView.bmi"
+              :hip="this.receptionView.hip"
+              :selectedRetinopathy="this.receptionView.retinopathy"
+              :selectedNonProliferative="this.receptionView.non_proliferative"
+              :selectedProliferativeDR="this.receptionView.proliferative_dr"
+              :selectedMaculopathy="this.receptionView.maculopathy"
+              :selectedInsulin="this.receptionView.insulin"
+              :selectedAmputation="this.receptionView.amputation"
+              :selectedEd="this.receptionView.ed"
+              :selectedNafld="this.receptionView.nafld"
+              :selectedDermopathy="this.receptionView.dermopathy"
+              :diabetic_food="this.receptionView.diabetic_food"
+              :date_of_insulin="this.receptionView.date_of_insulin"
+              :duration_of_insulin="this.receptionView.duration_of_insulin"
+              :duration_of_dm="this.receptionView.duration_of_dm"
+              :glycemic_control="this.receptionView.glycemic_control"
+              :lipid_control="this.receptionView.lipid_control"
+              :pressure_control="this.receptionView.pressure_control"
+              :father_height="this.receptionView.father_height"
+              :mother_height="this.receptionView.mother_height"
+              :mid_parent_height="this.receptionView.mid_parent_height"
+              :first_a1c="this.receptionView.first_a1c"
+              :second_a1c="this.receptionView.second_a1c"
+              :source_of_referral="this.receptionView.source_of_referral"
+          >
+
+          </ReceptionCompo>
+        </v-expansion-panel-content>
       </v-expansion-panel>
 
       <v-expansion-panel>
@@ -38,6 +93,9 @@
                       v-model="age_at_visit"
                       outlined
                       dense
+                      readonly
+                      hint="ReadOnly"
+                      persistent-hint
                   ></v-text-field>
                 </v-col>
                 <v-col cols="4">
@@ -192,7 +250,10 @@
                                     cols="12"
                                 >
                                   <v-select
-                                      :items="['Suspected', 'Confirmed']"
+                                      :items="[
+                                          { text: 'Confirmed', value: '1' },
+                                          { text: 'Suspected', value: '0' }
+                                          ]"
                                       label="Suspected or Confirmed"
                                       v-model="is_confirmed"
                                       required
@@ -239,8 +300,9 @@
                     <tbody>
                     <tr v-for="item in diagnosis">
                       <td>{{ item.symptoms }}</td>
-                      <td>{{ item.is_confirmed }}</td>
-                      <td>{{ item.created_at }}</td>
+                      <td v-if="item.is_confirmed === '1'">Confirmed</td>
+                      <td v-if="item.is_confirmed === '0'">Suspected</td>
+                      <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                       <td>{{ item.created_by }}</td>
                     </tr>
                     </tbody>
@@ -481,6 +543,14 @@
           class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
       >
         <v-col>
+          <v-icon size="60">mdi-history</v-icon>
+          <h3 class="text-capitalize">PREVIOUS VISIT</h3>
+        </v-col>
+      </v-btn>
+      <v-btn
+          class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
+      >
+        <v-col>
           <v-icon size="60">mdi-camera</v-icon>
           <h3 class="text-capitalize">CAPTURE PHOTO</h3>
         </v-col>
@@ -502,18 +572,20 @@
         </v-col>
       </v-btn>
     </v-row>
-
   </v-container>
 
 </template>
 
 <script>
-import axios from "axios";
 import {httpGET, httpPOST} from "@/utils/utils";
+import ReceptionCompo from "@/components/ReceptionCompo";
 
 export default {
+  components: {ReceptionCompo},
   data() {
     return {
+      patient_uuid: this.$route.params.patient_uuid,
+      patient_history_uuid: null,
       diagnosisDialog: false,
       treatmentDialog: false,
       labDialog: false,
@@ -541,22 +613,73 @@ export default {
       treatments: [],
       test_name: null,
       test_notes: null,
-      tests: []
+      tests: [],
+      receptionView: {
+        date_of_birthday: null,
+        smoker: null,
+        drinker: null,
+        education_qualification: null,
+        gestationalDM: null,
+        hypertension: null,
+        smbg: null,
+        ihd: null,
+        cva: null,
+        pvd: null,
+        neuropathy: null,
+        retinopathy: null,
+        non_proliferative: null,
+        maculopathy: null,
+        insulin: null,
+        amputation: null,
+        ed: null,
+        nafld: null,
+        dermopathy: null,
+        glycemicControl: null,
+        lipidControl: null,
+        full_name: null,
+        phone: null,
+        occupation: null,
+        marital_status: null,
+        address: null,
+        family_history_of_dm: null,
+        gestational_dm: null,
+        weight_of_baby_at_birthday: null,
+        family_history_of_ihd: null,
+        parity: null,
+        weight: null,
+        height: null,
+        waist_circumference: null,
+        bmi: null,
+        hip: null,
+        diabetic_food: null,
+        duration_of_insulin: null,
+        duration_of_dm: null,
+        glycemic_control: null,
+        lipid_control: null,
+        pressure_control: null,
+        father_height: null,
+        mother_height: null,
+        mid_parent_height: null,
+        first_a1c: null,
+        second_a1c: null,
+        referral: null,
+        proliferative_dr: null,
+        gender: null,
+      }
     }
   },
 
   methods: {
     postPatientData(e) {
-      httpPOST('api/v1/patients/store-by-dr', {
-        patient_uuid: this.$route.params.patient_uuid,
+      httpPOST('api/v1/patients/updatePatientHistory/' + this.patient_history_uuid, {
         patient_number: this.patient_number,
         age_at_visit: this.age_at_visit,
         blood_pressure_systolic: this.blood_pressure_systolic,
         blood_pressure_diastolic: this.blood_pressure_diastolic,
-        weight_by_dr: this.weight,
-        height_by_dr: this.height,
-        waist_circumference_by_dr: this.waist_circumference,
-        bmi_by_dr: this.bmi,
+        weight: this.weight,
+        height: this.height,
+        waist_circumference: this.waist_circumference,
+        bmi: this.bmi,
         clinical_notes: this.clinical_notes,
         next_visit: this.date_of_next_visit,
       })
@@ -641,10 +764,87 @@ export default {
 
     humanReadableDateConverter (date) {
       let newDate = new Date(date)
-      return newDate.toLocaleDateString()
+      return newDate.toLocaleDateString('en-GB')
     }
   },
-  name: "DoctorsView"
+  name: "DoctorsView",
+  created() {
+    // START fetch patient history record
+    httpGET('api/v1/patients/show-patient-history/' + this.patient_uuid)
+        .then(({data}) => {
+          this.patient_history_uuid = data.data.uuid;
+          this.patient_number = data.data.patient_number;
+          this.age_at_visit = data.data.age_at_visit;
+          this.blood_pressure_systolic = data.data.blood_pressure_systolic;
+          this.blood_pressure_diastolic = data.data.blood_pressure_diastolic;
+          this.weight = data.data.weight;
+          this.height = data.data.height;
+          this.waist_circumference = data.data.waist_circumference;
+          this.bmi = data.data.bmi;
+        }).catch(({response:{data}})=>{
+      console.log(data)
+    });
+    // END fetch patient history record
+
+    // START fetch patient information
+    httpGET('api/v1/patients/show-patient-info/' + this.patient_uuid)
+        .then(({data}) => {
+          this.receptionView.id = data.data.id,
+          this.receptionView.last_visit = data.data.last_visit,
+          this.receptionView.date_of_birthday = data.data.date_of_birthday,
+          this.receptionView.smoker = data.data.smoker,
+          this.receptionView.drinker = data.data.drinker,
+          this.receptionView.education_qualification = data.data.education_qualification,
+          this.receptionView.gestationalDM = data.data.gestationalDM,
+          this.receptionView.hypertension = data.data.hypertension,
+          this.receptionView.smbg = data.data.smbg,
+          this.receptionView.ihd = data.data.ihd,
+          this.receptionView.cva = data.data.cva,
+          this.receptionView.pvd = data.data.pvd,
+          this.receptionView.neuropathy = data.data.neuropathy,
+          this.receptionView.retinopathy = data.data.retinopathy,
+          this.receptionView.non_proliferative = data.data.non_proliferative,
+          this.receptionView.maculopathy = data.data.maculopathy,
+          this.receptionView.insulin = data.data.insulin,
+          this.receptionView.amputation = data.data.amputation,
+          this.receptionView.ed = data.data.ed,
+          this.receptionView.nafld = data.data.nafld,
+          this.receptionView.dermopathy = data.data.dermopathy,
+          this.receptionView.glycemicControl = data.data.glycemicControl,
+          this.receptionView.lipidControl = data.data.lipidControl,
+          this.receptionView.full_name = data.data.full_name,
+          this.receptionView.dateOfBirthday = data.data.dateOfBirthday,
+          this.receptionView.phone = data.data.phone,
+          this.receptionView.occupation = data.data.occupation,
+          this.receptionView.marital_status = data.data.marital_status,
+          this.receptionView.address = data.data.address,
+          this.receptionView.family_history_of_dm = data.data.family_history_of_dm,
+          this.receptionView.gestational_dm = data.data.gestational_dm,
+          this.receptionView.weight_of_baby_at_birthday = data.data.weight_of_baby_at_birthday,
+          this.receptionView.family_history_of_ihd = data.data.family_history_of_ihd,
+          this.receptionView.parity = data.data.parity,
+          this.receptionView.weight = data.data.weight,
+          this.receptionView.height = data.data.height,
+          this.receptionView.waist_circumference = data.data.waist_circumference,
+          this.receptionView.bmi = data.data.bmi,
+          this.receptionView.hip = data.data.hip,
+          this.receptionView.diabetic_food = data.data.diabetic_food,
+          this.receptionView.duration_of_insulin = data.data.duration_of_insulin,
+          this.receptionView.duration_of_dm = data.data.duration_of_dm,
+          this.receptionView.glycemic_control = data.data.glycemic_control,
+          this.receptionView.lipid_control = data.data.lipid_control,
+          this.receptionView.pressure_control = data.data.pressure_control,
+          this.receptionView.father_height = data.data.father_height,
+          this.receptionView.mother_height = data.data.mother_height,
+          this.receptionView.mid_parent_height = data.data.mid_parent_height,
+          this.receptionView.first_a1c = data.data.first_a1c,
+          this.receptionView.second_a1c = data.data.second_a1c,
+          this.receptionView.referral = data.data.referral,
+          this.receptionView.proliferative_dr = data.data.proliferative_dr,
+          this.receptionView.gender = data.data.gender
+        })
+    // END fetch patient information
+  }
 }
 </script>
 
