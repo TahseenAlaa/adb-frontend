@@ -13,6 +13,7 @@
                       label="Full Name"
                       outlined
                       dense
+                      @keyup.enter="searchPatient()"
                       v-model="full_name"
                   ></v-text-field>
                 </v-col>
@@ -24,6 +25,7 @@
                       label="Phone"
                       outlined
                       dense
+                      @keyup.enter="searchPatient()"
                       v-model="phone"
                   ></v-text-field>
                 </v-col>
@@ -32,6 +34,7 @@
                       label="Patient ID"
                       outlined
                       dense
+                      @keyup.enter="searchPatient()"
                       v-model="patient_id"
                   ></v-text-field>
                 </v-col>

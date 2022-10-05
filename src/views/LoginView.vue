@@ -86,7 +86,7 @@ export default {
     async login(){
       this.errorMsg = null;
       this.showLoadingBtn = true;
-
+      this.ShowSignInBtn = true;
       httpPOST('api/v1/auth/login',{
         username: this.auth.username,
         password: this.auth.password
@@ -98,6 +98,7 @@ export default {
       }).catch(({response:{data}})=>{
         this.errorMsg = data.message;
         this.showLoadingBtn = false;
+        this.ShowSignInBtn = false
       })
     },
   },

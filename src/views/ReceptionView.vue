@@ -335,6 +335,10 @@
                 label="Duration of Insulin"
                 v-model="duration_of_insulin"
                 outlined
+                type="number"
+                min="0"
+                max="9999"
+                :rules="[numberRule]"
                 dense
             ></v-text-field>
           </v-col>

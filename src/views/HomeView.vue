@@ -12,9 +12,10 @@
         max-height="250"
         min-width="250"
         min-height="250"
+        @click="$router.push({path: '/search/reception'})"
     >
       <v-col>
-        <router-link to="/search/reception" class="text-decoration-none black--text">
+        <div class="text-decoration-none black--text">
         <v-img
             src="../assets/reception.svg"
             max-width="160"
@@ -23,14 +24,9 @@
         >
         </v-img>
                 <v-card-actions class="justify-center">
-                  <v-btn
-                      depressed
-                      class="mt-2"
-                  >
-                    <span>Reception & Statistics</span>
-                  </v-btn>
+                  <h3 class="text-uppercase text-center">Reception & Statistics</h3>
                 </v-card-actions>
-        </router-link>
+        </div>
       </v-col>
     </v-card>
 
@@ -51,12 +47,8 @@
         >
         </v-img>
         <v-card-actions class="justify-center">
-          <v-btn
-              depressed
-              class="mt-2"
-          >
-            <span>Doctors</span>
-          </v-btn>
+
+            <h3 class=" text-uppercase mt-2">Doctors</h3>
         </v-card-actions>
         </router-link>
       </v-col>
@@ -84,12 +76,8 @@
           >
           </v-img>
           <v-card-actions class="justify-center">
-            <v-btn
-                depressed
-                class="mt-2"
-            >
-              <span>Medical Lab</span>
-            </v-btn>
+            <h3 class=" text-uppercase mt-2">Medical Lab</h3>
+
           </v-card-actions>
           </router-link>
         </v-col>
@@ -112,12 +100,8 @@
           >
           </v-img>
           <v-card-actions class="justify-center">
-            <v-btn
-                depressed
-                class="mt-2"
-            >
-              <span>Pharmacy</span>
-            </v-btn>
+            <h3 class=" text-uppercase mt-2">Pharmacy</h3>
+
           </v-card-actions>
           </router-link>
         </v-col>
