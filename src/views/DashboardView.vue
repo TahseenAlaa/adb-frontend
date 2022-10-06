@@ -58,12 +58,15 @@
     <v-row class="mt-4">
       <v-col cols="8">
           <v-card min-width="100%" min-height="100%" class="white">
-            <v-card-subtitle>Number of visits this month</v-card-subtitle>
+            <v-card-subtitle><h2>Number of visits this month</h2></v-card-subtitle>
           </v-card>
       </v-col>
       <v-col cols="4">
         <v-card min-width="100%" min-height="100%" class="white">
-          <v-card-subtitle>Most used drugs this month</v-card-subtitle>
+          <v-card-subtitle><h2>Most used drugs this month</h2></v-card-subtitle>
+          <v-card-text>
+
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -71,12 +74,87 @@
     <v-row class="mt-4">
       <v-col cols="6">
         <v-card min-width="100%" min-height="100%" class="white">
-          <v-card-subtitle>Critical Storage drugs</v-card-subtitle>
+          <v-card-subtitle><h2>Critical Storage drugs</h2></v-card-subtitle>
+          <v-card-text>
+            <v-row>
+              <v-col cols="2">Storage Drug</v-col>
+              <v-col cols="8"></v-col>
+              <v-col cols="2">23 <v-icon size="20" color="red">mdi-arrow-bottom-right</v-icon></v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="2">Storage Drug</v-col>
+              <v-col cols="8"></v-col>
+              <v-col cols="2">50 <v-icon size="20" color="green">mdi-arrow-top-right</v-icon></v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="2">Storage Drug</v-col>
+              <v-col cols="8"></v-col>
+              <v-col cols="2">50 <v-icon size="20" color="green">mdi-arrow-top-right</v-icon></v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="2">Storage Drug</v-col>
+              <v-col cols="8"></v-col>
+              <v-col cols="2">23 <v-icon size="20" color="red">mdi-arrow-bottom-right</v-icon></v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="6">
         <v-card min-width="100%" min-height="100%" class="white">
-          <v-card-subtitle>Nearly expired drugs</v-card-subtitle>
+          <v-card-subtitle><h2>Nearly expired drugs</h2></v-card-subtitle>
+          <v-card-text>
+            <v-row>
+              <v-col cols="3">
+                <span>Paracetomol</span>
+              </v-col>
+              <v-col cols="9">
+                <v-progress-linear
+                    color="red darken-2"
+                    rounded
+                    value="50"
+                ></v-progress-linear>
+                <br>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="3">
+                <span>Saxenda</span>
+              </v-col>
+              <v-col cols="9">
+                <v-progress-linear
+                    color="indigo"
+                    rounded
+                    value="20"
+                ></v-progress-linear>
+                <br>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="3">
+                <span>Fuciden</span>
+              </v-col>
+              <v-col cols="9">
+                <v-progress-linear
+                    color="teal"
+                    rounded
+                    value="70"
+                ></v-progress-linear>
+                <br>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="3">
+                <span>Tramadol</span>
+              </v-col>
+              <v-col cols="9">
+                <v-progress-linear
+                    color="cyan darken-2"
+                    rounded
+                    value="30"
+                ></v-progress-linear>
+              </v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -88,6 +166,14 @@
 
 export default {
   name: "Dashboard",
+  date() {
+    return {
+      value1: 30,
+      value2: 80,
+      value3: 20,
+      value4: 10,
+    }
+  },
 }
 </script>
 
