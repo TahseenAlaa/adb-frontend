@@ -25,6 +25,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ReceptionView.vue')
   },
   {
+    path: '/antho/:patient_uuid',
+    name: 'antho',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AnthoView.vue')
+  },
+  {
     path: '/reception/newvisit/:patient_uuid',
     name: 'patientnewvisit',
     component: () => import(/* webpackChunkName: "about" */ '../views/ReceptionNewVisitView.vue')

@@ -101,6 +101,13 @@
                 </router-link>
 
                 <router-link
+                    v-if="anthoTeam"
+                    :to="'/antho/' + patient.uuid"
+                >
+                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+                </router-link>
+
+                <router-link
                     v-if="doctorsTeam"
                     :to="'/doctors/' + patient.uuid"
                 >
@@ -165,6 +172,7 @@ export default {
       patient_id: null,
       search_result: [],
       receptionTeam: null,
+      anthoTeam: null,
       doctorsTeam: null,
       labTeam: null,
       pharmacyTeam: null,
@@ -212,6 +220,8 @@ export default {
       }
       if (this.department === 'reception') {
         this.receptionTeam = true;
+      } else if (this.department === 'antho') {
+        this.anthoTeam = true;
       } else if (this.department === 'doctors') {
         this.doctorsTeam = true
       } else if (this.department === 'lab') {
