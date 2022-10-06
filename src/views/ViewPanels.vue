@@ -448,7 +448,7 @@ export default {
       this.age_at_visit = data.patient_latest_history.age_at_visit
       this.clinical_notes = data.patient_latest_history.clinical_notes
       this.next_visit = data.patient_latest_history.next_visit
-      this.created_by_dr = data.doctorName.full_name
+      this.created_by = data.doctorName.full_name
       // END Doctor Info
 
       // START Diagnosis Info
