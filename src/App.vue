@@ -1,91 +1,110 @@
 <template>
   <v-app>
-    <v-app-bar
-      color="deep-purple darken-2"
-      dark
-      max-height="64px"
+<!--    START Navbar -->
+    <v-card
+        v-if="isAuthenticated"
+        class="mx-auto overflow-hidden fill-height rounded-0"
+        style="min-width: 100%;"
     >
-      <v-container class="fill-height">
-        <v-row align="center" :class="isAuthenticated? 'fill-height d-flex justify-space-between' : 'justify-center'">
-          <div>
-            <router-link
-                v-if="isAuthenticated"
-                to="/dashboard" class="text-decoration-none white--text">
-              <v-icon size="30" class="px-2">mdi-monitor-dashboard</v-icon>
-              <span>Dashboard</span>
-            </router-link>
-          </div>
-          <div>
-            <router-link to="/" class="text-decoration-none white--text"><h2>Alhasan Diabetes Center</h2></router-link>
-          </div>
+      <v-app-bar
+          color="deep-purple"
+          dark
+      >
+        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
+        <v-spacer></v-spacer>
+        <v-toolbar-title
+            @click="$router.push({name: 'home'})"
+            style="cursor: pointer"
+        >
+          <h2>Alhasan Diabetes Center</h2></v-toolbar-title>
+        <v-spacer></v-spacer>
 
-
-          <div
-          v-if="isAuthenticated"
-          >
-            <v-row>
-              <v-icon size="40">mdi-account-circle</v-icon>
+        <v-icon
+            v-if="isAuthenticated"
+            size="52"
+            class="d-inline-block"
+        >
+          mdi-account-tie
+        </v-icon>
+        <div
+        v-if="isAuthenticated"
+        >
+            <div class="d-inline-block pt-6">
               <h4>{{ getUser['full_name'] }}</h4>
+              <p>{{ getUser['job_title'] }}</p>
+            </div>
+        </div>
 
-              <span class="text-center">
-                <v-menu offset-y>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                        color="deep-purple darken-2"
-                        dark
-                        depressed
-                        v-bind="attrs"
-                        v-on="on"
-                        class="px-0 mx-0"
-                    >
-                      <v-col class="d-flex flex-column">
-                        <v-icon size="10" dense>mdi-circle</v-icon>
-                        <v-icon size="10" dense>mdi-circle</v-icon>
-                        <v-icon size="10" dense>mdi-circle</v-icon>
-                      </v-col>
-                    </v-btn>
-                  </template>
-                  <v-list>
-                    <v-list-item link dense>
-                       <router-link to="/signup" class="text-decoration-none black--text">
-                          <v-list-item-title>Signup</v-list-item-title>
-                       </router-link>
-                      </v-list-item>
-                    <v-list-item link dense @click="logout">
-                      <v-list-item-title>Logout</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </span>
+      </v-app-bar>
+<!--      Start Content Here-->
+      <v-main>
+        <router-view />
+      </v-main>
 
-            </v-row>
-          </div>
-        </v-row>
-      </v-container>
+      <v-footer fixed padless>
+        <v-container class="fill-height">
+          <v-divider></v-divider>
+          <v-row align="center" justify="center" class="fill-height">
+            <p>@ 2022 Alhasan Diabetes Center. All Right Reserved.</p>
+            <v-spacer></v-spacer>
+            <div class="">
+              <span class="px-2">Contact US</span>
+              <span class="px-2">FAQ</span>
+              <span class="px-2">Terms</span>
+              <span class="px-2">Privacy</span>
+            </div>
+          </v-row>
+        </v-container>
+      </v-footer>
+<!--      END Content Here-->
+      <v-navigation-drawer
+          v-model="drawer"
+          absolute
+          temporary
+      >
+        <v-list
+            nav
+            dense
+        >
+          <v-list-item-group
+              v-model="group"
+              active-class="deep-purple--text text--accent-4"
+          >
+            <v-list-item @click="$router.push({name: 'home'})">
+              <v-list-item-icon>
+                <v-icon size="30">mdi-home</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Home</v-list-item-title>
+            </v-list-item>
 
-    </v-app-bar>
+            <v-list-item @click="$router.push({name: 'signup'})">
+              <v-list-item-icon>
+                <v-icon size="30">mdi-account-plus</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Signup</v-list-item-title>
+            </v-list-item>
 
+            <v-list-item
+                @click="this.logout"
+            >
+              <v-list-item-icon>
+                <v-icon size="30">mdi-logout</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+
+      </v-navigation-drawer>
+    </v-card>
+<!--    END Navbar -->
+
+<!--    START Login Authentication-->
     <v-main>
       <Login v-if="!isAuthenticated"/>
-      <router-view v-if="isAuthenticated"/>
     </v-main>
-
-    <v-footer>
-      <v-container class="fill-height">
-        <v-divider></v-divider>
-        <v-row align="center" justify="center" class="fill-height">
-          <p>@ 2022 Alhasan Diabetes Center. All Right Reserved.</p>
-          <v-spacer></v-spacer>
-          <div class="">
-            <span class="px-2">Contact US</span>
-            <span class="px-2">FAQ</span>
-            <span class="px-2">Terms</span>
-            <span class="px-2">Privacy</span>
-          </div>
-        </v-row>
-      </v-container>
-    </v-footer>
+<!--    END Login Authentication-->
   </v-app>
 </template>
 
@@ -125,7 +144,8 @@ export default {
     }
   },
   data: () => ({
-    //
+    drawer: false,
+    group: null,
   }),
 };
 </script>

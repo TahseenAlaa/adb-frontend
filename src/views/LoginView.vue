@@ -1,6 +1,18 @@
 <template>
   <v-app id="inspire">
-    <v-main class="mainbg">
+    <v-card
+        class="mx-auto overflow-hidden fill-height rounded-0"
+        style="min-width: 100%;"
+    >
+      <v-app-bar
+          color="deep-purple"
+          dark
+      >
+
+        <v-spacer></v-spacer>
+        <v-toolbar-title><h2>Alhasan Diabetes Center</h2></v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-app-bar>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
 
@@ -55,7 +67,9 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-main>
+      <v-main class="mainbg">
+      </v-main>
+    </v-card>
   </v-app>
 </template>
 
