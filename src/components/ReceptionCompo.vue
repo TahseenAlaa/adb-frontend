@@ -5,7 +5,7 @@
     <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
     <v-row dense>
-      <v-col cols="5">
+      <v-col cols="12">
         <v-text-field
             label="Full Name"
             v-model="full_name"
@@ -13,40 +13,25 @@
             dense
             readonly
             hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field
-            label="ID"
-            v-model="id"
-            outlined
-            dense
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="5">
-        <v-text-field
-            label="Last Visit"
-            v-model="last_visit"
-            outlined
-            dense
-            readonly
-            hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
     </v-row>
 
     <v-row dense>
       <v-col cols="4">
-        <v-text-field
-            label="Date of Birth"
-            v-model="date_of_birthday"
-            outlined
-            dense
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
+        <div>
+              <v-text-field
+                  label="Date of Birth"
+                  v-model="date_of_birthday"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  dense
+                  hint="ReadOnly"
+                  persistent-hint
+                  outlined
+              ></v-text-field>
+        </div>
       </v-col>
       <v-col cols="4">
         <v-text-field
@@ -56,17 +41,20 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
-        <v-text-field
+        <v-select
+            :items="['Male', 'Female']"
             label="Gender"
-            v-model="selectedGender"
+            v-model="gender"
             dense
-            outlined
             readonly
             hint="ReadOnly"
-        ></v-text-field>
+            persistent-hint
+            outlined
+        ></v-select>
       </v-col>
     </v-row>
 
@@ -79,27 +67,31 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
         <v-text-field
-            label="Education Qualification"
-            v-model="education_qualification"
-            dense
+            label="Weight of Baby at Birthday"
+            v-model="weight_of_baby_at_birthday"
             outlined
+            dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
-        <v-text-field
+        <v-select
+            :items="['Single', 'Married', 'Divorced']"
             label="Marital Status"
             v-model="marital_status"
             dense
-            outlined
             readonly
             hint="ReadOnly"
-        ></v-text-field>
+            persistent-hint
+            outlined
+        ></v-select>
       </v-col>
     </v-row>
 
@@ -112,72 +104,7 @@
             dense
             readonly
             hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Smoker"
-            v-model="selectedSmoker"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Drinker"
-            v-model="selectedDrinker"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col cols="4">
-        <v-text-field
-            label="Family History of DM"
-            v-model="family_history_of_dm"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Gestational DM"
-            v-model="gestational_dm"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Weight of Baby at Birthday"
-            v-model="weight_of_baby_at_birthday"
-            outlined
-            dense
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col cols="4">
-        <v-text-field
-            label="Hypertension"
-            v-model="selectedHypertension"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
@@ -188,6 +115,7 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
@@ -198,63 +126,147 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
     </v-row>
 
-    <v-row dense>
-      <v-col cols="4">
-        <v-text-field
+    <v-row dense
+    >
+      <v-col cols="3">
+        <v-checkbox
+            label="Family History of DM"
+            v-model="family_history_of_dm"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+
+      <v-col cols="3">
+        <v-checkbox
+            label="Gestational DM"
+            v-model="gestational_dm"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+
+      <v-col cols="3">
+        <v-checkbox
+            label="Education Qualification"
+            v-model="education_qualification"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+
+      <v-col cols="3">
+        <v-checkbox
+            label="Hypertension"
+            v-model="hypertension"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+    </v-row>
+    <v-row dense
+    >
+      <v-col cols="3">
+        <v-checkbox
+            label="Smoker"
+            v-model="smoker"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+
+      <v-col cols="3">
+        <v-checkbox
+            label="Drinker"
+            v-model="drinker"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+
+      <v-col cols="3">
+        <v-checkbox
             label="SMBG"
-            v-model="selectedSmbg"
+            v-model="smbg"
             dense
-            outlined
             readonly
             hint="ReadOnly"
-        ></v-text-field>
+            persistent-hint
+            outlined
+        ></v-checkbox>
       </v-col>
-      <v-col cols="4">
-        <v-text-field
+
+      <v-col cols="3">
+        <v-checkbox
             label="IHD"
-            v-model="selectedIhd"
+            v-model="ihd"
             dense
-            outlined
             readonly
             hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="CVA"
-            v-model="selectedCva"
-            dense
+            persistent-hint
             outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
+        ></v-checkbox>
       </v-col>
     </v-row>
-
-    <v-row dense>
-      <v-col cols="6">
-        <v-text-field
-            label="PVD"
-            v-model="selectedPvd"
+    <v-row dense
+    >
+      <v-col cols="3">
+        <v-checkbox
+            label="CVA"
+            v-model="cva"
             dense
-            outlined
             readonly
             hint="ReadOnly"
-        ></v-text-field>
+            persistent-hint
+            outlined
+        ></v-checkbox>
       </v-col>
-      <v-col cols="6">
-        <v-text-field
-            label="Neuropathy"
-            v-model="selectedNeuropathy"
+
+      <v-col cols="3">
+        <v-checkbox
+            label="PVD"
+            v-model="pvd"
             dense
-            outlined
             readonly
             hint="ReadOnly"
-        ></v-text-field>
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+
+      <v-col cols="3">
+        <v-checkbox
+            label="Neuropathy"
+            v-model="neuropathy"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
       </v-col>
     </v-row>
 
@@ -262,22 +274,24 @@
     <v-row dense>
       <v-col cols="4">
         <v-text-field
-            label="Weight"
+            label="Weight in kg"
             v-model="weight"
             outlined
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
         <v-text-field
-            label="Height"
+            label="Height in cm"
             v-model="height"
             outlined
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
@@ -288,6 +302,7 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
     </v-row>
@@ -298,10 +313,13 @@
             label="BMI"
             v-model="bmi"
             outlined
-            dense
             readonly
             hint="ReadOnly"
+            persistent-hint
+            dense
         ></v-text-field>
+      </v-col>
+      <v-col cols="4">
       </v-col>
       <v-col cols="4">
         <v-text-field
@@ -311,138 +329,7 @@
             dense
             readonly
             hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col cols="4">
-        <v-text-field
-            label="Retinopathy"
-            v-model="selectedRetinopathy"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Non proliferative"
-            v-model="selectedNonProliferative"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Proliferative DR"
-            v-model="selectedProliferativeDR"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col cols="4">
-        <v-text-field
-            label="Maculopathy"
-            v-model="selectedMaculopathy"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Insulin"
-            v-model="selectedInsulin"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Amputation"
-            v-model="selectedAmputation"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col cols="4">
-        <v-text-field
-            label="ED"
-            v-model="selectedEd"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="NAFLD"
-            v-model="selectedNafld"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Dermopathy"
-            v-model="selectedDermopathy"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-
-    <v-row dense>
-      <v-col cols="4">
-        <v-text-field
-            label="Diabetic Food"
-            v-model="diabetic_food"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Date of Insulin"
-            v-model="date_of_insulin"
-            outlined
-            dense
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-text-field
-            label="Duration of Insulin"
-            v-model="duration_of_insulin"
-            outlined
-            dense
-            readonly
-            hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
     </v-row>
@@ -456,27 +343,45 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="4">
-        <v-text-field
-            label="Glycemic Control"
-            v-model="glycemic_control"
-            dense
-            outlined
-            readonly
-            hint="ReadOnly"
-        ></v-text-field>
+        <div>
+              <v-text-field
+                  label="Date of Insulin"
+                  v-model="date_of_insulin"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  outlined
+                  dense
+                  hint="ReadOnly"
+                  persistent-hint
+              ></v-text-field>
+        </div>
       </v-col>
       <v-col cols="4">
         <v-text-field
-            label="Lipid Control"
-            v-model="lipid_control"
-            dense
+            label="Duration of Insulin"
+            v-model="duration_of_insulin"
             outlined
+            dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row dense>
+      <v-col cols="4">
+
+      </v-col>
+      <v-col cols="4">
+
+      </v-col>
+      <v-col cols="4">
+
       </v-col>
     </v-row>
 
@@ -489,6 +394,7 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="2">
@@ -499,6 +405,8 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
+            :rules="[numberRule]"
         ></v-text-field>
       </v-col>
       <v-col cols="2">
@@ -509,6 +417,8 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
+            :rules="[numberRule]"
         ></v-text-field>
       </v-col>
       <v-col cols="2">
@@ -519,7 +429,10 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
+      </v-col>
+      <v-col cols="2">
       </v-col>
     </v-row>
 
@@ -532,6 +445,7 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
       <v-col cols="6">
@@ -542,6 +456,7 @@
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
       </v-col>
     </v-row>
@@ -549,12 +464,154 @@
       <v-col cols="12">
         <v-text-field
             label="Source of referral"
-            v-model="source_of_referral"
+            v-model="referral"
             outlined
             dense
             readonly
             hint="ReadOnly"
+            persistent-hint
         ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row dense>
+      <v-col cols="3">
+        <v-checkbox
+            label="Retinopathy"
+            v-model="retinopathy"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="Non proliferative"
+            v-model="non_proliferative"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="Proliferative DR"
+            v-model="proliferative_dr"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="Maculopathy"
+            v-model="maculopathy"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+    </v-row>
+
+    <v-row dense>
+      <v-col cols="3">
+        <v-checkbox
+            label="Insulin"
+            v-model="insulin"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="Amputation"
+            v-model="amputation"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="ED"
+            v-model="ed"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="NAFLD"
+            v-model="nafld"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+    </v-row>
+
+    <v-row dense>
+      <v-col cols="3">
+        <v-checkbox
+            label="Dermopathy"
+            v-model="dermopathy"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="Diabetic Food"
+            v-model="diabetic_food"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="Glycemic Control"
+            v-model="glycemic_control"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="3">
+        <v-checkbox
+            label="Lipid Control"
+            v-model="lipid_control"
+            dense
+            readonly
+            hint="ReadOnly"
+            persistent-hint
+            outlined
+        ></v-checkbox>
       </v-col>
     </v-row>
   </v-card>
@@ -563,45 +620,49 @@
 <script>
 export default {
   props: [
-      'full_name',
-      'id',
-      'last_visit',
+      'date_of_insulin',
+      'DateOfInsulinMenu',
+      'activePicker',
       'date_of_birthday',
-      'phone',
-      'selectedGender',
-      'occupation',
+      'menu',
+      'smoker',
+      'drinker',
       'education_qualification',
+      'familyHistoryOfDM',
+      'gestationalDM',
+      'hypertension',
+      'smbg',
+      'ihd',
+      'cva',
+      'pvd',
+      'neuropathy',
+      'retinopathy',
+      'non_proliferative',
+      'maculopathy',
+      'insulin',
+      'amputation',
+      'ed',
+      'nafld',
+      'dermopathy',
+      'diabeticFood',
+      'glycemicControl',
+      'lipidControl',
+      'full_name',
+      'phone',
+      'occupation',
       'marital_status',
       'address',
-      'selectedSmoker',
-      'selectedDrinker',
       'family_history_of_dm',
       'gestational_dm',
       'weight_of_baby_at_birthday',
-      'selectedHypertension',
       'family_history_of_ihd',
       'parity',
-      'selectedSmbg',
-      'selectedIhd',
-      'selectedCva',
-      'selectedPvd',
-      'selectedNeuropathy',
       'weight',
       'height',
       'waist_circumference',
       'bmi',
       'hip',
-      'selectedRetinopathy',
-      'selectedNonProliferative',
-      'selectedProliferativeDR',
-      'selectedMaculopathy',
-      'selectedInsulin',
-      'selectedAmputation',
-      'selectedEd',
-      'selectedNafld',
-      'selectedDermopathy',
       'diabetic_food',
-      'date_of_insulin',
       'duration_of_insulin',
       'duration_of_dm',
       'glycemic_control',
@@ -612,7 +673,9 @@ export default {
       'mid_parent_height',
       'first_a1c',
       'second_a1c',
-      'source_of_referral',
+      'referral',
+      'proliferative_dr',
+      'gender',
   ],
   name: "ReceptionCompo"
 }
