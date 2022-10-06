@@ -2,8 +2,8 @@ import axios, {Axios} from "axios";
 
 let baseURL;
 
-if (process.env.NODE_ENV === 'production') {
-    baseURL = "https://prs.esite-lab.com/"
+if (process.env.NODE_ENV !== 'production') {
+    baseURL = "https://prs.esite-lab.com/api/"
 } else {
     baseURL = "http://127.0.0.1:8000/"
 }
