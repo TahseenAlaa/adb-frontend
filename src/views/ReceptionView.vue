@@ -81,12 +81,12 @@
             ></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field
-                label="Weight of Baby at Birthday"
+            <v-checkbox
+                label="Weight at birth > 4.5kg"
                 v-model="weight_of_baby_at_birthday"
-                outlined
                 dense
-            ></v-text-field>
+                outlined
+            ></v-checkbox>
           </v-col>
           <v-col cols="4">
             <v-select
@@ -609,7 +609,7 @@ export default {
       address: null,
       family_history_of_dm: null,
       gestational_dm: null,
-      weight_of_baby_at_birthday: null,
+      weight_of_baby_at_birthday: false,
       family_history_of_ihd: null,
       parity: null,
       weight: null,
