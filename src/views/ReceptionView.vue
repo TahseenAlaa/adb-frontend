@@ -60,13 +60,14 @@
             ></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-select
-                :items="['Male', 'Female']"
-                label="Gender"
+            <v-radio-group
                 v-model="gender"
                 dense
-                outlined
-            ></v-select>
+                row
+            >
+              <v-radio value="Male" label="Male"></v-radio>
+              <v-radio value="Female" label="Female"></v-radio>
+            </v-radio-group>
           </v-col>
         </v-row>
 
