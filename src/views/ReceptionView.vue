@@ -89,7 +89,7 @@
           </v-col>
           <v-col cols="4">
             <v-select
-                :items="['Single', 'Married', 'Divorced']"
+                :items="['Single', 'Married', 'Divorced', 'Widowed']"
                 label="Marital Status"
                 v-model="marital_status"
                 dense
