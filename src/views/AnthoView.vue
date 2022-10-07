@@ -165,17 +165,20 @@ export default {
 
   methods: {
     calcMidParentAndBMI() {
-      // Calc Mid-Parent
+      // Calc BMI
       if (this.weight && this.height) {
         let weight = parseInt(this.weight)
-        let height = parseInt(this.height/100)
-        this.bmi = weight / (height ^ 2)
+        let height = parseInt(this.height / 100)
+        this.bmi = this.roundToTwo(weight / (height ^ 2))
       }
 
-      // Calc BMI
-      if (this.father_height && this.mother_height) {
-        this.mid_parent_height = null
-        this.mid_parent_height = (this.father_height + this.mother_height) / 2
+      // Calc Mid-Parent
+      if (this.father_height && this.mother_height && this.gender) {
+        if (this.gender === 'Male') {
+          this.mid_parent_height = parseInt(((parseInt(this.mother_height) + 13) + parseInt(this.father_height)) / 2)
+        } else if (this.gender === 'Female') {
+          this.mid_parent_height = parseInt(((parseInt(this.father_height) - 13) + parseInt(this.mother_height)) / 2)
+        }
       }
     },
     roundToTwo(num) {

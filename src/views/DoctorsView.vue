@@ -78,7 +78,7 @@
               <v-row dense>
                 <v-col cols="12">
                   <v-text-field
-                      label="Patient Number"
+                      label="Old patient File Number"
                       v-model="patient_number"
                       outlined
                       dense
