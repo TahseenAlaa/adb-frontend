@@ -175,10 +175,18 @@
           </v-row>
 
         <v-row dense>
-          <v-col cols="12">
+          <v-col cols="10">
             <v-text-field
                 label="Source of referral"
                 v-model="referral"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
+          <v-col cols="2">
+            <v-text-field
+                label="Old Patient File Number"
+                v-model="patient_number"
                 outlined
                 dense
             ></v-text-field>
@@ -511,6 +519,7 @@ export default {
       first_a1c: null,
       referral: null,
       proliferative_dr: null,
+      patient_number: null,
       patient_uuid: this.$route.params.patient_uuid,
     }
   },

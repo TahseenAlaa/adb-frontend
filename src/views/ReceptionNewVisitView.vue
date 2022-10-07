@@ -1,16 +1,17 @@
 <template>
 
   <v-container class="mb-16">
-    <v-form>
+    <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
         <v-card-title>Reception & Statistics</v-card-title>
         <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
         <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
+<!--        TODO Fetch patient number value from the main profile and can be edited-->
         <v-row dense>
           <v-col cols="12">
             <v-text-field
-                label="Patient Number"
+                label="Old Patient File Number"
                 v-model="patient_number"
                 outlined
                 dense
@@ -36,6 +37,7 @@
                 v-model="blood_pressure_systolic"
                 outlined
                 dense
+                :rules="[bloodPressureRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="4">
@@ -44,55 +46,8 @@
                 v-model="blood_pressure_diastolic"
                 outlined
                 dense
+                :rules="[bloodPressureRule]"
             ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="Weight"
-                v-model="weight"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Height"
-                v-model="height"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Waist Circumference"
-                v-model="waist_circumference"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="BMI"
-                v-model="bmi"
-                outlined
-                dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-btn
-                dark
-                class="deep-purple"
-                @click="calcBMI"
-            >Calculate</v-btn>
           </v-col>
         </v-row>
       </v-card>
@@ -133,6 +88,7 @@ export default {
   name: "ReceptionNewVisitView",
   data() {
     return {
+      valid: false,
       successAlert: false,
       errorAlert: false,
       activePicker: null,
@@ -154,18 +110,10 @@ export default {
   },
 
   methods: {
-    numberRule: v  => {
+    bloodPressureRule: v  => {
       if (!v.trim()) return true;
-      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
-      return 'Number has to be between 0 and 999';
-    },
-
-    calcBMI() {
-      if (this.weight && this.height) {
-        let weight = parseInt(this.weight)
-        let height = parseInt(this.height/100)
-        this.bmi = weight / (height ^ 2)
-      }
+      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 300) return true;
+      return 'Number has to be between 0 and 300';
     },
     postNewVisitData(e) {
       httpPOST('api/v1/patients/store/newvisit', {
