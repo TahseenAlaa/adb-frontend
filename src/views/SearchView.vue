@@ -1,6 +1,6 @@
 <template>
 
-  <v-container>
+  <v-container class="mb-16">
     <v-form>
       <v-card class="px-6">
         <v-card-title>Search</v-card-title>

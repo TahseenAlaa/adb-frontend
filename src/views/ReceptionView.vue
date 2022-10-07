@@ -1,6 +1,6 @@
 <template>
 
-  <v-container>
+  <v-container class="mb-16">
     <v-form>
       <v-card class="px-6">
         <v-card-title>Reception & Statistics</v-card-title>
@@ -8,7 +8,7 @@
         <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
         <v-row dense>
-          <v-col cols="12">
+          <v-col cols="4">
             <v-text-field
                 label="Full Name"
                 v-model="full_name"
@@ -16,9 +16,6 @@
                 dense
             ></v-text-field>
           </v-col>
-        </v-row>
-
-        <v-row dense>
           <v-col cols="4">
             <div>
               <v-menu
@@ -57,37 +54,17 @@
                 v-model="phone"
                 outlined
                 dense
+                counter="11"
+                :rules="[phoneRules]"
             ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-radio-group
-                v-model="gender"
-                dense
-                row
-            >
-              <v-radio value="Male" label="Male"></v-radio>
-              <v-radio value="Female" label="Female"></v-radio>
-            </v-radio-group>
           </v-col>
         </v-row>
 
         <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="Occupation"
-                v-model="occupation"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-checkbox
-                label="Weight at birth > 4.5kg"
-                v-model="weight_of_baby_at_birthday"
-                dense
-                outlined
-            ></v-checkbox>
-          </v-col>
+
+        </v-row>
+
+        <v-row dense>
           <v-col cols="4">
             <v-select
                 :items="['Single', 'Married', 'Divorced', 'Widowed']"
@@ -97,9 +74,14 @@
                 outlined
             ></v-select>
           </v-col>
-        </v-row>
-
-        <v-row dense>
+          <v-col cols="4">
+            <v-text-field
+                label="Occupation"
+                v-model="occupation"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
           <v-col cols="4">
             <v-text-field
                 label="Address"
@@ -108,27 +90,118 @@
                 dense
             ></v-text-field>
           </v-col>
-          <v-col cols="4">
+        </v-row>
+
+          <v-row dense>
+            <v-col cols="3">
+              <v-text-field
+                  label="Parity"
+                  v-model="parity"
+                  outlined
+                  dense
+              ></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-text-field
+                  label="First A1c"
+                  v-model="first_a1c"
+                  outlined
+                  dense
+              ></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <div>
+                <v-menu
+                    v-model="DateOfInsulinMenu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        label="Date of Insulin"
+                        v-model="date_of_insulin"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        outlined
+                        dense
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                      v-model="date_of_insulin"
+                      reactive
+                      show-current
+                      ref="picker"
+                      min="2018"
+                      max="2020-NaN-NaN"
+                      no-title
+                  ></v-date-picker>
+                </v-menu>
+              </div>
+            </v-col>
+            <v-col cols="3">
+              <div>
+                <v-menu
+                    v-model="DateOfDMMenu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        label="Date of DM"
+                        v-model="date_of_dm"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        outlined
+                        dense
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                      v-model="date_of_dm"
+                      @input="DateOfDMMenu = false"
+                  ></v-date-picker>
+                </v-menu>
+              </div>
+            </v-col>
+          </v-row>
+
+        <v-row dense>
+          <v-col cols="12">
             <v-text-field
-                label="Family History of IHD"
-                v-model="family_history_of_ihd"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Parity"
-                v-model="parity"
+                label="Source of referral"
+                v-model="referral"
                 outlined
                 dense
             ></v-text-field>
           </v-col>
         </v-row>
 
-        <v-row
-            dense
-        >
+        <v-row dense>
+          <v-col cols="3">
+            <v-checkbox
+                label="Family History of IHD"
+                v-model="family_history_of_ihd"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Weight at birth > 4.5kg"
+                v-model="weight_of_baby_at_birthday"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
           <v-col cols="3">
             <v-checkbox
                 label="Family History of DM"
@@ -137,7 +210,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-
           <v-col cols="3">
             <v-checkbox
                 label="Gestational DM"
@@ -146,7 +218,9 @@
                 outlined
             ></v-checkbox>
           </v-col>
+        </v-row>
 
+        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Education Qualification"
@@ -155,7 +229,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-
           <v-col cols="3">
             <v-checkbox
                 label="Hypertension"
@@ -164,10 +237,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-        </v-row>
-        <v-row
-            dense
-        >
           <v-col cols="3">
             <v-checkbox
                 label="Smoker"
@@ -185,7 +254,9 @@
                 outlined
             ></v-checkbox>
           </v-col>
+        </v-row>
 
+        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="SMBG"
@@ -194,7 +265,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-
           <v-col cols="3">
             <v-checkbox
                 label="IHD"
@@ -203,10 +273,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-        </v-row>
-        <v-row
-            dense
-        >
           <v-col cols="3">
             <v-checkbox
                 label="CVA"
@@ -215,7 +281,17 @@
                 outlined
             ></v-checkbox>
           </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Lipid Control"
+                v-model="lipid_control"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+        </v-row>
 
+        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="PVD"
@@ -224,7 +300,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-
           <v-col cols="3">
             <v-checkbox
                 label="Neuropathy"
@@ -233,213 +308,25 @@
                 outlined
             ></v-checkbox>
           </v-col>
-        </v-row>
-
-        <v-card-title class="subtitle-2">Physical Information</v-card-title>
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="Weight in kg"
-                v-model="weight"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Height in cm"
-                v-model="height"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Waist Circumference"
-                v-model="waist_circumference"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="BMI"
-                v-model="bmi"
-                outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-btn
-            class="deep-purple white--text"
-            @click="calcBMI"
-            >
-              Calculate
-            </v-btn>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="HIP"
-                v-model="hip"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="Duration of DM"
-                v-model="duration_of_dm"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <div>
-              <v-menu
-                  v-model="DateOfInsulinMenu"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                      label="Date of Insulin"
-                      v-model="date_of_insulin"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      outlined
-                      dense
-                      v-bind="attrs"
-                      v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                    v-model="date_of_insulin"
-                    @input="DateOfInsulinMenu = false"
-                ></v-date-picker>
-              </v-menu>
-            </div>
-          </v-col>
-          <v-col cols="4">
-            <v-text-field
-                label="Duration of Insulin"
-                v-model="duration_of_insulin"
-                outlined
-                type="number"
-                min="0"
-                max="9999"
-                :rules="[numberRule]"
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-
-          </v-col>
-          <v-col cols="4">
-
-          </v-col>
-          <v-col cols="4">
-
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="2">
-            <v-text-field
-                label="Pressure Control"
-                v-model="pressure_control"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-                label="Father's Height"
-                v-model="father_height"
-                outlined
-                dense
-                :rules="[numberRule]"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-                label="Mother's Height"
-                v-model="mother_height"
-                outlined
-                dense
-                :rules="[numberRule]"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-                label="Mid-Parent Height"
-                v-model="mid_parent_height"
-                outlined
-                dense
-                readonly
-                hint="ReadOnly"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-btn
-                @click="calcMidParentHeight()"
-                class="deep-purple white--text"
-            >Calculate</v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="6">
-            <v-text-field
-                label="First A1c"
-                v-model="first_a1c"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-                label="Second A1c"
-                v-model="second_a1c"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row dense>
-          <v-col cols="12">
-            <v-text-field
-                label="Source of referral"
-                v-model="referral"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
           <v-col cols="3">
             <v-checkbox
-                label="Retinopathy"
-                v-model="retinopathy"
+                label="Pressure Control"
+                v-model="pressure_control"
                 dense
                 outlined
             ></v-checkbox>
           </v-col>
+          <v-col cols="3">
+            <v-checkbox
+                label="Glycemic Control"
+                v-model="glycemic_control"
+                dense
+                outlined
+            ></v-checkbox>
+          </v-col>
+        </v-row>
+
+        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Non proliferative"
@@ -464,9 +351,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-        </v-row>
-
-        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Insulin"
@@ -475,6 +359,9 @@
                 outlined
             ></v-checkbox>
           </v-col>
+        </v-row>
+
+        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Amputation"
@@ -499,9 +386,6 @@
                 outlined
             ></v-checkbox>
           </v-col>
-        </v-row>
-
-        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Dermopathy"
@@ -510,6 +394,9 @@
                 outlined
             ></v-checkbox>
           </v-col>
+        </v-row>
+
+        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Diabetic Food"
@@ -520,16 +407,8 @@
           </v-col>
           <v-col cols="3">
             <v-checkbox
-                label="Glycemic Control"
-                v-model="glycemic_control"
-                dense
-                outlined
-            ></v-checkbox>
-          </v-col>
-          <v-col cols="3">
-            <v-checkbox
-                label="Lipid Control"
-                v-model="lipid_control"
+                label="Retinopathy"
+                v-model="retinopathy"
                 dense
                 outlined
             ></v-checkbox>
@@ -537,8 +416,7 @@
         </v-row>
       </v-card>
 
-
-      <v-row dense align="center" justify="center">
+      <v-row dense align="center" justify="center" class="mb-16">
         <v-spacer></v-spacer>
         <v-alert
             type="success"
@@ -553,11 +431,23 @@
             dense
         >Save data Failed!</v-alert>
         <v-btn
-            @click="postReceptionData"
-            class="mt-6 deep-purple white--text"
+            class="px-2 py-12 mt-6 mx-2 deep-purple"
+            dark
         >
           <v-col>
-            <span class="text-capitalize">Create Patient Profile</span>
+            <v-icon size="60">mdi-camera</v-icon>
+            <h3 class="text-capitalize">CAPTURE PHOTO</h3>
+          </v-col>
+        </v-btn>
+
+        <v-btn
+            @click="postReceptionData"
+            class="px-2 py-12 mt-6 mx-2 deep-purple"
+            dark
+        >
+          <v-col>
+            <v-icon size="60">mdi-file-plus</v-icon>
+            <h3 class="text-capitalize">Create patient Profile</h3>
           </v-col>
         </v-btn>
       </v-row>
@@ -577,6 +467,8 @@ export default {
       date_of_insulin: null,
       DateOfInsulinMenu: null,
       activePicker: null,
+      DateOfDMMenu: null,
+      date_of_dm: null,
       date_of_birthday: null,
       menu: false,
       smoker: null,
@@ -612,25 +504,13 @@ export default {
       weight_of_baby_at_birthday: false,
       family_history_of_ihd: null,
       parity: null,
-      weight: null,
-      height: null,
-      waist_circumference: null,
-      bmi: null,
-      hip: null,
       diabetic_food: null,
-      duration_of_insulin: null,
-      duration_of_dm: null,
       glycemic_control: null,
       lipid_control: null,
       pressure_control: null,
-      father_height: null,
-      mother_height: null,
-      mid_parent_height: null,
       first_a1c: null,
-      second_a1c: null,
       referral: null,
       proliferative_dr: null,
-      gender: null,
       patient_uuid: this.$route.params.patient_uuid,
     }
   },
@@ -647,7 +527,6 @@ export default {
       httpPOST('api/v1/patients/store', {
         full_name: this.full_name,
         phone: this.phone,
-        gender: this.gender,
         birthday: this.date_of_birthday,
         occupation: this.occupation,
         address: this.address,
@@ -680,8 +559,6 @@ export default {
         dermopathy: this.dermopathy,
         diabetic_food: this.diabetic_food,
         date_insulin: this.date_of_insulin,
-        duration_insulin: this.duration_of_insulin,
-        duration_dm: this.duration_of_dm,
         glycemic_control: this.glycemic_control,
         lipid_control: this.lipid_control,
         pressure_control: this.pressure_control,
@@ -689,7 +566,6 @@ export default {
         m_height: this.mother_height,
         mother_height: this.mid_parent_height,
         first_a1c: this.first_a1c,
-        second_a1c: this.second_a1c,
         referral: this.referral,
         education_qualification: this.education_qualification,
         marital_status: this.marital_status
@@ -703,24 +579,16 @@ export default {
       });
       e.preventDefault()
     },
-    calcMidParentHeight() {
-      if (this.father_height && this.mother_height) {
-        this.mid_parent_height = (parseInt(this.father_height) + parseInt(this.mother_height)) / 2
-      }
-    },
+
     numberRule: v  => {
       if (!v.trim()) return true;
       if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
       return 'Number has to be between 0 and 999';
     },
-
-    calcBMI() {
-      if (this.weight && this.height) {
-        let weight = parseInt(this.weight)
-        let height = parseInt(this.height/100)
-        this.bmi = weight / (height ^ 2)
-      }
-    }
+    phoneRules: [
+      v => !!v || "Phone number is required",
+      v => (v && v.length >= 11) || "The phone number must be 11 digits or more."
+    ]
   },
 
   created() {

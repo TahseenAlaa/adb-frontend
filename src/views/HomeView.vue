@@ -1,6 +1,6 @@
 <template>
 
-  <v-container fluid>
+  <v-container fluid class="mb-16">
   <v-row
       align="center"
       justify="center"

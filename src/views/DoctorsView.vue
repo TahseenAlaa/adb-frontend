@@ -1,6 +1,6 @@
 <template>
 
-  <v-container>
+  <v-container class="mb-16">
     <v-expansion-panels
         focusable
         multiple
@@ -545,14 +545,6 @@
         <v-col>
           <v-icon size="60">mdi-history</v-icon>
           <h3 class="text-capitalize">PREVIOUS VISIT</h3>
-        </v-col>
-      </v-btn>
-      <v-btn
-          class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
-      >
-        <v-col>
-          <v-icon size="60">mdi-camera</v-icon>
-          <h3 class="text-capitalize">CAPTURE PHOTO</h3>
         </v-col>
       </v-btn>
       <v-btn

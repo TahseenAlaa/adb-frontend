@@ -1,6 +1,6 @@
 <template>
 
-  <v-container>
+  <v-container class="mb-16">
     <v-row justify="center" class="mt-16">
       <v-card max-width="50%">
         <v-card-title>
