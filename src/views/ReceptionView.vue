@@ -19,8 +19,8 @@
           <v-col cols="4">
             <div>
               <v-menu
-                  ref="menu"
-                  v-model="menu"
+                  ref="menu_birthday"
+                  v-model="menu_birthday"
                   :close-on-content-click="false"
                   transition="scale-transition"
                   offset-y
@@ -43,7 +43,7 @@
                     :active-picker.sync="activePicker"
                     :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
                     min="1900-01-01"
-                    @change="save"
+                    @change="save_birthday"
                 ></v-date-picker>
               </v-menu>
             </div>
@@ -147,9 +147,9 @@
             <v-col cols="3">
               <div>
                 <v-menu
-                    v-model="DateOfInsulinMenu"
+                    ref="menu_insulin"
+                    v-model="menu_insulin"
                     :close-on-content-click="false"
-                    :nudge-right="40"
                     transition="scale-transition"
                     offset-y
                     min-width="auto"
@@ -160,20 +160,18 @@
                         v-model="date_of_insulin"
                         prepend-icon="mdi-calendar"
                         readonly
-                        outlined
-                        dense
                         v-bind="attrs"
                         v-on="on"
+                        dense
+                        outlined
                     ></v-text-field>
                   </template>
                   <v-date-picker
                       v-model="date_of_insulin"
-                      reactive
-                      show-current
-                      ref="picker"
-                      min="2018"
-                      max="2020-NaN-NaN"
-                      no-title
+                      :active-picker.sync="activePicker"
+                      :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                      min="1900-01-01"
+                      @change="save_insulin"
                   ></v-date-picker>
                 </v-menu>
               </div>
@@ -181,9 +179,9 @@
             <v-col cols="3">
               <div>
                 <v-menu
-                    v-model="DateOfDMMenu"
+                    ref="menu_dm"
+                    v-model="menu_dm"
                     :close-on-content-click="false"
-                    :nudge-right="40"
                     transition="scale-transition"
                     offset-y
                     min-width="auto"
@@ -194,15 +192,18 @@
                         v-model="date_of_dm"
                         prepend-icon="mdi-calendar"
                         readonly
-                        outlined
-                        dense
                         v-bind="attrs"
                         v-on="on"
+                        dense
+                        outlined
                     ></v-text-field>
                   </template>
                   <v-date-picker
                       v-model="date_of_dm"
-                      @input="DateOfDMMenu = false"
+                      :active-picker.sync="activePicker"
+                      :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                      min="1990"
+                      @change="save_dm"
                   ></v-date-picker>
                 </v-menu>
               </div>
@@ -496,7 +497,9 @@ export default {
       DateOfDMMenu: null,
       date_of_dm: null,
       date_of_birthday: null,
-      menu: false,
+      menu_birthday: false,
+      menu_insulin: false,
+      menu_dm: false,
       smoker: null,
       drinker: null,
       education_qualification: null,
@@ -544,13 +547,28 @@ export default {
     }
   },
   watch: {
-    menu (val) {
+    menu_birthday (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+    menu_insulin (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+    menu_dm (val) {
       val && setTimeout(() => (this.activePicker = 'YEAR'))
     },
   },
   methods: {
-    save (date) {
-      this.$refs.menu.save(date)
+    save_birthday (date) {
+      this.$refs.menu_birthday.save(date)
+      this.menu_birthday = false
+    },
+    save_insulin (date) {
+      this.$refs.menu_insulin.save(date)
+      this.menu_insulin = false
+    },
+    save_dm (date) {
+      this.$refs.menu_dm.save(date)
+      this.menu_dm = false
     },
     postReceptionData(e) {
       httpPOST('api/v1/patients/store', {
