@@ -84,8 +84,43 @@
           </v-col>
           <v-col cols="4">
             <v-text-field
+                label="Education Qualification"
+                v-model="education_qualification"
+                dense
+                outlined
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-row dense>
+          <v-col cols="3">
+            <v-text-field
+                label="Source of referral"
+                v-model="referral"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
+          <v-col cols="3">
+            <v-text-field
+                label="Social Status"
+                v-model="social_status"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
+          <v-col cols="3">
+            <v-text-field
                 label="Address"
                 v-model="address"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
+          <v-col cols="3">
+            <v-text-field
+                label="Old Patient File Number"
+                v-model="patient_number"
                 outlined
                 dense
             ></v-text-field>
@@ -175,25 +210,6 @@
           </v-row>
 
         <v-row dense>
-          <v-col cols="10">
-            <v-text-field
-                label="Source of referral"
-                v-model="referral"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-text-field
-                label="Old Patient File Number"
-                v-model="patient_number"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Family History of IHD"
@@ -231,8 +247,8 @@
         <v-row dense>
           <v-col cols="3">
             <v-checkbox
-                label="Education Qualification"
-                v-model="education_qualification"
+                label="Retinopathy"
+                v-model="retinopathy"
                 dense
                 outlined
             ></v-checkbox>
@@ -337,7 +353,7 @@
         <v-row dense>
           <v-col cols="3">
             <v-checkbox
-                label="Non proliferative"
+                label="Non proliferative DR"
                 v-model="non_proliferative"
                 dense
                 outlined
@@ -413,13 +429,15 @@
                 outlined
             ></v-checkbox>
           </v-col>
-          <v-col cols="3">
-            <v-checkbox
-                label="Retinopathy"
-                v-model="retinopathy"
-                dense
+        </v-row>
+        <v-row dense>
+          <v-col cols="12">
+            <v-textarea
+                label="Notes"
+                v-model="notes"
                 outlined
-            ></v-checkbox>
+                dense
+            ></v-textarea>
           </v-col>
         </v-row>
       </v-card>
@@ -521,6 +539,8 @@ export default {
       proliferative_dr: null,
       patient_number: null,
       patient_uuid: this.$route.params.patient_uuid,
+      social_status: null,
+      notes: null
     }
   },
   watch: {
