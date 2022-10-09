@@ -3,7 +3,7 @@
   <v-container>
       <v-card class="px-6">
         <v-card-title>Patients List</v-card-title>
-        <v-simple-table>
+        <v-simple-table dense>
           <template v-slot:default>
             <thead>
             <tr>
