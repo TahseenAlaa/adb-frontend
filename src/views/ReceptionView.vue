@@ -457,15 +457,51 @@
             v-if="errorAlert"
             dense
         >Save data Failed!</v-alert>
-        <v-btn
-            class="px-2 py-12 mt-6 mx-2 deep-purple"
-            dark
-        >
-          <v-col>
-            <v-icon size="60">mdi-camera</v-icon>
-            <h3 class="text-capitalize">CAPTURE PHOTO</h3>
-          </v-col>
-        </v-btn>
+
+              <v-dialog
+                  v-model="capturePhotoDialog"
+                  persistent
+                  max-width="290"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      class="px-2 py-12 mt-6 mx-2 deep-purple"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                  >
+                    <v-col>
+                      <v-icon size="60">mdi-camera</v-icon>
+                      <h3 class="text-capitalize">CAPTURE PHOTO</h3>
+                    </v-col>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="text-h5 text-capitalize">
+                    Capture Photo
+                  </v-card-title>
+                  <v-card-text>
+                    Camera Live picture in this BOX!
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="green darken-1"
+                        text
+                        @click="capturePhotoDialog = false"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                        color="green darken-1"
+                        text
+                        @click="capturePhotoDialog = false"
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
 
         <v-btn
             @click="postReceptionData"
@@ -543,7 +579,8 @@ export default {
       patient_number: null,
       patient_uuid: this.$route.params.patient_uuid,
       social_status: null,
-      notes: null
+      notes: null,
+      capturePhotoDialog: false
     }
   },
   watch: {
