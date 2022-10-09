@@ -78,6 +78,13 @@
               <v-list-item-title>Home</v-list-item-title>
             </v-list-item>
 
+            <v-list-item @click="$router.push({name: 'patientslist'})">
+              <v-list-item-icon>
+                <v-icon size="30">mdi-account-group</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Patients List</v-list-item-title>
+            </v-list-item>
+
             <v-list-item @click="$router.push({name: 'signup'})">
               <v-list-item-icon>
                 <v-icon size="30">mdi-account-plus</v-icon>
