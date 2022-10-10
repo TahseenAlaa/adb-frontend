@@ -7,23 +7,11 @@
         <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
         <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
-<!--        TODO Fetch patient number value from the main profile and can be edited-->
         <v-row dense>
-          <v-col cols="12">
+          <v-col cols="3">
             <v-text-field
                 label="Old Patient File Number"
                 v-model="patient_number"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="4">
-            <v-text-field
-                label="Age at Visit"
-                v-model="age_at_visit"
                 outlined
                 dense
                 readonly
@@ -31,7 +19,18 @@
                 persistent-hint
             ></v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="3">
+          <v-text-field
+              label="Age at Visit"
+              v-model="age_at_visit"
+              outlined
+              dense
+              readonly
+              hint="ReadOnly"
+              persistent-hint
+          ></v-text-field>
+          </v-col>
+          <v-col cols="3">
             <v-text-field
                 label="Blood Pressure Systolic"
                 v-model="blood_pressure_systolic"
@@ -40,7 +39,7 @@
                 :rules="[bloodPressureRule]"
             ></v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="3">
             <v-text-field
                 label="Blood Pressure Diastolic"
                 v-model="blood_pressure_diastolic"
@@ -51,7 +50,6 @@
           </v-col>
         </v-row>
       </v-card>
-
 
       <v-row dense align="center" justify="center">
         <v-spacer></v-spacer>
@@ -69,10 +67,12 @@
         >Save data Failed!</v-alert>
         <v-btn
             @click="postNewVisitData"
-            class="mt-6 deep-purple white--text"
+            class="px-2 py-12 mt-6 mx-2 deep-purple"
+            dark
         >
           <v-col>
-            <span class="text-capitalize">Create New Visit</span>
+            <v-icon size="60">mdi-account-details</v-icon>
+            <h3 class="text-capitalize">Create New Visit</h3>
           </v-col>
         </v-btn>
       </v-row>
