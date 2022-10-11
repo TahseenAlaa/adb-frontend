@@ -136,6 +136,13 @@
 
             <v-list-item @click="">
               <v-list-item-icon>
+                <v-icon size="30" color="cyan lighten-1">mdi-test-tube</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Lab Tests List</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item @click="">
+              <v-list-item-icon>
                 <v-icon size="30" color="brown">mdi-cog</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Settings</v-list-item-title>
