@@ -106,30 +106,26 @@
                                 <v-col
                                     cols="12"
                                 >
-                                  <v-text-field
-                                      label="Symptoms"
-                                      v-model="symptoms"
-                                      required
+                                  <v-autocomplete
+                                      label="Diagnosis Type"
+                                      v-model="diagnosis_type"
                                       outlined
                                       dense
-                                  ></v-text-field>
+                                      :items="['Disease1', 'Disease2', 'Disease3', 'Disease4', 'Disease5']"
+                                  ></v-autocomplete>
                                 </v-col>
                               </v-row>
                               <v-row>
                                 <v-col
                                     cols="12"
                                 >
-                                  <v-select
-                                      :items="[
-                                          { text: 'Confirmed', value: '1' },
-                                          { text: 'Suspected', value: '0' }
-                                          ]"
-                                      label="Suspected or Confirmed"
-                                      v-model="is_confirmed"
-                                      required
+                                  <v-textarea
+                                      label="Diagnosis Notes"
+                                      v-model="diagnosis_notes"
                                       outlined
                                       dense
-                                  ></v-select>
+                                  >
+                                  </v-textarea>
                                 </v-col>
                               </v-row>
                             </v-container>
@@ -162,18 +158,37 @@
                     <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Suspected or Confirmed</th>
+                      <th>Diagnosis Notes</th>
                       <th>Date of Diagnosis</th>
                       <th>Doctor's Name</th>
+                      <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="item in diagnosis">
                       <td>{{ item.symptoms }}</td>
-                      <td v-if="item.is_confirmed === '1'">Confirmed</td>
-                      <td v-if="item.is_confirmed === '0'">Suspected</td>
                       <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                       <td>{{ item.created_by }}</td>
+                      <td>
+                        <v-btn
+                            x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                        <v-btn
+                            x-small
+                            color="deep-orange darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                          Delete
+                        </v-btn>
+                      </td>
                     </tr>
                     </tbody>
                   </template>
@@ -212,26 +227,70 @@
                                 <v-col
                                     cols="12"
                                 >
+                                  <v-autocomplete
+                                      label="Drugs"
+                                      v-model="drugs"
+                                      outlined
+                                      dense
+                                      :items="['Item1', 'Item2', 'Item3', 'Item4', 'Item5']"
+                                  ></v-autocomplete>
+                                </v-col>
+                              </v-row>
+                              <v-row dense>
+                                <v-col
+                                    cols="3"
+                                >
+                                  <v-autocomplete
+                                      label="Frequency"
+                                      v-model="treatment_frequency"
+                                      outlined
+                                      dense
+                                      :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                                  ></v-autocomplete>
+                                </v-col>
+                                <v-col
+                                    cols="3"
+                                >
+                                  <v-autocomplete
+                                      label="Per"
+                                      v-model="day_we_mo"
+                                      outlined
+                                      dense
+                                      :items="['Day', 'Week', 'Month']"
+                                  ></v-autocomplete>
+                                </v-col>
+                                <v-col
+                                    cols="3"
+                                >
+                                  <v-autocomplete
+                                      label="Meal"
+                                      v-model="meal"
+                                      outlined
+                                      dense
+                                      :items="['Before Meal', 'In Meal', 'After Meal', 'Without Preference']"
+                                  ></v-autocomplete>
+                                </v-col>
+                                <v-col
+                                    cols="3"
+                                >
                                   <v-text-field
-                                      label="Name"
-                                      v-model="treatment_name"
-                                      required
+                                      label="Dose"
+                                      v-model="dose"
                                       outlined
                                       dense
                                   ></v-text-field>
                                 </v-col>
                               </v-row>
-                              <v-row>
+                              <v-row dense>
                                 <v-col
                                     cols="12"
                                 >
-                                  <v-text-field
-                                      label="Dose"
-                                      v-model="treatment_dose"
-                                      required
-                                      outlined
+                                  <v-textarea
                                       dense
-                                  ></v-text-field>
+                                      label="Notes"
+                                      v-model="treatment_notes"
+                                      outlined
+                                  ></v-textarea>
                                 </v-col>
                               </v-row>
                             </v-container>
@@ -263,11 +322,12 @@
                   <template>
                     <thead>
                     <tr>
-                      <th>Name</th>
+                      <th>Drug</th>
                       <th>Dose</th>
                       <th>Status</th>
                       <th>Date of Adding Record</th>
                       <th>Doctor's Name</th>
+                      <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -279,6 +339,26 @@
                       <td v-if="item.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
                       <td>{{ item.created_at }}</td>
                       <td>{{ item.created_by }}</td>
+                      <td>
+                        <v-btn
+                            x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                        <v-btn
+                            x-small
+                            color="deep-orange darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                          Delete
+                        </v-btn>
+                      </td>
                     </tr>
                     </tbody>
                   </template>
@@ -317,13 +397,13 @@
                                 <v-col
                                     cols="12"
                                 >
-                                  <v-text-field
-                                      label="Name"
-                                      v-model="test_name"
-                                      required
+                                  <v-autocomplete
+                                      label="Test"
+                                      v-model="test_list"
                                       outlined
                                       dense
-                                  ></v-text-field>
+                                      :items="['Test1', 'Test2', 'Test3', 'Test4', 'Test4']"
+                                  ></v-autocomplete>
                                 </v-col>
                               </v-row>
                               <v-row>
@@ -372,6 +452,7 @@
                       <th>Status</th>
                       <th>Date of Adding Record</th>
                       <th>Doctor's Name</th>
+                      <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -383,6 +464,26 @@
                       <td v-if="test.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
                       <td>{{ test.created_at }}</td>
                       <td>{{ test.created_by }}</td>
+                      <td>
+                        <v-btn
+                            x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                        <v-btn
+                            x-small
+                            color="deep-orange darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                          Delete
+                        </v-btn>
+                      </td>
                     </tr>
                     </tbody>
                   </template>
@@ -459,14 +560,6 @@
         </v-col>
       </v-btn>
       <v-btn
-          class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
-      >
-        <v-col>
-          <v-icon size="60">mdi-printer</v-icon>
-          <h3 class="text-capitalize">PRINT</h3>
-        </v-col>
-      </v-btn>
-      <v-btn
           class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
       >
         <v-col @click="postPatientData">
@@ -487,6 +580,7 @@ export default {
   components: {ReceptionCompo},
   data() {
     return {
+      diagnosis_type: [],
       patient_uuid: this.$route.params.patient_uuid,
       patient_history_uuid: null,
       diagnosisDialog: false,
