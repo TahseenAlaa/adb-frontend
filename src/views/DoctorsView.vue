@@ -73,136 +73,6 @@
             <v-card class="px-6">
               <v-card-title>Doctors</v-card-title>
               <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
-              <v-card-title class="subtitle-2">Personal Information</v-card-title>
-
-              <v-row dense>
-                <v-col cols="12">
-                  <v-text-field
-                      label="Old patient File Number"
-                      v-model="patient_number"
-                      outlined
-                      dense
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-
-              <v-row dense>
-                <v-col cols="4">
-                  <v-text-field
-                      label="Age at Visit"
-                      v-model="age_at_visit"
-                      outlined
-                      dense
-                      readonly
-                      hint="ReadOnly"
-                      persistent-hint
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-text-field
-                      label="Blood Pressure Systolic"
-                      v-model="blood_pressure_systolic"
-                      outlined
-                      dense
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-text-field
-                      label="Blood Pressure Diastolic"
-                      v-model="blood_pressure_diastolic"
-                      outlined
-                      dense
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-
-              <v-row dense>
-                <v-col cols="4">
-                  <v-text-field
-                      label="Weight"
-                      v-model="weight"
-                      outlined
-                      dense
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-text-field
-                      label="Height"
-                      v-model="height"
-                      outlined
-                      dense
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-text-field
-                      label="Waist Circumference"
-                      v-model="waist_circumference"
-                      outlined
-                      dense
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-
-              <v-row dense>
-                <v-col cols="4">
-                  <v-text-field
-                      label="BMI"
-                      v-model="bmi"
-                      outlined
-                      dense
-                      readonly
-                      hint="ReadOnly"
-                      persistent-hint
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-btn
-                      dark
-                      class="deep-purple"
-                      @click="calcBMI"
-                  >Calculate</v-btn>
-                </v-col>
-                <v-col cols="4">
-                  <div>
-                    <v-menu
-                        v-model="DateOfNextVisitMenu"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                            label="Date of Next Visit"
-                            v-model="date_of_next_visit"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            outlined
-                            dense
-                            v-bind="attrs"
-                            v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker
-                          v-model="date_of_next_visit"
-                          @input="DateOfNextVisitMenu = false"
-                      ></v-date-picker>
-                    </v-menu>
-                  </div>
-                </v-col>
-              </v-row>
-
-              <v-row dense>
-                <v-col cols="12">
-                  <v-textarea
-                      label="Clinical Notes"
-                      v-model="clinical_notes"
-                      outlined
-                      dense
-                  ></v-textarea>
-                </v-col>
-              </v-row>
 
               <div class="mt-6">
                 <v-row dense align="center" justify="center">
@@ -518,6 +388,47 @@
                   </template>
                 </v-simple-table>
               </div>
+
+              <v-row dense class="py-12">
+                <v-col cols="10">
+                  <v-textarea
+                      label="Clinical Notes"
+                      v-model="clinical_notes"
+                      outlined
+                      dense
+                  ></v-textarea>
+                </v-col>
+                <v-col cols="2">
+                  <div>
+                    <v-menu
+                        v-model="DateOfNextVisitMenu"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                            label="Date of Next Visit"
+                            v-model="date_of_next_visit"
+                            prepend-icon="mdi-calendar"
+                            readonly
+                            outlined
+                            dense
+                            v-bind="attrs"
+                            v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker
+                          v-model="date_of_next_visit"
+                          @input="DateOfNextVisitMenu = false"
+                      ></v-date-picker>
+                    </v-menu>
+                  </div>
+                </v-col>
+              </v-row>
+
             </v-card>
           </v-form>
         </v-expansion-panel-content>
