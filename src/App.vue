@@ -78,13 +78,6 @@
               <v-list-item-title>Home</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'patientslist'})">
-              <v-list-item-icon>
-                <v-icon size="30" color="purple">mdi-account-group</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Patients List</v-list-item-title>
-            </v-list-item>
-
             <v-list-item @click="">
               <v-list-item-icon>
                 <v-icon size="30" color="red">mdi-view-comfy</v-icon>
@@ -96,21 +89,35 @@
               <v-list-item-icon>
                 <v-icon size="30" color="orange">mdi-account-multiple</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Users List</v-list-item-title>
+              <v-list-item-title>Users Management</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item @click="$router.push({name: 'patientslist'})">
+              <v-list-item-icon>
+                <v-icon size="30" color="purple">mdi-account-group</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Patients Management</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click="">
               <v-list-item-icon>
                 <v-icon size="30" color="cyan darken-3">mdi-air-filter</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Diagnosis List</v-list-item-title>
+              <v-list-item-title>Diagnosis Management</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click="">
               <v-list-item-icon>
                 <v-icon size="30" color="deep-orange darken-3">mdi-bacteria</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Symptoms List</v-list-item-title>
+              <v-list-item-title>Symptoms Management</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item @click="">
+              <v-list-item-icon>
+                <v-icon size="30" color="cyan lighten-1">mdi-test-tube</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Lab Management</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click="">
@@ -132,13 +139,6 @@
                 <v-icon size="30" color="orange">mdi-rss-box</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Drugs Providers</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item @click="">
-              <v-list-item-icon>
-                <v-icon size="30" color="cyan lighten-1">mdi-test-tube</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Lab Tests List</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click="">
