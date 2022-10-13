@@ -31,7 +31,7 @@
                       v-model="auth.username"
                       type="text"
                       @keyup.enter="login()"
-                      @keydown="toggleShowSignInBtn"
+                      @input="toggleShowSignInBtn"
                   ></v-text-field>
 
                   <v-text-field
@@ -42,7 +42,7 @@
                       type="password"
                       v-model="auth.password"
                       @keyup.enter="login()"
-                      @keydown="toggleShowSignInBtn"
+                      @input="toggleShowSignInBtn"
                   ></v-text-field>
                 </v-form>
                 <v-banner
