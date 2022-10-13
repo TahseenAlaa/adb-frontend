@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <link rel="icon">
+    <link rel="icon" href="#">
 <!--    START Navbar -->
     <v-card
         v-if="isAuthenticated"
