@@ -107,6 +107,7 @@ export default {
       })
       .then(({data})=>{
         localStorage.setItem('esite_token', data['token'].toString())
+        this.$store.commit('SET_TOKEN', data['token'].toString())
         this.signIn()
         router.push({name: 'home'})
       }).catch(({response:{data}})=>{
