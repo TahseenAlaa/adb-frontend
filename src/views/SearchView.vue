@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import {httpGET, httpPOST, humanReadableDateConverter} from "@/utils/utils";
+import {httpPOST} from "@/utils/utils";
 
 export default {
   name: "SearchView",
@@ -187,7 +187,7 @@ export default {
   methods: {
     searchPatient() {
       if (this.patient_id) {
-        httpGET('api/v1/patients/search-by-patient-id/' + this.patient_id)
+        httpPOST('api/v1/patients/search-by-patient-id/' + this.patient_id)
             .then(({data})=>{
           this.search_result = data
           if (data) {
@@ -197,7 +197,7 @@ export default {
           console.log(data)
         });
       } else if (this.phone) {
-        httpGET('api/v1/patients/search-by-phone/' + this.phone)
+        httpPOST('api/v1/patients/search-by-phone/' + this.phone)
         .then(({data})=>{
           this.search_result = data
           if (data) {
@@ -208,7 +208,7 @@ export default {
         });
 
       } else if (this.full_name) {
-        httpGET('api/v1/patients/search-by-full-name/' + this.full_name)
+        httpPOST('api/v1/patients/search-by-full-name/' + this.full_name)
         .then(({data})=>{
           this.search_result = data
           if (data) {
