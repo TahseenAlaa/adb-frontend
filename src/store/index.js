@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     authenticated: false,
     user: {},
+    token: null
   },
 
   getters: {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     user(state) {
       return state.user
     },
+    token(state) {
+      return state.token
+    }
   },
 
   mutations: {
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     },
     SET_USER (state, value) {
       state.user = value
+    },
+    SET_TOKEN(state, value) {
+      state.token = value
     }
   },
 

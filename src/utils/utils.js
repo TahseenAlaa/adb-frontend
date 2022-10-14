@@ -9,27 +9,22 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
- const JsonHeader = {
-        headers: {
-            'Content-Type' : 'application/json',
-            'Accept'       : 'application/json',
-            'Authorization': 'Bearer '+localStorage.getItem('esite_token')
-        }
-    }
-
-export function httpGET($URL, $JsonHeader) {
-    if ($JsonHeader) {
-        return axios.get(baseURL + $URL, $JsonHeader );
-    } else {
-        return axios.get(baseURL + $URL, JsonHeader );
-    }
+export function httpGET($URL) {
+        return axios.get(baseURL + $URL, {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Accept'       : 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
+            }
+        } );
 }
 
-export function httpPOST($URL, $data, $JsonHeader) {
-    if ($JsonHeader) {
-        return axios.post(baseURL + $URL, $data, $JsonHeader );
-    } else {
-        return axios.post(baseURL + $URL, $data, JsonHeader );
-    }
-
+export function httpPOST($URL, $data) {
+        return axios.post(baseURL + $URL, $data, {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Accept'       : 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
+            }
+        } );
 }
