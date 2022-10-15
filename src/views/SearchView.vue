@@ -1,7 +1,7 @@
 <template>
 
   <v-container class="mb-16">
-    <v-form>
+    <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
         <v-card-title>Search</v-card-title>
         <v-card-subtitle>You can search on patient record by Name, Phone or Patient ID</v-card-subtitle>
@@ -27,6 +27,10 @@
                       dense
                       @keyup.enter="searchPatient()"
                       v-model="phone"
+                      type="number"
+                      counter="11"
+                      :rules="[phoneRule]"
+                      validate-on-blur
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
@@ -36,6 +40,8 @@
                       dense
                       @keyup.enter="searchPatient()"
                       v-model="patient_id"
+                      :rules="[numberRule]"
+                      validate-on-blur
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -49,6 +55,7 @@
                 class="px-8 py-12 mt-6 mx-8"
                 color="#6200EE"
                 @click="searchPatient"
+                :loading="searchButtonLoading"
             >
               <div class="d-flex flex-column align-content-center justify-center">
 
@@ -232,19 +239,23 @@ export default {
         showNewVisit: false,
         showNoResultAlert: false
       },
-      loading_Dialog: false
+      loading_Dialog: false,
+      searchButtonLoading: false,
+      valid: false,
     }
   },
 
   methods: {
     searchPatient() {
       this.loading_Dialog = true
+      this.searchButtonLoading = true
 
-      httpPOST('api/v1/patients/search-for-patients-of-today', {
+      httpPOST('api/v1/patients/search-for-patients', JSON.stringify({
         patient: this.patient_id,
         phone: this.phone,
-        full_name: this.full_name
-      }).then(({data}) => {
+        full_name: this.full_name,
+        department: this.department
+      })).then(({data}) => {
         this.search_result = data
         if (data.data.length > 0) {
           this.toggles.showResultsPanel = true
@@ -257,42 +268,7 @@ export default {
         console.log(data)
       });
 
-      // if (this.patient_id) {
-      //   httpPOST('api/v1/patients/search-by-patient-id/' + this.patient_id)
-      //       .then(({data})=>{
-      //     this.search_result = data
-      //     if (data.data.length > 0) {
-      //       this.toggles.showResultsPanel = true
-      //       this.toggles.showNoResultAlert = false
-      //     } else {
-      //       this.toggles.showResultsPanel = false
-      //       this.toggles.showNoResultAlert = true
-      //     }
-      //   }).catch(({response:{data}})=>{
-      //     console.log(data)
-      //   });
-      // } else if (this.phone) {
-      //   httpPOST('api/v1/patients/search-by-phone/' + this.phone)
-      //   .then(({data})=>{
-      //     this.search_result = data
-      //     if (data) {
-      //       this.toggles.showResultsPanel = true
-      //     }
-      //   }).catch(({response:{data}})=>{
-      //     console.log(data)
-      //   });
-      //
-      // } else if (this.full_name) {
-      //   httpPOST('api/v1/patients/search-by-full-name/' + this.full_name)
-      //   .then(({data})=>{
-      //     this.search_result = data
-      //     if (data) {
-      //       this.toggles.showResultsPanel = true
-      //     }
-      //   }).catch(({response:{data}})=>{
-      //     console.log(data)
-      //   });
-      // }
+
       if (this.department === 'reception') {
         this.receptionTeam = true;
       } else if (this.department === 'antho') {
@@ -305,6 +281,11 @@ export default {
         this.pharmacyTeam = true
       }
       this.loading_Dialog = false
+      this.searchButtonLoading = false
+
+      this.patient_id = null
+      this.phone = null
+      this.full_name = null
     },
     humanReadableDateConverter (date) {
       if (date) {
@@ -313,7 +294,16 @@ export default {
       } else {
         return null
       }
-    }
+    },
+    numberRule: v  => {
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
+      return 'Number Only Accepted';
+    },
+    phoneRule: value =>  {
+      const pattern = /^0?7[0-9]{9,9}$/;
+      return pattern.test(value) || 'Wrong Phone Number Format'
+    },
   }
 }
 </script>
