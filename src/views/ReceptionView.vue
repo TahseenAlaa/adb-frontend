@@ -83,12 +83,22 @@
             ></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field
+            <v-select
+                :items="[
+                    'غير متعلم',
+                    'ابتدائية',
+                    'متوسطة',
+                    'اعدادية',
+                    'معهد',
+                    'بكالوريوس',
+                    'ماجستير',
+                    'دكتوراه',
+                ]"
                 label="Education Qualification"
                 v-model="education_qualification"
                 dense
                 outlined
-            ></v-text-field>
+            ></v-select>
           </v-col>
         </v-row>
 
@@ -209,6 +219,29 @@
               </div>
             </v-col>
           </v-row>
+
+        <v-row dense>
+          <v-col cols="6">
+            <v-text-field
+                label="Blood Pressure Systolic"
+                v-model="blood_pressure_systolic"
+                outlined
+                dense
+                :rules="[bloodPressureRule]"
+                type="number"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field
+                label="Blood Pressure Diastolic"
+                v-model="blood_pressure_diastolic"
+                outlined
+                dense
+                :rules="[bloodPressureRule]"
+                type="number"
+            ></v-text-field>
+          </v-col>
+        </v-row>
 
         <v-row dense>
           <v-col cols="3">
