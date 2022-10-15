@@ -197,15 +197,23 @@
         </v-alert>
       </v-col>
     </v-row>
+<!--    START Loading Dialog-->
+    <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
+<!--    END Loading Dialog-->
   </v-container>
 
 </template>
 
 <script>
 import {httpPOST} from "@/utils/utils";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
   name: "SearchView",
+  components: {
+    LoadingDialogCompo
+  },
+
   data() {
     return {
       full_name: null,
@@ -224,11 +232,13 @@ export default {
         showNewVisit: false,
         showNoResultAlert: false
       },
+      loading_Dialog: false
     }
   },
 
   methods: {
     searchPatient() {
+      this.loading_Dialog = true
       if (this.patient_id) {
         httpPOST('api/v1/patients/search-by-patient-id/' + this.patient_id)
             .then(({data})=>{
@@ -276,6 +286,7 @@ export default {
       } else if (this.department === 'pharmacy') {
         this.pharmacyTeam = true
       }
+      this.loading_Dialog = false
     },
     humanReadableDateConverter (date) {
       if (date) {
