@@ -239,42 +239,60 @@ export default {
   methods: {
     searchPatient() {
       this.loading_Dialog = true
-      if (this.patient_id) {
-        httpPOST('api/v1/patients/search-by-patient-id/' + this.patient_id)
-            .then(({data})=>{
-          this.search_result = data
-          if (data.data.length > 0) {
-            this.toggles.showResultsPanel = true
-            this.toggles.showNoResultAlert = false
-          } else {
-            this.toggles.showResultsPanel = false
-            this.toggles.showNoResultAlert = true
-          }
-        }).catch(({response:{data}})=>{
-          console.log(data)
-        });
-      } else if (this.phone) {
-        httpPOST('api/v1/patients/search-by-phone/' + this.phone)
-        .then(({data})=>{
-          this.search_result = data
-          if (data) {
-            this.toggles.showResultsPanel = true
-          }
-        }).catch(({response:{data}})=>{
-          console.log(data)
-        });
 
-      } else if (this.full_name) {
-        httpPOST('api/v1/patients/search-by-full-name/' + this.full_name)
-        .then(({data})=>{
-          this.search_result = data
-          if (data) {
-            this.toggles.showResultsPanel = true
-          }
-        }).catch(({response:{data}})=>{
-          console.log(data)
-        });
-      }
+      httpPOST('api/v1/patients/search-for-patients-of-today', {
+        patient: this.patient_id,
+        phone: this.phone,
+        full_name: this.full_name
+      }).then(({data}) => {
+        this.search_result = data
+        if (data.data.length > 0) {
+          this.toggles.showResultsPanel = true
+          this.toggles.showNoResultAlert = false
+        } else {
+          this.toggles.showResultsPanel = false
+          this.toggles.showNoResultAlert = true
+        }
+      }).catch(({response:{data}})=>{
+        console.log(data)
+      });
+
+      // if (this.patient_id) {
+      //   httpPOST('api/v1/patients/search-by-patient-id/' + this.patient_id)
+      //       .then(({data})=>{
+      //     this.search_result = data
+      //     if (data.data.length > 0) {
+      //       this.toggles.showResultsPanel = true
+      //       this.toggles.showNoResultAlert = false
+      //     } else {
+      //       this.toggles.showResultsPanel = false
+      //       this.toggles.showNoResultAlert = true
+      //     }
+      //   }).catch(({response:{data}})=>{
+      //     console.log(data)
+      //   });
+      // } else if (this.phone) {
+      //   httpPOST('api/v1/patients/search-by-phone/' + this.phone)
+      //   .then(({data})=>{
+      //     this.search_result = data
+      //     if (data) {
+      //       this.toggles.showResultsPanel = true
+      //     }
+      //   }).catch(({response:{data}})=>{
+      //     console.log(data)
+      //   });
+      //
+      // } else if (this.full_name) {
+      //   httpPOST('api/v1/patients/search-by-full-name/' + this.full_name)
+      //   .then(({data})=>{
+      //     this.search_result = data
+      //     if (data) {
+      //       this.toggles.showResultsPanel = true
+      //     }
+      //   }).catch(({response:{data}})=>{
+      //     console.log(data)
+      //   });
+      // }
       if (this.department === 'reception') {
         this.receptionTeam = true;
       } else if (this.department === 'antho') {
