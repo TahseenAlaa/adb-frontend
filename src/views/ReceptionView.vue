@@ -619,9 +619,11 @@ export default {
       referral: null,
       proliferative_dr: null,
       patient_number: null,
+      blood_pressure_systolic: null,
+      blood_pressure_diastolic: null,
+      notes: null,
       patient_uuid: this.$route.params.patient_uuid,
       social_status: null,
-      notes: null,
       capturePhotoDialog: false,
       valid: false
     }
@@ -670,11 +672,6 @@ export default {
         cva: this.cva,
         pvd: this.pvd,
         neuropathy: this.neuropathy,
-        weight: this.weight,
-        height: this.height,
-        waist_circumference: this.waist_circumference,
-        bmi: this.bmi,
-        hip: this.hip,
         retinopathy: this.retinopathy,
         non_proliferative: this.non_proliferative,
         proliferative_dr: this.proliferative_dr,
@@ -689,13 +686,19 @@ export default {
         glycemic_control: this.glycemic_control,
         lipid_control: this.lipid_control,
         pressure_control: this.pressure_control,
-        father_height: this.father_height,
-        m_height: this.mother_height,
-        mother_height: this.mid_parent_height,
         first_a1c: this.first_a1c,
         referral: this.referral,
         education_qualification: this.education_qualification,
-        marital_status: this.marital_status
+        marital_status: this.marital_status,
+        blood_pressure_systolic: this.blood_pressure_systolic,
+        blood_pressure_diastolic: this.blood_pressure_diastolic,
+        notes: this.notes,
+        family_history_of_ihd: this.family_history_of_ihd,
+        weight_of_baby_at_birthday: this.weight_of_baby_at_birthday,
+        date_of_dm: this.date_of_dm,
+        patient_number: this.patient_number,
+        social_status: this.social_status,
+
       })
           .then(({data}) => {
             this.successAlert = true
