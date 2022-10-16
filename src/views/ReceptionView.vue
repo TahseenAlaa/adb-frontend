@@ -1,7 +1,7 @@
 <template>
 
   <v-container class="mb-16">
-    <v-form>
+    <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
         <v-card-title>Reception & Statistics</v-card-title>
         <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
@@ -14,6 +14,7 @@
                 v-model="full_name"
                 outlined
                 dense
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="4">
@@ -55,7 +56,7 @@
                 outlined
                 dense
                 counter="11"
-                :rules="[phoneRules]"
+                :rules="[phoneRule]"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -80,6 +81,7 @@
                 v-model="occupation"
                 outlined
                 dense
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="4">
@@ -109,6 +111,7 @@
                 v-model="referral"
                 outlined
                 dense
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -117,6 +120,7 @@
                 v-model="social_status"
                 outlined
                 dense
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -125,6 +129,7 @@
                 v-model="address"
                 outlined
                 dense
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -133,6 +138,7 @@
                 v-model="patient_number"
                 outlined
                 dense
+                :rules="[numberRule]"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -144,6 +150,7 @@
                   v-model="parity"
                   outlined
                   dense
+                  :rules="[nameRule]"
               ></v-text-field>
             </v-col>
             <v-col cols="3">
@@ -229,6 +236,7 @@
                 dense
                 :rules="[bloodPressureRule]"
                 type="number"
+                counter="3"
             ></v-text-field>
           </v-col>
           <v-col cols="6">
@@ -239,6 +247,7 @@
                 dense
                 :rules="[bloodPressureRule]"
                 type="number"
+                counter="3"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -613,7 +622,8 @@ export default {
       patient_uuid: this.$route.params.patient_uuid,
       social_status: null,
       notes: null,
-      capturePhotoDialog: false
+      capturePhotoDialog: false,
+      valid: false
     }
   },
   watch: {
@@ -628,15 +638,15 @@ export default {
     },
   },
   methods: {
-    save_birthday (date) {
+    save_birthday(date) {
       this.$refs.menu_birthday.save(date)
       this.menu_birthday = false
     },
-    save_insulin (date) {
+    save_insulin(date) {
       this.$refs.menu_insulin.save(date)
       this.menu_insulin = false
     },
-    save_dm (date) {
+    save_dm(date) {
       this.$refs.menu_dm.save(date)
       this.menu_dm = false
     },
@@ -687,11 +697,13 @@ export default {
         education_qualification: this.education_qualification,
         marital_status: this.marital_status
       })
-      .then(({data})=>{
-        this.successAlert = true
-        setTimeout(() => {this.$router.push({path: '/'})}, 2000)
-        console.log(data)
-      }).catch(({response:{data}})=>{
+          .then(({data}) => {
+            this.successAlert = true
+            setTimeout(() => {
+              this.$router.push({path: '/'})
+            }, 2000)
+            console.log(data)
+          }).catch(({response: {data}}) => {
         console.log(data)
       });
       e.preventDefault()
@@ -699,13 +711,22 @@ export default {
 
     numberRule: v  => {
       if (!v.trim()) return true;
-      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
-      return 'Number has to be between 0 and 999';
+      if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
+      return 'Number Only Accepted';
     },
-    phoneRules: [
-      v => !!v || "Phone number is required",
-      v => (v && v.length >= 11) || "The phone number must be 11 digits or more."
-    ]
+    phoneRule: value =>  {
+      const pattern = /^0?7[0-9]{9,9}$/;
+      return pattern.test(value) || 'Wrong Phone Number Format'
+    },
+    bloodPressureRule: v => {
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 300) return true;
+      return 'Number has to be between 0 and 300';
+    },
+    nameRule: value =>  {
+      const pattern = /^([^0-9]*)$/;
+      return pattern.test(value) || 'Only Letters Accepted'
+    },
   },
 
   created() {
