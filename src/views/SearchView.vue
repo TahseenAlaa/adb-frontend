@@ -204,7 +204,7 @@
       </v-col>
     </v-row>
 <!--    START Loading Dialog-->
-    <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
+    <LoadingDialogCompo :loading_Dialog="loading_Dialog"></LoadingDialogCompo>
 <!--    END Loading Dialog-->
 
 <!--    START Required Fields Dialog-->
