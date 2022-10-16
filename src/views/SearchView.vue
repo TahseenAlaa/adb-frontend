@@ -15,6 +15,7 @@
                       dense
                       @keyup.enter="searchPatient()"
                       v-model="full_name"
+                      :rules="[nameRule]"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -30,7 +31,6 @@
                       type="number"
                       counter="11"
                       :rules="[phoneRule]"
-                      validate-on-blur
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
@@ -41,7 +41,6 @@
                       @keyup.enter="searchPatient()"
                       v-model="patient_id"
                       :rules="[numberRule]"
-                      validate-on-blur
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -207,6 +206,34 @@
 <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
 <!--    END Loading Dialog-->
+
+<!--    START Required Fields Dialog-->
+    <v-row justify="center">
+      <v-dialog
+          v-model="required_fields_Dialog"
+          persistent
+          max-width="300"
+      >
+        <v-card>
+          <v-card-title class="text-h5 red">
+            Error
+          </v-card-title>
+          <v-card-text class="text-center pt-6 text-h5">
+            Please enter patient information.
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                @click="required_fields_Dialog = false"
+                dark
+                class="deep-purple"
+            >
+              Ok
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+<!--    END Required Fields Dialog-->
   </v-container>
 
 </template>
@@ -241,6 +268,7 @@ export default {
       },
       loading_Dialog: false,
       searchButtonLoading: false,
+      required_fields_Dialog: false,
       valid: false,
     }
   },
@@ -250,23 +278,27 @@ export default {
       this.loading_Dialog = true
       this.searchButtonLoading = true
 
-      httpPOST('api/v1/patients/search-for-patients', JSON.stringify({
-        patient: this.patient_id,
-        phone: this.phone,
-        full_name: this.full_name,
-        department: this.department
-      })).then(({data}) => {
-        this.search_result = data
-        if (data.data.length > 0) {
-          this.toggles.showResultsPanel = true
-          this.toggles.showNoResultAlert = false
-        } else {
-          this.toggles.showResultsPanel = false
-          this.toggles.showNoResultAlert = true
-        }
-      }).catch(({response:{data}})=>{
-        console.log(data)
-      });
+      if (this.full_name || this.phone || this.patient_id) {
+        httpPOST('api/v1/patients/search-for-patients', JSON.stringify({
+          patient: this.patient_id,
+          phone: this.phone,
+          full_name: this.full_name,
+          department: this.department
+        })).then(({data}) => {
+          this.search_result = data
+          if (data.data.length > 0) {
+            this.toggles.showResultsPanel = true
+            this.toggles.showNoResultAlert = false
+          } else {
+            this.toggles.showResultsPanel = false
+            this.toggles.showNoResultAlert = true
+          }
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+      } else {
+        this.required_fields_Dialog = true
+      }
 
 
       if (this.department === 'reception') {
@@ -303,6 +335,10 @@ export default {
     phoneRule: value =>  {
       const pattern = /^0?7[0-9]{9,9}$/;
       return pattern.test(value) || 'Wrong Phone Number Format'
+    },
+    nameRule: value =>  {
+      const pattern = /^([^0-9]*)$/;
+      return pattern.test(value) || 'Only Letters Accepted'
     },
   }
 }
