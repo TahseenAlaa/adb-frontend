@@ -275,49 +275,51 @@ export default {
 
   methods: {
     searchPatient() {
-      this.loading_Dialog = true
-      this.searchButtonLoading = true
+      if (this.valid) {
+        this.loading_Dialog = true
+        this.searchButtonLoading = true
 
-      if (this.full_name || this.phone || this.patient_id) {
-        httpPOST('api/v1/patients/search-for-patients', JSON.stringify({
-          patient: this.patient_id,
-          phone: this.phone,
-          full_name: this.full_name,
-          department: this.department
-        })).then(({data}) => {
-          this.search_result = data
-          if (data.data.length > 0) {
-            this.toggles.showResultsPanel = true
-            this.toggles.showNoResultAlert = false
-          } else {
-            this.toggles.showResultsPanel = false
-            this.toggles.showNoResultAlert = true
-          }
-        }).catch(({response:{data}})=>{
-          console.log(data)
-        });
-      } else {
-        this.required_fields_Dialog = true
+        if (this.full_name || this.phone || this.patient_id) {
+          httpPOST('api/v1/patients/search-for-patients', JSON.stringify({
+            patient: this.patient_id,
+            phone: this.phone,
+            full_name: this.full_name,
+            department: this.department
+          })).then(({data}) => {
+            this.search_result = data
+            if (data.data.length > 0) {
+              this.toggles.showResultsPanel = true
+              this.toggles.showNoResultAlert = false
+            } else {
+              this.toggles.showResultsPanel = false
+              this.toggles.showNoResultAlert = true
+            }
+          }).catch(({response:{data}})=>{
+            console.log(data)
+          });
+        } else {
+          this.required_fields_Dialog = true
+        }
+
+
+        if (this.department === 'reception') {
+          this.receptionTeam = true;
+        } else if (this.department === 'antho') {
+          this.anthoTeam = true;
+        } else if (this.department === 'doctors') {
+          this.doctorsTeam = true
+        } else if (this.department === 'lab') {
+          this.labTeam = true
+        } else if (this.department === 'pharmacy') {
+          this.pharmacyTeam = true
+        }
+        this.loading_Dialog = false
+        this.searchButtonLoading = false
+
+        this.patient_id = null
+        this.phone = null
+        this.full_name = null
       }
-
-
-      if (this.department === 'reception') {
-        this.receptionTeam = true;
-      } else if (this.department === 'antho') {
-        this.anthoTeam = true;
-      } else if (this.department === 'doctors') {
-        this.doctorsTeam = true
-      } else if (this.department === 'lab') {
-        this.labTeam = true
-      } else if (this.department === 'pharmacy') {
-        this.pharmacyTeam = true
-      }
-      this.loading_Dialog = false
-      this.searchButtonLoading = false
-
-      this.patient_id = null
-      this.phone = null
-      this.full_name = null
     },
     humanReadableDateConverter (date) {
       if (date) {
@@ -332,9 +334,10 @@ export default {
       if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
       return 'Number Only Accepted';
     },
-    phoneRule: value =>  {
-      const pattern = /^0?7[0-9]{9,9}$/;
-      return pattern.test(value) || 'Wrong Phone Number Format'
+    phoneRule: v =>  {
+      const pattern = /^0?7[0-9]{9}$/;
+      if (!v.trim()) return true;
+      if (!pattern.test(v)) return 'Wrong Phone Number Format';
     },
     nameRule: value =>  {
       const pattern = /^([^0-9]*)$/;
