@@ -142,11 +142,14 @@
 </template>
 
 <script>
+import {httpGET, httpPOST} from "@/utils/utils";
+
 export default {
   name: "AnthoView",
   data() {
     return {
       patient_uuid: this.$route.params.patient_uuid,
+      patient_history_uuid: null,
       valid: false,
       loading: false,
       weight: null,
@@ -204,15 +207,42 @@ export default {
     // END Rules
 
     postAnthoData() {
-      // this.loading = true
+      this.loading = true
       // this.valid = false
-      if (this.$refs.form.validate()) {
-        console.log('Valid!')
-      } else {
-        console.log('Not Valid!')
-      }
-    }
+        httpPOST('api/v1/patients/update-patient-history-by-antho/' + this.patient_history_uuid, {
+          weight: this.weight,
+          height: this.height,
+          waist_circumference: this.waist_circumference,
+          bmi: this.bmi,
+          hip: this.hip,
+          father_height: this.father_height,
+          mother_height: this.mother_height,
+          mid_height: this.mid_parent_height,
+          gender: this.gender,
+        }).then(()=>{
+          this.successAlert = true
+          setTimeout(() => {this.$router.push({name: 'home'})}, 2000)
+        }).catch(({response:{data}})=>{
+          this.errorAlert = true
+          console.log(data)
+        });
+      this.loading = false
+    },
   },
+  created() {
+    //  START Fetch patient history from the last visit
+    httpGET('api/v1/patients/show-patient-history/' + this.patient_uuid)
+        .then(({data}) => {
+          this.patient_history_uuid = data.data.uuid
+          this.father_height = data.data.father_height
+          this.mother_height = data.data.mother_height
+          this.mid_parent_height = data.data.mid_height
+          this.gender = data.data.gender
+        }).catch(({response:{data}})=>{
+      console.log(data)
+    });
+    //  END Fetch patient history from the last visit
+  }
 }
 </script>
 
