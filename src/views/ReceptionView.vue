@@ -547,8 +547,8 @@
 
         <v-btn
             @click="postReceptionData"
-            class="px-2 py-12 mt-6 mx-2 deep-purple"
-            dark
+            class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
+            :disabled="!valid"
         >
           <v-col>
             <v-icon size="60">mdi-file-plus</v-icon>

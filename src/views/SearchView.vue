@@ -50,11 +50,11 @@
         <v-row dense align="center" justify="center">
           <v-spacer></v-spacer>
             <v-btn
-                dark
-                class="px-8 py-12 mt-6 mx-8"
+                class="px-8 py-12 mt-6 mx-8 deep-purple white--text"
                 color="#6200EE"
                 @click="searchPatient"
                 :loading="searchButtonLoading"
+                :disabled="!valid"
             >
               <div class="d-flex flex-column align-content-center justify-center">
 
