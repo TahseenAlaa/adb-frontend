@@ -118,14 +118,9 @@ export default {
     postNewVisitData(e) {
       httpPOST('api/v1/patients/store/newvisit', {
         patient_uuid: this.$route.params.patient_uuid,
-        uuid: this.uuid,
         patient_number: this.patient_number,
-        date_of_visit: this.date_of_visit,
         blood_pressure_systolic: this.blood_pressure_systolic,
         blood_pressure_diastolic: this.blood_pressure_diastolic,
-        weight: this.weight,
-        height: this.height,
-        bmi: this.bmi,
       })
           .then(({data})=>{
         this.successAlert = true
@@ -138,7 +133,7 @@ export default {
     }
   },
   created() {
-    httpGET('api/v1/patients/patient-info=for-new-visit/' + this.patient_uuid)
+    httpGET('api/v1/patients/patient-info-for-new-visit/' + this.patient_uuid)
         .then(({data}) => {
           this.age_at_visit = data.age;
           this.patient_number = data.patient_number
