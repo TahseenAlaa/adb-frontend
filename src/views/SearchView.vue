@@ -84,7 +84,9 @@
         <v-row align="center">
           <v-col class="grow">Unfortunately, No Results Found!</v-col>
           <v-col class="shrink">
-                <router-link to="/reception">
+                <router-link to="/reception"
+                             v-if="receptionTeam === true"
+                >
                   <v-btn
                       class="px-2 py-6 deep-purple white--text"
                   >
