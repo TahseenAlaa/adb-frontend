@@ -138,9 +138,10 @@ export default {
     }
   },
   created() {
-    httpGET('api/v1/patients/patient-age/' + this.patient_uuid)
+    httpGET('api/v1/patients/patient-info=for-new-visit/' + this.patient_uuid)
         .then(({data}) => {
-          this.age_at_visit = data.data;
+          this.age_at_visit = data.age;
+          this.patient_number = data.patient_number
         }).catch(({response:{data}})=>{
       console.log(data)
     });
