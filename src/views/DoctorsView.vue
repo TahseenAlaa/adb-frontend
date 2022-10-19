@@ -82,7 +82,7 @@
                   <div>
                     <v-col>
                       <v-dialog
-                          v-model="symptomsDialog"
+                          v-model="symptoms.Dialog"
                           max-width="800px"
                       >
                         <template v-slot:activator="{ on, attrs }">
@@ -109,10 +109,10 @@
                                 >
                                   <v-autocomplete
                                       label="Symptoms Type"
-                                      v-model="symptoms_type_model"
+                                      v-model="symptoms.type_model"
                                       outlined
                                       dense
-                                      :items="symptoms_types"
+                                      :items="symptoms.types"
                                       item-text="title"
                                       item-value="id"
                                   ></v-autocomplete>
@@ -124,7 +124,7 @@
                                 >
                                   <v-textarea
                                       label="Symptoms Notes"
-                                      v-model="symptoms_notes"
+                                      v-model="symptoms.notes"
                                       outlined
                                       dense
                                   >
@@ -138,7 +138,7 @@
                             <v-btn
                                 class="deep-purple white--text"
                                 text
-                                @click="symptomsDialog = false"
+                                @click="symptoms.Dialog = false"
                             >
                               Close
                             </v-btn>
@@ -161,17 +161,18 @@
                     <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Symptoms Notes</th>
+                      <th>Notes</th>
                       <th>Date of Symptoms</th>
                       <th>Doctor's Name</th>
                       <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in symptoms">
-                      <td>{{ item.symptoms }}</td>
+                    <tr v-for="item in symptoms.list">
+                      <td>{{ item.symptom.title }}</td>
+                      <td>{{ item.clinical_notes }}</td>
                       <td>{{ humanReadableDateConverter(item.created_at) }}</td>
-                      <td>{{ item.created_by }}</td>
+                      <td>{{ item.user.full_name }}</td>
                       <td>
                         <v-btn
                             x-small
@@ -731,7 +732,6 @@ export default {
       successAlert: false,
       errorAlert: false,
       diagnosis: [],
-      symptoms: [],
       is_confirmed: null,
       created_by: null,
       created_at: null,
@@ -742,10 +742,13 @@ export default {
       test_notes: null,
       tests: [],
       diagnosis_types: [],
-      symptomsDialog: false,
-      symptoms_type_model: null,
-      symptoms_types: [],
-      symptoms_notes: null,
+      symptoms: {
+        Dialog: false,
+        type_model: null,
+        types: [],
+        notes: null,
+        list: [],
+      },
       receptionView: {
         date_of_birthday: null,
         smoker: null,
@@ -896,8 +899,19 @@ export default {
 
     // START Store Symptoms Data
     storeSymptomsData() {
-      if (this.symptoms_type_model && this.symptoms_notes) {
-        //
+      if (this.symptoms.type_model) {
+        httpPOST('api/v1/symptoms/store', {
+          patient_uuid: this.patient_uuid,
+          symptoms_type_id: this.symptoms.type_model,
+          symptoms_notes: this.symptoms.notes,
+        })
+            .then(({data}) => {
+              this.symptoms.list.push(data.data)
+              this.symptoms.Dialog = false
+              console.log(data.data)
+            }).catch(({response: {data}}) => {
+              console.log(data)
+            });
       }
     },
     // END Store Symptoms Data
@@ -916,7 +930,7 @@ export default {
     // START Fetch symptoms list
     httpGET('api/v1/symptoms-types/index')
         .then(({data}) => {
-          this.symptoms_types = data.data
+          this.symptoms.types = data.data
         }).catch(({response:{data}})=>{
           console.log(data)
         });
