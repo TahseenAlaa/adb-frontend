@@ -74,6 +74,259 @@
               <v-card-title>Doctors</v-card-title>
               <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
 
+<!--              START Symptoms -->
+              <div class="mt-6">
+                <v-row dense align="center" justify="center">
+                  <v-card-title class="subtitle-2">Symptoms</v-card-title>
+                  <v-spacer></v-spacer>
+                  <div>
+                    <v-col>
+                      <v-dialog
+                          v-model="symptomsDialog"
+                          max-width="800px"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                              class="deep-purple white--text"
+                              dark
+                              v-bind="attrs"
+                              v-on="on"
+                          >
+                            ADD NEW Symptoms
+                          </v-btn>
+                        </template>
+                        <v-card>
+                          <v-card-title>
+                            <span class="text-h5">Adding new Symptoms</span>
+                          </v-card-title>
+                          <v-card-subtitle class="subtitle-1">Please fill the information below to add a diagnosis record to patient visit record.</v-card-subtitle>
+                          <v-card-text>
+                            <v-card-subtitle class="subtitle-2">Symptoms Information</v-card-subtitle>
+                            <v-container>
+                              <v-row>
+                                <v-col
+                                    cols="12"
+                                >
+                                  <v-autocomplete
+                                      label="Symptoms Type"
+                                      v-model="symptoms_type_model"
+                                      outlined
+                                      dense
+                                      :items="symptoms_types"
+                                      item-text="title"
+                                      item-value="id"
+                                  ></v-autocomplete>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col
+                                    cols="12"
+                                >
+                                  <v-textarea
+                                      label="Symptoms Notes"
+                                      v-model="symptoms_notes"
+                                      outlined
+                                      dense
+                                  >
+                                  </v-textarea>
+                                </v-col>
+                              </v-row>
+                            </v-container>
+                          </v-card-text>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                class="deep-purple white--text"
+                                text
+                                @click="symptomsDialog = false"
+                            >
+                              Close
+                            </v-btn>
+                            <v-btn
+                                class="deep-purple white--text"
+                                text
+                                @click="storeSymptomsData"
+                            >
+                              Save
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </v-col>
+                  </div>
+                </v-row>
+
+                <v-simple-table>
+                  <template>
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Symptoms Notes</th>
+                      <th>Date of Symptoms</th>
+                      <th>Doctor's Name</th>
+                      <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in symptoms">
+                      <td>{{ item.symptoms }}</td>
+                      <td>{{ humanReadableDateConverter(item.created_at) }}</td>
+                      <td>{{ item.created_by }}</td>
+                      <td>
+                        <v-btn
+                            x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                        <v-btn
+                            x-small
+                            color="deep-orange darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                          Delete
+                        </v-btn>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </div>
+<!--              END Symptoms -->
+
+<!--              START medical lab tests-->
+              <div class="mt-6">
+                <v-row dense align="center" justify="center">
+                  <v-card-title class="subtitle-2">Required Lab Tests</v-card-title>
+                  <v-spacer></v-spacer>
+                  <div>
+                    <v-col>
+                      <v-dialog
+                          v-model="labDialog"
+                          max-width="800px"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                              class="deep-purple white--text"
+                              dark
+                              v-bind="attrs"
+                              v-on="on"
+                          >
+                            ADD NEW TEST
+                          </v-btn>
+                        </template>
+                        <v-card>
+                          <v-card-title>
+                            <span class="text-h5">Adding new Test</span>
+                          </v-card-title>
+                          <v-card-subtitle class="subtitle-1">Please fill the information below to add a test record to patient visit record.</v-card-subtitle>
+                          <v-card-text>
+                            <v-card-subtitle class="subtitle-2">Test Information</v-card-subtitle>
+                            <v-container>
+                              <v-row>
+                                <v-col
+                                    cols="12"
+                                >
+                                  <v-autocomplete
+                                      label="Test"
+                                      v-model="test_list"
+                                      outlined
+                                      dense
+                                      :items="['Test1', 'Test2', 'Test3', 'Test4', 'Test4']"
+                                  ></v-autocomplete>
+                                </v-col>
+                              </v-row>
+                              <v-row>
+                                <v-col
+                                    cols="12"
+                                >
+                                  <v-textarea
+                                      outlined
+                                      dense
+                                      label="Notes"
+                                      v-model="test_notes"
+                                  >Notes</v-textarea>
+                                </v-col>
+                              </v-row>
+                            </v-container>
+                          </v-card-text>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                class="deep-purple white--text"
+                                text
+                                @click="labDialog = false"
+                            >
+                              Close
+                            </v-btn>
+                            <v-btn
+                                class="deep-purple white--text"
+                                text
+                                @click="storeTestData"
+                            >
+                              Save
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </v-col>
+                  </div>
+                </v-row>
+
+                <v-simple-table>
+                  <template>
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Notes</th>
+                      <th>Sampling</th>
+                      <th>Result</th>
+                      <th>Date of Adding Record</th>
+                      <th>Doctor's Name</th>
+                      <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="test in tests">
+                      <td>{{ test.test_name }}</td>
+                      <td>{{ test.notes }}</td>
+                      <td v-if="test.status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="test.status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="test.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+                      <td>{{ test.created_at }}</td>
+                      <td>{{ test.created_by }}</td>
+                      <td>
+                        <v-btn
+                            x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                        <v-btn
+                            x-small
+                            color="deep-orange darken-1"
+                            dark
+                            class="px-1 mx-1"
+                        >
+                          <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                          Delete
+                        </v-btn>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </div>
+<!--              END medical lab tests-->
+
               <div class="mt-6">
                 <v-row dense align="center" justify="center">
                   <v-card-title class="subtitle-2">Diagnosis</v-card-title>
@@ -367,131 +620,6 @@
                 </v-simple-table>
               </div>
 
-              <div class="mt-6">
-                <v-row dense align="center" justify="center">
-                  <v-card-title class="subtitle-2">Required Lab Tests</v-card-title>
-                  <v-spacer></v-spacer>
-                  <div>
-                    <v-col>
-                      <v-dialog
-                          v-model="labDialog"
-                          max-width="800px"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                              class="deep-purple white--text"
-                              dark
-                              v-bind="attrs"
-                              v-on="on"
-                          >
-                            ADD NEW TEST
-                          </v-btn>
-                        </template>
-                        <v-card>
-                          <v-card-title>
-                            <span class="text-h5">Adding new Test</span>
-                          </v-card-title>
-                          <v-card-subtitle class="subtitle-1">Please fill the information below to add a test record to patient visit record.</v-card-subtitle>
-                          <v-card-text>
-                            <v-card-subtitle class="subtitle-2">Test Information</v-card-subtitle>
-                            <v-container>
-                              <v-row>
-                                <v-col
-                                    cols="12"
-                                >
-                                  <v-autocomplete
-                                      label="Test"
-                                      v-model="test_list"
-                                      outlined
-                                      dense
-                                      :items="['Test1', 'Test2', 'Test3', 'Test4', 'Test4']"
-                                  ></v-autocomplete>
-                                </v-col>
-                              </v-row>
-                              <v-row>
-                                <v-col
-                                    cols="12"
-                                >
-                                  <v-textarea
-                                      outlined
-                                      dense
-                                      label="Notes"
-                                      v-model="test_notes"
-                                  >Notes</v-textarea>
-                                </v-col>
-                              </v-row>
-                            </v-container>
-                          </v-card-text>
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                class="deep-purple white--text"
-                                text
-                                @click="labDialog = false"
-                            >
-                              Close
-                            </v-btn>
-                            <v-btn
-                                class="deep-purple white--text"
-                                text
-                                @click="storeTestData"
-                            >
-                              Save
-                            </v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </v-dialog>
-                    </v-col>
-                  </div>
-                </v-row>
-
-                <v-simple-table>
-                  <template>
-                    <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Notes</th>
-                      <th>Status</th>
-                      <th>Date of Adding Record</th>
-                      <th>Doctor's Name</th>
-                      <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="test in tests">
-                      <td>{{ test.test_name }}</td>
-                      <td>{{ test.notes }}</td>
-                      <td v-if="test.status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-                      <td v-if="test.status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-                      <td v-if="test.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
-                      <td>{{ test.created_at }}</td>
-                      <td>{{ test.created_by }}</td>
-                      <td>
-                        <v-btn
-                            x-small
-                            color="teal darken-1"
-                            dark
-                            class="px-1 mx-1"
-                        >
-                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
-                          Edit
-                        </v-btn>
-                        <v-btn
-                            x-small
-                            color="deep-orange darken-1"
-                            dark
-                            class="px-1 mx-1"
-                        >
-                          <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
-                          Delete
-                        </v-btn>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </template>
-                </v-simple-table>
-              </div>
-
               <v-row dense class="py-12">
                 <v-col cols="10">
                   <v-textarea
@@ -603,7 +731,7 @@ export default {
       successAlert: false,
       errorAlert: false,
       diagnosis: [],
-      symptoms: null,
+      symptoms: [],
       is_confirmed: null,
       created_by: null,
       created_at: null,
@@ -614,6 +742,10 @@ export default {
       test_notes: null,
       tests: [],
       diagnosis_types: [],
+      symptomsDialog: false,
+      symptoms_type_model: null,
+      symptoms_types: [],
+      symptoms_notes: null,
       receptionView: {
         date_of_birthday: null,
         smoker: null,
@@ -762,6 +894,14 @@ export default {
       }
     },
 
+    // START Store Symptoms Data
+    storeSymptomsData() {
+      if (this.symptoms_type_model && this.symptoms_notes) {
+        //
+      }
+    },
+    // END Store Symptoms Data
+
     humanReadableDateConverter (date) {
       if (date) {
         let newDate = new Date(date)
@@ -773,6 +913,15 @@ export default {
   },
   name: "DoctorsView",
   created() {
+    // START Fetch symptoms list
+    httpGET('api/v1/symptoms-types/index')
+        .then(({data}) => {
+          this.symptoms_types = data.data
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+    // END Fetch symptoms list
+
     // START fetch diagnosis list
     httpGET('api/v1/diagnosis/types')
         .then(({data}) => {
