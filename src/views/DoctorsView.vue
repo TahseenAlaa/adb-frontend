@@ -108,10 +108,12 @@
                                 >
                                   <v-autocomplete
                                       label="Diagnosis Type"
-                                      v-model="diagnosis_type"
+                                      v-model="diagnosis_type_model"
                                       outlined
                                       dense
-                                      :items="['Disease1', 'Disease2', 'Disease3', 'Disease4', 'Disease5']"
+                                      :items="diagnosis_types"
+                                      item-text="title"
+                                      item-value="id"
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
@@ -580,7 +582,7 @@ export default {
   components: {ReceptionCompo},
   data() {
     return {
-      diagnosis_type: [],
+      diagnosis_type_model: null,
       patient_uuid: this.$route.params.patient_uuid,
       patient_history_uuid: null,
       diagnosisDialog: false,
@@ -611,6 +613,7 @@ export default {
       test_name: null,
       test_notes: null,
       tests: [],
+      diagnosis_types: [],
       receptionView: {
         date_of_birthday: null,
         smoker: null,
@@ -770,6 +773,15 @@ export default {
   },
   name: "DoctorsView",
   created() {
+    // START fetch diagnosis list
+    httpGET('api/v1/diagnosis/types')
+        .then(({data}) => {
+          this.diagnosis_types = data.data
+        }).catch(({response:{data}})=>{
+          console.log(data)
+    });
+    // END fetch diagnosis list
+
     // START fetch patient history record
     httpGET('api/v1/patients/show-patient-history/' + this.patient_uuid)
         .then(({data}) => {
