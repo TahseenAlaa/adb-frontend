@@ -88,21 +88,118 @@
         </template>
       </v-simple-table>
 
-<!--      START New Test Button -->
-      <v-row dense align="center" justify="center" class="py-6">
-        <v-col cols="10"></v-col>
-        <v-col cols="2">
-          <v-btn
-              class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
-          >
-            <v-col>
-              <v-icon size="60">mdi-folder-plus</v-icon>
-              <h3 class="text-capitalize">Add New Test</h3>
-            </v-col>
-          </v-btn>
-        </v-col>
+<!--      START new test Dialog -->
+      <v-row dense align="center" justify="center">
+        <v-spacer></v-spacer>
+        <div>
+          <v-col>
+            <v-dialog
+                v-model="test_group.new_item_model"
+                max-width="800px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
+                    v-bind="attrs"
+                    v-on="on"
+                >
+                  <v-col>
+                    <v-icon size="60">mdi-folder-plus</v-icon>
+                    <h3 class="text-capitalize">Add New Test</h3>
+                  </v-col>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">Adding new Test</span>
+                </v-card-title>
+                <v-card-subtitle class="subtitle-1">Please fill the information below to add a new test.</v-card-subtitle>
+                <v-card-text>
+                  <v-card-subtitle class="subtitle-2">Test Information</v-card-subtitle>
+                  <v-container>
+                    <v-row dense>
+                      <v-col
+                          cols="6"
+                      >
+                        <v-text-field
+                            label="Group Name"
+                            outlined
+                            dense
+                        >
+                        </v-text-field>
+                      </v-col>
+                      <v-col
+                          cols="6"
+                      >
+                        <v-text-field
+                            label="Test Name"
+                            outlined
+                            dense
+                        >
+                        </v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row dense>
+                      <v-col cols="2">
+                        <v-text-field
+                            label="Min Range"
+                            outlined
+                            dense
+                        >
+                        </v-text-field>
+                      </v-col>
+                      <v-col cols="2">
+                        <v-text-field
+                            label="Max Range"
+                            outlined
+                            dense
+                        >
+                        </v-text-field>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-text-field
+                            label="Measurement Unit"
+                            outlined
+                            dense
+                        >
+                        </v-text-field>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-radio-group
+                            dense
+                            row
+                        >
+                          <v-radio value="Male" label="Male"></v-radio>
+                          <v-radio value="Female" label="Female"></v-radio>
+                        </v-radio-group>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="deep-purple white--text"
+                      text
+                      @click="test_group.new_item_model = false"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn
+                      class="deep-purple white--text"
+                      text
+                      @click=""
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </div>
       </v-row>
-<!--      END New Test Button -->
+<!--      END new test Dialog -->
+
     </v-card>
     <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
@@ -126,6 +223,7 @@ export default {
       loading_Dialog: true,
       disableDeleteBTN: false,
       test_group: {
+        new_item_model: null,
         delete_dialog: {
           active: false,
           loading: false,
