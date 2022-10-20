@@ -123,6 +123,7 @@
                       >
                         <v-text-field
                             label="Group Name"
+                            v-model="new_test.group"
                             outlined
                             dense
                         >
@@ -133,6 +134,7 @@
                       >
                         <v-text-field
                             label="Test Name"
+                            v-model="new_test.name"
                             outlined
                             dense
                         >
@@ -143,6 +145,7 @@
                       <v-col cols="2">
                         <v-text-field
                             label="Min Range"
+                            v-model="new_test.min_range"
                             outlined
                             dense
                         >
@@ -151,6 +154,7 @@
                       <v-col cols="2">
                         <v-text-field
                             label="Max Range"
+                            v-model="new_test.max_range"
                             outlined
                             dense
                         >
@@ -159,6 +163,7 @@
                       <v-col cols="4">
                         <v-text-field
                             label="Measurement Unit"
+                            v-model="new_test.unit"
                             outlined
                             dense
                         >
@@ -166,6 +171,7 @@
                       </v-col>
                       <v-col cols="4">
                         <v-radio-group
+                            v-model="new_test.gender"
                             dense
                             row
                         >
@@ -188,7 +194,8 @@
                   <v-btn
                       class="deep-purple white--text"
                       text
-                      @click=""
+                      @click="storeNewTest"
+                      :disabled="disableSaveBTN"
                   >
                     Save
                   </v-btn>
@@ -209,7 +216,7 @@
 </template>
 
 <script>
-import {httpGET, httpDELETE} from "@/utils/utils";
+import {httpGET, httpDELETE, httpPOST} from "@/utils/utils";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
@@ -229,6 +236,15 @@ export default {
           loading: false,
           temp_test_id: null
         }
+      },
+      disableSaveBTN: false,
+      new_test: {
+        group: null,
+        name: null,
+        min_range: null,
+        max_range: null,
+        unit: null,
+        gender: null
       }
     }
   },
@@ -250,6 +266,26 @@ export default {
       this.disableDeleteBTN = false
       this.loading_Dialog = false
       this.test_group.delete_dialog.active = false
+    },
+    storeNewTest() {
+      this.loading_Dialog = true
+      this.disableSaveBTN = true
+      httpPOST('api/v1/lab-test-groups/store', {
+        test_group: this.new_test.group,
+        test_name: this.new_test.name,
+        min_range: this.new_test.min_range,
+        max_range: this.new_test.max_range,
+        unit: this.new_test.unit,
+        gender: this.new_test.gender
+      }).then(({data}) => {
+        this.test_groups = data.data
+        // console.log(data.data)
+      }).catch(({response: {data}}) => {
+        console.log(data)
+      });
+      this.loading_Dialog = false
+      this.disableSaveBTN = false
+      this.test_group.new_item_model = false
     }
   },
   created() {
