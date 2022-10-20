@@ -176,23 +176,52 @@
                       <td>
                         <v-btn
                             x-small
-                            color="teal darken-1"
-                            dark
-                            class="px-1 mx-1"
-                        >
-                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
-                          Edit
-                        </v-btn>
-                        <v-btn
-                            x-small
                             color="deep-orange darken-1"
                             dark
                             class="px-1 mx-1"
+                            @click="symptoms.delete_dialog.active = true"
                         >
                           <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
                           Delete
                         </v-btn>
                       </td>
+                      <!--              START Delete Dialog -->
+                      <v-row justify="center">
+                        <v-dialog
+                            v-model="symptoms.delete_dialog.active"
+                            persistent
+                            max-width="230"
+                        >
+                          <v-card>
+                            <v-card-title class="text-h5">
+                              Delete Symptom
+                            </v-card-title>
+                            <v-card-text class="text-center">
+                              Are you sure to delete this symptom?
+                            </v-card-text>
+                            <v-card-actions class="d-flex justify-center">
+                              <v-btn
+                                  dark
+                                  class="deep-grey"
+                                  @click="symptoms.delete_dialog.active = false"
+                              >
+                                Close
+                              </v-btn>
+                              <v-btn
+                                  color="deep-orange darken-1"
+                                  dark
+                                  class="px-1 mx-1"
+                                  @click="deleteSymptom(item.id)"
+                                  :loading="symptoms.delete_dialog.loading"
+                              >
+                                <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
+                                Delete
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </v-row>
+                      <!--              END Delete Dialog -->
                     </tr>
                     </tbody>
                   </template>
@@ -302,15 +331,6 @@
                       <td>{{ test.created_at }}</td>
                       <td>{{ test.created_by }}</td>
                       <td>
-                        <v-btn
-                            x-small
-                            color="teal darken-1"
-                            dark
-                            class="px-1 mx-1"
-                        >
-                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
-                          Edit
-                        </v-btn>
                         <v-btn
                             x-small
                             color="deep-orange darken-1"
@@ -426,15 +446,6 @@
                       <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                       <td>{{ item.created_by }}</td>
                       <td>
-                        <v-btn
-                            x-small
-                            color="teal darken-1"
-                            dark
-                            class="px-1 mx-1"
-                        >
-                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
-                          Edit
-                        </v-btn>
                         <v-btn
                             x-small
                             color="deep-orange darken-1"
@@ -598,15 +609,6 @@
                       <td>
                         <v-btn
                             x-small
-                            color="teal darken-1"
-                            dark
-                            class="px-1 mx-1"
-                        >
-                          <v-icon size="20" class="pr-1">mdi-pencil</v-icon>
-                          Edit
-                        </v-btn>
-                        <v-btn
-                            x-small
                             color="deep-orange darken-1"
                             dark
                             class="px-1 mx-1"
@@ -704,11 +706,13 @@
 </template>
 
 <script>
-import {httpGET, httpPOST} from "@/utils/utils";
+import {httpDELETE, httpGET, httpPOST} from "@/utils/utils";
 import ReceptionCompo from "@/components/ReceptionCompo";
 
 export default {
-  components: {ReceptionCompo},
+  components: {
+    ReceptionCompo
+  },
   data() {
     return {
       diagnosis_type_model: null,
@@ -748,6 +752,12 @@ export default {
         types: [],
         notes: null,
         list: [],
+        delete_dialog: {
+          active: false,
+          title: 'Delete Symptom',
+          url: null,
+          loading: false
+        }
       },
       receptionView: {
         date_of_birthday: null,
@@ -805,6 +815,19 @@ export default {
   },
 
   methods: {
+    deleteSymptom(itemId) {
+      this.symptoms.delete_dialog.loading = true
+      httpDELETE('api/v1/symptoms/delete/' + parseInt(itemId) + '/' + this.patient_uuid)
+          .then(({data}) => {
+            this.symptoms.list = []
+            this.symptoms.list = data.data
+            console.log(data.data)
+          }).catch(({response:data}) => {
+        console.log(data.response)
+      })
+      this.symptoms.delete_dialog.loading = false
+      this.symptoms.delete_dialog.active = false
+    },
     postPatientData(e) {
       httpPOST('api/v1/patients/updatePatientHistory/' + this.patient_history_uuid, {
         patient_number: this.patient_number,
@@ -912,6 +935,8 @@ export default {
             }).catch(({response: {data}}) => {
               console.log(data)
             });
+        this.symptoms.type_model = null
+        this.symptoms.notes = null
       }
     },
     // END Store Symptoms Data

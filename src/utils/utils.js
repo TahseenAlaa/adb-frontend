@@ -28,3 +28,13 @@ export function httpPOST($URL, $data) {
             }
         } );
 }
+
+export function httpDELETE($URL) {
+    return axios.delete(baseURL + $URL, {
+        headers: {
+            'Content-Type' : 'application/json',
+            'Accept'       : 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('esite_token')
+        }
+    })
+}
