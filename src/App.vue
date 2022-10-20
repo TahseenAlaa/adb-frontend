@@ -114,7 +114,7 @@
               <v-list-item-title>Symptoms Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'lab_management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="cyan lighten-1">mdi-test-tube</v-icon>
               </v-list-item-icon>

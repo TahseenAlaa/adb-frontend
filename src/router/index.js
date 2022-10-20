@@ -81,6 +81,11 @@ const routes = [
     path: '/permissions',
     name: 'permissions',
     component: () => import(/* webpackChunkName: "about" */ '../views/PermissionsView.vue')
+  },
+  {
+    path: '/lab-management',
+    name: 'lab_management',
+    component: () => import(/* webpackChunkName: "about" */ '../views/LabManagementView.vue')
   }
 
 ]
