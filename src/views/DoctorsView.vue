@@ -263,11 +263,18 @@
                                     cols="12"
                                 >
                                   <v-autocomplete
-                                      label="Test"
-                                      v-model="test_list"
+                                      label="Test Group"
+                                      v-model="test.group_value"
                                       outlined
                                       dense
-                                      :items="['Test1', 'Test2', 'Test3', 'Test4', 'Test4']"
+                                      :items="test.group"
+                                  ></v-autocomplete>
+                                  <v-autocomplete
+                                      label="Test Name"
+                                      v-model="test.list_value"
+                                      outlined
+                                      dense
+                                      :items="test.list"
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
@@ -312,6 +319,7 @@
                   <template>
                     <thead>
                     <tr>
+                      <th>Group</th>
                       <th>Name</th>
                       <th>Notes</th>
                       <th>Sampling</th>
@@ -348,6 +356,7 @@
               </div>
 <!--              END medical lab tests-->
 
+<!--              START Diagnosis -->
               <div class="mt-6">
                 <v-row dense align="center" justify="center">
                   <v-card-title class="subtitle-2">Diagnosis</v-card-title>
@@ -461,7 +470,9 @@
                   </template>
                 </v-simple-table>
               </div>
+<!--              END Diagnosis -->
 
+<!--              START Treatment -->
               <div class="mt-6">
                 <v-row dense align="center" justify="center">
                   <v-card-title class="subtitle-2">Treatment</v-card-title>
@@ -622,6 +633,7 @@
                   </template>
                 </v-simple-table>
               </div>
+<!--              END Treatment -->
 
               <v-row dense class="py-12">
                 <v-col cols="10">
@@ -758,6 +770,12 @@ export default {
           url: null,
           loading: false
         }
+      },
+      test: {
+        group: [],
+        group_value: null,
+        list: [],
+        list_value: null
       },
       receptionView: {
         date_of_birthday: null,
