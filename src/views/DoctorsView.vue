@@ -268,6 +268,9 @@
                                       outlined
                                       dense
                                       :items="test.group"
+                                      item-text="test_group"
+                                      item-value="test_group"
+                                      @change="fetchTestList"
                                   ></v-autocomplete>
                                   <v-autocomplete
                                       label="Test Name"
@@ -275,6 +278,8 @@
                                       outlined
                                       dense
                                       :items="test.list"
+                                      item-text="test_name"
+                                      item-value="id"
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
@@ -286,7 +291,7 @@
                                       outlined
                                       dense
                                       label="Notes"
-                                      v-model="test_notes"
+                                      v-model="test.notes"
                                   >Notes</v-textarea>
                                 </v-col>
                               </v-row>
@@ -331,13 +336,16 @@
                     </thead>
                     <tbody>
                     <tr v-for="test in tests">
-                      <td>{{ test.test_name }}</td>
-                      <td>{{ test.notes }}</td>
-                      <td v-if="test.status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-                      <td v-if="test.status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-                      <td v-if="test.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
-                      <td>{{ test.created_at }}</td>
-                      <td>{{ test.created_by }}</td>
+                      <td>{{ test.test_groups.test_group }}</td>
+                      <td>{{ test.test_groups.test_name }}</td>
+                      <td>{{ test.doctor_notes }}</td>
+                      <td v-if="test.sampling_status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="test.sampling_status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="test.sampling_status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+                      <td v-if="test.result === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="test.result"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+                      <td>{{ humanReadableDateConverter(test.created_at) }}</td>
+                      <td>{{ test.user.full_name }}</td>
                       <td>
                         <v-btn
                             x-small
@@ -775,7 +783,8 @@ export default {
         group: [],
         group_value: null,
         list: [],
-        list_value: null
+        list_value: null,
+        notes: null
       },
       receptionView: {
         date_of_birthday: null,
@@ -919,23 +928,24 @@ export default {
     },
 
     storeTestData(e) {
-      if (this.test_name && this.test_notes) {
+      if (this.test.group_value && this.test.list_value) {
         httpPOST('api/v1/lab/store', {
           patient_uuid: this.$route.params.patient_uuid,
-          test_name: this.test_name,
-          test_notes: this.test_notes,
+          test_id: this.test.list_value,
+          notes: this.test.notes,
         })
         .then(({data}) => {
-          data.data.created_by = data.doctor_name
-          data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
-          this.tests.push(data.data)
-          console.log(this.tests)
+          this.tests = data.data
+          console.log(data.data)
         }).catch(({response: {data}}) => {
           console.log(data)
         });
         e.preventDefault()
-        this.labDialog = false
       }
+      this.labDialog = false
+      this.test.group_value = null
+      this.test.list_value = null
+      this.test.notes = null
     },
 
     // START Store Symptoms Data
@@ -966,10 +976,33 @@ export default {
       } else {
         return null
       }
+    },
+
+    // START fetch test list
+    fetchTestList() {
+      httpPOST('api/v1/lab-test-groups/index-test-names', {
+        test_group: this.test.group_value
+      }).then(({data}) => {
+        this.test.list = data.data
+        console.log(data.data)
+      }).catch(({response: {data}}) => {
+        console.log(data)
+      });
     }
+    // END fetch test list
   },
   name: "DoctorsView",
   created() {
+    // START Fetch lab tests with groups
+    httpGET('api/v1/lab-test-groups/index-group-names')
+        .then(({data}) => {
+          this.test.group = data.data
+          console.log(data.data)
+        }).catch(({response: {data}}) => {
+      console.log(data)
+    });
+    // END Fetch lab tests with groups
+
     // START Fetch symptoms list
     httpGET('api/v1/symptoms-types/index')
         .then(({data}) => {
@@ -1063,7 +1096,7 @@ export default {
           this.receptionView.gender = data.data.gender
         })
     // END fetch patient information
-  }
+  },
 }
 </script>
 
