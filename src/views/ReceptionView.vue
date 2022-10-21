@@ -703,7 +703,7 @@ export default {
           .then(({data}) => {
             this.successAlert = true
             setTimeout(() => {
-              this.$router.push({path: '/'})
+              this.$router.push({path: `/viewpanels/${data.data.uuid}`})
             }, 2000)
             console.log(data)
           }).catch(({response: {data}}) => {
