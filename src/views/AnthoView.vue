@@ -23,7 +23,7 @@
                 v-model="height"
                 outlined
                 dense
-                :rules="[heightRule]"
+                :rules="[rules.required, heightRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="2">
@@ -238,7 +238,12 @@ export default {
     // END Rules
 
     postAnthoData() {
-      if (!this.weight.trim() ||  !this.height.trim()) {
+      if (
+          !this.weight ||
+          !this.height ||
+          !this.weight.trim() ||
+          !this.height.trim()
+      ) {
         this.required_fields_Dialog = true
       } else {
         this.loading = true
