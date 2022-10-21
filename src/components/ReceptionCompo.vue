@@ -636,7 +636,8 @@ export default {
               this.date_of_dm =  data.patient_info.date_of_dm,
               this.patient_number =  data.patient_info.patient_number,
               this.social_status =  data.patient_info.social_status,
-
+              this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic,
+              this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
           console.log(data.patient_info)
         }).catch(({response:{data}})=>{
           console.log(data)
