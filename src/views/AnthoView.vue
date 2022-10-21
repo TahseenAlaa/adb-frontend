@@ -238,7 +238,7 @@ export default {
     // END Rules
 
     postAnthoData() {
-      if (this.weight === null || this.height === null) {
+      if (!this.weight.trim() ||  !this.height.trim()) {
         this.required_fields_Dialog = true
       } else {
         this.loading = true

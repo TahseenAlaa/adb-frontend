@@ -147,7 +147,12 @@ export default {
       return 'Number has to be between 0 and 300';
     },
     postNewVisitData(e) {
-      if (!this.blood_pressure_systolic.trim() || !this.blood_pressure_diastolic.trim()) {
+      if (
+          !this.blood_pressure_systolic ||
+          !this.blood_pressure_diastolic ||
+          !this.blood_pressure_systolic.trim() ||
+          !this.blood_pressure_diastolic.trim()
+      ) {
         this.required_fields_Dialog = true
       } else {
         httpPOST('api/v1/patients/store/newvisit', {
