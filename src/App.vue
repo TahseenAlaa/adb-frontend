@@ -100,7 +100,7 @@
               <v-list-item-title>Patients Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'diagnosis_management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="cyan darken-3">mdi-air-filter</v-icon>
               </v-list-item-icon>
