@@ -246,7 +246,7 @@
           <v-col cols="3">
             <v-checkbox
                 label="Family History of DM"
-                v-model="family_history_of_dm"
+                v-model="family_dm"
                 dense
                 outlined
                 readonly
@@ -599,11 +599,11 @@ export default {
               this.address =  data.patient_info.address,
               this.smoker =  data.patient_info.smoker,
               this.drinker =  data.patient_info.drinker,
-              this.family_dm =  data.patient_info.family_history_of_dm,
+              this.family_dm =  data.patient_info.family_dm,
               this.gestational_dm =  data.patient_info.gestational_dm,
-              this.weight_baby =  data.patient_info.weight_of_baby_at_birthday,
+              this.weight_of_baby_at_birthday =  data.patient_info.weight_baby,
               this.hypertension =  data.patient_info.hypertension,
-              this.family_ihd =  data.patient_info.family_history_of_ihd,
+              this.family_history_of_ihd =  data.patient_info.family_ihd,
               this.parity =  data.patient_info.parity,
               this.smbg =  data.patient_info.smbg,
               this.ihd =  data.patient_info.ihd,
@@ -631,14 +631,11 @@ export default {
               this.blood_pressure_systolic =  data.patient_info.blood_pressure_systolic,
               this.blood_pressure_diastolic =  data.patient_info.blood_pressure_diastolic,
               this.notes =  data.patient_info.notes,
-              this.family_history_of_ihd =  data.patient_info.family_history_of_ihd,
-              this.weight_of_baby_at_birthday =  data.patient_info.weight_of_baby_at_birthday,
               this.date_of_dm =  data.patient_info.date_of_dm,
               this.patient_number =  data.patient_info.patient_number,
               this.social_status =  data.patient_info.social_status,
               this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic,
               this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
-          console.log(data.patient_info)
         }).catch(({response:{data}})=>{
           console.log(data)
         });
