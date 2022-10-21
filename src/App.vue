@@ -86,7 +86,7 @@
               <v-list-item-title>Log Activities</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'users_management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="orange">mdi-account-multiple</v-icon>
               </v-list-item-icon>

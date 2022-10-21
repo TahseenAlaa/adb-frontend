@@ -91,6 +91,11 @@ const routes = [
     path: '/log-activities',
     name: 'log_activities',
     component: () => import(/* webpackChunkName: "about" */ '../views/LogActivitiesView.vue')
+  },
+  {
+    path: '/users-management',
+    name: 'users_management',
+    component: () => import(/* webpackChunkName: "about" */ '../views/UsersManagementView.vue')
   }
 
 ]
