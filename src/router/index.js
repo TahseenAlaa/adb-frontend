@@ -101,7 +101,17 @@ const routes = [
     path: '/diagnosis-management',
     name: 'diagnosis_management',
     component: () => import(/* webpackChunkName: "about" */ '../views/DiagnosisManagementView.vue')
-  }
+  },
+  {
+    path: '/symptoms-management',
+    name: 'symptoms_management',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SymptomsManagementView.vue')
+  },
+  {
+    path: 'settings',
+    name: 'settings',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SettingsView.vue')
+  },
 
 ]
 

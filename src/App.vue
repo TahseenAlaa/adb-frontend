@@ -107,7 +107,7 @@
               <v-list-item-title>Diagnosis Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'symptoms_management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="deep-orange darken-3">mdi-bacteria</v-icon>
               </v-list-item-icon>
@@ -142,7 +142,7 @@
               <v-list-item-title>Providers Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'settings'})">
               <v-list-item-icon>
                 <v-icon size="30" color="brown">mdi-cog</v-icon>
               </v-list-item-icon>
