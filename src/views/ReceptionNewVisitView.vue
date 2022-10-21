@@ -36,7 +36,7 @@
                 v-model="blood_pressure_systolic"
                 outlined
                 dense
-                :rules="[bloodPressureRule]"
+                :rules="[bloodPressureRule, rules.required]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -45,7 +45,7 @@
                 v-model="blood_pressure_diastolic"
                 outlined
                 dense
-                :rules="[bloodPressureRule]"
+                :rules="[bloodPressureRule, rules.required]"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -77,6 +77,33 @@
         </v-btn>
       </v-row>
     </v-form>
+    <!--    START Required Fields Dialog-->
+    <v-row justify="center">
+      <v-dialog
+          v-model="required_fields_Dialog"
+          persistent
+          max-width="300"
+      >
+        <v-card>
+          <v-card-title class="text-h5 red">
+            Error
+          </v-card-title>
+          <v-card-text class="text-center pt-6 text-h5">
+            Please enter patient information.
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                @click="required_fields_Dialog = false"
+                dark
+                class="deep-purple"
+            >
+              Ok
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!--    END Required Fields Dialog-->
   </v-container>
 
 </template>
@@ -101,6 +128,10 @@ export default {
       height: null,
       waist_circumference: null,
       bmi: null,
+      required_fields_Dialog: false,
+      rules: {
+        required: value => !!value || 'Required.',
+      },
     }
   },
   watch: {
@@ -116,20 +147,24 @@ export default {
       return 'Number has to be between 0 and 300';
     },
     postNewVisitData(e) {
-      httpPOST('api/v1/patients/store/newvisit', {
-        patient_uuid: this.$route.params.patient_uuid,
-        patient_number: this.patient_number,
-        blood_pressure_systolic: this.blood_pressure_systolic,
-        blood_pressure_diastolic: this.blood_pressure_diastolic,
-      })
-          .then(({data})=>{
-        this.successAlert = true
-        setTimeout(() => {this.$router.push({path: '/'})}, 2000)
-        console.log(data)
-      }).catch(({response:{data}})=>{
-        console.log(data)
-      });
-      e.preventDefault()
+      if (!this.blood_pressure_systolic.trim() || !this.blood_pressure_diastolic.trim()) {
+        this.required_fields_Dialog = true
+      } else {
+        httpPOST('api/v1/patients/store/newvisit', {
+          patient_uuid: this.$route.params.patient_uuid,
+          patient_number: this.patient_number,
+          blood_pressure_systolic: this.blood_pressure_systolic,
+          blood_pressure_diastolic: this.blood_pressure_diastolic,
+        })
+            .then(({data})=>{
+              this.successAlert = true
+              setTimeout(() => {this.$router.push({path: '/'})}, 2000)
+              console.log(data)
+            }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+        e.preventDefault()
+      }
     }
   },
   created() {
