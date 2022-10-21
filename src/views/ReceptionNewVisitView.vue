@@ -67,8 +67,7 @@
         >Save data Failed!</v-alert>
         <v-btn
             @click="postNewVisitData"
-            class="px-2 py-12 mt-6 mx-2 deep-purple"
-            dark
+            class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
             :disabled="!valid"
         >
           <v-col>
