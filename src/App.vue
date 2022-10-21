@@ -79,7 +79,7 @@
               <v-list-item-title>Home</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'log_activities'})">
               <v-list-item-icon>
                 <v-icon size="30" color="red">mdi-view-comfy</v-icon>
               </v-list-item-icon>
