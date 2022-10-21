@@ -93,7 +93,7 @@
               <v-list-item-title>Users Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'patientslist'})">
+            <v-list-item @click="$router.push({name: 'patients_management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="purple">mdi-account-group</v-icon>
               </v-list-item-icon>

@@ -65,11 +65,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ViewPanels.vue')
   },
   {
-    path: '/patientslist',
-    name: 'patientslist',
-    component: () => import(/* webpackChunkName: "about" */ '../views/PatientsListView.vue')
-  },
-  {
     path: '/about',
     name: 'about',
     // route level code-splitting
@@ -96,6 +91,11 @@ const routes = [
     path: '/users-management',
     name: 'users_management',
     component: () => import(/* webpackChunkName: "about" */ '../views/UsersManagementView.vue')
+  },
+  {
+    path: '/patients-management',
+    name: 'patients_management',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PatientsManagementView.vue')
   }
 
 ]
