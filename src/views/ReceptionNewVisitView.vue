@@ -69,6 +69,7 @@
             @click="postNewVisitData"
             class="px-2 py-12 mt-6 mx-2 deep-purple"
             dark
+            :disabled="!valid"
         >
           <v-col>
             <v-icon size="60">mdi-account-details</v-icon>
