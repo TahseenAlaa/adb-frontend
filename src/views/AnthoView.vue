@@ -13,7 +13,7 @@
                 v-model="weight"
                 outlined
                 dense
-                :rules="[weightRule]"
+                :rules="[rules.required, weightRule]"
                 required
             ></v-text-field>
           </v-col>
@@ -138,6 +138,33 @@
         </v-btn>
       </v-row>
     </v-form>
+    <!--    START Required Fields Dialog-->
+    <v-row justify="center">
+      <v-dialog
+          v-model="required_fields_Dialog"
+          persistent
+          max-width="300"
+      >
+        <v-card>
+          <v-card-title class="text-h5 red">
+            Error
+          </v-card-title>
+          <v-card-text class="text-center pt-6 text-h5">
+            Please enter patient information.
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                @click="required_fields_Dialog = false"
+                dark
+                class="deep-purple"
+            >
+              Ok
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!--    END Required Fields Dialog-->
   </v-container>
 </template>
 
@@ -162,7 +189,11 @@ export default {
       mid_parent_height: null,
       gender: null,
       successAlert: false,
-      errorAlert: false
+      errorAlert: false,
+      rules: {
+        required: value => !!value || 'Required.',
+      },
+      required_fields_Dialog: false
     }
   },
 
@@ -207,8 +238,11 @@ export default {
     // END Rules
 
     postAnthoData() {
-      this.loading = true
-      // this.valid = false
+      if (this.weight === null || this.height === null) {
+        this.required_fields_Dialog = true
+      } else {
+        this.loading = true
+        // this.valid = false
         httpPOST('api/v1/patients/update-patient-history-by-antho/' + this.patient_history_uuid, {
           weight: this.weight,
           height: this.height,
@@ -226,7 +260,8 @@ export default {
           this.errorAlert = true
           console.log(data)
         });
-      this.loading = false
+        this.loading = false
+      }
     },
   },
   created() {
@@ -242,7 +277,7 @@ export default {
       console.log(data)
     });
     //  END Fetch patient history from the last visit
-  }
+  },
 }
 </script>
 
