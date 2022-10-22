@@ -1019,7 +1019,7 @@ export default {
     },
     // END fetch test list
 
-    // START Delete Dialog
+    // START Delete Dialog and action
     deleteDialogPopup($title, $id) {
       this.dialogs.delete.title = $title
       this.dialogs.delete.temp_id = $id
@@ -1031,7 +1031,7 @@ export default {
         this.deleteSymptom()
       }
     },
-    // END Delete Dialog
+    // END Delete Dialog and action
 
     // START Delete a symptom
     deleteSymptom() {
@@ -1046,6 +1046,8 @@ export default {
       })
       this.dialogs.delete.loading = false
       this.dialogs.delete.active = false
+      this.dialogs.delete.temp_id = null
+      this.dialogs.delete.title = null
     },
     // END Delete a symptom
   },
