@@ -146,7 +146,7 @@
                             color="deep-orange darken-1"
                             dark
                             class="px-1 mx-1"
-                            @click=""
+                            @click="deleteDialogPopup('Symptom', item.id)"
                         >
                           <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
                           Delete
@@ -683,7 +683,7 @@
                 color="deep-orange darken-1"
                 dark
                 class="px-1 mx-1"
-                @click="deleteDialog($title, $id)"
+                @click="deleteDialogAction"
                 :loading="dialogs.delete.loading"
             >
               <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
@@ -863,7 +863,8 @@ export default {
         delete: {
           active: false,
           title: null,
-          loading: false
+          loading: false,
+          temp_id: null
         },
         loading: {
           active: false
@@ -873,19 +874,6 @@ export default {
   },
 
   methods: {
-    deleteSymptom(itemId) {
-      this.symptoms.delete_dialog.loading = true
-      httpDELETE('api/v1/symptoms/delete/' + parseInt(itemId) + '/' + this.patient_uuid)
-          .then(({data}) => {
-            this.symptoms.list = []
-            this.symptoms.list = data.data
-            console.log(data.data)
-          }).catch(({response:data}) => {
-        console.log(data.response)
-      })
-      this.symptoms.delete_dialog.loading = false
-      this.symptoms.delete_dialog.active = false
-    },
     postPatientData(e) {
       httpPOST('api/v1/patients/updatePatientHistory/' + this.patient_history_uuid, {
         patient_number: this.patient_number,
@@ -1032,10 +1020,34 @@ export default {
     // END fetch test list
 
     // START Delete Dialog
-    deleteDialog($title, $id) {
-      //
-    }
+    deleteDialogPopup($title, $id) {
+      this.dialogs.delete.title = $title
+      this.dialogs.delete.temp_id = $id
+      this.dialogs.delete.active = true
+    },
+
+    deleteDialogAction() {
+      if (this.dialogs.delete.title === 'Symptom') {
+        this.deleteSymptom()
+      }
+    },
     // END Delete Dialog
+
+    // START Delete a symptom
+    deleteSymptom() {
+      this.dialogs.delete.loading = true
+      httpDELETE('api/v1/symptoms/delete/' + parseInt(this.dialogs.delete.temp_id) + '/' + this.patient_uuid)
+          .then(({data}) => {
+            this.symptoms.list = []
+            this.symptoms.list = data.data
+            console.log(data.data)
+          }).catch(({response:data}) => {
+        console.log(data.response)
+      })
+      this.dialogs.delete.loading = false
+      this.dialogs.delete.active = false
+    },
+    // END Delete a symptom
   },
   name: "DoctorsView",
   created() {
