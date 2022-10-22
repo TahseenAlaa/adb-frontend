@@ -15,12 +15,25 @@
                 persistent-hint
             ></v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="2">
+            <div>
+              <v-text-field
+                  label="ID"
+                  v-model="id"
+                  dense
+                  outlined
+                  readonly
+                  hint="ReadOnly"
+                  persistent-hint
+              ></v-text-field>
+            </div>
+          </v-col>
+          <v-col cols="2">
             <div>
               <v-text-field
                   label="Date of Birth"
                   v-model="birthday"
-                  prepend-icon="mdi-calendar"
+                  prepend-inner-icon="mdi-calendar"
                   dense
                   outlined
                   readonly
@@ -168,7 +181,7 @@
               <v-text-field
                   label="Duration of Insulin (Years)"
                   v-model="date_of_insulin"
-                  prepend-icon="mdi-calendar"
+                  prepend-inner-icon="mdi-calendar"
                   dense
                   outlined
                   readonly
@@ -182,7 +195,7 @@
             <v-text-field
                     label="Duration of DM (Years)"
                     v-model="date_of_dm"
-                    prepend-icon="mdi-calendar"
+                    prepend-inner-icon="mdi-calendar"
                     readonly
                     dense
                     outlined
@@ -529,6 +542,19 @@
             ></v-textarea>
           </v-col>
         </v-row>
+
+    <v-row dense align="center" justify="center">
+      <v-spacer></v-spacer>
+      <v-btn
+          class="my-2 deep-purple white--text"
+      >
+        <v-row @click="">
+          <v-icon size="20">mdi-printer</v-icon>
+          <h3 class="text-capitalize">Print Report</h3>
+        </v-row>
+      </v-btn>
+    </v-row>
+
       </v-card>
 
 </template>
@@ -543,6 +569,7 @@ export default {
   data() {
     return {
       full_name: null,
+      id: null,
       phone: null,
       birthday: null,
       occupation: null,
@@ -593,6 +620,7 @@ export default {
     httpGET('api/v1/patients/' + this.patient_uuid)
         .then(({data}) => {
               this.full_name =  data.patient_info.full_name,
+              this.id =  data.patient_info.id,
               this.phone =  data.patient_info.phone,
               this.birthday =  data.patient_info.birthday,
               this.occupation =  data.patient_info.occupation,
