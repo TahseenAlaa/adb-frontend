@@ -921,22 +921,17 @@ export default {
 
   methods: {
     postPatientData(e) {
-      httpPOST('api/v1/patients/updatePatientHistory/' + this.patient_history_uuid, {
-        patient_number: this.patient_number,
-        age_at_visit: this.age_at_visit,
-        blood_pressure_systolic: this.blood_pressure_systolic,
-        blood_pressure_diastolic: this.blood_pressure_diastolic,
-        weight: this.weight,
-        height: this.height,
-        waist_circumference: this.waist_circumference,
-        bmi: this.bmi,
+      httpPOST('api/v1/patients/updatePatientHistory', {
+        patient_uuid: this.patient_uuid,
         clinical_notes: this.clinical_notes,
         next_visit: this.date_of_next_visit,
       })
       .then(({data})=>{
         this.successAlert = true
-        setTimeout(() => {this.$router.push({path: '/'})}, 2000)
-        console.log(data)
+        setTimeout(() => {
+          this.$router.push({path: `/viewpanels/${this.patient_uuid}`})
+        }, 2000)
+        // console.log(data)
       }).catch(({response:{data}})=>{
         this.errorAlert = true
         console.log(data)
