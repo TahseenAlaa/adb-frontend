@@ -1032,6 +1032,25 @@ export default {
   created() {
     this.dialogs.loading.active = true
 
+    // START Fetch symptoms types list
+    httpGET('api/v1/symptoms-types/index')
+        .then(({data}) => {
+          this.symptoms.types = data.data
+        }).catch(({response:{data}})=>{
+      console.log(data)
+    });
+    // END Fetch symptoms types list
+
+    // START Fetch symptoms of this patient
+    httpGET('api/v1/symptoms/show/' + this.patient_uuid)
+        .then(({data}) => {
+          this.symptoms.list = data.data
+          console.log(data.data)
+        }).catch(({response:{data}})=>{
+      console.log(data)
+    });
+    // END Fetch symptoms of this patient
+
     // START Fetch lab tests with groups
     httpGET('api/v1/lab-test-groups/index-group-names')
         .then(({data}) => {
@@ -1041,15 +1060,6 @@ export default {
       console.log(data)
     });
     // END Fetch lab tests with groups
-
-    // START Fetch symptoms list
-    httpGET('api/v1/symptoms-types/index')
-        .then(({data}) => {
-          this.symptoms.types = data.data
-        }).catch(({response:{data}})=>{
-          console.log(data)
-        });
-    // END Fetch symptoms list
 
     // START fetch diagnosis list
     httpGET('api/v1/diagnosis/types')
