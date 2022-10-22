@@ -1191,6 +1191,16 @@ export default {
         });
     // END Fetch diagnosis list
 
+    // START Fetch Clinical Notes and next visit
+    httpGET('api/v1/patients/show-patient-history/' + this.patient_uuid)
+        .then(({data}) => {
+          this.clinical_notes = data.data.clinical_notes
+          this.date_of_next_visit = data.data.next_visit
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+    // END Fetch Clinical Notes and next visit
+
     this.dialogs.loading.active = false
   },
 }
