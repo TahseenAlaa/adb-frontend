@@ -19,7 +19,7 @@
             <div>
               <v-text-field
                   label="Date of Birth"
-                  v-model="date_of_birthday"
+                  v-model="birthday"
                   prepend-icon="mdi-calendar"
                   dense
                   outlined
@@ -166,7 +166,7 @@
           <v-col cols="3">
             <div>
               <v-text-field
-                  label="Date of Insulin"
+                  label="Duration of Insulin (Years)"
                   v-model="date_of_insulin"
                   prepend-icon="mdi-calendar"
                   dense
@@ -180,7 +180,7 @@
           <v-col cols="3">
             <div>
             <v-text-field
-                    label="Date of DM"
+                    label="Duration of DM (Years)"
                     v-model="date_of_dm"
                     prepend-icon="mdi-calendar"
                     readonly
@@ -570,7 +570,7 @@ export default {
       nafld: null,
       dermopathy: null,
       diabetic_food: null,
-      date_insulin: null,
+      date_of_insulin: null,
       glycemic_control: null,
       lipid_control: null,
       pressure_control: null,
@@ -594,7 +594,7 @@ export default {
         .then(({data}) => {
               this.full_name =  data.patient_info.full_name,
               this.phone =  data.patient_info.phone,
-              this.birthday =  data.patient_info.date_of_birthday,
+              this.birthday =  data.patient_info.birthday,
               this.occupation =  data.patient_info.occupation,
               this.address =  data.patient_info.address,
               this.smoker =  data.patient_info.smoker,
@@ -620,7 +620,6 @@ export default {
               this.nafld =  data.patient_info.nafld,
               this.dermopathy =  data.patient_info.dermopathy,
               this.diabetic_food =  data.patient_info.diabetic_food,
-              this.date_insulin =  data.patient_info.date_of_insulin,
               this.glycemic_control =  data.patient_info.glycemic_control,
               this.lipid_control =  data.patient_info.lipid_control,
               this.pressure_control =  data.patient_info.pressure_control,
@@ -631,7 +630,8 @@ export default {
               this.blood_pressure_systolic =  data.patient_info.blood_pressure_systolic,
               this.blood_pressure_diastolic =  data.patient_info.blood_pressure_diastolic,
               this.notes =  data.patient_info.notes,
-              this.date_of_dm =  data.patient_info.date_of_dm,
+              this.date_of_dm =  data.patient_info.duration_dm,
+              this.date_of_insulin =  data.patient_info.duration_insulin,
               this.patient_number =  data.patient_info.patient_number,
               this.social_status =  data.patient_info.social_status,
               this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic,
