@@ -66,6 +66,12 @@
                                       :items="symptoms.types"
                                       item-text="title"
                                       item-value="id"
+                                      multiple
+                                      clearable
+                                      solo
+                                      chips
+                                      small-chips
+                                      deletable-chips
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
@@ -356,6 +362,12 @@
                                       :items="diagnosis_types"
                                       item-text="title"
                                       item-value="id"
+                                      multiple
+                                      clearable
+                                      solo
+                                      chips
+                                      small-chips
+                                      deletable-chips
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
@@ -901,22 +913,23 @@ export default {
 
     // START Store Symptoms Data
     storeSymptomsData() {
-      if (this.symptoms.type_model) {
-        httpPOST('api/v1/symptoms/store', {
-          patient_uuid: this.patient_uuid,
-          symptoms_type_id: this.symptoms.type_model,
-          symptoms_notes: this.symptoms.notes,
-        })
-            .then(({data}) => {
-              this.symptoms.list.push(data.data)
-              this.symptoms.Dialog = false
-              console.log(data.data)
-            }).catch(({response: {data}}) => {
-              console.log(data)
-            });
-        this.symptoms.type_model = null
-        this.symptoms.notes = null
-      }
+      console.log(this.symptoms.type_model)
+      // if (this.symptoms.type_model) {
+      //   httpPOST('api/v1/symptoms/store', {
+      //     patient_uuid: this.patient_uuid,
+      //     symptoms_type_id: this.symptoms.type_model,
+      //     symptoms_notes: this.symptoms.notes,
+      //   })
+      //       .then(({data}) => {
+      //         this.symptoms.list.push(data.data)
+      //         this.symptoms.Dialog = false
+      //         console.log(data.data)
+      //       }).catch(({response: {data}}) => {
+      //         console.log(data)
+      //       });
+      //   this.symptoms.type_model = null
+      //   this.symptoms.notes = null
+      // }
     },
     // END Store Symptoms Data
 
