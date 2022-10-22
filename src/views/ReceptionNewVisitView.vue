@@ -163,7 +163,9 @@ export default {
         })
             .then(({data})=>{
               this.successAlert = true
-              setTimeout(() => {this.$router.push({path: '/'})}, 2000)
+              setTimeout(() => {
+                this.$router.push({path: `/viewpanels/${this.patient_uuid}`})
+              }, 2000)
               console.log(data)
             }).catch(({response:{data}})=>{
           console.log(data)
