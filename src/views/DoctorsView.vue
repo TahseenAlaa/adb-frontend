@@ -406,9 +406,9 @@
                     </thead>
                     <tbody>
                     <tr v-for="$item in diagnosis_list">
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>{{ $item.diagnosis.title }}</td>
+                      <td>{{ $item.diagnosis_notes }}</td>
+                      <td>{{ humanReadableDateConverter($item.created_at) }}</td>
                       <td>{{ $item.user.full_name }}</td>
                       <td>
                         <v-btn
