@@ -218,6 +218,7 @@
                                       v-model="test.list_value"
                                       outlined
                                       dense
+                                      multiple
                                       :items="test.list"
                                       item-text="test_name"
                                       item-value="id"
