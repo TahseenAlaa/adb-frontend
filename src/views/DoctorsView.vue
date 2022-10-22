@@ -1114,6 +1114,15 @@ export default {
     });
     // END Fetch lab tests with groups
 
+    // START Fetch the tests of this patient
+    httpGET('api/v1/lab/' + this.patient_uuid)
+        .then(({data}) => {
+          this.tests = data.data
+        }).catch(({response: {data}}) => {
+          console.log(data)
+        });
+    // END Fetch the tests of this patient
+
     // START fetch diagnosis list
     httpGET('api/v1/diagnosis/types')
         .then(({data}) => {
