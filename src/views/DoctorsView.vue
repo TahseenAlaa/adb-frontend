@@ -136,49 +136,22 @@
                             color="deep-orange darken-1"
                             dark
                             class="px-1 mx-1"
-                            @click="symptoms.delete_dialog.active = true"
+                            @click=""
+                        >
+                          <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                        <v-btn
+                            x-small
+                            color="deep-orange darken-1"
+                            dark
+                            class="px-1 mx-1"
+                            @click=""
                         >
                           <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
                           Delete
                         </v-btn>
                       </td>
-                      <!--              START Delete Dialog -->
-                      <v-row justify="center">
-                        <v-dialog
-                            v-model="symptoms.delete_dialog.active"
-                            persistent
-                            max-width="230"
-                        >
-                          <v-card>
-                            <v-card-title class="text-h5">
-                              Delete Symptom
-                            </v-card-title>
-                            <v-card-text class="text-center">
-                              Are you sure to delete this symptom?
-                            </v-card-text>
-                            <v-card-actions class="d-flex justify-center">
-                              <v-btn
-                                  dark
-                                  class="deep-grey"
-                                  @click="symptoms.delete_dialog.active = false"
-                              >
-                                Close
-                              </v-btn>
-                              <v-btn
-                                  color="deep-orange darken-1"
-                                  dark
-                                  class="px-1 mx-1"
-                                  @click="deleteSymptom(item.id)"
-                                  :loading="symptoms.delete_dialog.loading"
-                              >
-                                <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
-                                Delete
-                              </v-btn>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
-                      </v-row>
-                      <!--              END Delete Dialog -->
                     </tr>
                     </tbody>
                   </template>
@@ -684,6 +657,81 @@
         </v-col>
       </v-btn>
     </v-row>
+    <!--              START Delete Dialog -->
+    <v-row justify="center">
+      <v-dialog
+          v-model="dialogs.delete.active"
+          persistent
+          max-width="230"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            Delete {{ this.dialogs.delete.title }}
+          </v-card-title>
+          <v-card-text class="text-center">
+            Are you sure to delete this {{ this.dialogs.delete.title }}?
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                dark
+                class="deep-grey"
+                @click="dialogs.delete.active = false"
+            >
+              Close
+            </v-btn>
+            <v-btn
+                color="deep-orange darken-1"
+                dark
+                class="px-1 mx-1"
+                @click="deleteDialog($title, $id)"
+                :loading="dialogs.delete.loading"
+            >
+              <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
+              Delete
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!--              END Delete Dialog -->
+
+    <!--              START Edit Dialog -->
+    <v-row justify="center">
+      <v-dialog
+          v-model="dialogs.edit.active"
+          persistent
+          max-width="230"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            Delete {{ this.dialogs.edit.title }}
+          </v-card-title>
+          <v-card-text class="text-center">
+            Are you sure to delete this {{ this.dialogs.edit.title }}?
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                dark
+                class="deep-grey"
+                @click="dialogs.edit.active = false"
+            >
+              Close
+            </v-btn>
+            <v-btn
+                color="deep-orange darken-1"
+                dark
+                class="px-1 mx-1"
+                @click=""
+                :loading="dialogs.edit.loading"
+            >
+              <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
+              Edit
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!--              END Edit Dialog -->
   </v-container>
 
 </template>
@@ -800,6 +848,18 @@ export default {
         referral: null,
         proliferative_dr: null,
         gender: null,
+      },
+      dialogs: {
+        edit: {
+          active: false,
+          title: null,
+          loading: false
+        },
+        delete: {
+          active: false,
+          title: null,
+          loading: false
+        }
       }
     }
   },
@@ -951,8 +1011,14 @@ export default {
       }).catch(({response: {data}}) => {
         console.log(data)
       });
-    }
+    },
     // END fetch test list
+
+    // START Delete Dialog
+    deleteDialog($title, $id) {
+      //
+    }
+    // END Delete Dialog
   },
   name: "DoctorsView",
   created() {
