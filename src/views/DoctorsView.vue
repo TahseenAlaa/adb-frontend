@@ -425,6 +425,7 @@
                             color="deep-orange darken-1"
                             dark
                             class="px-1 mx-1"
+                            @click="deleteDialogPopup('diagnosis', $item.id)"
                         >
                           <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
                           Delete
@@ -1062,6 +1063,8 @@ export default {
         this.deleteSymptom()
       } else if (this.dialogs.delete.title === 'Test') {
         this.deleteTest()
+      } else if (this.dialogs.delete.title === 'diagnosis') {
+        this.deleteDiagnosis()
       }
     },
     // END Delete Dialog and action
@@ -1099,8 +1102,26 @@ export default {
       this.dialogs.delete.active = false
       this.dialogs.delete.temp_id = null
       this.dialogs.delete.title = null
-    }
+    },
     // END delete a test
+
+    // START Delete a diagnosis
+    deleteDiagnosis() {
+      this.dialogs.delete.loading = true
+
+      httpDELETE('api/v1/diagnosis/destroy/' + this.dialogs.delete.temp_id + '/' + this.patient_uuid)
+          .then(({data}) => {
+            this.diagnosis_list = data.data
+            // console.log(data.data)
+          }).catch(({response:data}) => {
+        console.log(data.response)
+      })
+      this.dialogs.delete.loading = false
+      this.dialogs.delete.active = false
+      this.dialogs.delete.temp_id = null
+      this.dialogs.delete.title = null
+    }
+    // END Delete a diagnosis
   },
   name: "DoctorsView",
   created() {
