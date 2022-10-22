@@ -63,7 +63,7 @@
 export default {
   data() {
     return {
-      //
+      patient_uuid: this.$route.params.patient_uuid,
     }
   },
 
