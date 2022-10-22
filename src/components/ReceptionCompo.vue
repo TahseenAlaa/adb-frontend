@@ -545,14 +545,16 @@
 
     <v-row dense align="center" justify="center">
       <v-spacer></v-spacer>
+      <a :href="baseURL + 'invoice/reception-info/' + patient_uuid" class="text-decoration-none" target="_blank">
       <v-btn
           class="my-2 deep-purple white--text"
       >
-        <v-row @click="">
-          <v-icon size="20">mdi-printer</v-icon>
-          <h3 class="text-capitalize">Print Report</h3>
-        </v-row>
+          <v-row>
+            <v-icon size="20">mdi-printer</v-icon>
+            <h3 class="text-capitalize">Print Report</h3>
+          </v-row>
       </v-btn>
+      </a>
     </v-row>
 
       </v-card>
@@ -560,7 +562,7 @@
 </template>
 
 <script>
-import {httpGET, httpPOST} from "@/utils/utils";
+import {httpGET, httpPOST, baseURLLink} from "@/utils/utils";
 
 export default {
   props: [
@@ -613,6 +615,7 @@ export default {
       date_of_dm: null,
       patient_number: null,
       social_status: null,
+      baseURL: baseURLLink()
     }
   },
   name: "ReceptionCompo",
@@ -667,6 +670,12 @@ export default {
         }).catch(({response:{data}})=>{
           console.log(data)
         });
+  },
+
+  methods: {
+    printReceptionReport() {
+      this.$router.push(baseURLLink() + this.patient_uuid)
+    }
   }
 }
 </script>

@@ -8,6 +8,9 @@ if (process.env.NODE_ENV === 'production') {
     baseURL = "http://127.0.0.1:8000/"
 }
 
+export function baseURLLink() {
+    return baseURL
+}
 
 export function httpGET($URL) {
         return axios.get(baseURL + $URL, {
