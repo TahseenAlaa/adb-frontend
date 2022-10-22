@@ -732,6 +732,9 @@
       </v-dialog>
     </v-row>
     <!--              END Edit Dialog -->
+<!--    START Loading Dialog -->
+    <LoadingDialogCompo :loading_-dialog="dialogs.loading.active" />
+<!--    END Loading Dialog -->
   </v-container>
 
 </template>
@@ -739,10 +742,12 @@
 <script>
 import {httpDELETE, httpGET, httpPOST} from "@/utils/utils";
 import ReceptionCompo from "@/components/ReceptionCompo";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
   components: {
-    ReceptionCompo
+    ReceptionCompo,
+    LoadingDialogCompo
   },
   data() {
     return {
@@ -859,6 +864,9 @@ export default {
           active: false,
           title: null,
           loading: false
+        },
+        loading: {
+          active: false
         }
       }
     }
@@ -1022,6 +1030,8 @@ export default {
   },
   name: "DoctorsView",
   created() {
+    this.dialogs.loading.active = true
+
     // START Fetch lab tests with groups
     httpGET('api/v1/lab-test-groups/index-group-names')
         .then(({data}) => {
@@ -1050,81 +1060,7 @@ export default {
     });
     // END fetch diagnosis list
 
-    // START fetch patient history record
-    httpGET('api/v1/patients/show-patient-history/' + this.patient_uuid)
-        .then(({data}) => {
-          this.patient_history_uuid = data.data.uuid;
-          this.patient_number = data.data.patient_number;
-          this.age_at_visit = data.data.age_at_visit;
-          this.blood_pressure_systolic = data.data.blood_pressure_systolic;
-          this.blood_pressure_diastolic = data.data.blood_pressure_diastolic;
-          this.weight = data.data.weight;
-          this.height = data.data.height;
-          this.waist_circumference = data.data.waist_circumference;
-          this.bmi = data.data.bmi;
-        }).catch(({response:{data}})=>{
-      console.log(data)
-    });
-    // END fetch patient history record
-
-    // START fetch patient information
-    httpGET('api/v1/patients/show-patient-info/' + this.patient_uuid)
-        .then(({data}) => {
-          this.receptionView.id = data.data.id,
-          this.receptionView.last_visit = data.data.last_visit,
-          this.receptionView.date_of_birthday = data.data.date_of_birthday,
-          this.receptionView.smoker = data.data.smoker,
-          this.receptionView.drinker = data.data.drinker,
-          this.receptionView.education_qualification = data.data.education_qualification,
-          this.receptionView.gestationalDM = data.data.gestationalDM,
-          this.receptionView.hypertension = data.data.hypertension,
-          this.receptionView.smbg = data.data.smbg,
-          this.receptionView.ihd = data.data.ihd,
-          this.receptionView.cva = data.data.cva,
-          this.receptionView.pvd = data.data.pvd,
-          this.receptionView.neuropathy = data.data.neuropathy,
-          this.receptionView.retinopathy = data.data.retinopathy,
-          this.receptionView.non_proliferative = data.data.non_proliferative,
-          this.receptionView.maculopathy = data.data.maculopathy,
-          this.receptionView.insulin = data.data.insulin,
-          this.receptionView.amputation = data.data.amputation,
-          this.receptionView.ed = data.data.ed,
-          this.receptionView.nafld = data.data.nafld,
-          this.receptionView.dermopathy = data.data.dermopathy,
-          this.receptionView.glycemicControl = data.data.glycemicControl,
-          this.receptionView.lipidControl = data.data.lipidControl,
-          this.receptionView.full_name = data.data.full_name,
-          this.receptionView.dateOfBirthday = data.data.dateOfBirthday,
-          this.receptionView.phone = data.data.phone,
-          this.receptionView.occupation = data.data.occupation,
-          this.receptionView.marital_status = data.data.marital_status,
-          this.receptionView.address = data.data.address,
-          this.receptionView.family_history_of_dm = data.data.family_history_of_dm,
-          this.receptionView.gestational_dm = data.data.gestational_dm,
-          this.receptionView.weight_of_baby_at_birthday = data.data.weight_of_baby_at_birthday,
-          this.receptionView.family_history_of_ihd = data.data.family_history_of_ihd,
-          this.receptionView.parity = data.data.parity,
-          this.receptionView.weight = data.data.weight,
-          this.receptionView.height = data.data.height,
-          this.receptionView.waist_circumference = data.data.waist_circumference,
-          this.receptionView.bmi = data.data.bmi,
-          this.receptionView.hip = data.data.hip,
-          this.receptionView.diabetic_food = data.data.diabetic_food,
-          this.receptionView.duration_of_insulin = data.data.duration_of_insulin,
-          this.receptionView.duration_of_dm = data.data.duration_of_dm,
-          this.receptionView.glycemic_control = data.data.glycemic_control,
-          this.receptionView.lipid_control = data.data.lipid_control,
-          this.receptionView.pressure_control = data.data.pressure_control,
-          this.receptionView.father_height = data.data.father_height,
-          this.receptionView.mother_height = data.data.mother_height,
-          this.receptionView.mid_parent_height = data.data.mid_parent_height,
-          this.receptionView.first_a1c = data.data.first_a1c,
-          this.receptionView.second_a1c = data.data.second_a1c,
-          this.receptionView.referral = data.data.referral,
-          this.receptionView.proliferative_dr = data.data.proliferative_dr,
-          this.receptionView.gender = data.data.gender
-        })
-    // END fetch patient information
+    this.dialogs.loading.active = false
   },
 }
 </script>
