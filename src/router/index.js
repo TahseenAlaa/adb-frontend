@@ -83,6 +83,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/LabManagementView.vue')
   },
   {
+    path: '/lab-sampling/:patient_uuid',
+    name: 'lab_sampling',
+    component: () => import(/* webpackChunkName: "about" */ '../views/LabSamplingView.vue')
+  },
+  {
+    path: '/lab-results/:patient_uuid',
+    name: 'lab_results',
+    component: () => import(/* webpackChunkName: "about" */ '../views/LabResultsView.vue')
+  },
+  {
     path: '/log-activities',
     name: 'log_activities',
     component: () => import(/* webpackChunkName: "about" */ '../views/LogActivitiesView.vue')
