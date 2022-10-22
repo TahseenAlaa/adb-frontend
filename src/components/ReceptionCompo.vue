@@ -545,9 +545,22 @@
 
     <v-row dense align="center" justify="center">
       <v-spacer></v-spacer>
+      <!--      START Patient Report -->
+      <a :href="baseURL + 'invoice/patient-info/' + patient_uuid" class="text-decoration-none" target="_blank">
+        <v-btn
+            class="my-2 deep-purple white--text mx-2"
+        >
+          <v-row>
+            <v-icon size="20">mdi-printer-wireless</v-icon>
+            <h3 class="text-capitalize">Print Patient Report</h3>
+          </v-row>
+        </v-btn>
+      </a>
+      <!--      END Patient Report -->
+      <!--      START Reception Invoice -->
       <a :href="baseURL + 'invoice/reception-info/' + patient_uuid" class="text-decoration-none" target="_blank">
       <v-btn
-          class="my-2 deep-purple white--text"
+          class="my-2 deep-purple white--text mx-2"
       >
           <v-row>
             <v-icon size="20">mdi-printer</v-icon>
@@ -555,6 +568,7 @@
           </v-row>
       </v-btn>
       </a>
+      <!--      END Reception Invoice -->
     </v-row>
 
       </v-card>
