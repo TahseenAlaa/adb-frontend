@@ -133,7 +133,7 @@
                       <td>
                         <v-btn
                             x-small
-                            color="deep-orange darken-1"
+                            color="teal darken-1"
                             dark
                             class="px-1 mx-1"
                             @click=""
