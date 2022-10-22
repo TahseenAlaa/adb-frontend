@@ -50,7 +50,7 @@
                           <v-card-title>
                             <span class="text-h5">Adding new Symptoms</span>
                           </v-card-title>
-                          <v-card-subtitle class="subtitle-1">Please fill the information below to add a diagnosis record to patient visit record.</v-card-subtitle>
+                          <v-card-subtitle class="subtitle-1">Please fill the information below to add a Symptoms record to patient visit record.</v-card-subtitle>
                           <v-card-text>
                             <v-card-subtitle class="subtitle-2">Symptoms Information</v-card-subtitle>
                             <v-container>
@@ -382,7 +382,7 @@
                             <v-btn
                                 class="deep-purple white--text"
                                 text
-                                @click="storeDiagnosisDate"
+                                @click="storeDiagnosisData"
                             >
                               Save
                             </v-btn>
@@ -405,17 +405,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in diagnosis">
-                      <td>{{ item.symptoms }}</td>
-                      <td>{{ humanReadableDateConverter(item.created_at) }}</td>
-                      <td>{{ item.created_by }}</td>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
                       <td>
                         <v-btn
                             x-small
                             color="teal darken-1"
                             dark
                             class="px-1 mx-1"
-                            @click=""
                         >
                           <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
                           Edit
@@ -782,9 +781,12 @@ export default {
   },
   data() {
     return {
-      diagnosis_type_model: null,
       patient_uuid: this.$route.params.patient_uuid,
       patient_history_uuid: null,
+      diagnosis_type_model: null,
+      diagnosis: [],
+      diagnosis_types: [],
+      diagnosis_notes: null,
       diagnosisDialog: false,
       treatmentDialog: false,
       labDialog: false,
@@ -802,8 +804,6 @@ export default {
       DateOfNextVisitMenu: false,
       successAlert: false,
       errorAlert: false,
-      diagnosis: [],
-      is_confirmed: null,
       created_by: null,
       created_at: null,
       treatment_name: null,
@@ -812,7 +812,6 @@ export default {
       test_name: null,
       test_notes: null,
       tests: [],
-      diagnosis_types: [],
       symptoms: {
         Dialog: false,
         type_model: [],
@@ -936,25 +935,23 @@ export default {
         this.bmi = weight / (height ^ 2)
       }
     },
-    storeDiagnosisDate(e) {
-      if (this.symptoms && this.is_confirmed) {
+    storeDiagnosisData(e) {
+      this.dialogs.loading.active = true
         httpPOST('api/v1/diagnosis/store', {
           patient_uuid: this.$route.params.patient_uuid,
-          symptoms: this.symptoms,
-          is_confirmed: this.is_confirmed
+          diagnosis_id: this.diagnosis_type_model,
+          diagnosis_notes: this.diagnosis_notes
         })
         .then(({data})=>{
-          data.data.created_by = data.doctor_name
-          data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
-          this.diagnosis.push(data.data)
-
-          console.log(this.diagnosis)
+          console.log(data.data)
         }).catch(({response:{data}})=>{
           console.log(data)
         });
         e.preventDefault()
         this.diagnosisDialog = false
-      }
+      this.dialogs.loading.active = false
+      this.diagnosis_type_model = null
+      this.diagnosis_notes = null
     },
 
     storeTreatmentData(e) {
