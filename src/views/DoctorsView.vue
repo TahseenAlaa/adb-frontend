@@ -405,10 +405,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr v-for="$item in diagnosis_list">
                       <td></td>
                       <td></td>
                       <td></td>
+                      <td>{{ $item.user.full_name }}</td>
                       <td>
                         <v-btn
                             x-small
@@ -788,6 +789,7 @@ export default {
       diagnosis_types: [],
       diagnosis_notes: null,
       diagnosisDialog: false,
+      diagnosis_list: null,
       treatmentDialog: false,
       labDialog: false,
       autoOpenPanel:[1],
@@ -943,6 +945,7 @@ export default {
           diagnosis_notes: this.diagnosis_notes
         })
         .then(({data})=>{
+          this.diagnosis_list = data.data
           console.log(data.data)
         }).catch(({response:{data}})=>{
           console.log(data)
@@ -1141,14 +1144,23 @@ export default {
         });
     // END Fetch the tests of this patient
 
-    // START fetch diagnosis list
+    // START fetch diagnosis types
     httpGET('api/v1/diagnosis/types')
         .then(({data}) => {
           this.diagnosis_types = data.data
         }).catch(({response:{data}})=>{
           console.log(data)
     });
-    // END fetch diagnosis list
+    // END fetch diagnosis types
+
+    // START Fetch diagnosis list
+    httpGET('api/v1/diagnosis/show/' + this.patient_uuid)
+        .then(({data}) => {
+          this.diagnosis_list = data.data
+        }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+    // END Fetch diagnosis list
 
     this.dialogs.loading.active = false
   },
