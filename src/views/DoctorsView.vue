@@ -18,6 +18,17 @@
       </v-expansion-panel>
 
       <v-expansion-panel>
+        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <AnthoCompo
+              :patient_uuid="patient_uuid"
+          >
+
+          </AnthoCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
       <v-expansion-panel-header><h2>Doctors</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-form>
@@ -774,11 +785,13 @@
 <script>
 import {httpDELETE, httpGET, httpPOST} from "@/utils/utils";
 import ReceptionCompo from "@/components/ReceptionCompo";
+import AnthoCompo from "@/components/AnthoCompo";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
   components: {
     ReceptionCompo,
+    AnthoCompo,
     LoadingDialogCompo
   },
   data() {
@@ -793,7 +806,7 @@ export default {
       diagnosis_list: null,
       treatmentDialog: false,
       labDialog: false,
-      autoOpenPanel:[1],
+      autoOpenPanel:[2],
       weight: null,
       height: null,
       bmi: null,

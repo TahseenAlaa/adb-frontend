@@ -16,6 +16,17 @@
       </v-expansion-panel>
 
       <v-expansion-panel>
+        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <AnthoCompo
+              :patient_uuid="patient_uuid"
+          >
+
+          </AnthoCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
         <v-expansion-panel-header><h2>Doctors</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
           <DoctorCompo
@@ -145,6 +156,7 @@
 <script>
 import {httpGET, httpPOST} from "@/utils/utils";
 import ReceptionCompo from "@/components/ReceptionCompo";
+import AnthoCompo from "@/components/AnthoCompo";
 import DoctorCompo from "@/components/DoctorCompo";
 import LabCompo from "@/components/LabCompo";
 import PharmacyCompo from "@/components/PharmacyCompo";
@@ -310,6 +322,7 @@ export default {
   },
   components: {
     ReceptionCompo,
+    AnthoCompo,
     DoctorCompo,
     LabCompo,
     PharmacyCompo
