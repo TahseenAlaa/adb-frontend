@@ -279,6 +279,16 @@
                       <td>
                         <v-btn
                             x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                            @click=""
+                        >
+                          <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                        <v-btn
+                            x-small
                             color="deep-orange darken-1"
                             dark
                             class="px-1 mx-1"
@@ -399,6 +409,16 @@
                       <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                       <td>{{ item.created_by }}</td>
                       <td>
+                        <v-btn
+                            x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                            @click=""
+                        >
+                          <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                          Edit
+                        </v-btn>
                         <v-btn
                             x-small
                             color="deep-orange darken-1"
@@ -562,6 +582,16 @@
                       <td>{{ item.created_at }}</td>
                       <td>{{ item.created_by }}</td>
                       <td>
+                        <v-btn
+                            x-small
+                            color="teal darken-1"
+                            dark
+                            class="px-1 mx-1"
+                            @click=""
+                        >
+                          <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                          Edit
+                        </v-btn>
                         <v-btn
                             x-small
                             color="deep-orange darken-1"
