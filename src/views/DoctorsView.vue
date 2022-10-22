@@ -988,14 +988,23 @@ export default {
           symptoms_notes: this.symptoms.notes,
         })
             .then(({data}) => {
-              // this.symptoms.list.push(data.data)
               this.symptoms.Dialog = false
-              console.log(data.data)
+              // console.log(data.data)
             }).catch(({response: {data}}) => {
               console.log(data)
             });
         this.symptoms.type_model = null
         this.symptoms.notes = null
+        // START Fetch symptoms of this patient
+        httpGET('api/v1/symptoms/show/' + this.patient_uuid)
+            .then(({data}) => {
+              this.symptoms.list = null
+              this.symptoms.list = data.data
+              console.log(data.data)
+            }).catch(({response:{data}})=>{
+          console.log(data)
+        });
+        // END Fetch symptoms of this patient
       }
     },
     // END Store Symptoms Data
