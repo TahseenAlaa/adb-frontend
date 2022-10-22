@@ -731,7 +731,7 @@ export default {
       diagnosis_types: [],
       symptoms: {
         Dialog: false,
-        type_model: null,
+        type_model: [],
         types: [],
         notes: null,
         list: [],
@@ -913,23 +913,22 @@ export default {
 
     // START Store Symptoms Data
     storeSymptomsData() {
-      console.log(this.symptoms.type_model)
-      // if (this.symptoms.type_model) {
-      //   httpPOST('api/v1/symptoms/store', {
-      //     patient_uuid: this.patient_uuid,
-      //     symptoms_type_id: this.symptoms.type_model,
-      //     symptoms_notes: this.symptoms.notes,
-      //   })
-      //       .then(({data}) => {
-      //         this.symptoms.list.push(data.data)
-      //         this.symptoms.Dialog = false
-      //         console.log(data.data)
-      //       }).catch(({response: {data}}) => {
-      //         console.log(data)
-      //       });
-      //   this.symptoms.type_model = null
-      //   this.symptoms.notes = null
-      // }
+      if (this.symptoms.type_model) {
+        httpPOST('api/v1/symptoms/store', {
+          patient_uuid: this.patient_uuid,
+          symptoms_type_id: this.symptoms.type_model,
+          symptoms_notes: this.symptoms.notes,
+        })
+            .then(({data}) => {
+              // this.symptoms.list.push(data.data)
+              this.symptoms.Dialog = false
+              console.log(data.data)
+            }).catch(({response: {data}}) => {
+              console.log(data)
+            });
+        this.symptoms.type_model = null
+        this.symptoms.notes = null
+      }
     },
     // END Store Symptoms Data
 
