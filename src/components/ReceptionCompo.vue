@@ -551,7 +551,7 @@
       >
           <v-row>
             <v-icon size="20">mdi-printer</v-icon>
-            <h3 class="text-capitalize">Print Report</h3>
+            <h3 class="text-capitalize">Print Reception Invoice</h3>
           </v-row>
       </v-btn>
       </a>
