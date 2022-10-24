@@ -1,6 +1,35 @@
 <template>
   <v-container>
     <v-card class="px-6 pb-12 mb-12">
+<!--      START Search -->
+      <v-row dense class="py-1 pt-4">
+        <v-col cols="8">
+          <v-text-field
+              label="Search"
+              outlined
+              dense
+          >
+          </v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-select
+              :items="['Group', 'Test']"
+              label=""
+              dense
+              outlined
+          ></v-select>
+        </v-col>
+        <v-col cols="2">
+          <v-btn
+              color="deep-purple white--text"
+              class="px-2 py-5 mx-2"
+          >
+            <v-icon size="30" class="pr-1">mdi-magnify</v-icon>
+            Search
+          </v-btn>
+        </v-col>
+      </v-row>
+<!--      END Search -->
       <v-card-title>Lab Tests Management</v-card-title>
       <v-simple-table dense>
         <template v-slot:default>
