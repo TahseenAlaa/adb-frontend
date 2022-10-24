@@ -261,7 +261,6 @@
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
     <!--    END Loading Dialog-->
   </v-container>
-
 </template>
 
 <script>
@@ -337,8 +336,10 @@ export default {
       this.test_group.new_item_model = false
     }
   },
-  created() {
+  mounted() {
     this.loading_Dialog = true
+  },
+  created() {
     // START Fetch All tests
     httpGET('api/v1/lab-test-groups/index')
         .then(({data}) => {
@@ -346,9 +347,10 @@ export default {
           // console.log(data)
         }).catch(({response: {data}}) => {
           console.log(data)
-        });
+        }).finally(() => {
+      this.loading_Dialog = false
+    });
     // END Fetch All tests
-    this.loading_Dialog = false
   }
 }
 </script>
