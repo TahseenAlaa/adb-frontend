@@ -63,6 +63,7 @@
           v-model="drawer"
           absolute
           temporary
+          width="264px"
       >
         <v-list
             nav
@@ -77,20 +78,6 @@
                 <v-icon size="30" color="blue">mdi-home</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Home</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item @click="$router.push({name: 'log_activities'})">
-              <v-list-item-icon>
-                <v-icon size="30" color="red">mdi-view-comfy</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Log Activities</v-list-item-title>
-            </v-list-item>
-
-            <v-list-item @click="$router.push({name: 'users_management'})">
-              <v-list-item-icon>
-                <v-icon size="30" color="orange">mdi-account-multiple</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Users Management</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click="$router.push({name: 'patients_management'})">
@@ -142,19 +129,40 @@
               <v-list-item-title>Providers Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'settings'})">
-              <v-list-item-icon>
-                <v-icon size="30" color="brown">mdi-cog</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Settings</v-list-item-title>
-            </v-list-item>
+            <v-list>
+              <v-list-group
+                  no-action
+                  prepend-icon="mdi-cog"
+              >
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>Settings</v-list-item-title>
+                  </v-list-item-content>
+                </template>
 
-            <v-list-item @click="$router.push({name: 'signup'})">
-              <v-list-item-icon>
-                <v-icon size="30" color="blue">mdi-account-plus</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Signup</v-list-item-title>
-            </v-list-item>
+                <v-list-item @click="$router.push({name: 'users_management'})">
+                  <v-list-item-icon>
+                    <v-icon size="30" color="orange">mdi-account-multiple</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Users Management</v-list-item-title>
+                </v-list-item>
+
+                <v-list-item @click="$router.push({name: 'log_activities'})">
+                  <v-list-item-icon>
+                    <v-icon size="30" color="red">mdi-view-comfy</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Log Activities</v-list-item-title>
+                </v-list-item>
+
+                <v-list-item @click="$router.push({name: 'signup'})">
+                  <v-list-item-icon>
+                    <v-icon size="30" color="blue">mdi-account-plus</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Signup</v-list-item-title>
+                </v-list-item>
+
+              </v-list-group>
+            </v-list>
 
             <v-list-item
                 @click="this.logout"
