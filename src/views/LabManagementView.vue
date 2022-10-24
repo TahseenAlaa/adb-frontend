@@ -117,6 +117,15 @@
         </template>
       </v-simple-table>
 
+<!--      START Pagination -->
+      <div class="text-center">
+        <v-pagination
+            v-model="page"
+            :length="6"
+        ></v-pagination>
+      </div>
+<!--      END Pagination -->
+
 <!--      START new test Dialog -->
       <v-row dense align="center" justify="center">
         <v-spacer></v-spacer>
@@ -234,6 +243,7 @@
           </v-col>
         </div>
       </v-row>
+
 <!--      END new test Dialog -->
 
     </v-card>
