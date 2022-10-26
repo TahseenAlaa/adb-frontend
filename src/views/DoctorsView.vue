@@ -790,6 +790,7 @@ import AnthoCompo from "@/components/AnthoCompo";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
+  name: "DoctorsView",
   components: {
     ReceptionCompo,
     AnthoCompo,
@@ -918,6 +919,10 @@ export default {
         }
       }
     }
+  },
+
+  mounted() {
+    this.dialogs.loading.active = true
   },
 
   methods: {
@@ -1132,7 +1137,7 @@ export default {
     }
     // END Delete a diagnosis
   },
-  name: "DoctorsView",
+
   created() {
     this.dialogs.loading.active = true
 
@@ -1199,10 +1204,10 @@ export default {
           this.date_of_next_visit = data.data.next_visit
         }).catch(({response:{data}})=>{
           console.log(data)
-        });
+        }).finally(() => {
+      this.dialogs.loading.active = false
+    });
     // END Fetch Clinical Notes and next visit
-
-    this.dialogs.loading.active = false
   },
 }
 </script>
