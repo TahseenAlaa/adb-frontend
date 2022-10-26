@@ -213,7 +213,7 @@
                       <td>{{ item.symptom.title }}</td>
                       <td>{{ item.clinical_notes }}</td>
                       <td>{{ humanReadableDateConverter(item.created_at) }}</td>
-                      <td>{{ item.user.full_name }}</td>
+                      <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                       <td>
                         <v-btn
                             x-small
