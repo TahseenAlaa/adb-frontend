@@ -291,10 +291,15 @@
                                       v-model="test.list_value"
                                       outlined
                                       dense
-                                      multiple
                                       :items="test.list"
                                       item-text="test_name"
                                       item-value="id"
+                                      clearable
+                                      solo
+                                      chips
+                                      small-chips
+                                      deletable-chips
+                                      multiple
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
