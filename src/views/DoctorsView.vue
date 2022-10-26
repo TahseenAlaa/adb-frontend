@@ -124,6 +124,79 @@
                   </div>
                 </v-row>
 
+<!--                START Symptoms Edit -->
+                <div>
+                  <v-col>
+                    <v-dialog
+                        v-model="symptoms.edit.dialog"
+                        max-width="800px"
+                    >
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">Edit Symptom</span>
+                        </v-card-title>
+                        <v-card-subtitle class="subtitle-1">Please fill the information below to edit a Symptom record of the patient.</v-card-subtitle>
+                        <v-card-text>
+                          <v-card-subtitle class="subtitle-2">Symptoms Information</v-card-subtitle>
+                          <v-container>
+                            <v-row>
+                              <v-col
+                                  cols="12"
+                              >
+                                <v-autocomplete
+                                    label="Symptoms Type"
+                                    v-model="symptoms.edit.value"
+                                    outlined
+                                    dense
+                                    :items="symptoms.types"
+                                    item-text="title"
+                                    item-value="id"
+                                    clearable
+                                    solo
+                                    chips
+                                    small-chips
+                                    deletable-chips
+                                ></v-autocomplete>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col
+                                  cols="12"
+                              >
+                                <v-textarea
+                                    label="Symptoms Notes"
+                                    v-model="symptoms.edit.notes"
+                                    outlined
+                                    dense
+                                >
+                                </v-textarea>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                              class="deep-purple white--text"
+                              text
+                              @click="symptoms.edit.dialog = false"
+                          >
+                            Close
+                          </v-btn>
+                          <v-btn
+                              class="deep-purple white--text"
+                              text
+                              @click="editSymptomData"
+                          >
+                            Edit
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-col>
+                </div>
+<!--                END Symptoms Edit -->
+
                 <v-simple-table>
                   <template>
                     <thead>
@@ -147,7 +220,7 @@
                             color="teal darken-1"
                             dark
                             class="px-1 mx-1"
-                            @click=""
+                            @click="editSymptomDialogAction(item.id)"
                         >
                           <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
                           Edit
@@ -832,6 +905,12 @@ export default {
       tests: [],
       symptoms: {
         Dialog: false,
+        edit: {
+          dialog: false,
+          value: null,
+          notes: null,
+          temp_id: null
+        },
         type_model: [],
         types: [],
         notes: null,
@@ -1100,6 +1179,21 @@ export default {
       this.dialogs.delete.title = null
     },
     // END Delete a symptom
+
+    // START Edit symptom dialog action
+    editSymptomDialogAction($itemId) {
+      this.symptoms.edit.dialog = true
+      this.symptoms.edit.temp_id = $itemId
+      this.symptoms.edit.value = this.symptoms.list.find(v => v.id ===$itemId).symptom
+      this.symptoms.edit.notes = this.symptoms.list.find(v => v.id ===$itemId).clinical_notes
+    },
+    // END Edit symptom dialog action
+
+    // START Edit symptom
+    editSymptomData() {
+      //
+    },
+    // END Edit symptom
 
     // START delete a test
     deleteTest() {
