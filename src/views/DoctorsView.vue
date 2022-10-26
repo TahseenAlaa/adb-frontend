@@ -340,6 +340,88 @@
                   </div>
                 </v-row>
 
+                <!--                START Test Edit -->
+                <div>
+                  <v-col>
+                    <v-dialog
+                        v-model="test.edit.dialog"
+                        max-width="800px"
+                    >
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">Edit Test</span>
+                        </v-card-title>
+                        <v-card-subtitle class="subtitle-1">Please fill the information below to edit a test record of the patient.</v-card-subtitle>
+                        <v-card-text>
+                          <v-card-subtitle class="subtitle-2">Test Information</v-card-subtitle>
+                          <v-container>
+                            <v-row>
+                              <v-col
+                                  cols="12"
+                              >
+                                <v-autocomplete
+                                    label="Test Group"
+                                    outlined
+                                    dense
+                                    :items="test.group"
+                                    item-text="test_group"
+                                    item-value="test_group"
+                                    @change="fetchTestList"
+                                ></v-autocomplete>
+                                <v-autocomplete
+                                    label="Test Name"
+                                    outlined
+                                    dense
+                                    :items="test.list"
+                                    item-text="test_name"
+                                    item-value="id"
+                                    clearable
+                                    solo
+                                    chips
+                                    small-chips
+                                    deletable-chips
+                                    multiple
+                                ></v-autocomplete>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col
+                                  cols="12"
+                              >
+                                <v-textarea
+                                    label="Test Notes"
+                                    v-model="test.edit.notes"
+                                    outlined
+                                    dense
+                                >
+                                </v-textarea>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                              class="deep-purple white--text"
+                              text
+                              @click="test.edit.dialog = false"
+                          >
+                            Close
+                          </v-btn>
+                          <v-btn
+                              class="deep-purple white--text"
+                              text
+                              @click="editTestData"
+                          >
+                            Edit
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-col>
+                </div>
+                <!--                END Test Edit -->
+
                 <v-simple-table>
                   <template>
                     <thead>
@@ -372,7 +454,7 @@
                             color="teal darken-1"
                             dark
                             class="px-1 mx-1"
-                            @click=""
+                            @click="editTestDialogAction(test.id)"
                         >
                           <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
                           Edit
@@ -928,6 +1010,13 @@ export default {
         }
       },
       test: {
+        dialog: false,
+        edit: {
+          dialog: false,
+          value: null,
+          notes: null,
+          temp_id: null
+        },
         group: [],
         group_value: null,
         list: [],
@@ -1148,6 +1237,17 @@ export default {
       });
     },
     // END fetch test list
+
+    // START Test dialog and action
+    editTestDialogAction($itemId) {
+      this.test.edit.temp_id = $itemId
+      this.test.edit.dialog = true
+    },
+
+    editTestData() {
+      //
+    },
+    // END Test dialog and action
 
     // START Delete Dialog and action
     deleteDialogPopup($title, $id) {
