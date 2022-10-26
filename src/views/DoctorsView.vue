@@ -1191,7 +1191,21 @@ export default {
 
     // START Edit symptom
     editSymptomData() {
-      //
+      this.dialogs.loading.active = true
+
+      httpPOST('api/v1/symptoms/edit', {
+        patient_uuid: this.patient_uuid,
+        id: this.symptoms.edit.temp_id,
+        symptoms_id: this.symptoms.edit.value,
+        clinical_notes: this.symptoms.edit.notes,
+      }).then(({data}) => {
+        this.symptoms.list = data.data
+        this.symptoms.edit.dialog = false
+      }).catch(({response:{data}})=>{
+        console.log(data)
+      }).finally(() => {
+        this.dialogs.loading.active = false
+      });
     },
     // END Edit symptom
 
