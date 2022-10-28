@@ -451,26 +451,30 @@
                       <td>{{ humanReadableDateConverter(test.updated_at) }}</td>
                       <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
                       <td>
-                        <v-btn
-                            x-small
-                            color="teal darken-1"
-                            dark
-                            class="px-1 mx-1"
-                            @click="editTestDialogAction(test.id)"
+                        <div
+                            v-if="!test.sampling_status"
                         >
-                          <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
-                          Edit
-                        </v-btn>
-                        <v-btn
-                            x-small
-                            color="deep-orange darken-1"
-                            dark
-                            class="px-1 mx-1"
-                            @click="deleteDialogPopup('Test', test.id)"
-                        >
-                          <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
-                          Delete
-                        </v-btn>
+                          <v-btn
+                              x-small
+                              color="teal darken-1"
+                              dark
+                              class="px-1 mx-1"
+                              @click="editTestDialogAction(test.id)"
+                          >
+                            <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                            Edit
+                          </v-btn>
+                          <v-btn
+                              x-small
+                              color="deep-orange darken-1"
+                              dark
+                              class="px-1 mx-1"
+                              @click="deleteDialogPopup('Test', test.id)"
+                          >
+                            <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                            Delete
+                          </v-btn>
+                        </div>
                       </td>
                     </tr>
                     </tbody>
