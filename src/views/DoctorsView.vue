@@ -448,8 +448,8 @@
                       <td v-if="test.sampling_status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
                       <td v-if="test.result === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
                       <td v-if="test.result"><span class="green px-2 py-2 rounded-xl">Done</span></td>
-                      <td>{{ humanReadableDateConverter(test.created_at) }}</td>
-                      <td>{{ test.user.full_name }}</td>
+                      <td>{{ humanReadableDateConverter(test.updated_at) }}</td>
+                      <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
                       <td>
                         <v-btn
                             x-small
@@ -1257,7 +1257,7 @@ export default {
 
       this.test.edit.temp_id = $itemId
       this.test.edit.dialog = true
-      console.log($itemId)
+      // console.log($itemId)
       this.test.group_value = this.tests.find(v => v.id === $itemId).test_groups.test_group
       this.fetchTestListForEdit()
       this.test.list_value = this.tests.find(v => v.id === $itemId).test_groups.id
@@ -1268,7 +1268,24 @@ export default {
     },
 
     editTestData() {
-      //
+      this.dialogs.loading.active = true
+
+      httpPOST('api/v1/lab/edit' , {
+        patient_uuid: this.patient_uuid,
+        test_id: this.test.list_value,
+        doctor_notes: this.test.edit.notes
+      })
+          .then(({data}) => {
+            this.tests = data.data
+            // console.log(data.data)
+          })
+          .catch(({response:{data}})=>{
+            console.log(data)
+          })
+          .finally(() => {
+            this.test.edit.dialog = false
+            this.dialogs.loading.active = false
+          });
     },
     // END Test dialog and action
 
