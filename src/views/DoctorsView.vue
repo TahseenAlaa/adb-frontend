@@ -361,15 +361,18 @@
                               >
                                 <v-autocomplete
                                     label="Test Group"
+                                    v-model="test.group_value"
                                     outlined
                                     dense
                                     :items="test.group"
                                     item-text="test_group"
                                     item-value="test_group"
-                                    @change="fetchTestList"
+                                    @change="fetchTestListForEdit"
+                                    @load="fetchTestListForEdit"
                                 ></v-autocomplete>
                                 <v-autocomplete
                                     label="Test Name"
+                                    v-model="test.list_value"
                                     outlined
                                     dense
                                     :items="test.list"
@@ -380,7 +383,6 @@
                                     chips
                                     small-chips
                                     deletable-chips
-                                    multiple
                                 ></v-autocomplete>
                               </v-col>
                             </v-row>
@@ -645,7 +647,6 @@
                                 >
                                   <v-autocomplete
                                       label="Drugs"
-                                      v-model="drugs"
                                       outlined
                                       dense
                                       :items="['Item1', 'Item2', 'Item3', 'Item4', 'Item5']"
@@ -658,7 +659,6 @@
                                 >
                                   <v-autocomplete
                                       label="Frequency"
-                                      v-model="treatment_frequency"
                                       outlined
                                       dense
                                       :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
@@ -669,7 +669,6 @@
                                 >
                                   <v-autocomplete
                                       label="Per"
-                                      v-model="day_we_mo"
                                       outlined
                                       dense
                                       :items="['Day', 'Week', 'Month']"
@@ -680,7 +679,6 @@
                                 >
                                   <v-autocomplete
                                       label="Meal"
-                                      v-model="meal"
                                       outlined
                                       dense
                                       :items="['Before Meal', 'In Meal', 'After Meal', 'Without Preference']"
@@ -691,7 +689,6 @@
                                 >
                                   <v-text-field
                                       label="Dose"
-                                      v-model="dose"
                                       outlined
                                       dense
                                   ></v-text-field>
@@ -704,7 +701,6 @@
                                   <v-textarea
                                       dense
                                       label="Notes"
-                                      v-model="treatment_notes"
                                       outlined
                                   ></v-textarea>
                                 </v-col>
@@ -1013,9 +1009,12 @@ export default {
         dialog: false,
         edit: {
           dialog: false,
-          value: null,
+          group_value: null,
+          test_value: null,
           notes: null,
-          temp_id: null
+          temp_id: null,
+          temp_group_value: null,
+          temp_test_value: null
         },
         group: [],
         group_value: null,
@@ -1231,17 +1230,41 @@ export default {
         test_group: this.test.group_value
       }).then(({data}) => {
         this.test.list = data.data
-        console.log(data.data)
+        // console.log(data.data)
       }).catch(({response: {data}}) => {
         console.log(data)
       });
     },
     // END fetch test list
 
+    // START fetch test list for edit
+    fetchTestListForEdit() {
+      httpPOST('api/v1/lab-test-groups/index-test-names', {
+        test_group: this.test.group_value
+      }).then(({data}) => {
+        this.test.list = data.data
+        // console.log(data.data)
+      }).catch(({response: {data}}) => {
+        console.log(data)
+      });
+    },
+    // END fetch test list for edit
+
+
     // START Test dialog and action
     editTestDialogAction($itemId) {
+      this.dialogs.loading.active = true
+
       this.test.edit.temp_id = $itemId
       this.test.edit.dialog = true
+      console.log($itemId)
+      this.test.group_value = this.tests.find(v => v.id === $itemId).test_groups.test_group
+      this.fetchTestListForEdit()
+      this.test.list_value = this.tests.find(v => v.id === $itemId).test_groups.id
+      this.test.edit.notes = this.tests.find(v => v.id === $itemId).doctor_notes
+      // console.log(this.test.list_value)
+
+      this.dialogs.loading.active = false
     },
 
     editTestData() {
