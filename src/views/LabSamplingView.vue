@@ -21,6 +21,7 @@
             <th>Result</th>
             <th>Date of Adding Record</th>
             <th>Doctor's Name</th>
+            <th>Sampling By</th>
           </tr>
           </thead>
           <tbody>
@@ -35,6 +36,7 @@
             <td v-if="test.result"><span class="green px-2 py-2 rounded-xl">Done</span></td>
             <td>{{ humanReadableDateConverter(test.created_at) }}</td>
             <td>{{ test.user.full_name }}</td>
+            <td>{{ test.sampling_user? test.sampling_user.full_name : null }}</td>
           </tr>
           </tbody>
         </template>
