@@ -10,7 +10,7 @@
         <v-card-subtitle class="subtitle-2">Tests Information</v-card-subtitle>
       </v-card-text>
 
-      <v-form>
+      <v-form v-model="valid" lazy-validation ref="form">
         <v-simple-table>
           <template>
             <thead>
@@ -56,6 +56,7 @@
                     v-model="inputs[test.id]"
                     dense
                     outlined
+                    :rules="[numberRule]"
                 ></v-text-field>
               </td>
             </tr>
@@ -69,6 +70,7 @@
           <v-btn
               class="deep-purple white--text"
               @click="postResultsData"
+              :disabled="!valid"
           >
             <v-icon size="20">mdi-check-decagram</v-icon>
             Save Results
@@ -94,6 +96,7 @@ export default {
   data() {
     return {
       patient_uuid: this.$route.params.patient_uuid,
+      valid: false,
       dialogs: {
         loading: {
           active: false
@@ -144,8 +147,14 @@ export default {
               this.dialogs.loading.active = false
             });
       })
-    }
+    },
     // END post result data
+
+    numberRule: v  => {
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
+      return 'Numbers only accepted!';
+    }
   },
   created() {
     // START Fetch the tests of this patient
