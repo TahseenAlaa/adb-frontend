@@ -47,7 +47,7 @@
               {{ test.test_groups.min_range + ' - ' + test.test_groups.max_range + ' ' + test.test_groups.measurement_unit }}
             </td>
             <td>{{ humanReadableDateConverter(test.test_groups.created_at) }}</td>
-            <td>{{ test.user.full_name }}</td>
+            <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
             <td>
               <v-btn
                   class="deep-purple white--text"
