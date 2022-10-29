@@ -571,6 +571,78 @@
                   </div>
                 </v-row>
 
+<!--                START edit diagnosis -->
+                <div>
+                  <v-col>
+                    <v-dialog
+                        v-model="diagnosis_edit.dialog"
+                        max-width="800px"
+                    >
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">Editing Diagnosis</span>
+                        </v-card-title>
+                        <v-card-subtitle class="subtitle-1">Please fill the information below to add a diagnosis record to patient visit record.</v-card-subtitle>
+                        <v-card-text>
+                          <v-card-subtitle class="subtitle-2">Diagnosis Information</v-card-subtitle>
+                          <v-container>
+                            <v-row>
+                              <v-col
+                                  cols="12"
+                              >
+                                <v-autocomplete
+                                    label="Diagnosis Type"
+                                    v-model="diagnosis_edit.type"
+                                    outlined
+                                    dense
+                                    :items="diagnosis_types"
+                                    item-text="title"
+                                    item-value="id"
+                                    clearable
+                                    solo
+                                    chips
+                                    small-chips
+                                    deletable-chips
+                                ></v-autocomplete>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col
+                                  cols="12"
+                              >
+                                <v-textarea
+                                    label="Diagnosis Notes"
+                                    v-model="diagnosis_edit.notes"
+                                    outlined
+                                    dense
+                                >
+                                </v-textarea>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                              class="deep-purple white--text"
+                              text
+                              @click="diagnosis_edit.dialog = false"
+                          >
+                            Close
+                          </v-btn>
+                          <v-btn
+                              class="deep-purple white--text"
+                              text
+                              @click="editDiagnosisData"
+                          >
+                            Edit
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-col>
+                </div>
+<!--                END edit diagnosis -->
                 <v-simple-table>
                   <template>
                     <thead>
@@ -587,13 +659,14 @@
                       <td>{{ $item.diagnosis.title }}</td>
                       <td>{{ $item.diagnosis_notes }}</td>
                       <td>{{ humanReadableDateConverter($item.created_at) }}</td>
-                      <td>{{ $item.user.full_name }}</td>
+                      <td>{{ $item.updated_user? $item.updated_user.full_name : $item.user.full_name }}</td>
                       <td>
                         <v-btn
                             x-small
                             color="teal darken-1"
                             dark
                             class="px-1 mx-1"
+                            @click="editDiagnosisDialogAction($item.id)"
                         >
                           <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
                           Edit
@@ -1026,6 +1099,12 @@ export default {
         list_value: null,
         notes: null
       },
+      diagnosis_edit: {
+        dialog: false,
+        type: null,
+        notes: null,
+        temp_id: null
+      },
       receptionView: {
         date_of_birthday: null,
         smoker: null,
@@ -1137,7 +1216,7 @@ export default {
         })
         .then(({data})=>{
           this.diagnosis_list = data.data
-          console.log(data.data)
+          // console.log(data.data)
         }).catch(({response:{data}})=>{
           console.log(data)
         });
@@ -1159,7 +1238,7 @@ export default {
           this.treatments.push(data.data)
           data.data.created_by = data.doctor_name
           data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
-          console.log(this.diagnosis)
+          // console.log(this.diagnosis)
         }).catch(({response: {data}}) => {
           console.log(data)
         });
@@ -1177,7 +1256,7 @@ export default {
         })
         .then(({data}) => {
           this.tests = data.data
-          console.log(data.data)
+          // console.log(data.data)
         }).catch(({response: {data}}) => {
           console.log(data)
         });
@@ -1210,7 +1289,7 @@ export default {
             .then(({data}) => {
               this.symptoms.list = null
               this.symptoms.list = data.data
-              console.log(data.data)
+              // console.log(data.data)
             }).catch(({response:{data}})=>{
           console.log(data)
         });
@@ -1318,7 +1397,7 @@ export default {
           .then(({data}) => {
             this.symptoms.list = []
             this.symptoms.list = data.data
-            console.log(data.data)
+            // console.log(data.data)
           }).catch(({response:data}) => {
         console.log(data.response)
       })
@@ -1376,6 +1455,36 @@ export default {
     },
     // END delete a test
 
+    // START Edit Diagnosis
+    editDiagnosisDialogAction($itemId) {
+      this.diagnosis_edit.dialog = true
+      this.diagnosis_edit.temp_id = $itemId
+      this.diagnosis_edit.type = this.diagnosis_list.find(v => v.id === $itemId).diagnosis.id
+      this.diagnosis_edit.notes = this.diagnosis_list.find(v => v.id === $itemId).diagnosis_notes
+    },
+
+    editDiagnosisData() {
+      this.dialogs.loading.active = true
+
+      httpPOST('api/v1/diagnosis/edit', {
+        patient_uuid: this.patient_uuid,
+        id: this.diagnosis_edit.temp_id,
+        diagnosis_id: this.diagnosis_edit.type,
+        diagnosis_notes: this.diagnosis_edit.notes,
+      })
+          .then(({data}) => {
+            this.diagnosis_list = data.data
+          })
+          .catch(({response:{data}})=>{
+            console.log(data)
+          })
+          .finally(() => {
+            this.dialogs.loading.active = false
+            this.diagnosis_edit.dialog = false
+      });
+    },
+    // END Edit Diagnosis
+
     // START Delete a diagnosis
     deleteDiagnosis() {
       this.dialogs.delete.loading = true
@@ -1411,7 +1520,7 @@ export default {
     httpGET('api/v1/symptoms/show/' + this.patient_uuid)
         .then(({data}) => {
           this.symptoms.list = data.data
-          console.log(data.data)
+          // console.log(data.data)
         }).catch(({response:{data}})=>{
       console.log(data)
     });
@@ -1421,7 +1530,7 @@ export default {
     httpGET('api/v1/lab-test-groups/index-group-names')
         .then(({data}) => {
           this.test.group = data.data
-          console.log(data.data)
+          // console.log(data.data)
         }).catch(({response: {data}}) => {
       console.log(data)
     });
