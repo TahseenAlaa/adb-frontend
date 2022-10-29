@@ -93,6 +93,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/LabResultsView.vue')
   },
   {
+    path: '/inventory-management',
+    name: 'inventory_management',
+    component: () => import(/* webpackChunkName: "about" */ '../views/InventoryManagementView.vue')
+  },
+  {
     path: '/log-activities',
     name: 'log_activities',
     component: () => import(/* webpackChunkName: "about" */ '../views/LogActivitiesView.vue')

@@ -115,7 +115,7 @@
               <v-list-item-title>Pharmacy Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'inventory_management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="deep-purple accent-2">mdi-warehouse</v-icon>
               </v-list-item-icon>
