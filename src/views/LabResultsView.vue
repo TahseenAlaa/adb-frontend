@@ -23,6 +23,7 @@
               <th class="text-left">Range (Min - Max)</th>
               <th>Date of Adding Record</th>
               <th>Doctor's Name</th>
+              <th>Result By</th>
               <th>Action</th>
             </tr>
             </thead>
@@ -49,6 +50,7 @@
               </td>
               <td>{{ humanReadableDateConverter(test.test_groups.created_at) }}</td>
               <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
+              <td>{{ test.result_user? test.result_user.full_name : null }}</td>
               <td class="pt-2">
                 <v-text-field
                     v-model="inputs[test.id]"
