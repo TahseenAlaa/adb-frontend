@@ -10,70 +10,96 @@
         <v-card-subtitle class="subtitle-2">Tests Information</v-card-subtitle>
       </v-card-text>
 
-      <v-simple-table>
-        <template>
-          <thead>
-          <tr>
-            <th>Group</th>
-            <th>Name</th>
-            <th>Notes</th>
-            <th>Sampling</th>
-            <th>Result</th>
-            <th class="text-left">Range (Min - Max)</th>
-            <th>Date of Adding Record</th>
-            <th>Doctor's Name</th>
-            <th>Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="test in tests">
-            <td>{{ test.test_groups.test_group }}</td>
-            <td>{{ test.test_groups.test_name }}</td>
-            <td>{{ test.doctor_notes }}</td>
-            <td v-if="test.sampling_status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-            <td v-if="test.sampling_status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-            <td v-if="test.sampling_status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
-            <td v-if="test.result === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-            <td v-if="test.result"><span class="green px-2 py-2 rounded-xl">Done</span></td>
-            <td>
-              <v-icon
-                  v-if="test.test_groups.gender === 'Male'"
-                  size="20"
-              >mdi-gender-male</v-icon>
-              <v-icon
-                  v-else-if="test.test_groups.gender === 'Female'"
-                  size="20"
-              >mdi-gender-female</v-icon>
-              {{ test.test_groups.min_range + ' - ' + test.test_groups.max_range + ' ' + test.test_groups.measurement_unit }}
-            </td>
-            <td>{{ humanReadableDateConverter(test.test_groups.created_at) }}</td>
-            <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
-            <td>
-              <v-btn
-                  class="deep-purple white--text"
-              >
-                <v-icon size="20">mdi-check-decagram</v-icon>
-                Enter Result
-              </v-btn>
-            </td>
-          </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+      <v-form>
+        <v-simple-table>
+          <template>
+            <thead>
+            <tr>
+              <th>Group</th>
+              <th>Name</th>
+              <th>Notes</th>
+              <th>Sampling</th>
+              <th>Result</th>
+              <th class="text-left">Range (Min - Max)</th>
+              <th>Date of Adding Record</th>
+              <th>Doctor's Name</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="test in tests">
+              <td>{{ test.test_groups.test_group }}</td>
+              <td>{{ test.test_groups.test_name }}</td>
+              <td>{{ test.doctor_notes }}</td>
+              <td v-if="test.sampling_status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="test.sampling_status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="test.sampling_status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+              <td v-if="test.result === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="test.result"><span class=" px-2 py-2 rounded-xl">{{ test.result }}</span></td>
+              <td>
+                <v-icon
+                    v-if="test.test_groups.gender === 'Male'"
+                    size="20"
+                >mdi-gender-male</v-icon>
+                <v-icon
+                    v-else-if="test.test_groups.gender === 'Female'"
+                    size="20"
+                >mdi-gender-female</v-icon>
+                {{ test.test_groups.min_range + ' - ' + test.test_groups.max_range + ' ' + test.test_groups.measurement_unit }}
+              </td>
+              <td>{{ humanReadableDateConverter(test.test_groups.created_at) }}</td>
+              <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
+              <td class="pt-2">
+                <v-text-field
+                    v-model="inputs[test.id]"
+                    dense
+                    outlined
+                ></v-text-field>
+              </td>
+            </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </v-form>
+      <v-row justify="center" align="center">
+        <v-spacer></v-spacer>
+        <v-col cols="2" class="my-4">
+          <v-btn
+              class="deep-purple white--text"
+              @click="postResultsData"
+          >
+            <v-icon size="20">mdi-check-decagram</v-icon>
+            Save Results
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card>
+    <!--    START Loading Dialog -->
+    <LoadingDialogCompo :loading_-dialog="dialogs.loading.active" />
+    <!--    END Loading Dialog -->
   </v-container>
 </template>
 
 <script>
 import {httpGET, httpPOST} from "@/utils/utils";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
   name: "LabResultsView.vue",
+  components: {
+    LoadingDialogCompo
+  },
   data() {
     return {
       patient_uuid: this.$route.params.patient_uuid,
+      dialogs: {
+        loading: {
+          active: false
+        }
+      },
       tests: [],
-      loading_state: false
+      loading_state: false,
+      inputs: []
     }
   },
   methods: {
@@ -85,6 +111,39 @@ export default {
         return null
       }
     },
+
+    // START post result data
+    postResultsData() {
+      this.dialogs.loading.active = true
+
+      this.inputs.forEach((v, n) => {
+        // console.log(n + ' ' + v)
+        httpPOST('api/v1/lab-results/store', {
+          patient_uuid: this.patient_uuid,
+          id: parseInt(n),
+          result: parseInt(v),
+        })
+            .then(({data}) => {
+              // console.log(data.data)
+            })
+            .catch(({response:{data}})=>{
+              console.log(data)
+            })
+            .finally(() => {
+              // START Fetch the tests of this patient
+              httpGET('api/v1/lab/' + this.patient_uuid)
+                  .then(({data}) => {
+                    // console.log(data.data)
+                    this.tests = data.data
+                  }).catch(({response: {data}}) => {
+                console.log(data)
+              });
+              // END Fetch the tests of this patient
+              this.dialogs.loading.active = false
+            });
+      })
+    }
+    // END post result data
   },
   created() {
     // START Fetch the tests of this patient
