@@ -3,6 +3,7 @@
   <v-container>
 
     <v-card>
+<!--      START Input Documents -->
       <v-tabs
           v-model="tab"
           background-color="deep-purple accent-4"
@@ -11,12 +12,12 @@
       >
         <v-tabs-slider></v-tabs-slider>
 
-        <v-tab href="#tab-2">
+        <v-tab href="#tab-input">
           Input Documents
           <v-icon size="30">mdi-calendar-export</v-icon>
         </v-tab>
 
-        <v-tab href="#tab-3">
+        <v-tab href="#tab-output">
           Output Documents
           <v-icon size="30">mdi-calendar-import</v-icon>
         </v-tab>
@@ -24,15 +25,26 @@
 
       <v-tabs-items v-model="tab">
         <v-tab-item
-            v-for="i in 3"
-            :key="i"
-            :value="'tab-' + i"
+            value="tab-input"
         >
           <v-card flat>
-            <v-card-text>{{ text }}</v-card-text>
+            <v-card-text>input Tab</v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
+<!--      END Input Documents -->
+
+<!--      START Output Documents -->
+      <v-tabs-items v-model="tab">
+        <v-tab-item
+            value="tab-output"
+        >
+          <v-card flat>
+            <v-card-text>Output Tab</v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+<!--      END Output Documents -->
     </v-card>
 
 
@@ -99,7 +111,6 @@ export default {
         party: ''
       }],
       tab: null,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     }
   },
 
