@@ -98,6 +98,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/InventoryManagementView.vue')
   },
   {
+    path: '/new-input-doc',
+    name: 'new_input_doc',
+    component: () => import(/* webpackChunkName: "about" */ '../views/NewInputDocument.vue')
+  },
+  {
+    path: '/new-output-doc',
+    name: 'new_output_doc',
+    component: () => import(/* webpackChunkName: "about" */ '../views/NewOutputDocument.vue')
+  },
+  {
     path: '/log-activities',
     name: 'log_activities',
     component: () => import(/* webpackChunkName: "about" */ '../views/LogActivitiesView.vue')

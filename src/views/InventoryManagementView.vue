@@ -31,13 +31,18 @@
             <v-card-text>
               <v-row dense>
                 <v-col cols="2" class="my-4">
-                  <v-btn
-                      color="deep-purple white--text"
-                      class="px-2 py-5 mx-2"
+                  <router-link
+                      :to="{ name: 'new_input_doc' }"
+                      class="text-decoration-none black--text"
                   >
-                    <v-icon size="30" class="pr-1">mdi-archive-arrow-down-outline</v-icon>
-                    New Document
-                  </v-btn>
+                    <v-btn
+                        color="deep-purple white--text"
+                        class="px-2 py-5 mx-2"
+                    >
+                      <v-icon size="30" class="pr-1">mdi-archive-arrow-down-outline</v-icon>
+                      New Document
+                    </v-btn>
+                  </router-link>
                 </v-col>
               </v-row>
 
@@ -135,13 +140,18 @@
             <v-card-text>
               <v-row dense>
                 <v-col cols="2" class="my-4">
-                  <v-btn
-                      color="deep-purple white--text"
-                      class="px-2 py-5 mx-2"
+                  <router-link
+                      :to="{ name: 'new_output_doc' }"
+                      class="text-decoration-none black--text"
                   >
-                    <v-icon size="30" class="pr-1">mdi-archive-arrow-down-outline</v-icon>
-                    New Document
-                  </v-btn>
+                    <v-btn
+                        color="deep-purple white--text"
+                        class="px-2 py-5 mx-2"
+                    >
+                      <v-icon size="30" class="pr-1">mdi-archive-arrow-down-outline</v-icon>
+                      New Document
+                    </v-btn>
+                  </router-link>
                 </v-col>
               </v-row>
 
@@ -317,7 +327,7 @@ export default {
           })
           .then(response => {})
           .catch(error => {})
-    }
+    },
   }
 }
 </script>
