@@ -9,8 +9,10 @@
             <v-row dense>
               <v-col cols="3">
                 <v-select
-                    :items="[1, 2, 3]"
+                    :items="providers"
                     label="Provider"
+                    item-text="title"
+                    item-value="id"
                     outlined
                     dense
                 ></v-select>
@@ -236,12 +238,19 @@
           </v-card>
       </v-card-text>
     </v-card>
+    <LoadingDialogCompo :loading_-dialog="dialog.loading.active" />
   </v-container>
 </template>
 
 <script>
+import {httpGET} from "@/utils/utils";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo";
+
 export default {
   name: "NewInputDocument.vue",
+  components: {
+    LoadingDialogCompo
+  },
   data() {
     return {
       newItem: [{
@@ -256,8 +265,12 @@ export default {
       }],
       final_approval_date: null,
       dialog: {
-        doc_menu: false
-      }
+        doc_menu: false,
+        loading: {
+          active: false
+        }
+      },
+      providers: []
     }
   },
   methods: {
@@ -288,6 +301,26 @@ export default {
       //     .then(response => {})
       //     .catch(error => {})
     },
+  },
+
+  mounted() {
+    this.dialog.loading.active = true
+  },
+
+  created() {
+    // START Fetch Providers list
+    httpGET('api/v1/providers/index')
+        .then(({data}) => {
+          this.providers = data.data
+          console.log(this.providers)
+        })
+        .catch(({response:{data}})=>{
+          console.log(data)
+        })
+        .finally(() => {
+      this.dialog.loading.active = false
+    });
+    // END Fetch Providers list
   }
 }
 </script>
