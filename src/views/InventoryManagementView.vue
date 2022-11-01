@@ -242,54 +242,7 @@
 
 
 
-    <v-form>
-      <v-card>
-        <v-card-text>
-          <v-row
-              dense
-              v-for="(input,k) in inputs" :key="k"
-          >
-            <v-col cols="2">
-              <v-text-field
-                  label="doc No."
-                  outlined
-                  dense
-                  v-model="input.name"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="2">
-              <v-text-field
-                  label="doc Date"
-                  outlined
-                  dense
-                  v-model="input.party"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="2">
-              <v-btn
-                  @click="remove(k)" v-show="k || ( !k && inputs.length > 1)"
-                  class="red white--text"
-                  icon
-                  elevation="2"
-                  outlined
-              >
-                X
-              </v-btn>
-            </v-col>
-            <v-btn
-                @click="add(k)" v-show="k === inputs.length-1"
-            >
-              Add Row
-            </v-btn>
-          </v-row>
-          <v-btn
-              @click="addCandidate"
-          >
-            Submit
-          </v-btn>
-        </v-card-text>
-      </v-card>
-    </v-form>
+
   </v-container>
 
 </template>
