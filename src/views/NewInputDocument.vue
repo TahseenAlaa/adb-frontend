@@ -131,8 +131,10 @@
                 <v-col cols="2">
                   <v-select
                       v-model="item.name"
-                      :items="[1, 2, 3]"
+                      :items="drugs"
                       label="Item Name"
+                      item-text="title"
+                      item-value="id"
                       outlined
                       dense
                   ></v-select>
@@ -256,7 +258,8 @@ export default {
           active: false
         }
       },
-      providers: []
+      providers: [],
+      drugs: []
     }
   },
   methods: {
@@ -307,6 +310,20 @@ export default {
       this.dialog.loading.active = false
     });
     // END Fetch Providers list
+
+    // START Fetch Drugs List
+    httpGET('api/v1/drugs/index')
+        .then(({data}) => {
+          this.drugs = data.data
+          console.log(this.drugs)
+        })
+        .catch(({response:{data}})=>{
+          console.log(data)
+        })
+        .finally(() => {
+          this.dialog.loading.active = false
+        });
+    // END Fetch Drugs List
   }
 }
 </script>
