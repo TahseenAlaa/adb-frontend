@@ -115,6 +115,7 @@
               <th>Date of Birth</th>
               <th>Gender</th>
               <th>Last Visit</th>
+              <th>Next Visit</th>
               <th>Action</th>
             </tr>
             </thead>
@@ -125,6 +126,7 @@
               <td>{{ humanReadableDateConverter(patient.birthday) }}</td>
               <td>{{ patient.gender }}</td>
               <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
+              <td>{{ patient.latest_patient_history? humanReadableDateConverter(patient.latest_patient_history.next_visit) : null }}</td>
               <td>
                 <router-link
                     v-if="receptionTeam"
