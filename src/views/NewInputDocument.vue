@@ -12,6 +12,7 @@
                     :items="[1, 2, 3]"
                     label="Provider"
                     outlined
+                    dense
                 ></v-select>
               </v-col>
 
@@ -20,6 +21,7 @@
                     :items="[1, 2, 3]"
                     label="Destination"
                     outlined
+                    dense
                 ></v-select>
               </v-col>
 
@@ -27,6 +29,7 @@
                 <v-text-field
                     label="Source Reference"
                     outlined
+                    dense
                 ></v-text-field>
               </v-col>
 
@@ -34,6 +37,7 @@
                 <v-text-field
                     label="Destination Reference"
                     outlined
+                    dense
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -45,6 +49,7 @@
                 <v-text-field
                     label="Source Name"
                     outlined
+                    dense
                 ></v-text-field>
               </v-col>
 
@@ -52,12 +57,14 @@
                 <v-text-field
                     label="Source Job title"
                     outlined
+                    dense
                 ></v-text-field>
               </v-col>
                 <v-col cols="3">
                   <v-text-field
                       label="Destination Name"
                       outlined
+                      dense
                   ></v-text-field>
                 </v-col>
 
@@ -65,6 +72,7 @@
                   <v-text-field
                       label="Destination Job Title"
                       outlined
+                      dense
                   ></v-text-field>
                 </v-col>
             </v-row>
@@ -77,6 +85,7 @@
                     :items="['Yes', 'No']"
                     label="Final Approval"
                     outlined
+                    dense
                 ></v-select>
               </v-col>
 
@@ -84,6 +93,7 @@
                 <v-text-field
                     label="Final Approval By"
                     outlined
+                    dense
                 ></v-text-field>
               </v-col>
 
@@ -103,12 +113,13 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                         v-model="final_approval_date"
-                        label="Picker without buttons"
+                        label="Final Approval At"
                         prepend-inner-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
                         v-on="on"
                         outlined
+                        dense
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -127,43 +138,97 @@
             <v-card-text>
               <v-row
                   dense
-                  v-for="(input,k) in inputs" :key="k"
+                  v-for="(item,k) in newItem" :key="k"
               >
                 <v-col cols="2">
-                  <v-text-field
-                      label="doc No."
+                  <v-select
+                      v-model="item.name"
+                      :items="[1, 2, 3]"
+                      label="Item Name"
                       outlined
                       dense
-                      v-model="input.name"
-                  ></v-text-field>
+                  ></v-select>
                 </v-col>
+
                 <v-col cols="2">
                   <v-text-field
-                      label="doc Date"
+                      v-model="item.batch"
+                      label="Batch Number"
                       outlined
                       dense
-                      v-model="input.party"
                   ></v-text-field>
                 </v-col>
+
+                <v-col
+                    cols="2"
+                >
+                  <v-menu
+                      v-model="item.dialog.expire"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                          v-model="item.expire_date"
+                          label="Expire Date"
+                          prepend-inner-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                          outlined
+                          dense
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                        v-model="item.expire_date"
+                        @input="item.dialog.expire = false"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+
                 <v-col cols="2">
+                  <v-text-field
+                      v-model="item.quantity"
+                      label="Quantity"
+                      outlined
+                      dense
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="3">
+                  <v-text-field
+                      v-model="item.notes"
+                      label="Notes"
+                      outlined
+                      dense
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="1">
                   <v-btn
-                      @click="remove(k)" v-show="k || ( !k && inputs.length > 1)"
+                      @click="remove(k)" v-show="k || ( !k && newItem.length > 1)"
                       class="red white--text"
                       icon
                       elevation="2"
                       outlined
+                      dense
                   >
                     X
                   </v-btn>
                 </v-col>
                 <v-btn
-                    @click="add(k)" v-show="k === inputs.length-1"
+                    @click="add(k)" v-show="k === newItem.length-1"
+                    class="deep-purple white--text"
                 >
-                  Add Row
+                  Add Item Record
                 </v-btn>
               </v-row>
               <v-btn
                   @click="addCandidate"
+                  class="deep-purple white--text my-6"
               >
                 Submit
               </v-btn>
@@ -179,9 +244,15 @@ export default {
   name: "NewInputDocument.vue",
   data() {
     return {
-      inputs: [{
-        name: '',
-        party: ''
+      newItem: [{
+        name: null,
+        batch: null,
+        expire_date: null,
+        quantity: null,
+        notes: null,
+        dialog: {
+          expire: false
+        }
       }],
       final_approval_date: null,
       dialog: {
@@ -191,24 +262,31 @@ export default {
   },
   methods: {
     add () {
-      this.inputs.push({
-        name: '',
-        party: ''
+      this.newItem.push({
+        name: null,
+        batch: null,
+        expire_date: null,
+        quantity: null,
+        notes: null,
+        dialog: {
+          expire: false
+        }
       })
-      console.log(JSON.stringify(this.inputs))
+      console.log(JSON.stringify(this.newItem))
     },
 
     remove (index) {
-      this.inputs.splice(index, 1)
+      this.newItem.splice(index, 1)
     },
 
     addCandidate () {
-      axios
-          .post('/candidates', {
-            my_prop_name: JSON.stringify(this.inputs)
-          })
-          .then(response => {})
-          .catch(error => {})
+      console.log(JSON.stringify(this.newItem))
+      // axios
+      //     .post('/candidates', {
+      //       my_prop_name: JSON.stringify(this.newItem)
+      //     })
+      //     .then(response => {})
+      //     .catch(error => {})
     },
   }
 }
