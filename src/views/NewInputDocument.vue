@@ -19,15 +19,6 @@
               </v-col>
 
               <v-col cols="3">
-                <v-select
-                    :items="[1, 2, 3]"
-                    label="Destination"
-                    outlined
-                    dense
-                ></v-select>
-              </v-col>
-
-              <v-col cols="3">
                 <v-text-field
                     label="Source Reference"
                     outlined
@@ -42,11 +33,7 @@
                     dense
                 ></v-text-field>
               </v-col>
-            </v-row>
 
-            <v-row
-                dense
-            >
               <v-col cols="3">
                 <v-text-field
                     label="Source Name"
@@ -54,7 +41,9 @@
                     dense
                 ></v-text-field>
               </v-col>
+            </v-row>
 
+            <v-row dense>
               <v-col cols="3">
                 <v-text-field
                     label="Source Job title"
@@ -77,11 +66,7 @@
                       dense
                   ></v-text-field>
                 </v-col>
-            </v-row>
 
-            <v-row
-                dense
-            >
               <v-col cols="3">
                 <v-select
                     :items="['Yes', 'No']"
@@ -90,6 +75,9 @@
                     dense
                 ></v-select>
               </v-col>
+            </v-row>
+
+            <v-row dense>
 
               <v-col cols="3">
                 <v-text-field
@@ -101,8 +89,6 @@
 
               <v-col
                   cols="3"
-                  sm="6"
-                  md="4"
               >
                 <v-menu
                     v-model="dialog.doc_menu"
