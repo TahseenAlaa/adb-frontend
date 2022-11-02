@@ -131,7 +131,7 @@
         </v-card>
       </v-card-text>
 
-      <v-card-text>
+      <v-card-text class="mb-12">
           <v-card>
             <v-card-text>
               <v-row
@@ -226,12 +226,35 @@
                   Add Item Record
                 </v-btn>
               </v-row>
-              <v-btn
-                  @click="storeInputDocumentData"
-                  class="deep-purple white--text my-6"
-              >
-                Submit
-              </v-btn>
+
+<!--              START Flash Message -->
+              <v-row dense align="center" justify="center">
+                <v-spacer></v-spacer>
+                <v-alert
+                    type="success"
+                    class="mt-10 mr-4"
+                    v-if="successAlert"
+                    dense
+                >Document Information stored successfully!</v-alert>
+                <v-alert
+                    prominent
+                    type="error"
+                    class="mt-10 mr-4"
+                    v-if="errorAlert"
+                    dense
+                >Save data Failed!
+                </v-alert>
+
+                <v-btn
+                    class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
+                >
+                  <v-col @click="storeInputDocumentData">
+                    <v-icon size="60">mdi-content-save</v-icon>
+                    <h3 class="text-capitalize">SAVE Document</h3>
+                  </v-col>
+                </v-btn>
+              </v-row>
+<!--              END Flash Message -->
             </v-card-text>
           </v-card>
       </v-card-text>
@@ -278,7 +301,9 @@ export default {
         }
       },
       providers: [],
-      drugs: []
+      drugs: [],
+      successAlert: false,
+      errorAlert: false
     }
   },
   methods: {
