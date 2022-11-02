@@ -344,9 +344,13 @@ export default {
         newItems: this.newItem
       })
           .then(({data}) => {
-            // console.log(data.data)
+            this.successAlert = true
+            setTimeout(() => {
+              this.$router.push({name: 'inventory_management'})
+            }, 2000)
           })
           .catch(({response:{data}})=>{
+            this.errorAlert = true
             console.log(data)
           })
           .finally(() => {
