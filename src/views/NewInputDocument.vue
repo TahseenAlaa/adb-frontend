@@ -57,15 +57,6 @@
                 ></v-text-field>
               </v-col>
 
-              <v-col cols="3">
-                <v-text-field
-                    v-model="destination_name"
-                    label="Destination Name"
-                    outlined
-                    dense
-                ></v-text-field>
-              </v-col>
-
                 <v-col cols="3">
                   <v-text-field
                       v-model="destination_job_title"
@@ -92,18 +83,6 @@
                     outlined
                     dense
                 ></v-select>
-              </v-col>
-            </v-row>
-
-            <v-row dense>
-
-              <v-col cols="3">
-                <v-text-field
-                    v-model="final_approval_by"
-                    label="Final Approval By"
-                    outlined
-                    dense
-                ></v-text-field>
               </v-col>
 
               <v-col
@@ -134,6 +113,18 @@
                       @input="dialog.doc_menu = false"
                   ></v-date-picker>
                 </v-menu>
+              </v-col>
+            </v-row>
+
+            <v-row dense>
+
+              <v-col cols="12">
+                <v-text-field
+                    v-model="final_approval_by"
+                    label="Final Approval By"
+                    outlined
+                    dense
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-card-text>
@@ -320,7 +311,6 @@ export default {
         source_name: this.source_name,
         source_job_title: this.source_job_title,
         destination_reference: this.destination_reference,
-        destination_name: this.destination_name,
         destination_job_title: this.destination_job_title,
         doc_type: 1, // Input Document
         final_approval: this.final_approval,
