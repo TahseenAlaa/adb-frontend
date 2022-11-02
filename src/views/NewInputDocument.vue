@@ -9,6 +9,7 @@
             <v-row dense>
               <v-col cols="3">
                 <v-select
+                    v-model="provider"
                     :items="providers"
                     label="Provider"
                     item-text="title"
@@ -20,6 +21,7 @@
 
               <v-col cols="3">
                 <v-text-field
+                    v-model="source_reference"
                     label="Source Reference"
                     outlined
                     dense
@@ -28,7 +30,8 @@
 
               <v-col cols="3">
                 <v-text-field
-                    label="Destination Reference"
+                    v-model="source_name"
+                    label="Source Name"
                     outlined
                     dense
                 ></v-text-field>
@@ -36,7 +39,8 @@
 
               <v-col cols="3">
                 <v-text-field
-                    label="Source Name"
+                    v-model="source_job_title"
+                    label="Source Job title"
                     outlined
                     dense
                 ></v-text-field>
@@ -46,21 +50,25 @@
             <v-row dense>
               <v-col cols="3">
                 <v-text-field
-                    label="Source Job title"
+                    v-model="destination_reference"
+                    label="Destination Reference"
                     outlined
                     dense
                 ></v-text-field>
               </v-col>
-                <v-col cols="3">
-                  <v-text-field
-                      label="Destination Name"
-                      outlined
-                      dense
-                  ></v-text-field>
-                </v-col>
+
+              <v-col cols="3">
+                <v-text-field
+                    v-model="destination_name"
+                    label="Destination Name"
+                    outlined
+                    dense
+                ></v-text-field>
+              </v-col>
 
                 <v-col cols="3">
                   <v-text-field
+                      v-model="destination_job_title"
                       label="Destination Job Title"
                       outlined
                       dense
@@ -69,7 +77,17 @@
 
               <v-col cols="3">
                 <v-select
-                    :items="['Yes', 'No']"
+                    v-model="final_approval"
+                    :items="[
+                        {
+                          text: 'Yes',
+                          value: 1
+                        },
+                        {
+                          text: 'No',
+                          value: 0
+                        },
+                    ]"
                     label="Final Approval"
                     outlined
                     dense
@@ -81,6 +99,7 @@
 
               <v-col cols="3">
                 <v-text-field
+                    v-model="final_approval_by"
                     label="Final Approval By"
                     outlined
                     dense
@@ -217,7 +236,7 @@
                 </v-btn>
               </v-row>
               <v-btn
-                  @click="addCandidate"
+                  @click="storeInputDocumentData"
                   class="deep-purple white--text my-6"
               >
                 Submit
@@ -231,7 +250,7 @@
 </template>
 
 <script>
-import {httpGET} from "@/utils/utils";
+import {httpGET, httpPOST} from "@/utils/utils";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
@@ -241,6 +260,16 @@ export default {
   },
   data() {
     return {
+      provider: null,
+      source_reference: null,
+      source_name: null,
+      source_job_title: null,
+      destination_reference: null,
+      destination_name: null,
+      destination_job_title: null,
+      final_approval: null,
+      final_approval_by: null,
+      final_approval_date: null,
       newItem: [{
         name: null,
         batch: null,
@@ -251,7 +280,6 @@ export default {
           expire: false
         }
       }],
-      final_approval_date: null,
       dialog: {
         doc_menu: false,
         loading: {
@@ -274,22 +302,43 @@ export default {
           expire: false
         }
       })
-      console.log(JSON.stringify(this.newItem))
+      // console.log(JSON.stringify(this.newItem))
     },
 
     remove (index) {
       this.newItem.splice(index, 1)
     },
 
-    addCandidate () {
-      console.log(JSON.stringify(this.newItem))
-      // axios
-      //     .post('/candidates', {
-      //       my_prop_name: JSON.stringify(this.newItem)
-      //     })
-      //     .then(response => {})
-      //     .catch(error => {})
-    },
+    // START Post input document data
+    storeInputDocumentData() {
+      this.dialog.loading.active = true
+      // console.log(JSON.stringify(this.newItem))
+
+      httpPOST('api/v1/documents/store', {
+        provider_id: this.provider,
+        source_reference: this.source_reference,
+        source_name: this.source_name,
+        source_job_title: this.source_job_title,
+        destination_reference: this.destination_reference,
+        destination_name: this.destination_name,
+        destination_job_title: this.destination_job_title,
+        doc_type: 1, // Input Document
+        final_approval: this.final_approval,
+        approved_by: this.final_approval_by,
+        approved_at: this.final_approval_date,
+        newItems: this.newItem
+      })
+          .then(({data}) => {
+            // console.log(data.data)
+          })
+          .catch(({response:{data}})=>{
+            console.log(data)
+          })
+          .finally(() => {
+            this.dialog.loading.active = false
+          });
+    }
+    // END Post input document data
   },
 
   mounted() {
