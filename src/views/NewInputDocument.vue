@@ -369,7 +369,10 @@ export default {
     httpGET('api/v1/providers/index')
         .then(({data}) => {
           this.providers = data.data
-          console.log(this.providers)
+          // Delete (Pharmacy) from the destinations array
+          this.providers = this.providers.filter(function (v) {
+            return v.title !== "Pharmacy"
+          })
         })
         .catch(({response:{data}})=>{
           console.log(data)
