@@ -292,6 +292,7 @@ export default {
       final_approval: null,
       final_approval_by: null,
       final_approval_date: null,
+      to_pharmacy: false,
       newItem: [{
         name: null,
         batch: null,
@@ -337,6 +338,10 @@ export default {
     storeOutputDocumentData() {
       this.dialog.loading.active = true
 
+      if (this.destinations.find(v => v.id === this.destination).title === "Pharmacy") {
+        this.to_pharmacy = true
+      }
+
       httpPOST('api/v1/documents/store', {
         source_reference: this.source_reference,
         source_name: this.source_name,
@@ -344,6 +349,7 @@ export default {
         destination_id: this.destination,
         destination_reference: this.destination_reference,
         destination_job_title: this.destination_job_title,
+        to_pharmacy: this.to_pharmacy,
         doc_type: 2, // Output Document
         final_approval: this.final_approval,
         approved_by: this.final_approval_by,
@@ -386,7 +392,6 @@ export default {
     httpGET('api/v1/providers/index')
         .then(({data}) => {
           this.destinations = data.data
-          // console.log(this.destinations)
         })
         .catch(({response:{data}})=>{
           console.log(data)
