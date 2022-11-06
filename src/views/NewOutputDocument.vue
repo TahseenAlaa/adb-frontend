@@ -333,43 +333,36 @@ export default {
       this.newItem.splice(index, 1)
     },
 
-    // START Post input document data
-    // storeInputDocumentData() {
-    //   this.dialog.loading.active = true
-    //   // console.log(JSON.stringify(this.newItem))
-    //
-    //   httpPOST('api/v1/documents/store', {
-    //     provider_id: this.provider,
-    //     source_reference: this.source_reference,
-    //     source_name: this.source_name,
-    //     source_job_title: this.source_job_title,
-    //     destination_reference: this.destination_reference,
-    //     destination_job_title: this.destination_job_title,
-    //     doc_type: 1, // Input Document
-    //     final_approval: this.final_approval,
-    //     approved_by: this.final_approval_by,
-    //     approved_at: this.final_approval_date,
-    //     newItems: this.newItem
-    //   })
-    //       .then(({data}) => {
-    //         this.successAlert = true
-    //         setTimeout(() => {
-    //           this.$router.push({name: 'inventory_management'})
-    //         }, 2000)
-    //       })
-    //       .catch(({response:{data}})=>{
-    //         this.errorAlert = true
-    //         console.log(data)
-    //       })
-    //       .finally(() => {
-    //         this.dialog.loading.active = false
-    //       });
-    // }
-    // END Post input document data
-
     // START Store output document data
     storeOutputDocumentData() {
-      //
+      this.dialog.loading.active = true
+
+      httpPOST('api/v1/documents/store', {
+        source_reference: this.source_reference,
+        source_name: this.source_name,
+        source_job_title: this.source_job_title,
+        destination_id: this.destination,
+        destination_reference: this.destination_reference,
+        destination_job_title: this.destination_job_title,
+        doc_type: 2, // Output Document
+        final_approval: this.final_approval,
+        approved_by: this.final_approval_by,
+        approved_at: this.final_approval_date,
+        newItems: this.newItem
+      })
+          .then(({data}) => {
+            this.successAlert = true
+            setTimeout(() => {
+              this.$router.push({name: 'inventory_management'})
+            }, 2000)
+          })
+          .catch(({response:{data}})=>{
+            this.errorAlert = true
+            console.log(data)
+          })
+          .finally(() => {
+            this.dialog.loading.active = false
+          });
     },
     // END Store output document data
 
