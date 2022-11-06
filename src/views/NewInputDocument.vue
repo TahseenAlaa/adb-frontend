@@ -284,6 +284,7 @@ export default {
       final_approval: null,
       final_approval_by: null,
       final_approval_date: null,
+      to_pharmacy: false,
       newItem: [{
         name: null,
         batch: null,
@@ -337,6 +338,7 @@ export default {
         source_job_title: this.source_job_title,
         destination_reference: this.destination_reference,
         destination_job_title: this.destination_job_title,
+        to_pharmacy: this.to_pharmacy,
         doc_type: 1, // Input Document
         final_approval: this.final_approval,
         approved_by: this.final_approval_by,
@@ -369,9 +371,13 @@ export default {
     httpGET('api/v1/providers/index')
         .then(({data}) => {
           this.providers = data.data
-          // Delete (Pharmacy) from the destinations array
+          // Delete (Pharmacy && Alhasan Diabetes Center) from the destinations array
           this.providers = this.providers.filter(function (v) {
             return v.title !== "Pharmacy"
+          })
+
+          this.providers = this.providers.filter(function (v) {
+            return v.title !== "Alhasan Diabetes Center"
           })
         })
         .catch(({response:{data}})=>{

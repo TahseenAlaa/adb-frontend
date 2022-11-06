@@ -50,11 +50,10 @@
                 <template v-slot:default>
                   <thead>
                   <tr>
+                    <th class="text-left">Source</th>
+                    <th class="text-left">Destination</th>
                     <th class="text-left">Source Name</th>
-                    <th class="text-left">Source Reference</th>
                     <th class="text-left">Destination Name</th>
-                    <th class="text-left">Destination Reference</th>
-                    <th class="text-left">Approved By</th>
                     <th class="text-left">Created At</th>
                     <th class="text-left">Created By</th>
                     <th class="text-left">Action</th>
@@ -62,11 +61,10 @@
                   </thead>
                   <tbody>
                   <tr v-for="item in inventory">
+                    <td>{{ item.source.title }}</td>
+                    <td>{{ item.destination.title }}</td>
                     <td>{{ item.source_name }}</td>
-                    <td>{{ item.source_ref }}</td>
                     <td>{{ item.destination_name }}</td>
-                    <td>{{ item.destination_ref }}</td>
-                    <td>{{ item.approved_by }}</td>
                     <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                     <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                     <td></td>
@@ -169,37 +167,39 @@
                     <th class="text-left">Source Name</th>
                     <th class="text-left">Destination Name</th>
                     <th class="text-left">Created At</th>
+                    <th class="text-left">Created By</th>
                     <th class="text-left">Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                  <tr v-for="item in outputDocs">
+                    <td>{{ item.source.title }}</td>
+                    <td>{{ item.destination.title }}</td>
+                    <td>{{ item.source_name }}</td>
+                    <td>{{ item.destination_name }}</td>
+                    <td>{{ humanReadableDateConverter(item.created_at) }}</td>
+                    <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                     <td>
-                      <v-btn
-                          x-small
-                          color="teal darken-1"
-                          dark
-                          class="px-1 mx-1"
-                          @click=""
-                      >
-                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
-                        Edit
-                      </v-btn>
-                      <v-btn
-                          x-small
-                          color="deep-orange darken-1 white--text"
-                          class="px-1 mx-1"
-                          @click="activeDeleteDialog(test.id)"
-                          :disabled="disableDeleteBTN"
-                      >
-                        <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
-                        Delete
-                      </v-btn>
+<!--                      <v-btn-->
+<!--                          x-small-->
+<!--                          color="teal darken-1"-->
+<!--                          dark-->
+<!--                          class="px-1 mx-1"-->
+<!--                          @click=""-->
+<!--                      >-->
+<!--                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
+<!--                        Edit-->
+<!--                      </v-btn>-->
+<!--                      <v-btn-->
+<!--                          x-small-->
+<!--                          color="deep-orange darken-1 white&#45;&#45;text"-->
+<!--                          class="px-1 mx-1"-->
+<!--                          @click="activeDeleteDialog(test.id)"-->
+<!--                          :disabled="disableDeleteBTN"-->
+<!--                      >-->
+<!--                        <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>-->
+<!--                        Delete-->
+<!--                      </v-btn>-->
                     </td>
                   </tr>
                   <!--              START Delete Dialog -->
@@ -265,6 +265,7 @@ export default {
   data() {
     return {
       inventory: [],
+      outputDocs: [],
       tab: null,
       dialog: {
         loading: {
@@ -290,7 +291,7 @@ export default {
   },
 
   created() {
-    // START Fetch Documents List
+    // START Fetch Input Documents List
     httpGET('api/v1/documents/index-inventory')
         .then(({data}) => {
           this.inventory = data.data
@@ -301,8 +302,23 @@ export default {
         .finally(() => {
           this.dialog.loading.active = false
         });
-    // END Fetch Documents List
+    // END Fetch Input Documents List
+
+    // START Fetch Output Documents List
+    httpGET('api/v1/documents/output-document')
+        .then(({data}) => {
+          this.outputDocs = data.data
+          console.log(this.outputDocs)
+        })
+        .catch(({response:{data}})=>{
+          console.log(data)
+        })
+        .finally(() => {
+          this.dialog.loading.active = false
+        });
+    // END Fetch Output Documents List
   }
+
 }
 </script>
 

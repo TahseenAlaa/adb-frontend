@@ -68,13 +68,24 @@
 
               <v-col cols="3">
                 <v-text-field
+                    v-model="destination_name"
+                    label="Destination Name"
+                    outlined
+                    dense
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="3">
+                <v-text-field
                     v-model="destination_job_title"
                     label="Destination Job Title"
                     outlined
                     dense
                 ></v-text-field>
               </v-col>
+            </v-row>
 
+            <v-row dense>
               <v-col cols="3">
                 <v-select
                     v-model="final_approval"
@@ -124,7 +135,7 @@
                 </v-menu>
               </v-col>
 
-              <v-col cols="9">
+              <v-col cols="6">
                 <v-text-field
                     v-model="final_approval_by"
                     label="Final Approval By"
@@ -347,6 +358,7 @@ export default {
         source_name: this.source_name,
         source_job_title: this.source_job_title,
         destination_id: this.destination,
+        destination_name: this.destination_name,
         destination_reference: this.destination_reference,
         destination_job_title: this.destination_job_title,
         to_pharmacy: this.to_pharmacy,
@@ -392,6 +404,10 @@ export default {
     httpGET('api/v1/providers/index')
         .then(({data}) => {
           this.destinations = data.data
+          // Delete (Alhasan Diabetes Center) from the destinations array
+          this.destinations = this.destinations.filter(function (v) {
+            return v.title !== "Alhasan Diabetes Center"
+          })
         })
         .catch(({response:{data}})=>{
           console.log(data)
