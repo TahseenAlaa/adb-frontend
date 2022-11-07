@@ -9,6 +9,8 @@
           <tr>
             <th class="text-left">#</th>
             <th class="text-left">Title</th>
+            <th class="text-left">Drug Type</th>
+            <th class="text-left">Item Type</th>
             <th class="text-left">Created By</th>
             <th class="text-left">Created At</th>
           </tr>
@@ -20,6 +22,10 @@
           >
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
+            <td v-if="item.drug_type === 0">Normal Drug</td>
+            <td v-if="item.drug_type === 1">Committee</td>
+            <td v-if="item.item_type === 0">Drugs</td>
+            <td v-if="item.item_type === 1">Assets</td>
             <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
             <td>{{ humanReadableDateConverter(item.created_at) }}</td>
             <!--            <td>-->
