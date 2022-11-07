@@ -137,6 +137,11 @@ const routes = [
     name: 'settings',
     component: () => import(/* webpackChunkName: "about" */ '../views/SettingsView.vue')
   },
+  {
+    path: '/pharmacy-management',
+    name: 'pharmacy-management',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PharmacyManagementView.vue')
+  }
 
 ]
 
