@@ -122,7 +122,7 @@
               <v-list-item-title>Inventory Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="">
+            <v-list-item @click="$router.push({name: 'providers-management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="orange">mdi-rss-box</v-icon>
               </v-list-item-icon>

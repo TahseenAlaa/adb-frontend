@@ -1,33 +1,26 @@
 <template>
-
   <v-container>
     <v-card class="px-6 pb-12 mb-12">
-      <v-card-title>Patients Management</v-card-title>
+      <v-card-title>Providers Management</v-card-title>
       <v-simple-table dense>
         <template v-slot:default>
           <thead>
           <tr>
             <th class="text-left">#</th>
-            <th class="text-left">Full Name</th>
-            <th class="text-left">Patient Number</th>
-            <th class="text-left">Phone</th>
-            <th class="text-left">Birthday</th>
-            <th class="text-left">Register Date</th>
-            <th class="text-left">Last Visit</th>
+            <th class="text-left">Title</th>
+            <th class="text-left">Created By</th>
+            <th class="text-left">Created At</th>
           </tr>
           </thead>
           <tbody>
           <tr
-              v-for="item in patients"
+              v-for="item in providers"
               :key="item.id"
           >
             <td>{{ item.id }}</td>
-            <td>{{ item.full_name }}</td>
-            <td>{{ item.patient_number }}</td>
-            <td>{{ item.phone }}</td>
-            <td>{{ humanReadableDateConverter(item.birthday) }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
             <td>{{ humanReadableDateConverter(item.created_at) }}</td>
-            <td>{{ humanReadableDateConverter(item.last_visit) }}</td>
             <!--            <td>-->
             <!--              <v-btn-->
             <!--                  x-small-->
@@ -104,14 +97,14 @@ import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 import {httpGET} from "@/utils/utils";
 
 export default {
-  name: "PatientsManagementView.vue",
+  name: "ProvidersView.vue",
   components: {
     LoadingDialogCompo
   },
   data() {
     return {
       loading_Dialog: true,
-      patients: [],
+      providers: [],
       disableSaveBTN: false
     }
   },
@@ -132,20 +125,19 @@ export default {
   },
 
   created() {
-    // START Fetch All Patients
-    httpGET('api/v1/patients/index')
+    // START Fetch All providers
+    httpGET('api/v1/providers/index')
         .then(({data}) => {
-          this.patients = data.data
+          this.providers = data.data
           // console.log(data.data)
         }).catch(({response: {data}}) => {
       console.log(data)
     }).finally(() => {
       this.loading_Dialog = false
     });
-    // END Fetch All Patients
+    // END Fetch All providers
   }
 }
-
 </script>
 
 <style scoped>
