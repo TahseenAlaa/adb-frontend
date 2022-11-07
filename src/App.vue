@@ -108,6 +108,13 @@
               <v-list-item-title>Lab Management</v-list-item-title>
             </v-list-item>
 
+            <v-list-item @click="$router.push({name: 'drug-management'})">
+              <v-list-item-icon>
+                <v-icon size="30" color="blue darken-3">mdi-atom</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Drugs Management</v-list-item-title>
+            </v-list-item>
+
             <v-list-item @click="$router.push({name: 'pharmacy-management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="lime darken-3">mdi-mortar-pestle-plus</v-icon>
