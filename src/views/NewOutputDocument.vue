@@ -387,10 +387,10 @@ export default {
     // START Fetch New Item information
     fetchItemInfo($item, $k) {
       // console.log(this.drugs.find(v => v.id === this.newItem[$k].name).batch_no)
-      this.newItem[$k].batch = this.drugs.find(v => v.id === this.newItem[$k].name).batch_no
-      this.newItem[$k].expire_date = this.drugs.find(v => v.id === this.newItem[$k].name).expire_date
-      this.newItem[$k].quantity = this.drugs.find(v => v.id === this.newItem[$k].name).quantity
-      this.newItem[$k].notes = this.drugs.find(v => v.id === this.newItem[$k].name).notes
+      this.newItem[$k].batch = this.drugs.find(v => v.drug_id === this.newItem[$k].name).batch_no
+      this.newItem[$k].expire_date = this.drugs.find(v => v.drug_id === this.newItem[$k].name).expire_date
+      this.newItem[$k].quantity = this.drugs.find(v => v.drug_id === this.newItem[$k].name).quantity
+      this.newItem[$k].notes = this.drugs.find(v => v.drug_id === this.newItem[$k].name).notes
     }
     // END Fetch New Item information
   },
@@ -421,7 +421,7 @@ export default {
     httpGET('api/v1/documents/available-drugs')
         .then(({data}) => {
           this.drugs = data.data
-          // console.log(this.drugs)
+          console.log(this.drugs)
         })
         .catch(({response:{data}})=>{
           console.log(data)
