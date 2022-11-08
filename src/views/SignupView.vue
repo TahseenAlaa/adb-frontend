@@ -41,7 +41,16 @@
               <v-col cols="6">
                 <v-autocomplete
                     label="Role"
-                    :items="['Receptionist', 'Statistics', 'Doctor', 'Tester', 'Admin']"
+                    :items="[
+                        'Receptionist',
+                        'Statistics',
+                        'Doctor',
+                        'Tester',
+                        'Admin',
+                        'Pharmacist',
+                        'Pharmacy Manager',
+                        'Inventory Manager',
+                        ]"
                     v-model="role"
                     outlined
                     dense
