@@ -155,13 +155,18 @@
                 dense
                 v-for="(item,k) in newItem" :key="k"
             >
+              <v-text-field
+                  label="id"
+                  v-model="item.drug_id"
+                  v-show="false"
+              ></v-text-field>
               <v-col cols="2">
                 <v-select
                     v-model="item.name"
                     :items="drugs"
                     label="Item Name"
                     item-text="drugs.title"
-                    item-value="drugs.id"
+                    item-value="id"
                     outlined
                     dense
                     @change="fetchItemInfo(item, k)"
@@ -305,6 +310,7 @@ export default {
       final_approval_date: null,
       to_pharmacy: false,
       newItem: [{
+        drug_id: null,
         name: null,
         batch: null,
         expire_date: null,
@@ -384,13 +390,20 @@ export default {
     },
     // END Store output document data
 
+    // START get Drug Id from Item ID
+    drugIdFromItemId($itemId) {
+      return this.drugs.find(v => v.id === this.newItem[$itemId].name).drugs.id
+    },
+    // END get Drug Id from Item ID
+
     // START Fetch New Item information
     fetchItemInfo($item, $k) {
-      // console.log(this.drugs.find(v => v.id === this.newItem[$k].name).batch_no)
-      this.newItem[$k].batch = this.drugs.find(v => v.drug_id === this.newItem[$k].name).batch_no
-      this.newItem[$k].expire_date = this.drugs.find(v => v.drug_id === this.newItem[$k].name).expire_date
-      this.newItem[$k].quantity = this.drugs.find(v => v.drug_id === this.newItem[$k].name).quantity
-      this.newItem[$k].notes = this.drugs.find(v => v.drug_id === this.newItem[$k].name).notes
+      // console.log(this.drugIdFromItemId($k))
+      this.newItem[$k].drug_id = this.drugs.find(v => v.id === this.newItem[$k].name).drug_id
+      this.newItem[$k].batch = this.drugs.find(v => v.id === this.newItem[$k].name).batch_no
+      this.newItem[$k].expire_date = this.drugs.find(v => v.id === this.newItem[$k].name).expire_date
+      this.newItem[$k].quantity = this.drugs.find(v => v.id === this.newItem[$k].name).quantity
+      this.newItem[$k].notes = this.drugs.find(v => v.id === this.newItem[$k].name).notes
     }
     // END Fetch New Item information
   },
@@ -421,7 +434,7 @@ export default {
     httpGET('api/v1/documents/available-drugs')
         .then(({data}) => {
           this.drugs = data.data
-          console.log(this.drugs)
+          console.log(data.data)
         })
         .catch(({response:{data}})=>{
           console.log(data)
