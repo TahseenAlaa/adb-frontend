@@ -140,7 +140,7 @@
               >
                 <v-col cols="2">
                   <v-select
-                      v-model="item.name"
+                      v-model="item.drug_id"
                       :items="drugs"
                       label="Item Name"
                       item-text="title"
@@ -286,6 +286,7 @@ export default {
       final_approval_date: null,
       to_pharmacy: false,
       newItem: [{
+        drug_id: null,
         name: null,
         batch: null,
         expire_date: null,
@@ -310,6 +311,7 @@ export default {
   methods: {
     add () {
       this.newItem.push({
+        drug_id: null,
         name: null,
         batch: null,
         expire_date: null,
@@ -329,7 +331,7 @@ export default {
     // START Post input document data
     storeInputDocumentData() {
       this.dialog.loading.active = true
-      // console.log(JSON.stringify(this.newItem))
+      console.log(this.newItem)
 
       httpPOST('api/v1/documents/store', {
         provider_id: this.provider,
