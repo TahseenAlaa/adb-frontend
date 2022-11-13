@@ -7,6 +7,7 @@
       class="mt-4"
   >
     <v-card
+        v-if="$store.getters.user.role === 'Receptionist' || $store.getters.user.role === 'Statistics' || $store.getters.user.role === 'Admin'"
         class="my-2 mx-2 py-2 px-2"
         max-width="250"
         max-height="250"
@@ -31,6 +32,7 @@
     </v-card>
 
     <v-card
+        v-if="$store.getters.user.role === '' || $store.getters.user.role === 'Admin'"
         class="my-2 mx-2 py-2 px-2"
         max-width="250"
         max-height="250"
@@ -55,6 +57,7 @@
     </v-card>
 
     <v-card
+        v-if="$store.getters.user.role === 'Doctor' || $store.getters.user.role === 'Admin'"
         class="my-2 mx-2 py-2 px-2"
         max-width="250"
         max-height="250"
@@ -84,6 +87,7 @@
         justify="center"
     >
       <v-card
+          v-if="$store.getters.user.role === 'Tester' || $store.getters.user.role === 'Admin'"
           class="my-2 mx-2 py-2 px-2"
           max-width="250"
           max-height="250"
@@ -108,6 +112,10 @@
       </v-card>
 
       <v-card
+          v-if="$store.getters.user.role === 'Pharmacist' ||
+          $store.getters.user.role === 'Pharmacy Manager' ||
+          $store.getters.user.role === 'Inventory Manager' ||
+          $store.getters.user.role === 'Admin'"
           class="my-2 mx-2 py-2 px-2"
           max-width="250"
           max-height="250"
