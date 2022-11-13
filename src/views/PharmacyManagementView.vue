@@ -23,7 +23,7 @@
             <td>{{ item.drugs.title }}</td>
             <td v-if="item.drugs.drug_type === 0">Normal Drug</td>
             <td v-if="item.drugs.drug_type === 1">Committee</td>
-            <td>{{ item.calc_quantity }}</td>
+            <td>{{ item.diff }}</td>
             <td>{{ humanReadableDateConverter(item.expire_date) }}</td>
 <!--            <td>-->
 <!--              <v-btn-->
