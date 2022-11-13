@@ -214,7 +214,7 @@
 
               <v-col cols="2">
                 <v-text-field
-                    v-model="item.quantity"
+                    v-model="item.diff"
                     label="Quantity"
                     outlined
                     dense
@@ -315,6 +315,7 @@ export default {
         batch: null,
         expire_date: null,
         quantity: null,
+        diff: null,
         notes: null,
         dialog: {
           expire: false
@@ -335,10 +336,12 @@ export default {
   methods: {
     add () {
       this.newItem.push({
+        drug_id: null,
         name: null,
         batch: null,
         expire_date: null,
         quantity: null,
+        diff: null,
         notes: null,
         dialog: {
           expire: false
@@ -353,6 +356,7 @@ export default {
 
     // START Store output document data
     storeOutputDocumentData() {
+      // console.log(this.newItem)
       this.dialog.loading.active = true
 
       if (this.destinations.find(v => v.id === this.destination).title === "Pharmacy") {
@@ -403,6 +407,7 @@ export default {
       this.newItem[$k].batch = this.drugs.find(v => v.id === this.newItem[$k].name).batch_no
       this.newItem[$k].expire_date = this.drugs.find(v => v.id === this.newItem[$k].name).expire_date
       this.newItem[$k].quantity = this.drugs.find(v => v.id === this.newItem[$k].name).quantity
+      this.newItem[$k].diff = this.drugs.find(v => v.id === this.newItem[$k].name).diff
       this.newItem[$k].notes = this.drugs.find(v => v.id === this.newItem[$k].name).notes
     }
     // END Fetch New Item information
@@ -435,6 +440,8 @@ export default {
         .then(({data}) => {
           this.drugs = data.data
           console.log(data.data)
+          // console.log(data.inputInInventory)
+          // console.log(data.inPharmacy)
         })
         .catch(({response:{data}})=>{
           console.log(data)
