@@ -2,89 +2,128 @@
 
   <v-container>
     <v-card class="px-6 pb-12 mb-12">
-      <v-card-title>Symptoms Management</v-card-title>
-      <v-simple-table dense>
-        <template v-slot:default>
-          <thead>
-          <tr>
-            <th class="text-left">#</th>
-            <th class="text-left">Title</th>
-            <th class="text-left">Created By</th>
-            <th class="text-left">Created At</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
-              v-for="item in symptoms"
-              :key="item.id"
-          >
-            <td>{{ item.id }}</td>
-            <td>{{ item.title }}</td>
-            <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
-            <td>{{ humanReadableDateConverter(item.created_at) }}</td>
-            <!--            <td>-->
-            <!--              <v-btn-->
-            <!--                  x-small-->
-            <!--                  color="teal darken-1"-->
-            <!--                  dark-->
-            <!--                  class="px-1 mx-1"-->
-            <!--                  @click=""-->
-            <!--              >-->
-            <!--                <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
-            <!--                Edit-->
-            <!--              </v-btn>-->
-            <!--              <v-btn-->
-            <!--                  x-small-->
-            <!--                  color="deep-orange darken-1 white&#45;&#45;text"-->
-            <!--                  class="px-1 mx-1"-->
-            <!--                  @click="activeDeleteDialog(test.id)"-->
-            <!--                  :disabled="disableDeleteBTN"-->
-            <!--              >-->
-            <!--                <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>-->
-            <!--                Delete-->
-            <!--              </v-btn>-->
-            <!--            </td>-->
-          </tr>
-          <!--              START Delete Dialog -->
-          <!--          <v-row justify="center">-->
-          <!--            <v-dialog-->
-          <!--                v-model="test_group.delete_dialog.active"-->
-          <!--                persistent-->
-          <!--                max-width="230"-->
-          <!--            >-->
-          <!--              <v-card>-->
-          <!--                <v-card-title class="text-h5">-->
-          <!--                  Delete Test-->
-          <!--                </v-card-title>-->
-          <!--                <v-card-text class="text-center">-->
-          <!--                  Are you sure to delete this Test?-->
-          <!--                </v-card-text>-->
-          <!--                <v-card-actions class="d-flex justify-center">-->
-          <!--                  <v-btn-->
-          <!--                      dark-->
-          <!--                      class="deep-grey"-->
-          <!--                      @click="test_group.delete_dialog.active = false"-->
-          <!--                  >-->
-          <!--                    Close-->
-          <!--                  </v-btn>-->
-          <!--                  <v-btn-->
-          <!--                      color="deep-orange darken-1"-->
-          <!--                      dark-->
-          <!--                      class="px-1 mx-1"-->
-          <!--                      @click="deleteLabTest"-->
-          <!--                      :loading="test_group.delete_dialog.loading"-->
-          <!--                  >-->
-          <!--                    <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>-->
-          <!--                    Delete-->
-          <!--                  </v-btn>-->
-          <!--                </v-card-actions>-->
-          <!--              </v-card>-->
-          <!--            </v-dialog>-->
-          <!--          </v-row>-->
-          <!--              END Delete Dialog -->
-          </tbody>
+      <v-data-table
+          :headers="headers"
+          :items="symptoms"
+          :search="search"
+          sort-by="id"
+          class="elevation-1"
+      >
+        <template v-slot:item.created_at="{ item }">
+          <span>{{ humanReadableDateConverter(item.created_at) }}</span>
         </template>
-      </v-simple-table>
+
+        <template v-slot:top>
+          <v-toolbar
+              flat
+          >
+            <v-toolbar-title>Symptoms Management</v-toolbar-title>
+            <v-divider
+                class="mx-4"
+                inset
+                vertical
+            ></v-divider>
+            <v-spacer></v-spacer>
+            <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+                class="px-6"
+                dense
+                outlined
+            ></v-text-field>
+            <v-dialog
+                v-model="dialog"
+                max-width="500px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    color="primary"
+                    dark
+                    class="mb-2"
+                    v-bind="attrs"
+                    v-on="on"
+                >
+                  New Symptom
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">{{ formTitle }}</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <v-container>
+                    <v-row dense>
+                      <v-col
+                          cols="12"
+                      >
+                        <v-text-field
+                            v-model="editedItem.title"
+                            label="Title"
+                            outlined
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="save"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="dialogDelete" max-width="500px">
+              <v-card>
+                <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-toolbar>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-btn
+              x-small
+              color="teal darken-1"
+              dark
+              class="px-1 mx-1"
+              @click="editItem(item)"
+          >
+            <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+            Edit
+          </v-btn>
+          <v-btn
+              x-small
+              color="deep-orange darken-1 white--text"
+              class="px-1 mx-1"
+              @click="deleteItem(item)"
+          >
+            <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+            Delete
+          </v-btn>
+        </template>
+      </v-data-table>
     </v-card>
     <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
@@ -106,8 +145,40 @@ export default {
     return {
       loading_Dialog: true,
       symptoms: [],
-      disableSaveBTN: false
+      search: '',
+
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+        { text: '#', value: 'id', sortable: false, align: 'start' },
+        { text: 'Title', value: 'title', sortable: true },
+        { text: 'Created By', value: 'updated_user'? 'updated_user.full_name' : 'user.full_name' },
+        { text: 'Created At', value: 'created_at' },
+        { text: 'Action', value: 'actions', sortable: false },
+      ],
+      editedIndex: -1,
+      editedItem: {
+        title: '',
+      },
+      defaultItem: {
+        title: '',
+      },
     }
+  },
+
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Symptom' : 'Edit Symptom'
+    },
+  },
+
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
   },
 
   mounted() {
@@ -123,21 +194,74 @@ export default {
         return null
       }
     },
+
+
+    editItem (item) {
+      console.log('edit function')
+      this.editedIndex = this.symptoms.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem (item) {
+      console.log('delete function')
+      this.editedIndex = this.symptoms.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
+
+    deleteItemConfirm () {
+      this.symptoms.splice(this.editedIndex, 1)
+      this.closeDelete()
+    },
+
+    close () {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    closeDelete () {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.symptoms[this.editedIndex], this.editedItem)
+        console.log('Edit')
+      } else {
+        this.symptoms.push(this.editedItem)
+        console.log('New')
+      }
+      this.close()
+    },
+
+    // START Fetch All symptoms
+    fetchSymptoms() {
+      httpGET('api/v1/symptoms/index')
+          .then(({data}) => {
+            this.symptoms = data.data
+            // console.log(data.data)
+          }).catch(({response: {data}}) => {
+        console.log(data)
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
+    }
+    // END Fetch All symptoms
   },
 
   created() {
     // START Fetch All symptoms
-    httpGET('api/v1/symptoms/index')
-        .then(({data}) => {
-          this.symptoms = data.data
-          // console.log(data.data)
-        }).catch(({response: {data}}) => {
-      console.log(data)
-    }).finally(() => {
-      this.loading_Dialog = false
-    });
+    this.fetchSymptoms()
+    }
     // END Fetch All symptoms
-  }
 }
 </script>
 
