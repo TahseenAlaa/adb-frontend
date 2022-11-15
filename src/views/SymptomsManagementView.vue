@@ -1,7 +1,8 @@
 <template>
 
   <v-container>
-    <v-card class="px-6 pb-12 mb-12">
+    <v-form v-model="valid" lazy-validation ref="form" id="new-form">
+      <v-card class="px-6 pb-12 mb-12">
       <v-data-table
           :headers="headers"
           :items="symptoms"
@@ -40,9 +41,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                    color="primary"
-                    dark
-                    class="mb-2"
+                    class="deep-purple white--text mb-2"
                     v-bind="attrs"
                     v-on="on"
                 >
@@ -64,6 +63,8 @@
                             v-model="editedItem.title"
                             label="Title"
                             outlined
+                            required
+                            :rules="[rules.required]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -73,16 +74,15 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn
-                      color="blue darken-1"
-                      text
+                      color="deep-purple white--text"
                       @click="close"
                   >
                     Cancel
                   </v-btn>
                   <v-btn
-                      color="blue darken-1"
-                      text
+                      color="deep-purple white--text"
                       @click="save"
+                      :disabled="!valid"
                   >
                     Save
                   </v-btn>
@@ -94,8 +94,8 @@
                 <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                  <v-btn color="black white--text" @click="closeDelete">Cancel</v-btn>
+                  <v-btn color="red accent-4 white--text" @click="deleteItemConfirm">OK</v-btn>
                   <v-spacer></v-spacer>
                 </v-card-actions>
               </v-card>
@@ -105,9 +105,8 @@
         <template v-slot:item.actions="{ item }">
           <v-btn
               x-small
-              color="teal darken-1"
               dark
-              class="px-1 mx-1"
+              class="deep-purple white--text px-1 mx-1"
               @click="editItem(item)"
           >
             <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
@@ -115,7 +114,8 @@
           </v-btn>
           <v-btn
               x-small
-              color="deep-orange darken-1 white--text"
+              color="red accent-4 white--text"
+              dark
               class="px-1 mx-1"
               @click="deleteItem(item)"
           >
@@ -125,6 +125,7 @@
         </template>
       </v-data-table>
     </v-card>
+    </v-form>
     <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
     <!--    END Loading Dialog-->
@@ -143,9 +144,13 @@ export default {
   },
   data() {
     return {
+      valid: false,
       loading_Dialog: true,
       symptoms: [],
       search: '',
+      rules: {
+        required: value => !!value || 'Required Field',
+      },
 
       dialog: false,
       dialogDelete: false,
@@ -163,6 +168,9 @@ export default {
       defaultItem: {
         title: '',
       },
+      temp: {
+        deleteId: null
+      }
     }
   },
 
@@ -204,15 +212,18 @@ export default {
     },
 
     deleteItem (item) {
-      console.log('delete function')
+      this.temp.deleteId = item.id
+      console.log(this.temp.deleteId)
       this.editedIndex = this.symptoms.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
+      console.log('delete function')
       this.symptoms.splice(this.editedIndex, 1)
       this.closeDelete()
+      this.temp.deleteId = null
     },
 
     close () {
@@ -221,6 +232,7 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
+      this.temp.deleteId = null
     },
 
     closeDelete () {
