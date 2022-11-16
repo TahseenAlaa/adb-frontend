@@ -129,23 +129,31 @@
     <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
     <!--    END Loading Dialog-->
+
+<!--    START Required Fields -->
+    <RequiredFieldsCompo :required_fields_-dialog="required_fields_Dialog"></RequiredFieldsCompo>
+<!--    END Required Fields -->
   </v-container>
 
 </template>
 
 <script>
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
+import RequiredFieldsCompo from "@/components/RequiredFieldsCompo";
+
 import {httpGET} from "@/utils/utils";
 
 export default {
   name: "SymptomsManagementView.vue",
   components: {
-    LoadingDialogCompo
+    LoadingDialogCompo,
+    RequiredFieldsCompo
   },
   data() {
     return {
       valid: false,
       loading_Dialog: true,
+      required_fields_Dialog: false,
       symptoms: [],
       search: '',
       rules: {
@@ -244,14 +252,18 @@ export default {
     },
 
     save () {
-      if (this.editedIndex > -1) {
-        Object.assign(this.symptoms[this.editedIndex], this.editedItem)
-        console.log('Edit')
+      if (!this.editedItem.title) {
+        this.required_fields_Dialog = true
       } else {
-        this.symptoms.push(this.editedItem)
-        console.log('New')
+        if (this.editedIndex > -1) {
+          Object.assign(this.symptoms[this.editedIndex], this.editedItem)
+          console.log('Edit')
+        } else {
+          this.symptoms.push(this.editedItem)
+          console.log('New')
+        }
+        this.close()
       }
-      this.close()
     },
 
     // START Fetch All symptoms
@@ -261,12 +273,30 @@ export default {
             this.symptoms = data.data
             // console.log(data.data)
           }).catch(({response: {data}}) => {
-        console.log(data)
-      }).finally(() => {
-        this.loading_Dialog = false
-      });
-    }
+            if (!data) {
+              this.$router.push({name: 'login'})
+            } else {
+              console.log(data)
+            }
+          }).finally(() => {
+            this.loading_Dialog = false
+          });
+      },
     // END Fetch All symptoms
+
+    // START Rules
+    nameRule: value =>  {
+      const pattern = /^([^0-9]*)$/;
+      return pattern.test(value) || 'Only Letters Accepted'
+    },
+
+    numberRule: v  => {
+      if (v.trim() === '' || null) return true;
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
+      return 'Number Only Accepted';
+    },
+    // END Rules
   },
 
   created() {
