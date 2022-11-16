@@ -39,7 +39,7 @@ export default new Vuex.Store({
     login({commit}) {
       const token = localStorage.getItem('esite_token');
 
-      httpGET('api/v1/auth/user', {
+      httpGET('api/v1/auth/user-info', {
         timeout: 1000,
         headers: {
           'Content-Type'     : 'application/json',
@@ -49,7 +49,7 @@ export default new Vuex.Store({
       })
         .then(({data}) => {
           commit('SET_AUTHENTICATED', true)
-          commit('SET_USER', data)
+          commit('SET_USER', data.user)
         }).catch(() => {
           commit('SET_AUTHENTICATED', false)
           commit('SET_USER', {})
@@ -76,10 +76,10 @@ export default new Vuex.Store({
 
     validateLogin({commit}) {
       if (localStorage.getItem('esite_token')) {
-        httpGET('api/v1/auth/user')
+        httpGET('api/v1/auth/user-info')
         .then(({data}) => {
           commit('SET_AUTHENTICATED', true)
-          commit('SET_USER', data)
+          commit('SET_USER', data.user)
         })
       } else {
         commit('SET_AUTHENTICATED', false)

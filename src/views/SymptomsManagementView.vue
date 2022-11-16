@@ -108,6 +108,7 @@
               dark
               class="deep-purple white--text px-1 mx-1"
               @click="editItem(item)"
+              v-if="can('can_list_users')"
           >
             <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
             Edit
@@ -283,6 +284,12 @@ export default {
           });
       },
     // END Fetch All symptoms
+
+    // START Check Permissions
+    can($permit) {
+      return !!this.$store.getters.user.permissions.find(v => v.name === $permit);
+    },
+    // END Check Permissions
 
     // START Rules
     nameRule: value =>  {
