@@ -9,6 +9,10 @@
           :search="search"
           sort-by="id"
           class="elevation-1"
+          :footer-props="{
+                'items-per-page-options': [25, 50, 100, 150, -1]
+              }"
+          :items-per-page="50"
       >
         <template v-slot:item.created_at="{ item }">
           <span>{{ humanReadableDateConverter(item.created_at) }}</span>
