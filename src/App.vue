@@ -115,6 +115,13 @@
               <v-list-item-title>Drugs Management</v-list-item-title>
             </v-list-item>
 
+            <v-list-item @click="$router.push({name: 'committee-approval'})">
+              <v-list-item-icon>
+                <v-icon size="30" color="light-green darken-1">mdi-certificate</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Committee Approval</v-list-item-title>
+            </v-list-item>
+
             <v-list-item @click="$router.push({name: 'pharmacy-management'})">
               <v-list-item-icon>
                 <v-icon size="30" color="lime darken-3">mdi-mortar-pestle-plus</v-icon>
