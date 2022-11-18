@@ -198,6 +198,10 @@
       <Login v-if="!isAuthenticated"/>
     </v-main>
 <!--    END Login Authentication-->
+
+    <!--    START Loading Dialog-->
+    <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
+    <!--    END Loading Dialog-->
   </v-app>
 </template>
 
@@ -205,10 +209,22 @@
 
 import Login from "@/views/LoginView";
 import { mapActions} from "vuex";
+import {httpGET} from "@/utils/utils";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
   name: 'App',
-  components: {Login},
+
+  data: () => ({
+    drawer: false,
+    group: null,
+    loading_Dialog: false
+  }),
+
+  components: {
+    Login,
+    LoadingDialogCompo
+  },
 
   methods: {
     ...mapActions({
@@ -216,10 +232,20 @@ export default {
     }),
 
     logout(){
-       this.$store.commit('SET_AUTHENTICATED', false)
-       this.$store.commit('SET_USER', {})
-       localStorage.clear()
-       this.$router.push({name: 'login'})
+      this.loading_Dialog = true
+
+      httpGET('api/v1/auth/logout')
+          .then(() => {
+            this.$store.commit('SET_AUTHENTICATED', false)
+            this.$store.commit('SET_USER', {})
+            localStorage.clear()
+            this.$router.push({name: 'login'})
+          })
+          .catch(({response: {data}}) => {
+              console.log(data)
+          }).finally(() => {
+        this.loading_Dialog = false
+      });
      },
     },
 
@@ -236,9 +262,5 @@ export default {
       return this.$store.getters.user
     }
   },
-  data: () => ({
-    drawer: false,
-    group: null,
-  }),
 };
 </script>
