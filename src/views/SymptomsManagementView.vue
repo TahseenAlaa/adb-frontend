@@ -276,10 +276,10 @@ export default {
       httpGET('api/v1/symptoms/index')
           .then(({data}) => {
             this.symptoms = data.data
-            // console.log(data.data)
           }).catch(({response: {data}}) => {
+            // Redirect to login page if not authenticated
             if (!data) {
-              this.$router.push({name: 'login'})
+              this.$store.commit('SET_AUTHENTICATED', false)
             } else {
               console.log(data)
             }
