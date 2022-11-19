@@ -70,13 +70,93 @@
                     <v-container>
                       <v-row dense>
                         <v-col
-                            cols="12"
+                            cols="6"
                         >
                           <v-text-field
-                              v-model="editedItem.title"
-                              label="Title"
+                              label="Full Name"
+                              v-model="editedItem.full_name"
                               outlined
-                              required
+                              dense
+                              :rules="[rules.required]"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="6">
+                          <v-text-field
+                              label="Username"
+                              v-model="editedItem.username"
+                              outlined
+                              dense
+                              :rules="[rules.required]"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+
+                      <v-row dense>
+                        <v-col cols="6">
+                          <v-text-field
+                              label="Job Title"
+                              v-model="editedItem.job_title"
+                              outlined
+                              dense
+                              :rules="[rules.required]"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="6">
+                          <v-autocomplete
+                              label="Role"
+                              :items="[
+                        'Receptionist',
+                        'Statistics',
+                        'Doctor',
+                        'Tester',
+                        'Admin',
+                        'Pharmacist',
+                        'Pharmacy Manager',
+                        'Inventory Manager',
+                        ]"
+                              v-model="editedItem.role"
+                              outlined
+                              dense
+                              hint="Select Only from the List"
+                              persistent-hint
+                              :rules="[rules.required]"
+                          >
+                          </v-autocomplete>
+                        </v-col>
+                      </v-row>
+
+                      <v-row dense>
+                        <v-col cols="12">
+                          <v-autocomplete
+                              label="Permissions"
+                              :items="permissions"
+                              v-model="editedItem.permissions"
+                              item-value="id"
+                              item-text="name"
+                              clearable
+                              solo
+                              chips
+                              small-chips
+                              deletable-chips
+                              multiple
+                              outlined
+                              dense
+                              hint="Select Permissions"
+                              persistent-hint
+                              :rules="[rules.required]"
+                          >
+                          </v-autocomplete>
+                        </v-col>
+                      </v-row>
+
+                      <v-row dense>
+                        <v-col cols="12">
+                          <v-text-field
+                              label="Password"
+                              v-model="editedItem.password"
+                              type="password"
+                              outlined
+                              dense
                               :rules="[rules.required]"
                           ></v-text-field>
                         </v-col>
@@ -170,6 +250,7 @@ export default {
       loading_Dialog: true,
       required_fields_Dialog: false,
       users: [],
+      permissions: [],
       search: '',
       rules: {
         required: value => !!value || 'Required Field',
@@ -188,10 +269,20 @@ export default {
       ],
       editedIndex: -1,
       editedItem: {
-        title: '',
+        full_name: '',
+        username: '',
+        job_title: '',
+        role: '',
+        permissions: [],
+        password: '',
       },
       defaultItem: {
-        title: '',
+        full_name: '',
+        username: '',
+        job_title: '',
+        role: '',
+        permissions: [],
+        password: '',
       },
       temp: {
         deleteId: null
@@ -346,6 +437,24 @@ export default {
     },
     // END Fetch All symptoms
 
+    // START Fetch All permissions
+    fetchPermissions() {
+      httpGET('api/v1/auth/index')
+          .then(({data}) => {
+            this.permissions = data.permissions
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          console.log(data)
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
+    },
+    // END Fetch All permissions
+
     // START Check Permissions
     can($permit) {
       return !!this.$store.getters.user.permissions.find(v => v.name === $permit);
@@ -368,10 +477,9 @@ export default {
   },
 
   created() {
-    // START Fetch All symptoms
     this.fetchUsers()
+    this.fetchPermissions()
   }
-  // END Fetch All symptoms
 }
 </script>
 
