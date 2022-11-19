@@ -72,8 +72,9 @@
                             v-model="editedItem.title"
                             label="Title"
                             outlined
+                            dense
                             required
-                            :rules="[rules.required]"
+                            :rules="[rules.required, nameRule]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
