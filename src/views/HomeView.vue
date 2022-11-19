@@ -7,7 +7,7 @@
       class="mt-4"
   >
     <v-card
-        v-if="$store.getters.user.role === 'Receptionist' || $store.getters.user.role === 'Statistics' || $store.getters.user.role === 'Admin'"
+        v-if="can('access reception department')"
         class="my-2 mx-2 py-2 px-2"
         max-width="250"
         max-height="250"
@@ -32,7 +32,7 @@
     </v-card>
 
     <v-card
-        v-if="$store.getters.user.role === '' || $store.getters.user.role === 'Admin'"
+        v-if="can('access antho department')"
         class="my-2 mx-2 py-2 px-2"
         max-width="250"
         max-height="250"
@@ -57,7 +57,7 @@
     </v-card>
 
     <v-card
-        v-if="$store.getters.user.role === 'Doctor' || $store.getters.user.role === 'Admin'"
+        v-if="can('access doctor department')"
         class="my-2 mx-2 py-2 px-2"
         max-width="250"
         max-height="250"
@@ -87,7 +87,7 @@
         justify="center"
     >
       <v-card
-          v-if="$store.getters.user.role === 'Tester' || $store.getters.user.role === 'Admin'"
+          v-if="can('access medical lab department')"
           class="my-2 mx-2 py-2 px-2"
           max-width="250"
           max-height="250"
@@ -112,10 +112,7 @@
       </v-card>
 
       <v-card
-          v-if="$store.getters.user.role === 'Pharmacist' ||
-          $store.getters.user.role === 'Pharmacy Manager' ||
-          $store.getters.user.role === 'Inventory Manager' ||
-          $store.getters.user.role === 'Admin'"
+          v-if="can('access pharmacy department')"
           class="my-2 mx-2 py-2 px-2"
           max-width="250"
           max-height="250"
@@ -145,7 +142,15 @@
 
 <script>
 export default {
-  name: "HomeView.vue"
+  name: "HomeView.vue",
+
+  methods: {
+    // START Check Permissions
+    can($permit) {
+      return !!this.$store.getters.user.permissions.find(v => v.name === $permit);
+    },
+    // END Check Permissions
+  }
 }
 </script>
 
