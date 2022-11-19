@@ -150,7 +150,7 @@
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 import RequiredFieldsCompo from "@/components/RequiredFieldsCompo";
 
-import {httpGET} from "@/utils/utils";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   name: "SymptomsManagementView.vue",
@@ -222,7 +222,6 @@ export default {
 
 
     editItem (item) {
-      console.log('edit function')
       this.editedIndex = this.symptoms.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
@@ -265,8 +264,24 @@ export default {
         this.required_fields_Dialog = true
       } else {
         if (this.editedIndex > -1) {
-          Object.assign(this.symptoms[this.editedIndex], this.editedItem)
-          console.log('Edit')
+          // START Edit
+          httpPOST('api/v1/symptoms-types/update', {
+            id: this.editedItem.id,
+            title: this.editedItem.title
+          })
+              .then(({data}) => {
+                this.symptoms = data.data
+              }).catch(({response: {data}}) => {
+            // Redirect to login page if not authenticated
+            if (!data || data.message === "Unauthenticated.") {
+              this.$store.commit('SET_AUTHENTICATED', false)
+            } else {
+              console.log(data)
+            }
+          }).finally(() => {
+            this.loading_Dialog = false
+          });
+          // END Edit
         } else {
           this.symptoms.push(this.editedItem)
           console.log('New')
