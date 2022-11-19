@@ -61,7 +61,7 @@
               ></v-text-field>
               <v-dialog
                   v-model="dialog"
-                  max-width="500px"
+                  max-width="700px"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -70,7 +70,7 @@
                       v-on="on"
                       v-if="can('create medical lab test')"
                   >
-                    New diagnosis
+                    New Test
                   </v-btn>
                 </template>
                 <v-card>
@@ -82,16 +82,71 @@
                     <v-container>
                       <v-row dense>
                         <v-col
-                            cols="12"
+                            cols="6"
                         >
                           <v-text-field
-                              v-model="editedItem.title"
-                              label="Title"
+                              label="Group Name"
+                              v-model="editedItem.test_group"
                               outlined
                               dense
-                              required
+                              :rules="[rules.required, nameRule]"
+                          >
+                          </v-text-field>
+                        </v-col>
+                        <v-col
+                            cols="6"
+                        >
+                          <v-text-field
+                              label="Test Name"
+                              v-model="editedItem.test_name"
+                              outlined
+                              dense
+                              :rules="[rules.required, nameRule]"
+                          >
+                          </v-text-field>
+                        </v-col>
+                      </v-row>
+                      <v-row dense>
+                        <v-col cols="2">
+                          <v-text-field
+                              label="Min Range"
+                              v-model="editedItem.min_range"
+                              outlined
+                              dense
+                              :rules="[rules.required, numberRule]"
+                          >
+                          </v-text-field>
+                        </v-col>
+                        <v-col cols="2">
+                          <v-text-field
+                              label="Max Range"
+                              v-model="editedItem.max_range"
+                              outlined
+                              dense
+                              :rules="[rules.required, numberRule]"
+                          >
+                          </v-text-field>
+                        </v-col>
+                        <v-col cols="4">
+                          <v-text-field
+                              label="Measurement Unit"
+                              v-model="editedItem.measurement_unit"
+                              outlined
+                              dense
+                              :rules="[rules.required, nameRule]"
+                          >
+                          </v-text-field>
+                        </v-col>
+                        <v-col cols="4">
+                          <v-radio-group
+                              v-model="editedItem.gender"
+                              dense
+                              row
                               :rules="[rules.required]"
-                          ></v-text-field>
+                          >
+                            <v-radio value="Male" label="Male"></v-radio>
+                            <v-radio value="Female" label="Female"></v-radio>
+                          </v-radio-group>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -211,10 +266,22 @@ export default {
       ],
       editedIndex: -1,
       editedItem: {
-        title: '',
+        id: '',
+        test_name: '',
+        test_group: '',
+        min_range: '',
+        max_range: '',
+        measurement_unit: '',
+        gender: '',
       },
       defaultItem: {
-        title: '',
+        id: '',
+        test_name: '',
+        test_group: '',
+        min_range: '',
+        max_range: '',
+        measurement_unit: '',
+        gender: '',
       },
       temp: {
         deleteId: null
@@ -224,7 +291,7 @@ export default {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New diagnosis' : 'Edit diagnosis'
+      return this.editedIndex === -1 ? 'New Test' : 'Edit Test'
     },
   },
 
@@ -309,14 +376,26 @@ export default {
 
     save () {
       this.loading_Dialog = true
-      if (!this.editedItem.title) {
+      if (
+          !this.editedItem.test_group ||
+          !this.editedItem.test_name ||
+          !this.editedItem.min_range ||
+          !this.editedItem.max_range ||
+          !this.editedItem.measurement_unit ||
+          !this.editedItem.gender
+      ) {
         this.required_fields_Dialog = true
       } else {
         if (this.editedIndex > -1) {
           // START Edit Item
           httpPOST('api/v1/lab-test-groups/update', {
             id: this.editedItem.id,
-            title: this.editedItem.title
+            test_group: this.editedItem.test_group,
+            test_name: this.editedItem.test_name,
+            min_range: this.editedItem.min_range,
+            max_range: this.editedItem.max_range,
+            unit: this.editedItem.measurement_unit,
+            gender: this.editedItem.gender,
           })
               .then(({data}) => {
                 this.testGroups = data.data
@@ -335,7 +414,12 @@ export default {
         } else {
           // START Add New Item
           httpPOST('api/v1/lab-test-groups/store', {
-            title: this.editedItem.title
+            test_group: this.editedItem.test_group,
+            test_name: this.editedItem.test_name,
+            min_range: this.editedItem.min_range,
+            max_range: this.editedItem.max_range,
+            unit: this.editedItem.measurement_unit,
+            gender: this.editedItem.gender,
           })
               .then(({data}) => {
                 this.testGroups = data.data
