@@ -236,8 +236,23 @@ export default {
     },
 
     deleteItemConfirm () {
-      console.log('delete function')
-      this.symptoms.splice(this.editedIndex, 1)
+      // START Delete Item
+      httpPOST('api/v1/symptoms-types/delete', {
+        id: this.temp.deleteId
+      })
+          .then(({data}) => {
+            this.symptoms = data.data
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          console.log(data)
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
+      // END Delete Item
       this.closeDelete()
       this.temp.deleteId = null
     },
