@@ -94,7 +94,10 @@
               <v-list-item-title>Diagnosis Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'symptoms_management'})">
+            <v-list-item
+                @click="$router.push({name: 'symptoms_management'})"
+                v-if="can('list symptoms type')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="deep-orange darken-3">mdi-bacteria</v-icon>
               </v-list-item-icon>
@@ -247,6 +250,13 @@ export default {
         this.loading_Dialog = false
       });
      },
+
+    // START Check Permissions
+    can($permit) {
+      return !!this.$store.getters.user.permissions.find(v => v.name === $permit);
+    },
+    // END Check Permissions
+
     },
 
   created() {
