@@ -264,7 +264,7 @@ export default {
         this.required_fields_Dialog = true
       } else {
         if (this.editedIndex > -1) {
-          // START Edit
+          // START Edit Item
           httpPOST('api/v1/symptoms-types/update', {
             id: this.editedItem.id,
             title: this.editedItem.title
@@ -281,10 +281,25 @@ export default {
           }).finally(() => {
             this.loading_Dialog = false
           });
-          // END Edit
+          // END Edit Item
         } else {
-          this.symptoms.push(this.editedItem)
-          console.log('New')
+          // START Add New Item
+          httpPOST('api/v1/symptoms-types/store', {
+            title: this.editedItem.title
+          })
+              .then(({data}) => {
+                this.symptoms = data.data
+              }).catch(({response: {data}}) => {
+            // Redirect to login page if not authenticated
+            if (!data || data.message === "Unauthenticated.") {
+              this.$store.commit('SET_AUTHENTICATED', false)
+            } else {
+              console.log(data)
+            }
+          }).finally(() => {
+            this.loading_Dialog = false
+          });
+          // END Add New Item
         }
         this.close()
       }
