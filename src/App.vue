@@ -80,14 +80,20 @@
               <v-list-item-title>Home</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'patients_management'})">
+            <v-list-item
+                @click="$router.push({name: 'patients_management'})"
+                v-if="can('list patients')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="purple">mdi-account-group</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Patients Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'diagnosis_management'})">
+            <v-list-item
+                @click="$router.push({name: 'diagnosis_management'})"
+                v-if="can('list diagnosis')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="cyan darken-3">mdi-air-filter</v-icon>
               </v-list-item-icon>
@@ -104,49 +110,69 @@
               <v-list-item-title>Symptoms Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'lab_management'})">
+            <v-list-item
+                @click="$router.push({name: 'lab_management'})"
+                v-if="can('list medical lab tests')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="cyan lighten-1">mdi-test-tube</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Lab Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'drug-management'})">
+            <v-list-item
+                @click="$router.push({name: 'drug-management'})"
+                v-if="can('list drugs')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="blue darken-3">mdi-atom</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Drugs Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'committee-approval'})">
+            <v-list-item
+                @click="$router.push({name: 'committee-approval'})"
+                v-if="can('access committee approval')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="light-green darken-1">mdi-certificate</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Committee Approval</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'pharmacy-management'})">
+            <v-list-item
+                @click="$router.push({name: 'pharmacy-management'})"
+                v-if="can('list pharmacy')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="lime darken-3">mdi-mortar-pestle-plus</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Pharmacy Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'inventory_management'})">
+            <v-list-item
+                @click="$router.push({name: 'inventory_management'})"
+                v-if="can('list inventory')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="deep-purple accent-2">mdi-warehouse</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Inventory Management</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click="$router.push({name: 'providers-management'})">
+            <v-list-item
+                @click="$router.push({name: 'providers-management'})"
+                v-if="can('list providers')"
+            >
               <v-list-item-icon>
                 <v-icon size="30" color="orange">mdi-rss-box</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Providers Management</v-list-item-title>
             </v-list-item>
 
-            <v-list>
+            <v-list
+                v-if="can('list users') || can('')"
+            >
               <v-list-group
                   no-action
                   prepend-icon="mdi-cog"
@@ -167,7 +193,10 @@
                   <v-list-item-title>Users Management</v-list-item-title>
                 </v-list-item>
 
-                <v-list-item @click="$router.push({name: 'log_activities'})">
+                <v-list-item
+                    @click="$router.push({name: 'log_activities'})"
+                    v-if="can('access log')"
+                >
                   <v-list-item-icon>
                     <v-icon size="30" color="red">mdi-view-comfy</v-icon>
                   </v-list-item-icon>
