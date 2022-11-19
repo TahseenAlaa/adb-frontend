@@ -174,13 +174,6 @@
                   <v-list-item-title>Log Activities</v-list-item-title>
                 </v-list-item>
 
-                <v-list-item @click="$router.push({name: 'signup'})">
-                  <v-list-item-icon>
-                    <v-icon size="30" color="blue">mdi-account-plus</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title>Signup</v-list-item-title>
-                </v-list-item>
-
               </v-list-group>
             </v-list>
 

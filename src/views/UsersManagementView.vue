@@ -245,6 +245,13 @@
     <!--    START Required Fields -->
     <RequiredFieldsCompo :required_fields_-dialog="required_fields_Dialog"></RequiredFieldsCompo>
     <!--    END Required Fields -->
+
+    <!--    START Error Message -->
+    <ErrorCompo
+        :active-dialog="this.errorDialogActive"
+        :message="this.errorDialogMessage"
+    ></ErrorCompo>
+    <!--    END Error Message -->
   </v-container>
 
 </template>
@@ -252,13 +259,15 @@
 <script>
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 import RequiredFieldsCompo from "@/components/RequiredFieldsCompo";
+import ErrorCompo from "@/components/ErrorCompo";
 import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   name: "UsersManagementView.vue",
   components: {
     LoadingDialogCompo,
-    RequiredFieldsCompo
+    RequiredFieldsCompo,
+    ErrorCompo
   },
 
   data() {
@@ -273,6 +282,8 @@ export default {
         required: value => !!value || 'Required Field',
       },
 
+      errorDialogActive: false,
+      errorDialogMessage: '',
       dialog: false,
       dialogDelete: false,
       headers: [
@@ -365,7 +376,8 @@ export default {
         if (!data || data.message === "Unauthenticated.") {
           this.$store.commit('SET_AUTHENTICATED', false)
         } else {
-          console.log(data)
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
         }
       }).finally(() => {
         this.loading_Dialog = false
@@ -420,7 +432,8 @@ export default {
             if (!data || data.message === "Unauthenticated.") {
               this.$store.commit('SET_AUTHENTICATED', false)
             } else {
-              console.log(data)
+              this.errorDialogMessage = data.message
+              this.errorDialogActive = true
             }
           }).finally(() => {
             this.loading_Dialog = false
@@ -447,7 +460,8 @@ export default {
               if (!data || data.message === "Unauthenticated.") {
                 this.$store.commit('SET_AUTHENTICATED', false)
               } else {
-                console.log(data)
+                this.errorDialogMessage = data.message
+                this.errorDialogActive = true
               }
             }).finally(() => {
               this.loading_Dialog = false
@@ -469,7 +483,8 @@ export default {
         if (!data || data.message === "Unauthenticated.") {
           this.$store.commit('SET_AUTHENTICATED', false)
         } else {
-          console.log(data)
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
         }
       }).finally(() => {
         this.loading_Dialog = false
@@ -487,7 +502,8 @@ export default {
         if (!data || data.message === "Unauthenticated.") {
           this.$store.commit('SET_AUTHENTICATED', false)
         } else {
-          console.log(data)
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
         }
       }).finally(() => {
         this.loading_Dialog = false
