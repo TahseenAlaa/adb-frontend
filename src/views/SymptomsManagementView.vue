@@ -18,6 +18,10 @@
           <span>{{ humanReadableDateConverter(item.created_at) }}</span>
         </template>
 
+        <template v-slot:item.created_by="{ item }">
+          <span>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</span>
+        </template>
+
         <template v-slot:top>
           <v-toolbar
               flat
@@ -170,7 +174,7 @@ export default {
       headers: [
         { text: '#', value: 'id', sortable: false, align: 'start' },
         { text: 'Title', value: 'title', sortable: true },
-        { text: 'Created By', value: 'updated_user'? 'updated_user.full_name' : 'user.full_name' },
+        { text: 'Created By', value: 'created_by' },
         { text: 'Created At', value: 'created_at' },
         { text: 'Action', value: 'actions', sortable: false },
       ],
@@ -273,7 +277,7 @@ export default {
 
     // START Fetch All symptoms
     fetchSymptoms() {
-      httpGET('api/v1/symptoms/index')
+      httpGET('api/v1/symptoms-types/index')
           .then(({data}) => {
             this.symptoms = data.data
           }).catch(({response: {data}}) => {
