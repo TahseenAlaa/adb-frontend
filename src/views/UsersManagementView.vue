@@ -69,6 +69,11 @@
                   <v-card-text>
                     <v-container>
                       <v-row dense>
+                        <v-text-field
+                            v-model="editedItem.id"
+                            hidden
+                            hide-details
+                        ></v-text-field>
                         <v-col
                             cols="6"
                         >
@@ -131,7 +136,7 @@
                               label="Permissions"
                               :items="permissions"
                               v-model="editedItem.permissions"
-                              item-value="id"
+                              item-value="name"
                               item-text="name"
                               clearable
                               solo
@@ -281,6 +286,7 @@ export default {
       ],
       editedIndex: -1,
       editedItem: {
+        id: '',
         full_name: '',
         username: '',
         job_title: '',
@@ -289,6 +295,7 @@ export default {
         password: '',
       },
       defaultItem: {
+        id: '',
         full_name: '',
         username: '',
         job_title: '',
@@ -397,9 +404,14 @@ export default {
       } else {
         if (this.editedIndex > -1) {
           // START Edit Item
-          httpPOST('api/v1/users-types/update', {
+          httpPOST('api/v1/auth/update', {
             id: this.editedItem.id,
-            title: this.editedItem.title
+            full_name: this.editedItem.full_name,
+            username: this.editedItem.username,
+            job_title: this.editedItem.job_title,
+            role: this.editedItem.role,
+            password: this.editedItem.password,
+            permissions: this.editedItem.permissions
           })
               .then(({data}) => {
                 this.users = data.data
@@ -420,6 +432,7 @@ export default {
           } else {
             // START Add New Item
             httpPOST('api/v1/auth/signup', {
+              id: this.editedItem.id,
               full_name: this.editedItem.full_name,
               username: this.editedItem.username,
               job_title: this.editedItem.job_title,
