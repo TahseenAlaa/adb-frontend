@@ -151,7 +151,19 @@
 
                       <v-row dense>
                         <v-col cols="12">
+                          <!-- Edit -->
                           <v-text-field
+                              v-if="editedIndex > -1"
+                              label="Password"
+                              v-model="editedItem.password"
+                              type="password"
+                              outlined
+                              dense
+                          ></v-text-field>
+
+                          <!-- New -->
+                          <v-text-field
+                              v-else-if="editedIndex"
                               label="Password"
                               v-model="editedItem.password"
                               type="password"
@@ -321,7 +333,7 @@ export default {
 
 
     editItem (item) {
-      this.editedIndex = this.symptoms.indexOf(item)
+      this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
@@ -329,18 +341,18 @@ export default {
     deleteItem (item) {
       this.temp.deleteId = item.id
       console.log(this.temp.deleteId)
-      this.editedIndex = this.symptoms.indexOf(item)
+      this.editedIndex = this.users.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
       // START Delete Item
-      httpPOST('api/v1/symptoms-types/delete', {
+      httpPOST('api/v1/auth/delete', {
         id: this.temp.deleteId
       })
           .then(({data}) => {
-            this.symptoms = data.data
+            this.users = data.data
           }).catch(({response: {data}}) => {
         // Redirect to login page if not authenticated
         if (!data || data.message === "Unauthenticated.") {
@@ -379,39 +391,15 @@ export default {
           !this.editedItem.username ||
           !this.editedItem.job_title ||
           !this.editedItem.role ||
-          !this.editedItem.permissions ||
-          !this.editedItem.password 
+          !this.editedItem.permissions
       ) {
         this.required_fields_Dialog = true
       } else {
         if (this.editedIndex > -1) {
           // START Edit Item
-          httpPOST('api/v1/symptoms-types/update', {
+          httpPOST('api/v1/users-types/update', {
             id: this.editedItem.id,
             title: this.editedItem.title
-          })
-              .then(({data}) => {
-                this.symptoms = data.data
-              }).catch(({response: {data}}) => {
-            // Redirect to login page if not authenticated
-            if (!data || data.message === "Unauthenticated.") {
-              this.$store.commit('SET_AUTHENTICATED', false)
-            } else {
-              console.log(data)
-            }
-          }).finally(() => {
-            this.loading_Dialog = false
-          });
-          // END Edit Item
-        } else {
-          // START Add New Item
-          httpPOST('api/v1/auth/signup', {
-            full_name: this.editedItem.full_name,
-            username: this.editedItem.username,
-            job_title: this.editedItem.job_title,
-            role: this.editedItem.role,
-            password: this.editedItem.password,
-            permissions: this.editedItem.permissions
           })
               .then(({data}) => {
                 this.users = data.data
@@ -425,13 +413,40 @@ export default {
           }).finally(() => {
             this.loading_Dialog = false
           });
-          // END Add New Item
+          // END Edit Item
+        } else {
+          if (!this.editedItem.password ) {
+            this.required_fields_Dialog = true
+          } else {
+            // START Add New Item
+            httpPOST('api/v1/auth/signup', {
+              full_name: this.editedItem.full_name,
+              username: this.editedItem.username,
+              job_title: this.editedItem.job_title,
+              role: this.editedItem.role,
+              password: this.editedItem.password,
+              permissions: this.editedItem.permissions
+            })
+                .then(({data}) => {
+                  this.users = data.data
+                }).catch(({response: {data}}) => {
+              // Redirect to login page if not authenticated
+              if (!data || data.message === "Unauthenticated.") {
+                this.$store.commit('SET_AUTHENTICATED', false)
+              } else {
+                console.log(data)
+              }
+            }).finally(() => {
+              this.loading_Dialog = false
+            });
+            // END Add New Item
+          }
         }
         this.close()
       }
     },
 
-    // START Fetch All symptoms
+    // START Fetch All users
     fetchUsers() {
       httpGET('api/v1/auth/index')
           .then(({data}) => {
@@ -447,7 +462,7 @@ export default {
         this.loading_Dialog = false
       });
     },
-    // END Fetch All symptoms
+    // END Fetch All users
 
     // START Fetch All permissions
     fetchPermissions() {
