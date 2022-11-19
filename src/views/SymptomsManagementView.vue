@@ -250,6 +250,7 @@ export default {
     },
 
     deleteItemConfirm () {
+      this.loading_Dialog = true
       // START Delete Item
       httpPOST('api/v1/symptoms-types/delete', {
         id: this.temp.deleteId
@@ -290,6 +291,7 @@ export default {
     },
 
     save () {
+      this.loading_Dialog = true
       if (!this.editedItem.title) {
         this.required_fields_Dialog = true
       } else {

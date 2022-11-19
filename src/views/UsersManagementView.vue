@@ -365,6 +365,7 @@ export default {
     },
 
     deleteItemConfirm () {
+      this.loading_Dialog = true
       // START Delete Item
       httpPOST('api/v1/auth/delete', {
         id: this.temp.deleteId
