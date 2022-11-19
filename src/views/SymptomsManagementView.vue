@@ -278,7 +278,7 @@ export default {
             this.symptoms = data.data
           }).catch(({response: {data}}) => {
             // Redirect to login page if not authenticated
-            if (!data) {
+            if (!data || data.message === "Unauthenticated.") {
               this.$store.commit('SET_AUTHENTICATED', false)
             } else {
               console.log(data)
