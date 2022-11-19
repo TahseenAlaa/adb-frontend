@@ -292,7 +292,7 @@ export default {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Symptom' : 'Edit Symptom'
+      return this.editedIndex === -1 ? 'New User' : 'Edit User'
     },
   },
 
@@ -374,7 +374,14 @@ export default {
     },
 
     save () {
-      if (!this.editedItem.title) {
+      if (
+          !this.editedItem.full_name ||
+          !this.editedItem.username ||
+          !this.editedItem.job_title ||
+          !this.editedItem.role ||
+          !this.editedItem.permissions ||
+          !this.editedItem.password 
+      ) {
         this.required_fields_Dialog = true
       } else {
         if (this.editedIndex > -1) {
@@ -398,11 +405,16 @@ export default {
           // END Edit Item
         } else {
           // START Add New Item
-          httpPOST('api/v1/symptoms-types/store', {
-            title: this.editedItem.title
+          httpPOST('api/v1/auth/signup', {
+            full_name: this.editedItem.full_name,
+            username: this.editedItem.username,
+            job_title: this.editedItem.job_title,
+            role: this.editedItem.role,
+            password: this.editedItem.password,
+            permissions: this.editedItem.permissions
           })
               .then(({data}) => {
-                this.symptoms = data.data
+                this.users = data.data
               }).catch(({response: {data}}) => {
             // Redirect to login page if not authenticated
             if (!data || data.message === "Unauthenticated.") {
