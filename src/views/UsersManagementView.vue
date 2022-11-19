@@ -56,7 +56,7 @@
                       class="deep-purple white--text mb-2"
                       v-bind="attrs"
                       v-on="on"
-                      v-if="can('create symptoms type')"
+                      v-if="can('create user')"
                   >
                     New User
                   </v-btn>
@@ -121,7 +121,7 @@
                 dark
                 class="deep-purple white--text px-1 mx-1"
                 @click="editItem(item)"
-                v-if="can('edit symptoms type')"
+                v-if="can('edit user')"
             >
               <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
               Edit
@@ -132,7 +132,7 @@
                 dark
                 class="px-1 mx-1"
                 @click="deleteItem(item)"
-                v-if="can('delete symptoms type')"
+                v-if="can('delete user')"
             >
               <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
               Delete

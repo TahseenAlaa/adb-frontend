@@ -157,7 +157,10 @@
                   </v-list-item-content>
                 </template>
 
-                <v-list-item @click="$router.push({name: 'users_management'})">
+                <v-list-item
+                    @click="$router.push({name: 'users_management'})"
+                    v-if="can('list users')"
+                >
                   <v-list-item-icon>
                     <v-icon size="30" color="orange">mdi-account-multiple</v-icon>
                   </v-list-item-icon>
