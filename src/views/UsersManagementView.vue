@@ -82,7 +82,7 @@
                               v-model="editedItem.full_name"
                               outlined
                               dense
-                              :rules="[rules.required]"
+                              :rules="[rules.required, nameRule]"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="6">
@@ -91,7 +91,7 @@
                               v-model="editedItem.username"
                               outlined
                               dense
-                              :rules="[rules.required]"
+                              :rules="[rules.required, nameRule]"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -103,7 +103,7 @@
                               v-model="editedItem.job_title"
                               outlined
                               dense
-                              :rules="[rules.required]"
+                              :rules="[rules.required, nameRule]"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="6">
@@ -124,7 +124,7 @@
                               dense
                               hint="Select Only from the List"
                               persistent-hint
-                              :rules="[rules.required]"
+                              :rules="[rules.required, nameRule]"
                           >
                           </v-autocomplete>
                         </v-col>
@@ -148,7 +148,7 @@
                               dense
                               hint="Select Permissions"
                               persistent-hint
-                              :rules="[rules.required]"
+                              :rules="[rules.required, nameRule]"
                           >
                           </v-autocomplete>
                         </v-col>
@@ -405,6 +405,7 @@ export default {
     },
 
     save () {
+      this.loading_Dialog = true
       if (
           !this.editedItem.full_name ||
           !this.editedItem.username ||
