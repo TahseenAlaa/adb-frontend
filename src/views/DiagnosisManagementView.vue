@@ -160,7 +160,6 @@
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 import RequiredFieldsCompo from "@/components/RequiredFieldsCompo";
 import ErrorCompo from "@/components/ErrorCompo";
-
 import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {

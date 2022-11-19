@@ -1,357 +1,406 @@
 <template>
-  <v-container>
-    <v-card class="px-6 pb-12 mb-12">
-<!--      START Search -->
-      <v-row dense class="py-1 pt-4">
-        <v-col cols="8">
-          <v-text-field
-              label="Search"
-              outlined
-              dense
-          >
-          </v-text-field>
-        </v-col>
-        <v-col cols="2">
-          <v-select
-              :items="['Group', 'Test']"
-              label=""
-              dense
-              outlined
-          ></v-select>
-        </v-col>
-        <v-col cols="2">
-          <v-btn
-              color="deep-purple white--text"
-              class="px-2 py-5 mx-2"
-          >
-            <v-icon size="30" class="pr-1">mdi-magnify</v-icon>
-            Search
-          </v-btn>
-        </v-col>
-      </v-row>
-<!--      END Search -->
-      <v-card-title>Lab Tests Management</v-card-title>
-      <v-simple-table dense>
-        <template v-slot:default>
-          <thead>
-          <tr>
-            <th class="text-left">#</th>
-            <th class="text-left">Group</th>
-            <th class="text-left">Name</th>
-            <th class="text-left">Range (Min - Max)</th>
-            <th class="text-left">Added by</th>
-            <th class="text-left">Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
-              v-for="test in test_groups"
-              :key="test.id"
-          >
-            <td>{{ test.id }}</td>
-            <td>{{ test.test_group }}</td>
-            <td>{{ test.test_name }}</td>
-            <td>
+
+  <v-container class="mb-16">
+    <v-form v-model="valid" lazy-validation ref="form" id="new-form">
+      <v-card class="px-6 pb-12 mb-12">
+        <v-data-table
+            :headers="headers"
+            :items="testGroups"
+            :search="search"
+            sort-by="id"
+            class="elevation-1"
+            :footer-props="{
+                'items-per-page-options': [25, 50, 100, 150, -1]
+              }"
+            :items-per-page="25"
+        >
+          <template v-slot:item.created_at="{ item }">
+            <span>{{ humanReadableDateConverter(item.created_at) }}</span>
+          </template>
+
+          <template v-slot:item.created_by="{ item }">
+            <span>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</span>
+          </template>
+
+          <template v-slot:item.gender="{ item }">
+            <span>
               <v-icon
-                  v-if="test.gender === 'Male'"
+                  v-if="item.gender === 'Male'"
                   size="20"
+                  color="blue"
               >mdi-gender-male</v-icon>
-              <v-icon
-                  v-else-if="test.gender === 'Female'"
-                  size="20"
-              >mdi-gender-female</v-icon>
-              {{ test.min_range + ' - ' + test.max_range + ' ' + test.measurement_unit }}
-            </td>
-            <td>{{ test.user.full_name }}</td>
-            <td>
-              <v-btn
-                  x-small
-                  color="teal darken-1"
-                  dark
-                  class="px-1 mx-1"
-                  @click=""
-              >
-                <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
-                Edit
-              </v-btn>
-              <v-btn
-                  x-small
-                  color="deep-orange darken-1 white--text"
-                  class="px-1 mx-1"
-                  @click="activeDeleteDialog(test.id)"
-                  :disabled="disableDeleteBTN"
-              >
-                <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
-                Delete
-              </v-btn>
-            </td>
-          </tr>
-          <!--              START Delete Dialog -->
-          <v-row justify="center">
-            <v-dialog
-                v-model="test_group.delete_dialog.active"
-                persistent
-                max-width="230"
+            <v-icon
+                v-else-if="item.gender === 'Female'"
+                size="20"
+                color="purple"
+            >mdi-gender-female</v-icon>
+            {{ item.min_range + ' - ' + item.max_range + ' ' + item.measurement_unit }}
+            </span>
+          </template>
+
+          <template v-slot:top>
+            <v-toolbar
+                flat
             >
-              <v-card>
-                <v-card-title class="text-h5">
-                  Delete Test
-                </v-card-title>
-                <v-card-text class="text-center">
-                  Are you sure to delete this Test?
-                </v-card-text>
-                <v-card-actions class="d-flex justify-center">
+              <v-toolbar-title>Lab Tests Management</v-toolbar-title>
+              <v-divider
+                  class="mx-4"
+                  inset
+                  vertical
+              ></v-divider>
+              <v-spacer></v-spacer>
+              <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Search"
+                  single-line
+                  hide-details
+                  class="px-6"
+                  dense
+                  outlined
+              ></v-text-field>
+              <v-dialog
+                  v-model="dialog"
+                  max-width="500px"
+              >
+                <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                      dark
-                      class="deep-grey"
-                      @click="test_group.delete_dialog.active = false"
+                      class="deep-purple white--text mb-2"
+                      v-bind="attrs"
+                      v-on="on"
+                      v-if="can('create medical lab test')"
                   >
-                    Close
+                    New diagnosis
                   </v-btn>
-                  <v-btn
-                      color="deep-orange darken-1"
-                      dark
-                      class="px-1 mx-1"
-                      @click="deleteLabTest"
-                      :loading="test_group.delete_dialog.loading"
-                  >
-                    <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
-                    Delete
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-row>
-          <!--              END Delete Dialog -->
-          </tbody>
-        </template>
-      </v-simple-table>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">{{ formTitle }}</span>
+                  </v-card-title>
 
-<!--      START Pagination -->
-      <div class="text-center">
-        <v-pagination
-            v-model="page"
-            :length="6"
-        ></v-pagination>
-      </div>
-<!--      END Pagination -->
+                  <v-card-text>
+                    <v-container>
+                      <v-row dense>
+                        <v-col
+                            cols="12"
+                        >
+                          <v-text-field
+                              v-model="editedItem.title"
+                              label="Title"
+                              outlined
+                              dense
+                              required
+                              :rules="[rules.required]"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
 
-<!--      START new test Dialog -->
-      <v-row dense align="center" justify="center">
-        <v-spacer></v-spacer>
-        <div>
-          <v-col>
-            <v-dialog
-                v-model="test_group.new_item_model"
-                max-width="800px"
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="deep-purple white--text"
+                        @click="close"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                        color="deep-purple white--text"
+                        @click="save"
+                        :disabled="!valid"
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog v-model="dialogDelete" max-width="500px">
+                <v-card>
+                  <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="black white--text" @click="closeDelete">Cancel</v-btn>
+                    <v-btn color="red accent-4 white--text" @click="deleteItemConfirm">OK</v-btn>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-toolbar>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-btn
+                x-small
+                dark
+                class="deep-purple white--text px-1 mx-1"
+                @click="editItem(item)"
+                v-if="can('edit medical lab test')"
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
-                    v-bind="attrs"
-                    v-on="on"
-                >
-                  <v-col>
-                    <v-icon size="60">mdi-folder-plus</v-icon>
-                    <h3 class="text-capitalize">Add New Test</h3>
-                  </v-col>
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5">Adding new Test</span>
-                </v-card-title>
-                <v-card-subtitle class="subtitle-1">Please fill the information below to add a new test.</v-card-subtitle>
-                <v-card-text>
-                  <v-card-subtitle class="subtitle-2">Test Information</v-card-subtitle>
-                  <v-container>
-                    <v-row dense>
-                      <v-col
-                          cols="6"
-                      >
-                        <v-text-field
-                            label="Group Name"
-                            v-model="new_test.group"
-                            outlined
-                            dense
-                        >
-                        </v-text-field>
-                      </v-col>
-                      <v-col
-                          cols="6"
-                      >
-                        <v-text-field
-                            label="Test Name"
-                            v-model="new_test.name"
-                            outlined
-                            dense
-                        >
-                        </v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row dense>
-                      <v-col cols="2">
-                        <v-text-field
-                            label="Min Range"
-                            v-model="new_test.min_range"
-                            outlined
-                            dense
-                        >
-                        </v-text-field>
-                      </v-col>
-                      <v-col cols="2">
-                        <v-text-field
-                            label="Max Range"
-                            v-model="new_test.max_range"
-                            outlined
-                            dense
-                        >
-                        </v-text-field>
-                      </v-col>
-                      <v-col cols="4">
-                        <v-text-field
-                            label="Measurement Unit"
-                            v-model="new_test.unit"
-                            outlined
-                            dense
-                        >
-                        </v-text-field>
-                      </v-col>
-                      <v-col cols="4">
-                        <v-radio-group
-                            v-model="new_test.gender"
-                            dense
-                            row
-                        >
-                          <v-radio value="Male" label="Male"></v-radio>
-                          <v-radio value="Female" label="Female"></v-radio>
-                        </v-radio-group>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                      class="deep-purple white--text"
-                      text
-                      @click="test_group.new_item_model = false"
-                  >
-                    Close
-                  </v-btn>
-                  <v-btn
-                      class="deep-purple white--text"
-                      text
-                      @click="storeNewTest"
-                      :disabled="disableSaveBTN"
-                  >
-                    Save
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-col>
-        </div>
-      </v-row>
-
-<!--      END new test Dialog -->
-
-    </v-card>
+              <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+              Edit
+            </v-btn>
+            <v-btn
+                x-small
+                color="red accent-4 white--text"
+                dark
+                class="px-1 mx-1"
+                @click="deleteItem(item)"
+                v-if="can('delete medical lab test')"
+            >
+              <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+              Delete
+            </v-btn>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-form>
     <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
     <!--    END Loading Dialog-->
+
+    <!--    START Required Fields -->
+    <RequiredFieldsCompo :required_fields_-dialog="required_fields_Dialog"></RequiredFieldsCompo>
+    <!--    END Required Fields -->
+
+    <!--    START Error Message -->
+    <ErrorCompo
+        :active-dialog="this.errorDialogActive"
+        :message="this.errorDialogMessage"
+    ></ErrorCompo>
+    <!--    END Error Message -->
   </v-container>
+
 </template>
 
 <script>
 import {httpGET, httpDELETE, httpPOST} from "@/utils/utils";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
+import RequiredFieldsCompo from "@/components/RequiredFieldsCompo";
+import ErrorCompo from "@/components/ErrorCompo";
 
 export default {
   name: "LabManagementView.vue",
   components: {
-    LoadingDialogCompo
+    LoadingDialogCompo,
+    RequiredFieldsCompo,
+    ErrorCompo
   },
   data() {
     return {
-      test_groups: [],
+      valid: false,
       loading_Dialog: true,
-      disableDeleteBTN: false,
-      test_group: {
-        new_item_model: null,
-        delete_dialog: {
-          active: false,
-          loading: false,
-          temp_test_id: null
-        }
+      required_fields_Dialog: false,
+      errorDialogActive: false,
+      errorDialogMessage: '',
+      testGroups: [],
+      search: '',
+      rules: {
+        required: value => !!value || 'Required Field',
       },
-      disableSaveBTN: false,
-      new_test: {
-        group: null,
-        name: null,
-        min_range: null,
-        max_range: null,
-        unit: null,
-        gender: null
+
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+        { text: '#', value: 'id', sortable: false, align: 'start' },
+        { text: 'Group', value: 'test_group', sortable: true },
+        { text: 'Name', value: 'test_name', sortable: true },
+        { text: 'Gender', value: 'gender', sortable: false },
+        { text: 'Created By', value: 'created_by' },
+        { text: 'Created At', value: 'created_at', sortable: false },
+        { text: 'Action', value: 'actions', sortable: false },
+      ],
+      editedIndex: -1,
+      editedItem: {
+        title: '',
+      },
+      defaultItem: {
+        title: '',
+      },
+      temp: {
+        deleteId: null
       }
     }
   },
-  methods: {
-    activeDeleteDialog($testId) {
-      this.test_group.delete_dialog.temp_test_id = $testId
-      this.test_group.delete_dialog.active = true
+
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New diagnosis' : 'Edit diagnosis'
     },
-    deleteLabTest() {
-      this.disableDeleteBTN = true
-      this.loading_Dialog = true
-      httpDELETE('api/v1/lab-test-groups/delete/' + this.test_group.delete_dialog.temp_test_id)
-          .then(({data}) => {
-            this.test_groups = data.data
-            // console.log(data.data)
-          }).catch(({response: {data}}) => {
-            console.log(data)
-          });
-      this.disableDeleteBTN = false
-      this.loading_Dialog = false
-      this.test_group.delete_dialog.active = false
-    },
-    storeNewTest() {
-      this.loading_Dialog = true
-      this.disableSaveBTN = true
-      httpPOST('api/v1/lab-test-groups/store', {
-        test_group: this.new_test.group,
-        test_name: this.new_test.name,
-        min_range: this.new_test.min_range,
-        max_range: this.new_test.max_range,
-        unit: this.new_test.unit,
-        gender: this.new_test.gender
-      }).then(({data}) => {
-        this.test_groups = data.data
-        // console.log(data.data)
-      }).catch(({response: {data}}) => {
-        console.log(data)
-      });
-      this.loading_Dialog = false
-      this.disableSaveBTN = false
-      this.test_group.new_item_model = false
-    }
   },
+
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+  },
+
   mounted() {
     this.loading_Dialog = true
   },
+
+  methods: {
+    humanReadableDateConverter (date) {
+      if (date) {
+        let newDate = new Date(date)
+        return newDate.toLocaleDateString('en-GB')
+      } else {
+        return null
+      }
+    },
+
+
+    editItem (item) {
+      this.editedIndex = this.testGroups.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem (item) {
+      this.temp.deleteId = item.id
+      console.log(this.temp.deleteId)
+      this.editedIndex = this.testGroups.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
+
+    deleteItemConfirm () {
+      this.loading_Dialog = true
+      // START Delete Item
+      httpPOST('api/v1/lab-test-groups/delete', {
+        id: this.temp.deleteId
+      })
+          .then(({data}) => {
+            this.testGroups = data.data
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
+      // END Delete Item
+      this.closeDelete()
+      this.temp.deleteId = null
+    },
+
+    close () {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+      this.temp.deleteId = null
+    },
+
+    closeDelete () {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save () {
+      this.loading_Dialog = true
+      if (!this.editedItem.title) {
+        this.required_fields_Dialog = true
+      } else {
+        if (this.editedIndex > -1) {
+          // START Edit Item
+          httpPOST('api/v1/lab-test-groups/update', {
+            id: this.editedItem.id,
+            title: this.editedItem.title
+          })
+              .then(({data}) => {
+                this.testGroups = data.data
+              }).catch(({response: {data}}) => {
+            // Redirect to login page if not authenticated
+            if (!data || data.message === "Unauthenticated.") {
+              this.$store.commit('SET_AUTHENTICATED', false)
+            } else {
+              this.errorDialogMessage = data.message
+              this.errorDialogActive = true
+            }
+          }).finally(() => {
+            this.loading_Dialog = false
+          });
+          // END Edit Item
+        } else {
+          // START Add New Item
+          httpPOST('api/v1/lab-test-groups/store', {
+            title: this.editedItem.title
+          })
+              .then(({data}) => {
+                this.testGroups = data.data
+              }).catch(({response: {data}}) => {
+            // Redirect to login page if not authenticated
+            if (!data || data.message === "Unauthenticated.") {
+              this.$store.commit('SET_AUTHENTICATED', false)
+            } else {
+              this.errorDialogMessage = data.message
+              this.errorDialogActive = true
+            }
+          }).finally(() => {
+            this.loading_Dialog = false
+          });
+          // END Add New Item
+        }
+        this.close()
+      }
+    },
+
+    // START Fetch All testGroups
+    fetchTestGroups() {
+      httpGET('api/v1/lab-test-groups/index')
+          .then(({data}) => {
+            this.testGroups = data.data
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
+    },
+    // END Fetch All testGroups
+
+    // START Check Permissions
+    can($permit) {
+      return !!this.$store.getters.user.permissions.find(v => v.name === $permit);
+    },
+    // END Check Permissions
+
+    // START Rules
+    nameRule: value =>  {
+      const pattern = /^([^0-9]*)$/;
+      return pattern.test(value) || 'Only Letters Accepted'
+    },
+
+    numberRule: v  => {
+      if (v.trim() === '' || null) return true;
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
+      return 'Number Only Accepted';
+    },
+    // END Rules
+  },
+
   created() {
-    // START Fetch All tests
-    httpGET('api/v1/lab-test-groups/index')
-        .then(({data}) => {
-          this.test_groups = data.data
-          // console.log(data)
-        }).catch(({response: {data}}) => {
-          console.log(data)
-        }).finally(() => {
-      this.loading_Dialog = false
-    });
-    // END Fetch All tests
+    // START Fetch All testGroups
+    this.fetchTestGroups()
   }
+  // END Fetch All testGroups
 }
 </script>
 
