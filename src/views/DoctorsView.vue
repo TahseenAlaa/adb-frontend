@@ -726,7 +726,10 @@
                                       label="Drugs"
                                       outlined
                                       dense
-                                      :items="['Item1', 'Item2', 'Item3', 'Item4', 'Item5']"
+                                      :items="treatment.drugs"
+                                      v-model="treatment.drug"
+                                      item-text="drugs.title"
+                                      item-value="id"
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
@@ -735,6 +738,7 @@
                                     cols="3"
                                 >
                                   <v-autocomplete
+                                      v-model="treatment.frequency"
                                       label="Frequency"
                                       outlined
                                       dense
@@ -745,6 +749,7 @@
                                     cols="3"
                                 >
                                   <v-autocomplete
+                                      v-model="treatment.per"
                                       label="Per"
                                       outlined
                                       dense
@@ -755,6 +760,7 @@
                                     cols="3"
                                 >
                                   <v-autocomplete
+                                      v-model="treatment.meal"
                                       label="Meal"
                                       outlined
                                       dense
@@ -765,6 +771,7 @@
                                     cols="3"
                                 >
                                   <v-text-field
+                                      v-model="treatment.dose"
                                       label="Dose"
                                       outlined
                                       dense
@@ -776,6 +783,7 @@
                                     cols="12"
                                 >
                                   <v-textarea
+                                      v-model="treatment.notes"
                                       dense
                                       label="Notes"
                                       outlined
@@ -1172,6 +1180,14 @@ export default {
         loading: {
           active: false
         }
+      },
+      treatment: {
+        drugs: [],
+        drug: null,
+        frequency: null,
+        per: null,
+        meal: null,
+        notes: null
       }
     }
   },
@@ -1574,6 +1590,22 @@ export default {
       this.dialogs.loading.active = false
     });
     // END Fetch Clinical Notes and next visit
+
+    // START Fetch available drugs in the pharmacy
+    httpGET('api/v1/pharmacy/index')
+        .then(({data}) => {
+          this.treatment.drugs = data.data
+        }).catch(({response: {data}}) => {
+      // Redirect to login page if not authenticated
+      if (!data || data.message === "Unauthenticated.") {
+        this.$store.commit('SET_AUTHENTICATED', false)
+      } else {
+        console.log(data)
+      }
+    }).finally(() => {
+      this.dialogs.loading.active = false
+    });
+    // END Fetch available drugs in the pharmacy
   },
 }
 </script>
