@@ -90,6 +90,7 @@
                               dense
                               item-text="title"
                               item-value="id"
+                              :rules="[rules.required]"
                           ></v-text-field>
                         </v-col>
 
@@ -257,16 +258,14 @@ export default {
         title: '',
         drug_type: '',
         item_type: '',
-        created_by: '',
-        created_at: '',
+
       },
       defaultItem: {
         id: '',
         title: '',
         drug_type: '',
         item_type: '',
-        created_by: '',
-        created_at: '',
+
       },
       temp: {
         deleteId: null
@@ -361,14 +360,20 @@ export default {
 
     save () {
       this.loading_Dialog = true
-      if (!this.editedItem.title) {
+      if (
+          !this.editedItem.title ||
+          !this.editedItem.drug_type ||
+          !this.editedItem.item_type
+      ) {
         this.required_fields_Dialog = true
       } else {
         if (this.editedIndex > -1) {
           // START Edit Item
           httpPOST('api/v1/drugs/update', {
             id: this.editedItem.id,
-            title: this.editedItem.title
+            title: this.editedItem.title,
+            drug_type: this.editedItem.drug_type,
+            item_type: this.editedItem.item_type
           })
               .then(({data}) => {
                 this.drugs = data.data
@@ -387,7 +392,10 @@ export default {
         } else {
           // START Add New Item
           httpPOST('api/v1/drugs/store', {
-            title: this.editedItem.title
+            id: this.editedItem.id,
+            title: this.editedItem.title,
+            drug_type: this.editedItem.drug_type,
+            item_type: this.editedItem.item_type
           })
               .then(({data}) => {
                 this.drugs = data.data
