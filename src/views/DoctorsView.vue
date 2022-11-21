@@ -729,7 +729,7 @@
                                       :items="treatment.drugs"
                                       v-model="treatment.drug"
                                       item-text="drugs.title"
-                                      item-value="id"
+                                      item-value="drug_id"
                                   ></v-autocomplete>
                                 </v-col>
                               </v-row>
@@ -1675,6 +1675,7 @@ export default {
     httpGET('api/v1/pharmacy/index')
         .then(({data}) => {
           this.treatment.drugs = data.data
+          // console.log(this.treatment.drugs)
         }).catch(({response: {data}}) => {
       // Redirect to login page if not authenticated
       if (!data || data.message === "Unauthenticated.") {
