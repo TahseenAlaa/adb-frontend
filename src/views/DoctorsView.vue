@@ -753,7 +753,20 @@
                                       label="Per"
                                       outlined
                                       dense
-                                      :items="['Day', 'Week', 'Month']"
+                                      :items="[
+                                          {
+                                            text: 'Day',
+                                            value: 1
+                                          },
+                                          {
+                                            text: 'Week',
+                                            value: 2
+                                          },
+                                          {
+                                            text: 'Month',
+                                            value: 3
+                                          },
+                                      ]"
                                   ></v-autocomplete>
                                 </v-col>
                                 <v-col
@@ -764,7 +777,24 @@
                                       label="Meal"
                                       outlined
                                       dense
-                                      :items="['Before Meal', 'In Meal', 'After Meal', 'Without Preference']"
+                                      :items="[
+                                          {
+                                            text: 'Before Meal',
+                                            value: 1
+                                          },
+                                          {
+                                            text: 'In Meal',
+                                            value: 2
+                                          },
+                                          {
+                                            text: 'After Meal',
+                                            value: 3
+                                          },
+                                          {
+                                            text: 'On Demand',
+                                            value: 4
+                                          },
+                                      ]"
                                   ></v-autocomplete>
                                 </v-col>
                                 <v-col
@@ -820,22 +850,46 @@
                     <thead>
                     <tr>
                       <th>Drug</th>
+                      <th>Frequency</th>
+                      <th>Per</th>
+                      <th>Meal</th>
                       <th>Dose</th>
+                      <th>Approval</th>
                       <th>Status</th>
                       <th>Date of Adding Record</th>
                       <th>Doctor's Name</th>
+                      <th>Notes</th>
                       <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="item in treatments">
-                      <td>{{ item.name }}</td>
+                      <td>{{ item.drugs.title }}</td>
+                      <td>{{ item.frequency }}</td>
+
+                      <td v-if="item.day_we_mo === 1">Day</td>
+                      <td v-if="item.day_we_mo === 2">Week</td>
+                      <td v-if="item.day_we_mo === 3">Month</td>
+
+                      <td v-if="item.meal === 1">Before Meal</td>
+                      <td v-if="item.meal === 2">In Meal</td>
+                      <td v-if="item.meal === 3">After Meal</td>
+                      <td v-if="item.meal === 4">On Demand</td>
+
                       <td>{{ item.dose }}</td>
+
+                      <td v-if="item.drugs.drug_type === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+                      <td v-if="item.drugs.drug_type === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
+
                       <td v-if="item.status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
                       <td v-if="item.status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
                       <td v-if="item.status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
-                      <td>{{ item.created_at }}</td>
-                      <td>{{ item.created_by }}</td>
+
+                      <td>{{ humanReadableDateConverter(item.updated_at) }}</td>
+                      <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
+                      <td>{{ item.notes }}</td>
+<!--                      <td>{{ humanReadableDateConverter(item.created_at) }}</td>-->
+<!--                      <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>-->
                       <td>
                         <v-btn
                             x-small
@@ -924,15 +978,6 @@
           v-if="errorAlert"
           dense
       >Save data Failed!</v-alert>
-
-      <v-btn
-          class="px-2 py-12 mt-6 mx-2 white deep-purple--text"
-      >
-        <v-col>
-          <v-icon size="60">mdi-history</v-icon>
-          <h3 class="text-capitalize">PREVIOUS VISIT</h3>
-        </v-col>
-      </v-btn>
       <v-btn
           class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
       >
@@ -1244,16 +1289,26 @@ export default {
     },
 
     storeTreatmentData(e) {
-      if (this.treatment_name && this.treatment_dose) {
+      if (
+          this.treatment.drug &&
+          this.treatment.dose &&
+          this.treatment.per &&
+          this.treatment.meal &&
+          this.treatment.frequency
+      ) {
         httpPOST('api/v1/treatment/store', {
           patient_uuid: this.$route.params.patient_uuid,
-          name: this.treatment_name,
-          dose: this.treatment_dose,
+          drug: this.treatment.drug,
+          per: this.treatment.per,
+          meal: this.treatment.meal,
+          dose: this.treatment.dose,
+          frequency: this.treatment.frequency,
+          notes: this.treatment.notes,
         })
         .then(({data}) => {
-          this.treatments.push(data.data)
-          data.data.created_by = data.doctor_name
-          data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
+          this.treatments = data.data
+          // data.data.created_by = data.doctor_name
+          // data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
           // console.log(this.diagnosis)
         }).catch(({response: {data}}) => {
           console.log(data)
@@ -1516,12 +1571,37 @@ export default {
       this.dialogs.delete.active = false
       this.dialogs.delete.temp_id = null
       this.dialogs.delete.title = null
-    }
+    },
     // END Delete a diagnosis
+
+    // START Fetch treatment
+    fetchTreatments() {
+      httpPOST('api/v1/treatment/show', {
+        patient_uuid: this.patient_uuid
+      })
+          .then(({data}) => {
+            this.treatments = data.data
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          console.log(data)
+          // this.errorDialogMessage = data.message
+          // this.errorDialogActive = true
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
+    },
+    // END Fetch treatment
   },
 
   created() {
     this.dialogs.loading.active = true
+
+    // Fetch treatment
+    this.fetchTreatments()
 
     // START Fetch symptoms types list
     httpGET('api/v1/symptoms-types/index')
