@@ -48,7 +48,7 @@
                 color="deep-purple accent-4 white--text"
                 dark
                 class="px-2 py-2 mx-1"
-                @click="$router.push({name: 'viewpanels', params: {patient_uuid: item.patient_history.uuid}})"
+                @click="$router.push({name: 'viewpanels', params: {patient_uuid: item.patient.uuid, patient_history_uuid: item.patient_history.uuid}})"
             >
               <v-icon size="20" class="pr-1">mdi-solar-panel</v-icon>
               View
