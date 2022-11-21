@@ -55,7 +55,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/PharmacyView.vue')
   },
   {
-    path: '/viewpanels/:patient_uuid',
+    path: '/viewpanels/:patient_uuid/:patient_history_uuid?',
     name: 'viewpanels',
     component: () => import(/* webpackChunkName: "about" */ '../views/ViewPanels.vue')
   },
