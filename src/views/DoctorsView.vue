@@ -1493,12 +1493,6 @@ export default {
     editSymptomData() {
       this.dialogs.loading.active = true
 
-      console.log(
-      this.symptoms.edit.temp_id + ' ' +
-      this.symptoms.edit.value + ' ' +
-      this.symptoms.edit.notes + ' '
-      )
-
       httpPOST('api/v1/symptoms/edit', {
         patient_uuid: this.patient_uuid,
         id: this.symptoms.edit.temp_id,
