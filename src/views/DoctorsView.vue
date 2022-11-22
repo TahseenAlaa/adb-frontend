@@ -1307,9 +1307,12 @@ export default {
         })
         .then(({data}) => {
           this.treatments = data.data
-          // data.data.created_by = data.doctor_name
-          // data.data.created_at = this.humanReadableDateConverter(data.data.created_at)
-          // console.log(this.diagnosis)
+          this.treatment.drug = null
+          this.treatment.dose = null
+          this.treatment.per = null
+          this.treatment.meal = null
+          this.treatment.frequency = null
+          this.treatment.notes = null
         }).catch(({response: {data}}) => {
           console.log(data)
         });
