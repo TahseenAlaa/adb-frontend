@@ -1481,9 +1481,10 @@ export default {
 
     // START Edit symptom dialog action
     editSymptomDialogAction($itemId) {
+      // console.log(this.symptoms.list)
       this.symptoms.edit.dialog = true
       this.symptoms.edit.temp_id = $itemId
-      this.symptoms.edit.value = this.symptoms.list.find(v => v.id ===$itemId).symptom
+      this.symptoms.edit.value = this.symptoms.list.find(v => v.id ===$itemId).symptom.id
       this.symptoms.edit.notes = this.symptoms.list.find(v => v.id ===$itemId).clinical_notes
     },
     // END Edit symptom dialog action
@@ -1491,6 +1492,12 @@ export default {
     // START Edit symptom
     editSymptomData() {
       this.dialogs.loading.active = true
+
+      console.log(
+      this.symptoms.edit.temp_id + ' ' +
+      this.symptoms.edit.value + ' ' +
+      this.symptoms.edit.notes + ' '
+      )
 
       httpPOST('api/v1/symptoms/edit', {
         patient_uuid: this.patient_uuid,
@@ -1607,6 +1614,7 @@ export default {
     httpGET('api/v1/symptoms-types/index')
         .then(({data}) => {
           this.symptoms.types = data.data
+          // console.log(this.symptoms.types)
         }).catch(({response:{data}})=>{
       console.log(data)
     });
