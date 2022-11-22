@@ -68,13 +68,7 @@
 
 <!--      START No Result Alert-->
     <div v-if="toggles.showNoResultAlert">
-      <v-row dense>
-        <v-spacer></v-spacer>
-        <v-col cols="4">
-          <img src="../assets/undraw_file_searching_re_3evy.svg" alt="" width="301" height="315">
-        </v-col>
-        <v-spacer></v-spacer>
-      </v-row>
+
 
       <v-alert
           prominent
@@ -84,19 +78,28 @@
         <v-row align="center">
           <v-col class="grow">Unfortunately, No Results Found!</v-col>
           <v-col class="shrink">
-                <router-link to="/reception"
-                             v-if="receptionTeam === true"
-                >
+
                   <v-btn
+                      v-if="receptionTeam === true"
+                      @click="$router.push({ path: '/reception' })"
                       class="px-2 py-6 deep-purple white--text"
                   >
                     <v-icon size="40" dark>mdi-folder-plus</v-icon>
                     <h3 class="text-capitalize">New Patient</h3>
                   </v-btn>
-                </router-link>
+
           </v-col>
         </v-row>
       </v-alert>
+
+      <v-row dense>
+        <v-spacer></v-spacer>
+        <v-col cols="4">
+          <img src="../assets/undraw_file_searching_re_3evy.svg" alt="" width="301" height="315">
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
+
     </div>
 <!--      END No Result Alert-->
 
@@ -192,16 +195,17 @@
             class="mt-12"
         >
           <v-row align="center">
-            <v-col class="grow">No Results Found?</v-col>
-            <v-col class="shrink">
-              <router-link to="/reception">
-                <v-btn
+            <v-col>No Results Found?</v-col>
+            <v-spacer></v-spacer>
+            <v-col md="3">
+
+                <v-btn block @click="$router.push({ path: '/reception' })"
                     class="px-2 py-6 deep-purple white--text"
                 >
                   <v-icon size="40" dark>mdi-folder-plus</v-icon>
                   <h3 class="text-capitalize">New Patient</h3>
                 </v-btn>
-              </router-link>
+
             </v-col>
           </v-row>
         </v-alert>
@@ -320,9 +324,9 @@ export default {
         this.loading_Dialog = false
         this.searchButtonLoading = false
 
-        this.patient_id = null
-        this.phone = null
-        this.full_name = null
+        //this.patient_id = null
+        //this.phone = null
+        //this.full_name = null
       }
     },
     humanReadableDateConverter (date) {
