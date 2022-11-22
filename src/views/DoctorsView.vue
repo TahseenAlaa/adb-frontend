@@ -1644,7 +1644,7 @@ export default {
     // END Fetch the tests of this patient
 
     // START fetch diagnosis types
-    httpGET('api/v1/diagnosis/types')
+    httpGET('api/v1/diagnosis-types/index')
         .then(({data}) => {
           this.diagnosis_types = data.data
         }).catch(({response:{data}})=>{
