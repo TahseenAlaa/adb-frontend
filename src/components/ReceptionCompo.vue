@@ -580,7 +580,8 @@ import {httpGET, httpPOST, baseURLLink} from "@/utils/utils";
 
 export default {
   props: [
-      'patient_uuid'
+      'patient_uuid',
+      'patient_history_uuid'
   ],
   data() {
     return {
@@ -634,56 +635,60 @@ export default {
   },
   name: "ReceptionCompo",
   created() {
-    httpGET('api/v1/patients/' + this.patient_uuid)
-        .then(({data}) => {
-              this.full_name =  data.patient_info.full_name,
-              this.id =  data.patient_info.id,
-              this.phone =  data.patient_info.phone,
-              this.birthday =  data.patient_info.birthday,
-              this.occupation =  data.patient_info.occupation,
-              this.address =  data.patient_info.address,
-              this.smoker =  data.patient_info.smoker,
-              this.drinker =  data.patient_info.drinker,
-              this.family_dm =  data.patient_info.family_dm,
-              this.gestational_dm =  data.patient_info.gestational_dm,
-              this.weight_of_baby_at_birthday =  data.patient_info.weight_baby,
-              this.hypertension =  data.patient_info.hypertension,
-              this.family_history_of_ihd =  data.patient_info.family_ihd,
-              this.parity =  data.patient_info.parity,
-              this.smbg =  data.patient_info.smbg,
-              this.ihd =  data.patient_info.ihd,
-              this.cva =  data.patient_info.cva,
-              this.pvd =  data.patient_info.pvd,
-              this.neuropathy =  data.patient_info.neuropathy,
-              this.retinopathy =  data.patient_info.retinopathy,
-              this.non_proliferative =  data.patient_info.non_proliferative,
-              this.proliferative_dr =  data.patient_info.proliferative_dr,
-              this.maculopathy =  data.patient_info.maculopathy,
-              this.insulin =  data.patient_info.insulin,
-              this.amputation =  data.patient_info.amputation,
-              this.ed =  data.patient_info.ed,
-              this.nafld =  data.patient_info.nafld,
-              this.dermopathy =  data.patient_info.dermopathy,
-              this.diabetic_food =  data.patient_info.diabetic_food,
-              this.glycemic_control =  data.patient_info.glycemic_control,
-              this.lipid_control =  data.patient_info.lipid_control,
-              this.pressure_control =  data.patient_info.pressure_control,
-              this.first_a1c =  data.patient_info.first_a1c,
-              this.referral =  data.patient_info.referral,
-              this.education_qualification =  data.patient_info.education_qualification,
-              this.marital_status =  data.patient_info.marital_status,
-              this.blood_pressure_systolic =  data.patient_info.blood_pressure_systolic,
-              this.blood_pressure_diastolic =  data.patient_info.blood_pressure_diastolic,
-              this.notes =  data.patient_info.notes,
-              this.date_of_dm =  data.patient_info.duration_dm,
-              this.date_of_insulin =  data.patient_info.duration_insulin,
-              this.patient_number =  data.patient_info.patient_number,
-              this.social_status =  data.patient_info.social_status,
-              this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic,
-              this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
-        }).catch(({response:{data}})=>{
-          console.log(data)
-        });
+      httpPOST('api/v1/patients/show', {
+        patient_uuid: this.patient_uuid,
+        patient_history_uuid: this.patient_history_uuid
+      })
+          .then(({data}) => {
+            console.log(data.data)
+            this.full_name =  data.patient_info.full_name,
+                this.id =  data.patient_info.id,
+                this.phone =  data.patient_info.phone,
+                this.birthday =  data.patient_info.birthday,
+                this.occupation =  data.patient_info.occupation,
+                this.address =  data.patient_info.address,
+                this.smoker =  data.patient_info.smoker,
+                this.drinker =  data.patient_info.drinker,
+                this.family_dm =  data.patient_info.family_dm,
+                this.gestational_dm =  data.patient_info.gestational_dm,
+                this.weight_of_baby_at_birthday =  data.patient_info.weight_baby,
+                this.hypertension =  data.patient_info.hypertension,
+                this.family_history_of_ihd =  data.patient_info.family_ihd,
+                this.parity =  data.patient_info.parity,
+                this.smbg =  data.patient_info.smbg,
+                this.ihd =  data.patient_info.ihd,
+                this.cva =  data.patient_info.cva,
+                this.pvd =  data.patient_info.pvd,
+                this.neuropathy =  data.patient_info.neuropathy,
+                this.retinopathy =  data.patient_info.retinopathy,
+                this.non_proliferative =  data.patient_info.non_proliferative,
+                this.proliferative_dr =  data.patient_info.proliferative_dr,
+                this.maculopathy =  data.patient_info.maculopathy,
+                this.insulin =  data.patient_info.insulin,
+                this.amputation =  data.patient_info.amputation,
+                this.ed =  data.patient_info.ed,
+                this.nafld =  data.patient_info.nafld,
+                this.dermopathy =  data.patient_info.dermopathy,
+                this.diabetic_food =  data.patient_info.diabetic_food,
+                this.glycemic_control =  data.patient_info.glycemic_control,
+                this.lipid_control =  data.patient_info.lipid_control,
+                this.pressure_control =  data.patient_info.pressure_control,
+                this.first_a1c =  data.patient_info.first_a1c,
+                this.referral =  data.patient_info.referral,
+                this.education_qualification =  data.patient_info.education_qualification,
+                this.marital_status =  data.patient_info.marital_status,
+                this.blood_pressure_systolic =  data.patient_info.blood_pressure_systolic,
+                this.blood_pressure_diastolic =  data.patient_info.blood_pressure_diastolic,
+                this.notes =  data.patient_info.notes,
+                this.date_of_dm =  data.patient_info.duration_dm,
+                this.date_of_insulin =  data.patient_info.duration_insulin,
+                this.patient_number =  data.patient_info.patient_number,
+                this.social_status =  data.patient_info.social_status,
+                this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic,
+                this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
+          }).catch(({response:{data}})=>{
+        console.log(data)
+      });
   },
 
   methods: {

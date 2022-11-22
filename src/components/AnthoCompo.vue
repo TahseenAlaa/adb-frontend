@@ -126,7 +126,8 @@ import {httpPOST} from "@/utils/utils";
 export default {
   name: "AnthoCompo.vue",
   props: [
-      'patient_uuid'
+      'patient_uuid',
+      'patient_history_uuid'
   ],
   data() {
     return {
@@ -144,8 +145,10 @@ export default {
   created() {
     // START Fetch Antho information
     httpPOST('api/v1/antho/show', {
-      patient_uuid: this.patient_uuid
-    }).then(({data}) => {
+      patient_uuid: this.patient_uuid,
+      patient_history_uuid: this.patient_history_uuid
+    })
+        .then(({data}) => {
       this.weight = data.patient_latest_history.weight
       this.height = data.patient_latest_history.height
       this.waist_circumference = data.patient_latest_history.waist_circumference
