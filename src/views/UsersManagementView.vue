@@ -82,7 +82,7 @@
                               v-model="editedItem.full_name"
                               outlined
                               dense
-                              :rules="[rules.required, nameRule]"
+                              :rules="[rules.required]"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="6">
@@ -91,7 +91,7 @@
                               v-model="editedItem.username"
                               outlined
                               dense
-                              :rules="[rules.required, nameRule]"
+                              :rules="[rules.required]"
                           ></v-text-field>
                         </v-col>
                       </v-row>
