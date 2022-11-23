@@ -1046,6 +1046,7 @@
                             color="deep-orange darken-1"
                             dark
                             class="px-1 mx-1"
+                            @click="deleteDialogPopup('treatment', item.id)"
                         >
                           <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
                           Delete
@@ -1610,6 +1611,8 @@ export default {
         this.deleteTest()
       } else if (this.dialogs.delete.title === 'diagnosis') {
         this.deleteDiagnosis()
+      } else if (this.dialogs.delete.title === "treatment") {
+        this.deleteTreatment()
       }
     },
     // END Delete Dialog and action
@@ -1795,6 +1798,24 @@ export default {
           });
     },
     // STAR Edit Treatment Data
+
+    // START Delete a treatment
+    deleteTreatment() {
+      this.dialogs.delete.loading = true
+
+      httpDELETE('api/v1/treatment/destroy/' + this.dialogs.delete.temp_id + '/' + this.patient_uuid)
+          .then(({data}) => {
+            this.treatments = data.data
+            // console.log(data.data)
+          }).catch(({response:data}) => {
+        console.log(data.response)
+      })
+      this.dialogs.delete.loading = false
+      this.dialogs.delete.active = false
+      this.dialogs.delete.temp_id = null
+      this.dialogs.delete.title = null
+    },
+    // END Delete a treatment
   },
 
   created() {
