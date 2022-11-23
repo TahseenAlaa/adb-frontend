@@ -690,6 +690,146 @@
 <!--              END Diagnosis -->
 
 <!--              START Treatment -->
+              <div>
+                <v-col>
+                  <v-dialog
+                      v-model="treatment_edit.dialog"
+                      max-width="800px"
+                  >
+                    <v-card>
+                      <v-card-title>
+                        <span class="text-h5">Editing Treatment</span>
+                      </v-card-title>
+                      <v-card-subtitle class="subtitle-1">Please fill the information below to add a treatment record to patient visit record.</v-card-subtitle>
+                      <v-card-text>
+                        <v-card-subtitle class="subtitle-2">Treatment Information</v-card-subtitle>
+                        <v-container>
+                          <v-row>
+                            <v-col
+                                cols="12"
+                            >
+                              <v-autocomplete
+                                  label="Drugs"
+                                  outlined
+                                  dense
+                                  :items="treatment.drugs"
+                                  v-model="treatment_edit.drug"
+                                  item-text="drugs.title"
+                                  item-value="drug_id"
+                              ></v-autocomplete>
+                            </v-col>
+                          </v-row>
+                          <v-row dense>
+                            <v-col
+                                cols="3"
+                            >
+                              <v-autocomplete
+                                  v-model="treatment_edit.frequency"
+                                  label="Frequency"
+                                  outlined
+                                  dense
+                                  :items="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                              ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="3"
+                            >
+                              <v-autocomplete
+                                  v-model="treatment_edit.per"
+                                  label="Per"
+                                  outlined
+                                  dense
+                                  :items="[
+                                          {
+                                            text: 'Day',
+                                            value: 1
+                                          },
+                                          {
+                                            text: 'Week',
+                                            value: 2
+                                          },
+                                          {
+                                            text: 'Month',
+                                            value: 3
+                                          },
+                                      ]"
+                              ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="3"
+                            >
+                              <v-autocomplete
+                                  v-model="treatment_edit.meal"
+                                  label="Meal"
+                                  outlined
+                                  dense
+                                  :items="[
+                                          {
+                                            text: 'Before Meal',
+                                            value: 1
+                                          },
+                                          {
+                                            text: 'In Meal',
+                                            value: 2
+                                          },
+                                          {
+                                            text: 'After Meal',
+                                            value: 3
+                                          },
+                                          {
+                                            text: 'On Demand',
+                                            value: 4
+                                          },
+                                      ]"
+                              ></v-autocomplete>
+                            </v-col>
+                            <v-col
+                                cols="3"
+                            >
+                              <v-text-field
+                                  v-model="treatment_edit.dose"
+                                  label="Dose"
+                                  outlined
+                                  dense
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+                          <v-row dense>
+                            <v-col
+                                cols="12"
+                            >
+                              <v-textarea
+                                  v-model="treatment_edit.notes"
+                                  dense
+                                  label="Notes"
+                                  outlined
+                              ></v-textarea>
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="deep-purple white--text"
+                            text
+                            @click="treatment_edit.dialog = false"
+                        >
+                          Close
+                        </v-btn>
+                        <v-btn
+                            class="deep-purple white--text"
+                            text
+                            @click="editTreatmentData"
+                        >
+                          Edit
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-col>
+              </div>
+
               <div class="mt-6">
                 <v-row dense align="center" justify="center">
                   <v-card-title class="subtitle-2">Treatment</v-card-title>
@@ -896,7 +1036,7 @@
                             color="teal darken-1"
                             dark
                             class="px-1 mx-1"
-                            @click=""
+                            @click="editTreatmentDialogAction(item.id)"
                         >
                           <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
                           Edit
@@ -1157,6 +1297,16 @@ export default {
         type: null,
         notes: null,
         temp_id: null
+      },
+      treatment_edit: {
+        dialog: false,
+        temp_id: null,
+        drug: null,
+        frequency: null,
+        per: null,
+        meal: null,
+        dose: null,
+        notes: null
       },
       receptionView: {
         date_of_birthday: null,
@@ -1599,6 +1749,52 @@ export default {
       });
     },
     // END Fetch treatment
+
+    // STAR Edit Treatment Data
+    editTreatmentDialogAction($itemId) {
+      this.treatment_edit.dialog = true
+      this.treatment_edit.temp_id = $itemId
+      this.treatment_edit.drug = this.treatments.find(v => v.id === $itemId).drug_id
+      this.treatment_edit.frequency = this.treatments.find(v => v.id === $itemId).frequency
+      this.treatment_edit.per = this.treatments.find(v => v.id === $itemId).day_we_mo
+      this.treatment_edit.meal = this.treatments.find(v => v.id === $itemId).meal
+      this.treatment_edit.dose = this.treatments.find(v => v.id === $itemId).dose
+      this.treatment_edit.notes = this.treatments.find(v => v.id === $itemId).notes
+    },
+
+    editTreatmentData() {
+      this.dialogs.loading.active = true
+
+      httpPOST('api/v1/treatment/update', {
+        id: this.treatment_edit.temp_id,
+        patient_uuid: this.patient_uuid,
+        drug_id: this.treatment_edit.drug,
+        frequency: this.treatment_edit.frequency,
+        per: this.treatment_edit.per,
+        meal: this.treatment_edit.meal,
+        dose: this.treatment_edit.dose,
+        status: 0,
+        notes: this.treatment_edit.notes,
+      })
+          .then(({data}) => {
+            this.treatments = data.data
+
+            this.treatment.drug = null
+            this.treatment.per = null
+            this.treatment.meal = null
+            this.treatment.dose = null
+            this.treatment.notes = null
+            this.treatment.frequency = null
+          })
+          .catch(({response:{data}})=>{
+            console.log(data)
+          })
+          .finally(() => {
+            this.dialogs.loading.active = false
+            this.treatment_edit.dialog = false
+          });
+    },
+    // STAR Edit Treatment Data
   },
 
   created() {
