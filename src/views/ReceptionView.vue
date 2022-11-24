@@ -138,7 +138,6 @@
                 v-model="patient_number"
                 outlined
                 dense
-                :rules="[numberRule]"
             ></v-text-field>
           </v-col>
         </v-row>
