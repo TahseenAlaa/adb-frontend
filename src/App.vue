@@ -286,6 +286,7 @@ export default {
 
   created() {
     this.validateLogin()
+    document.title = "Alhasan Diabetes Center"
   },
 
   computed: {
