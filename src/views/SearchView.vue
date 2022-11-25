@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="mb-16">
+  <v-container class="mb-16" fluid>
     <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
         <v-card-title>Search</v-card-title>
@@ -8,14 +8,23 @@
         <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
               <v-row dense>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-text-field
                       label="Full Name"
                       outlined
                       dense
                       @keyup.enter="searchPatient()"
                       v-model="full_name"
-                      :rules="[nameRule]"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="6">
+                  <v-text-field
+                      label="Old Patient Number"
+                      outlined
+                      dense
+                      @keyup.enter="searchPatient()"
+                      v-model="patient_number"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -113,7 +122,9 @@
           <template>
             <thead>
             <tr>
+              <th>#</th>
               <th>Name</th>
+              <th>Old Patient Number</th>
               <th>Phone</th>
               <th>Date of Birth</th>
               <th>Gender</th>
@@ -124,11 +135,13 @@
             </thead>
             <tbody>
             <tr v-for="patient in search_result['data']">
+              <th>{{ patient.id }}</th>
               <td>{{ patient.full_name }}</td>
+              <th>{{ patient.patient_number }}</th>
               <td>{{ patient.phone }}</td>
               <td>{{ humanReadableDateConverter(patient.birthday) }}</td>
               <td>{{ patient.gender }}</td>
-              <td>{{ humanReadableDateConverter(patient.updated_at) }}</td>
+              <td>{{ humanReadableDateConverter(patient.last_visit) }}</td>
               <td>{{ patient.latest_patient_history? humanReadableDateConverter(patient.latest_patient_history.next_visit) : null }}</td>
               <td>
                 <router-link
@@ -269,6 +282,7 @@ export default {
       labTeam: null,
       pharmacyTeam: null,
       department: this.$route.params.department,
+      patient_number: null,
       toggles:{
         showResultsPanel: false,
         showNewVisit: false,
@@ -287,9 +301,10 @@ export default {
         this.loading_Dialog = true
         this.searchButtonLoading = true
 
-        if (this.full_name || this.phone || this.patient_id) {
+        if (this.full_name || this.patient_number || this.phone || this.patient_id) {
           httpPOST('api/v1/patients/search-for-patients', JSON.stringify({
             patient: this.patient_id,
+            patient_number: this.patient_number,
             phone: this.phone,
             full_name: this.full_name,
             department: this.department
