@@ -19,7 +19,8 @@
           </template>
 
           <template v-slot:item.created_by="{ item }">
-            <span>{{ item.updated_user? item.updated_user.full_name : 'Other' }}</span> // TODO delete 'Other'
+<!--            // TODO delete 'Other'-->
+            <span>{{ item.updated_user? item.updated_user.full_name : 'Other' }}</span>
           </template>
 
           <template v-slot:top>
@@ -154,7 +155,7 @@ export default {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New patient' : 'Edit patient'
+      return this.editedIndex === -1 ? 'New Patient' : 'Edit Patient'
     },
   },
 
@@ -199,7 +200,7 @@ export default {
     deleteItemConfirm () {
       this.loading_Dialog = true
       // START Delete Item
-      httpPOST('api/v1/patient-types/delete', {
+      httpPOST('api/v1/patients/delete', {
         id: this.temp.deleteId
       })
           .then(({data}) => {
