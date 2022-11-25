@@ -144,6 +144,7 @@
 
           <td v-if="patient.gender === 0">Male</td>
           <td v-if="patient.gender === 1">Female</td>
+          <td v-if="patient.gender === null"></td>
 
           <td>{{ humanReadableDateConverter(patient.last_visit) }}</td>
           <td>{{ patient.latest_patient_history? humanReadableDateConverter(patient.latest_patient_history.next_visit) : null }}</td>
@@ -261,6 +262,13 @@
     </v-row>
     <p id="footer"></p>
 <!--    END Required Fields Dialog-->
+
+    <!--    START Error Message -->
+    <ErrorCompo
+        :active-dialog="this.errorDialogActive"
+        :message="this.errorDialogMessage"
+    ></ErrorCompo>
+    <!--    END Error Message -->
   </v-container>
 
 </template>
@@ -268,11 +276,13 @@
 <script>
 import {httpPOST} from "@/utils/utils";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
+import ErrorCompo from "@/components/ErrorCompo";
 
 export default {
   name: "SearchView",
   components: {
-    LoadingDialogCompo
+    LoadingDialogCompo,
+    ErrorCompo
   },
 
   data() {
@@ -289,6 +299,8 @@ export default {
       pharmacyTeam: null,
       department: this.$route.params.department,
       patient_number: null,
+      errorDialogActive: false,
+      errorDialogMessage: '',
       toggles:{
         showResultsPanel: false,
         showNewVisit: false,
@@ -314,22 +326,30 @@ export default {
             phone: this.phone,
             full_name: this.full_name,
             department: this.department
-          })).then(({data}) => {
-            this.search_result = data
-            if (data.data.length > 0) {
-              this.toggles.showResultsPanel = true
-              this.toggles.showNoResultAlert = false
-            } else {
-              this.toggles.showResultsPanel = false
-              this.toggles.showNoResultAlert = true
-            }
-          }).catch(({response:{data}})=>{
-            console.log(data)
-          });
-        } else {
-          this.required_fields_Dialog = true
-        }
+          }))
 
+              .then(({data}) => {
+                this.search_result = data
+                if (data.data.length > 0) {
+                  this.toggles.showResultsPanel = true
+                  this.toggles.showNoResultAlert = false
+                } else {
+                  this.toggles.showResultsPanel = false
+                  this.toggles.showNoResultAlert = true
+                }
+              }).catch(({response: {data}}) => {
+            // Redirect to login page if not authenticated
+            if (!data || data.message === "Unauthenticated.") {
+              this.$store.commit('SET_AUTHENTICATED', false)
+            } else {
+              this.errorDialogMessage = data.message
+              this.errorDialogActive = true
+              this.required_fields_Dialog = true
+            }
+          }).finally(() => {
+            this.loading_Dialog = false
+          });
+        }
 
         if (this.department === 'reception') {
           this.receptionTeam = true;
