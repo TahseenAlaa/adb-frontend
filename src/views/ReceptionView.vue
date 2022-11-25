@@ -31,7 +31,7 @@
                   <v-text-field
                       label="Date of Birth"
                       v-model="date_of_birthday"
-                      prepend-icon="mdi-calendar"
+                      prepend-inner-icon="mdi-calendar"
                       readonly
                       v-bind="attrs"
                       v-on="on"
@@ -66,7 +66,7 @@
         </v-row>
 
         <v-row dense>
-          <v-col cols="4">
+          <v-col cols="2">
             <v-select
                 :items="['Single', 'Married', 'Divorced', 'Widowed']"
                 label="Marital Status"
@@ -75,7 +75,7 @@
                 outlined
             ></v-select>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="2">
             <v-text-field
                 label="Occupation"
                 v-model="occupation"
@@ -101,6 +101,16 @@
                 dense
                 outlined
             ></v-select>
+          </v-col>
+          <v-col cols="4">
+            <v-radio-group
+                v-model="gender"
+                dense
+                row
+            >
+              <v-radio label="Male" value="0"></v-radio>
+              <v-radio label="Female" value="1"></v-radio>
+            </v-radio-group>
           </v-col>
         </v-row>
 
@@ -174,7 +184,7 @@
                     <v-text-field
                         label="Date of Insulin"
                         v-model="date_of_insulin"
-                        prepend-icon="mdi-calendar"
+                        prepend-inner-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
                         v-on="on"
@@ -206,7 +216,7 @@
                     <v-text-field
                         label="Date of DM"
                         v-model="date_of_dm"
-                        prepend-icon="mdi-calendar"
+                        prepend-inner-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
                         v-on="on"
@@ -555,6 +565,7 @@ export default {
       smoker: null,
       drinker: null,
       education_qualification: null,
+      gender: null,
       familyHistoryOfDM: null,
       gestationalDM: null,
       hypertension: null,
@@ -650,6 +661,7 @@ export default {
         non_proliferative: this.non_proliferative,
         proliferative_dr: this.proliferative_dr,
         maculopathy: this.maculopathy,
+        gender: this.gender,
         insulin: this.insulin,
         amputation: this.amputation,
         ed: this.ed,
