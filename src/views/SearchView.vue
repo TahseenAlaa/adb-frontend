@@ -61,7 +61,7 @@
             <v-btn
                 class="px-8 py-12 mt-6 mx-8 deep-purple white--text"
                 color="#6200EE"
-                @click="searchPatient"
+                @click="searchPatient(); scrollToResul()"
                 :loading="searchButtonLoading"
                 :disabled="!valid"
             >
@@ -75,155 +75,157 @@
         </v-row>
     </v-form>
 
-<!--      START No Result Alert-->
-    <div v-if="toggles.showNoResultAlert">
+<div id="ResultsContainer">
+  <!--      START No Result Alert-->
+  <div v-if="toggles.showNoResultAlert">
 
 
+    <v-alert
+        prominent
+        type="error"
+        class="mt-12"
+    >
+      <v-row align="center">
+        <v-col class="grow">Unfortunately, No Results Found!</v-col>
+        <v-col class="shrink">
+
+          <v-btn
+              v-if="receptionTeam === true"
+              @click="$router.push({ path: '/reception' })"
+              class="px-2 py-6 deep-purple white--text"
+          >
+            <v-icon size="40" dark>mdi-folder-plus</v-icon>
+            <h3 class="text-capitalize">New Patient</h3>
+          </v-btn>
+
+        </v-col>
+      </v-row>
+    </v-alert>
+
+    <v-row dense>
+      <v-spacer></v-spacer>
+      <v-col cols="4">
+        <img src="../assets/undraw_file_searching_re_3evy.svg" alt="" width="301" height="315">
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
+
+  </div>
+  <!--      END No Result Alert-->
+
+  <v-card class="px-6 mt-16"
+          v-if="toggles.showResultsPanel"
+  >
+    <v-card-title>Search Results</v-card-title>
+    <v-card-subtitle>You can select the matched result and acces patient information or create a new visit</v-card-subtitle>
+    <v-card-title class="subtitle-2">Personal Information</v-card-title>
+    <v-simple-table>
+      <template>
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Old Patient Number</th>
+          <th>Phone</th>
+          <th>Date of Birth</th>
+          <th>Gender</th>
+          <th>Last Visit</th>
+          <th>Next Visit</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="patient in search_result['data']">
+          <th>{{ patient.id }}</th>
+          <td>{{ patient.full_name }}</td>
+          <th>{{ patient.patient_number }}</th>
+          <td>{{ patient.phone }}</td>
+          <td>{{ humanReadableDateConverter(patient.birthday) }}</td>
+          <td>{{ patient.gender }}</td>
+          <td>{{ humanReadableDateConverter(patient.last_visit) }}</td>
+          <td>{{ patient.latest_patient_history? humanReadableDateConverter(patient.latest_patient_history.next_visit) : null }}</td>
+          <td>
+            <router-link
+                v-if="receptionTeam"
+                :to="'/viewpanels/' + patient.uuid"
+            >
+              <v-btn dark>View</v-btn>
+            </router-link>
+
+            <router-link
+                v-if="receptionTeam"
+                :to="'/reception/newvisit/' + patient.uuid"
+            >
+              <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+            </router-link>
+
+            <router-link
+                v-if="anthoTeam"
+                :to="'/antho/' + patient.uuid"
+            >
+              <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+            </router-link>
+
+            <router-link
+                v-if="doctorsTeam"
+                :to="'/doctors/' + patient.uuid"
+            >
+              <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+            </router-link>
+
+            <router-link
+                v-if="labTeam"
+                :to="'/lab/' + patient.uuid"
+            >
+              <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+            </router-link>
+
+            <router-link
+                v-if="pharmacyTeam"
+                :to="'/pharmacy/' + patient.uuid"
+            >
+              <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
+            </router-link>
+          </td>
+        </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+  </v-card>
+  <p
+      v-if="toggles.showResultsPanel"
+      class="grey--text">Not found ?  You can create a new patient record by clicking on new patient button
+  </p>
+
+  <v-row
+      v-if="toggles.showResultsPanel === true && receptionTeam === true"
+      dense
+  >
+    <v-col cols="12">
       <v-alert
           prominent
-          type="error"
+          color="#2A3B4D"
+          dark
           class="mt-12"
       >
         <v-row align="center">
-          <v-col class="grow">Unfortunately, No Results Found!</v-col>
-          <v-col class="shrink">
+          <v-col>No Results Found?</v-col>
+          <v-spacer></v-spacer>
+          <v-col md="3">
 
-                  <v-btn
-                      v-if="receptionTeam === true"
-                      @click="$router.push({ path: '/reception' })"
-                      class="px-2 py-6 deep-purple white--text"
-                  >
-                    <v-icon size="40" dark>mdi-folder-plus</v-icon>
-                    <h3 class="text-capitalize">New Patient</h3>
-                  </v-btn>
+            <v-btn block @click="$router.push({ path: '/reception' })"
+                   class="px-2 py-6 deep-purple white--text"
+            >
+              <v-icon size="40" dark>mdi-folder-plus</v-icon>
+              <h3 class="text-capitalize">New Patient</h3>
+            </v-btn>
 
           </v-col>
         </v-row>
       </v-alert>
-
-      <v-row dense>
-        <v-spacer></v-spacer>
-        <v-col cols="4">
-          <img src="../assets/undraw_file_searching_re_3evy.svg" alt="" width="301" height="315">
-        </v-col>
-        <v-spacer></v-spacer>
-      </v-row>
-
-    </div>
-<!--      END No Result Alert-->
-
-    <v-card class="px-6 mt-16"
-              v-if="toggles.showResultsPanel"
-      >
-        <v-card-title>Search Results</v-card-title>
-        <v-card-subtitle>You can select the matched result and acces patient information or create a new visit</v-card-subtitle>
-        <v-card-title class="subtitle-2">Personal Information</v-card-title>
-        <v-simple-table>
-          <template>
-            <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Old Patient Number</th>
-              <th>Phone</th>
-              <th>Date of Birth</th>
-              <th>Gender</th>
-              <th>Last Visit</th>
-              <th>Next Visit</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="patient in search_result['data']">
-              <th>{{ patient.id }}</th>
-              <td>{{ patient.full_name }}</td>
-              <th>{{ patient.patient_number }}</th>
-              <td>{{ patient.phone }}</td>
-              <td>{{ humanReadableDateConverter(patient.birthday) }}</td>
-              <td>{{ patient.gender }}</td>
-              <td>{{ humanReadableDateConverter(patient.last_visit) }}</td>
-              <td>{{ patient.latest_patient_history? humanReadableDateConverter(patient.latest_patient_history.next_visit) : null }}</td>
-              <td>
-                <router-link
-                    v-if="receptionTeam"
-                    :to="'/viewpanels/' + patient.uuid"
-                >
-                  <v-btn dark>View</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="receptionTeam"
-                    :to="'/reception/newvisit/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="anthoTeam"
-                    :to="'/antho/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="doctorsTeam"
-                    :to="'/doctors/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="labTeam"
-                    :to="'/lab/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-
-                <router-link
-                    v-if="pharmacyTeam"
-                    :to="'/pharmacy/' + patient.uuid"
-                >
-                  <v-btn color="#6200EE" class="white--text ml-6">New Visit</v-btn>
-                </router-link>
-              </td>
-            </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-card>
-    <p
-        v-if="toggles.showResultsPanel"
-       class="grey--text">Not found ?  You can create a new patient record by clicking on new patient button
-    </p>
-
-    <v-row
-        v-if="toggles.showResultsPanel === true && receptionTeam === true"
-        dense
-    >
-      <v-col cols="12">
-        <v-alert
-            prominent
-            color="#2A3B4D"
-            dark
-            class="mt-12"
-        >
-          <v-row align="center">
-            <v-col>No Results Found?</v-col>
-            <v-spacer></v-spacer>
-            <v-col md="3">
-
-                <v-btn block @click="$router.push({ path: '/reception' })"
-                    class="px-2 py-6 deep-purple white--text"
-                >
-                  <v-icon size="40" dark>mdi-folder-plus</v-icon>
-                  <h3 class="text-capitalize">New Patient</h3>
-                </v-btn>
-
-            </v-col>
-          </v-row>
-        </v-alert>
-      </v-col>
-    </v-row>
+    </v-col>
+  </v-row>
+</div>
 <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_Dialog="loading_Dialog"></LoadingDialogCompo>
 <!--    END Loading Dialog-->
@@ -254,6 +256,7 @@
         </v-card>
       </v-dialog>
     </v-row>
+    <p id="footer"></p>
 <!--    END Required Fields Dialog-->
   </v-container>
 
@@ -343,6 +346,17 @@ export default {
         //this.phone = null
         //this.full_name = null
       }
+      // Clean Fields
+      this.full_name = null
+      this.patient_number = null
+      this.phone = null
+      this.patient_id = null
+    },
+    scrollToResul() {
+      setTimeout(() => {
+        document.getElementById("ResultsContainer").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      }, "1000")
+
     },
     humanReadableDateConverter (date) {
       if (date) {
