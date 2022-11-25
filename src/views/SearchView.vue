@@ -61,7 +61,7 @@
             <v-btn
                 class="px-8 py-12 mt-6 mx-8 deep-purple white--text"
                 color="#6200EE"
-                @click="searchPatient(); scrollToResul()"
+                @click="searchPatient()"
                 :loading="searchButtonLoading"
                 :disabled="!valid"
             >
@@ -141,7 +141,10 @@
           <th>{{ patient.patient_number }}</th>
           <td>{{ patient.phone }}</td>
           <td>{{ humanReadableDateConverter(patient.birthday) }}</td>
-          <td>{{ patient.gender }}</td>
+
+          <td v-if="patient.gender === 0">Male</td>
+          <td v-if="patient.gender === 1">Female</td>
+
           <td>{{ humanReadableDateConverter(patient.last_visit) }}</td>
           <td>{{ patient.latest_patient_history? humanReadableDateConverter(patient.latest_patient_history.next_visit) : null }}</td>
           <td>
@@ -351,6 +354,8 @@ export default {
       this.patient_number = null
       this.phone = null
       this.patient_id = null
+
+      this.scrollToResul()
     },
     scrollToResul() {
       setTimeout(() => {
