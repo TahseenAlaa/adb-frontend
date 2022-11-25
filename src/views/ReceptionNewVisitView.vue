@@ -30,24 +30,6 @@
               persistent-hint
           ></v-text-field>
           </v-col>
-          <v-col cols="3">
-            <v-text-field
-                label="Blood Pressure Systolic"
-                v-model="blood_pressure_systolic"
-                outlined
-                dense
-                :rules="[bloodPressureRule, rules.required]"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="3">
-            <v-text-field
-                label="Blood Pressure Diastolic"
-                v-model="blood_pressure_diastolic"
-                outlined
-                dense
-                :rules="[bloodPressureRule, rules.required]"
-            ></v-text-field>
-          </v-col>
         </v-row>
       </v-card>
 
@@ -147,19 +129,9 @@ export default {
       return 'Number has to be between 0 and 300';
     },
     postNewVisitData(e) {
-      if (
-          !this.blood_pressure_systolic ||
-          !this.blood_pressure_diastolic ||
-          !this.blood_pressure_systolic.trim() ||
-          !this.blood_pressure_diastolic.trim()
-      ) {
-        this.required_fields_Dialog = true
-      } else {
-        httpPOST('api/v1/patients/store/newvisit', {
+      httpPOST('api/v1/patients/store/newvisit', {
           patient_uuid: this.$route.params.patient_uuid,
           patient_number: this.patient_number,
-          blood_pressure_systolic: this.blood_pressure_systolic,
-          blood_pressure_diastolic: this.blood_pressure_diastolic,
         })
             .then(({data})=>{
               this.successAlert = true
@@ -172,8 +144,8 @@ export default {
         });
         e.preventDefault()
       }
-    }
   },
+
   created() {
     httpGET('api/v1/patients/patient-info-for-new-visit/' + this.patient_uuid)
         .then(({data}) => {

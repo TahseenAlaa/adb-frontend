@@ -227,31 +227,6 @@
           </v-row>
 
         <v-row dense>
-          <v-col cols="6">
-            <v-text-field
-                label="Blood Pressure Systolic"
-                v-model="blood_pressure_systolic"
-                outlined
-                dense
-                :rules="[bloodPressureRule]"
-                type="number"
-                counter="3"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-                label="Blood Pressure Diastolic"
-                v-model="blood_pressure_diastolic"
-                outlined
-                dense
-                :rules="[bloodPressureRule]"
-                type="number"
-                counter="3"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
           <v-col cols="3">
             <v-checkbox
                 label="Family History of IHD"
@@ -720,11 +695,6 @@ export default {
       const pattern = /^0?7[0-9]{9}$/;
       if (!v.trim()) return true;
       if (!pattern.test(v)) return 'Wrong Phone Number Format';
-    },
-    bloodPressureRule: v => {
-      if (!v.trim()) return true;
-      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 300) return true;
-      return 'Number has to be between 0 and 300';
     },
     nameRule: value =>  {
       const pattern = /^([^0-9]*)$/;

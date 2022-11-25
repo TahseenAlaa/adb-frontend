@@ -81,9 +81,13 @@
                 v-model="gender"
                 dense
                 row
+                readonly
+                persistent-hint
+                hint="ReadOnly"
             >
-              <v-radio value="Male" label="Male"></v-radio>
-              <v-radio value="Female" label="Female"></v-radio>
+              <v-radio v-if="gender === 0" label="Male" :value="gender"></v-radio>
+              <v-radio v-if="gender === 1" label="Female" :value="gender"></v-radio>
+              <v-radio v-if="gender === null" label="Gender Not Found"></v-radio>
             </v-radio-group>
           </v-col>
           <v-col cols="2">
@@ -103,6 +107,31 @@
                 readonly
                 hint="ReadOnly"
                 persistent-hint
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-row dense>
+          <v-col cols="6">
+            <v-text-field
+                label="Blood Pressure Systolic"
+                v-model="blood_pressure_systolic"
+                outlined
+                dense
+                :rules="[bloodPressureRule]"
+                type="number"
+                counter="3"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field
+                label="Blood Pressure Diastolic"
+                v-model="blood_pressure_diastolic"
+                outlined
+                dense
+                :rules="[bloodPressureRule]"
+                type="number"
+                counter="3"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -190,6 +219,8 @@ export default {
       gender: null,
       successAlert: false,
       errorAlert: false,
+      blood_pressure_systolic: null,
+      blood_pressure_diastolic: null,
       rules: {
         required: value => !!value || 'Required.',
       },
@@ -208,9 +239,9 @@ export default {
 
       // Calc Mid-Parent
       if (this.father_height && this.mother_height && this.gender) {
-        if (this.gender === 'Male') {
+        if (this.gender === 0) { // Male
           this.mid_parent_height = parseInt(((parseInt(this.mother_height) + 13) + parseInt(this.father_height)) / 2)
-        } else if (this.gender === 'Female') {
+        } else if (this.gender === 1) { // Female
           this.mid_parent_height = parseInt(((parseInt(this.father_height) - 13) + parseInt(this.mother_height)) / 2)
         }
       }
@@ -235,6 +266,11 @@ export default {
       if (!isNaN(parseFloat(v)) && v >= 1 && v <= 210) return true;
       return 'Number has to be between 1 and 210';
     },
+    bloodPressureRule: v => {
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 0 && v <= 300) return true;
+      return 'Number has to be between 0 and 300';
+    },
     // END Rules
 
     postAnthoData() {
@@ -257,7 +293,8 @@ export default {
           father_height: this.father_height,
           mother_height: this.mother_height,
           mid_height: this.mid_parent_height,
-          gender: this.gender,
+          blood_pressure_systolic: this.blood_pressure_systolic,
+          blood_pressure_diastolic: this.blood_pressure_diastolic,
         }).then(()=>{
           this.successAlert = true
           setTimeout(() => {this.$router.push({name: 'home'})}, 2000)
@@ -282,6 +319,25 @@ export default {
       console.log(data)
     });
     //  END Fetch patient history from the last visit
+
+    // START Fetch Gender
+    httpPOST('api/v1/patients/fetch-gender', {
+      patient_uuid: this.patient_uuid
+    })
+        .then(({data}) => {
+          this.gender = data.data.gender
+        }).catch(({response: {data}}) => {
+      // Redirect to login page if not authenticated
+      if (!data || data.message === "Unauthenticated.") {
+        this.$store.commit('SET_AUTHENTICATED', false)
+      } else {
+        this.errorDialogMessage = data.message
+        this.errorDialogActive = true
+      }
+    }).finally(() => {
+      this.loading_Dialog = false
+    });
+    // End Fetch Gender
   },
 }
 </script>
