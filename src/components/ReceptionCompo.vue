@@ -1,5 +1,6 @@
 <template>
 
+  <v-form v-model="valid" lazy-validation ref="form">
   <v-card class="px-6">
     <v-card-title class="subtitle-2">Personal Information</v-card-title>
 
@@ -13,6 +14,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="2">
@@ -78,6 +80,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
+                :rules="[phoneRule]"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -108,6 +111,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="4">
@@ -167,6 +171,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -178,6 +183,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -189,6 +195,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -214,6 +221,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
+                :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -650,6 +658,7 @@
     </v-row>
 
       </v-card>
+  </v-form>
 
 </template>
 
@@ -663,6 +672,7 @@ export default {
   ],
   data() {
     return {
+      valid: null,
       full_name: null,
       id: null,
       phone: null,
@@ -787,6 +797,21 @@ export default {
   },
 
   methods: {
+
+    numberRule: v  => {
+      if (!v.trim()) return true;
+      if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
+      return 'Number Only Accepted';
+    },
+    phoneRule: v =>  {
+      const pattern = /^0?7[0-9]{9}$/;
+      if (!v.trim()) return true;
+      if (!pattern.test(v)) return 'Wrong Phone Number Format';
+    },
+    nameRule: value =>  {
+      const pattern = /^([^0-9]*)$/;
+      return pattern.test(value) || 'Only Letters Accepted'
+    },
 
     // START Check Permissions
     can($permit) {
