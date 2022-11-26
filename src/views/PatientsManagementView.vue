@@ -58,16 +58,19 @@
             </v-toolbar>
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-btn
-                x-small
-                dark
-                class="deep-purple white--text px-1 mx-1"
-                @click="editItem(item)"
+            <router-link
                 v-if="can('edit patient')"
+                :to="'/modify-patient-info/' + item.uuid"
             >
-              <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
-              Edit
-            </v-btn>
+              <v-btn
+                  x-small
+                  dark
+                  class="deep-purple white--text px-1 mx-1"
+              >
+                <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                Edit
+              </v-btn>
+            </router-link>
             <v-btn
                 x-small
                 color="red accent-4 white--text"

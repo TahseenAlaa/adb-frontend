@@ -156,6 +156,11 @@ const routes = [
     path: '/committee-approval-confirm/:patient_history_uuid',
     name: 'committee-approval-confirm',
     component: () => import(/* webpackChunkName: "about" */ '../views/CommitteeApprovalConfirmView.vue')
+  },
+  {
+    path: '/modify-patient-info/:patient_uuid',
+    name: 'modify-patient-info',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ModifyPatientInfo.vue')
   }
 
 ]

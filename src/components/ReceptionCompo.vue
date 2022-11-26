@@ -807,10 +807,6 @@ export default {
       this.menu_dm = false
     },
 
-    printReceptionReport() {
-      this.$router.push(baseURLLink() + this.patient_uuid)
-    },
-
     storePatientUpdatedInfo() {
       httpPOST('api/v1/patients/update/', {
         patient_uuid: this.patient_uuid,
