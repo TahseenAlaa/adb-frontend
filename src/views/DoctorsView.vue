@@ -504,12 +504,12 @@
                             ADD NEW DIAGNOSIS
                           </v-btn>
                         </template>
-                        <v-card>
+                        <v-card min-height="90vh">
                           <v-card-title>
                             <span class="text-h5">Adding new Diagnosis</span>
                           </v-card-title>
                           <v-card-subtitle class="subtitle-1">Please fill the information below to add a diagnosis record to patient visit record.</v-card-subtitle>
-                          <v-card-text>
+                          <v-card-text class="mb-12">
                             <v-card-subtitle class="subtitle-2">Diagnosis Information</v-card-subtitle>
                             <v-container>
                               <v-row>
@@ -548,7 +548,7 @@
                               </v-row>
                             </v-container>
                           </v-card-text>
-                          <v-card-actions>
+                          <v-card-actions class="mt-36 pt-12">
                             <v-spacer></v-spacer>
                             <v-btn
                                 class="deep-purple white--text"
@@ -576,14 +576,14 @@
                   <v-col>
                     <v-dialog
                         v-model="diagnosis_edit.dialog"
-                        max-width="800px"
+                        max-width="900px"
                     >
-                      <v-card>
+                      <v-card min-height="90vh">
                         <v-card-title>
                           <span class="text-h5">Editing Diagnosis</span>
                         </v-card-title>
                         <v-card-subtitle class="subtitle-1">Please fill the information below to add a diagnosis record to patient visit record.</v-card-subtitle>
-                        <v-card-text>
+                        <v-card-text class="mb-12">
                           <v-card-subtitle class="subtitle-2">Diagnosis Information</v-card-subtitle>
                           <v-container>
                             <v-row>
@@ -621,7 +621,7 @@
                             </v-row>
                           </v-container>
                         </v-card-text>
-                        <v-card-actions>
+                        <v-card-actions class="mt-24 pt-12">
                           <v-spacer></v-spacer>
                           <v-btn
                               class="deep-purple white--text"
