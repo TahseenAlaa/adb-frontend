@@ -296,8 +296,9 @@ export default {
           blood_pressure_systolic: this.blood_pressure_systolic,
           blood_pressure_diastolic: this.blood_pressure_diastolic,
         }).then(()=>{
-          this.successAlert = true
-          setTimeout(() => {this.$router.push({name: 'home'})}, 2000)
+          setTimeout(() => {
+            this.$router.push({path: '/search/antho'})
+          }, 2000)
         }).catch(({response:{data}})=>{
           this.errorAlert = true
           console.log(data)
