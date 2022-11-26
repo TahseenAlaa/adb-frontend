@@ -13,7 +13,6 @@
           <ReceptionCompo
               ref="reception_compo_ref"
               :patient_uuid="this.patient_uuid"
-              :patient_read_only="this.patient_read_only"
           ></ReceptionCompo>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -134,7 +133,6 @@ export default {
       bmi: null,
       required_fields_Dialog: false,
       autoOpenPanel: [0],
-      patient_read_only: false,
       rules: {
         required: value => !!value || 'Required.',
       },

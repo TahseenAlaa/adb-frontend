@@ -660,7 +660,6 @@ export default {
   props: [
       'patient_uuid',
       'patient_history_uuid',
-      'patient_read_only'
   ],
   data() {
     return {
@@ -713,9 +712,11 @@ export default {
       patient_number: null,
       social_status: null,
       baseURL: baseURLLink(),
+      patient_read_only: null,
     }
   },
   name: "ReceptionCompo",
+
   created() {
       httpPOST('api/v1/patients/show', {
         patient_uuid: this.patient_uuid,
@@ -768,6 +769,9 @@ export default {
           }).catch(({response:{data}})=>{
         console.log(data)
       });
+
+      // Edit permission
+      this.patient_read_only = !this.can('edit patient');
   },
 
   watch: {
@@ -783,6 +787,13 @@ export default {
   },
 
   methods: {
+
+    // START Check Permissions
+    can($permit) {
+      return !!this.$store.getters.user.permissions.find(v => v.name === $permit);
+    },
+    // END Check Permissions
+
     save_birthday(date) {
       this.$refs.menu_birthday.save(date)
       this.menu_birthday = false
