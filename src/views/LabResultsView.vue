@@ -32,10 +32,10 @@
               <td>{{ test.test_groups.test_group }}</td>
               <td>{{ test.test_groups.test_name }}</td>
               <td>{{ test.doctor_notes }}</td>
-              <td v-if="test.sampling_status === 0"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-              <td v-if="test.sampling_status === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
-              <td v-if="test.sampling_status === 1"><span class="green px-2 py-2 rounded-xl">Done</span></td>
-              <td v-if="test.result === null"><span class="yellow px-2 py-2 rounded-xl">...Pending</span></td>
+              <td v-if="test.sampling_status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
+              <td v-if="test.sampling_status === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
+              <td v-if="test.sampling_status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-cloud-check</v-icon> Done</span></td>
+              <td v-if="test.result === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
               <td v-if="test.result"><span class=" px-2 py-2 rounded-xl">{{ test.result }}</span></td>
               <td>
                 <v-icon
