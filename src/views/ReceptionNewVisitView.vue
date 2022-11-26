@@ -1,6 +1,24 @@
 <template>
 
   <v-container class="mb-16">
+    <v-expansion-panels
+        focusable
+        multiple
+        v-model="autoOpenPanel"
+    >
+
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <ReceptionCompo
+              ref="reception_compo_ref"
+              :patient_uuid="this.patient_uuid"
+              :patient_read_only="this.patient_read_only"
+          ></ReceptionCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+    </v-expansion-panels>
     <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
         <v-card-title>Reception & Statistics</v-card-title>
@@ -48,7 +66,7 @@
             dense
         >Save data Failed!</v-alert>
         <v-btn
-            @click="postNewVisitData"
+            @click="storeData"
             class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
             :disabled="!valid"
         >
@@ -92,9 +110,13 @@
 
 <script>
 import {httpGET, httpPOST} from "@/utils/utils";
+import ReceptionCompo from "@/components/ReceptionCompo";
 
 export default {
   name: "ReceptionNewVisitView",
+  components: {
+    ReceptionCompo
+  },
   data() {
     return {
       valid: false,
@@ -111,6 +133,8 @@ export default {
       waist_circumference: null,
       bmi: null,
       required_fields_Dialog: false,
+      autoOpenPanel: [0],
+      patient_read_only: false,
       rules: {
         required: value => !!value || 'Required.',
       },
@@ -128,22 +152,37 @@ export default {
       if (!isNaN(parseFloat(v)) && v >= 0 && v <= 300) return true;
       return 'Number has to be between 0 and 300';
     },
-    postNewVisitData(e) {
+
+    storeData() {
+      this.postNewVisitData()
+
+      if (this.patient_read_only === false) {
+        this.storePatientUpdatedInfo()
+      }
+    },
+
+    postNewVisitData() {
       httpPOST('api/v1/patients/store/newvisit', {
           patient_uuid: this.$route.params.patient_uuid,
           patient_number: this.patient_number,
         })
             .then(({data})=>{
               this.successAlert = true
-              setTimeout(() => {
-                this.$router.push({path: `/viewpanels/${this.patient_uuid}`})
-              }, 2000)
+              // setTimeout(() => {
+              //   this.$router.push({path: `/viewpanels/${this.patient_uuid}`})
+              // }, 2000)
               console.log(data)
             }).catch(({response:{data}})=>{
           console.log(data)
         });
-        e.preventDefault()
-      }
+      },
+
+    storePatientUpdatedInfo() {
+      // Call the update patient function from the Reception Component
+      this.$nextTick(() => {
+        this.$refs.reception_compo_ref.storePatientUpdatedInfo()
+      })
+    }
   },
 
   created() {

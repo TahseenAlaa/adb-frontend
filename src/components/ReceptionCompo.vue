@@ -10,9 +10,9 @@
                 v-model="full_name"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
           <v-col cols="2">
@@ -29,18 +29,45 @@
             </div>
           </v-col>
           <v-col cols="2">
-            <div>
-              <v-text-field
-                  label="Date of Birth"
-                  v-model="birthday"
-                  prepend-inner-icon="mdi-calendar"
-                  dense
-                  outlined
-                  readonly
-                  hint="ReadOnly"
-                  persistent-hint
-              ></v-text-field>
-            </div>
+
+            <v-menu
+                ref="menu_birthday"
+                v-model="menu_birthday"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
+                :disabled="patient_read_only"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    label="Date of Birth"
+                    v-model="date_of_birthday"
+                    prepend-inner-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    dense
+                    outlined
+                    :readonly="patient_read_only"
+                    :hint="patient_read_only === false? '' : 'ReadOnly'"
+                    :persistent-hint="patient_read_only"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                  v-model="date_of_birthday"
+                  :active-picker.sync="activePicker"
+                  :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                  min="1900-01-01"
+                  @change="save_birthday"
+                  :readonly="patient_read_only"
+                  :hint="patient_read_only === false? '' : 'ReadOnly'"
+                  :persistent-hint="patient_read_only"
+              ></v-date-picker>
+            </v-menu>
           </v-col>
           <v-col cols="4">
             <v-text-field
@@ -48,9 +75,9 @@
                 v-model="phone"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -60,27 +87,27 @@
         </v-row>
 
         <v-row dense>
-          <v-col cols="4">
+          <v-col cols="2">
             <v-select
                 :items="['Single', 'Married', 'Divorced', 'Widowed']"
                 label="Marital Status"
                 v-model="marital_status"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-select>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="2">
             <v-text-field
                 label="Occupation"
                 v-model="occupation"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
           <v-col cols="4">
@@ -99,10 +126,34 @@
                 v-model="education_qualification"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-select>
+          </v-col>
+
+          <v-col cols="4">
+            <v-radio-group
+                v-model="gender"
+                dense
+                row
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
+            >
+
+              <div v-if="patient_read_only">
+                <v-radio v-if="gender === 0" label="Male" :value="gender"></v-radio>
+                <v-radio v-if="gender === 1" label="Female" :value="gender"></v-radio>
+                <v-radio v-if="gender === null" label="Gender Not Found"></v-radio>
+              </div>
+
+              <div v-if="!patient_read_only">
+                <v-radio label="Male" value="0"></v-radio>
+                <v-radio label="Female" value="1"></v-radio>
+              </div>
+
+            </v-radio-group>
           </v-col>
         </v-row>
 
@@ -113,9 +164,9 @@
                 v-model="referral"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -124,9 +175,9 @@
                 v-model="social_status"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -135,9 +186,9 @@
                 v-model="address"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -146,9 +197,9 @@
                 v-model="patient_number"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -160,9 +211,9 @@
                 v-model="parity"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
@@ -171,65 +222,92 @@
                 v-model="first_a1c"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div>
-              <v-text-field
-                  label="Duration of Insulin (Years)"
+
+            <v-menu
+                ref="menu_insulin"
+                v-model="menu_insulin"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
+                :disabled="patient_read_only"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    label="Date of Insulin"
+                    v-model="date_of_insulin"
+                    prepend-inner-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    dense
+                    outlined
+                    :readonly="patient_read_only"
+                    :hint="patient_read_only === false? '' : 'ReadOnly'"
+                    :persistent-hint="patient_read_only"
+                ></v-text-field>
+              </template>
+              <v-date-picker
                   v-model="date_of_insulin"
-                  prepend-inner-icon="mdi-calendar"
-                  dense
-                  outlined
-                  readonly
-                  hint="ReadOnly"
-                  persistent-hint
-              ></v-text-field>
-            </div>
+                  :active-picker.sync="activePicker"
+                  :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                  min="1900-01-01"
+                  @change="save_insulin"
+                  :readonly="patient_read_only"
+                  :hint="patient_read_only === false? '' : 'ReadOnly'"
+                  :persistent-hint="patient_read_only"
+              ></v-date-picker>
+            </v-menu>
           </v-col>
           <v-col cols="3">
-            <div>
-            <v-text-field
-                    label="Duration of DM (Years)"
+
+            <v-menu
+                ref="menu_dm"
+                v-model="menu_dm"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
+                :disabled="patient_read_only"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                    label="Date of DM"
                     v-model="date_of_dm"
                     prepend-inner-icon="mdi-calendar"
                     readonly
+                    v-bind="attrs"
+                    v-on="on"
                     dense
                     outlined
+                    :readonly="patient_read_only"
+                    :hint="patient_read_only === false? '' : 'ReadOnly'"
+                    :persistent-hint="patient_read_only"
                 ></v-text-field>
-            </div>
-          </v-col>
-        </v-row>
-
-        <v-row dense>
-          <v-col cols="6">
-            <v-text-field
-                label="Blood Pressure Systolic"
-                v-model="blood_pressure_systolic"
-                outlined
-                dense
-                type="number"
-                counter="3"
-                readonly
-                hint="ReadOnly"
-                persistent-hint
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-                label="Blood Pressure Diastolic"
-                v-model="blood_pressure_diastolic"
-                outlined
-                dense
-                type="number"
-                counter="3"
-                readonly
-                hint="ReadOnly"
-                persistent-hint
-            ></v-text-field>
+              </template>
+              <v-date-picker
+                  v-model="date_of_dm"
+                  :active-picker.sync="activePicker"
+                  :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                  min="1990"
+                  @change="save_dm"
+                  :readonly="patient_read_only"
+                  :hint="patient_read_only === false? '' : 'ReadOnly'"
+                  :persistent-hint="patient_read_only"
+              ></v-date-picker>
+            </v-menu>
           </v-col>
         </v-row>
 
@@ -240,9 +318,9 @@
                 v-model="family_history_of_ihd"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -251,9 +329,9 @@
                 v-model="weight_of_baby_at_birthday"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -262,9 +340,9 @@
                 v-model="family_dm"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -273,9 +351,9 @@
                 v-model="gestational_dm"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -287,9 +365,9 @@
                 v-model="retinopathy"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -298,9 +376,9 @@
                 v-model="hypertension"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -309,9 +387,9 @@
                 v-model="smoker"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
 
@@ -321,9 +399,9 @@
                 v-model="drinker"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -335,9 +413,9 @@
                 v-model="smbg"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -346,9 +424,9 @@
                 v-model="ihd"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -357,9 +435,9 @@
                 v-model="cva"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -368,9 +446,9 @@
                 v-model="lipid_control"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -382,9 +460,9 @@
                 v-model="pvd"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -393,9 +471,9 @@
                 v-model="neuropathy"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -404,9 +482,9 @@
                 v-model="pressure_control"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -415,9 +493,9 @@
                 v-model="glycemic_control"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -429,9 +507,9 @@
                 v-model="non_proliferative"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -440,9 +518,9 @@
                 v-model="proliferative_dr"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -451,9 +529,9 @@
                 v-model="maculopathy"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -462,9 +540,9 @@
                 v-model="insulin"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -476,9 +554,9 @@
                 v-model="amputation"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -487,9 +565,9 @@
                 v-model="ed"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -498,9 +576,9 @@
                 v-model="nafld"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
           <v-col cols="3">
@@ -509,9 +587,9 @@
                 v-model="dermopathy"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -523,9 +601,9 @@
                 v-model="diabetic_food"
                 dense
                 outlined
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-checkbox>
           </v-col>
         </v-row>
@@ -536,14 +614,14 @@
                 v-model="notes"
                 outlined
                 dense
-                readonly
-                hint="ReadOnly"
-                persistent-hint
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
             ></v-textarea>
           </v-col>
         </v-row>
 
-    <v-row dense align="center" justify="center">
+    <v-row dense align="center" justify="center" v-if="patient_read_only">
       <v-spacer></v-spacer>
       <!--      START Patient Report -->
       <a :href="baseURL + 'invoice/patient-info/' + patient_uuid" class="text-decoration-none" target="_blank">
@@ -581,14 +659,17 @@ import {httpGET, httpPOST, baseURLLink} from "@/utils/utils";
 export default {
   props: [
       'patient_uuid',
-      'patient_history_uuid'
+      'patient_history_uuid',
+      'patient_read_only'
   ],
   data() {
     return {
       full_name: null,
       id: null,
       phone: null,
-      birthday: null,
+      date_of_birthday: null,
+      activePicker: null,
+      menu_birthday: false,
       occupation: null,
       address: null,
       smoker: null,
@@ -615,22 +696,23 @@ export default {
       dermopathy: null,
       diabetic_food: null,
       date_of_insulin: null,
+      menu_insulin: false,
       glycemic_control: null,
       lipid_control: null,
       pressure_control: null,
       first_a1c: null,
       referral: null,
       education_qualification: null,
+      gender: null,
       marital_status: null,
-      blood_pressure_systolic: null,
-      blood_pressure_diastolic: null,
       notes: null,
       family_history_of_ihd: null,
       weight_of_baby_at_birthday: null,
       date_of_dm: null,
+      menu_dm: false,
       patient_number: null,
       social_status: null,
-      baseURL: baseURLLink()
+      baseURL: baseURLLink(),
     }
   },
   name: "ReceptionCompo",
@@ -644,7 +726,8 @@ export default {
             this.full_name =  data.patient_info.full_name,
                 this.id =  data.patient_info.id,
                 this.phone =  data.patient_info.phone,
-                this.birthday =  data.patient_info.birthday,
+                this.date_of_birthday =  data.patient_info.birthday,
+                this.gender = data.patient_info.gender,
                 this.occupation =  data.patient_info.occupation,
                 this.address =  data.patient_info.address,
                 this.smoker =  data.patient_info.smoker,
@@ -677,24 +760,104 @@ export default {
                 this.referral =  data.patient_info.referral,
                 this.education_qualification =  data.patient_info.education_qualification,
                 this.marital_status =  data.patient_info.marital_status,
-                this.blood_pressure_systolic =  data.patient_info.blood_pressure_systolic,
-                this.blood_pressure_diastolic =  data.patient_info.blood_pressure_diastolic,
                 this.notes =  data.patient_info.notes,
-                this.date_of_dm =  data.patient_info.duration_dm,
-                this.date_of_insulin =  data.patient_info.duration_insulin,
+                this.date_of_dm =  data.patient_info.date_dm,
+                this.date_of_insulin =  data.patient_info.date_insulin,
                 this.patient_number =  data.patient_info.patient_number,
-                this.social_status =  data.patient_info.social_status,
-                this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic,
-                this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
+                this.social_status =  data.patient_info.social_status
           }).catch(({response:{data}})=>{
         console.log(data)
       });
   },
 
+  watch: {
+    menu_birthday (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+    menu_insulin (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+    menu_dm (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+  },
+
   methods: {
+    save_birthday(date) {
+      this.$refs.menu_birthday.save(date)
+      this.menu_birthday = false
+    },
+    save_insulin(date) {
+      this.$refs.menu_insulin.save(date)
+      this.menu_insulin = false
+    },
+    save_dm(date) {
+      this.$refs.menu_dm.save(date)
+      this.menu_dm = false
+    },
+
     printReceptionReport() {
       this.$router.push(baseURLLink() + this.patient_uuid)
-    }
+    },
+
+    storePatientUpdatedInfo() {
+      httpPOST('api/v1/patients/update/', {
+        patient_uuid: this.patient_uuid,
+        full_name: this.full_name,
+        phone: this.phone,
+        birthday: this.date_of_birthday,
+        occupation: this.occupation,
+        address: this.address,
+        smoker: this.smoker,
+        drinker: this.drinker,
+        family_dm: this.family_history_of_dm,
+        gestational_dm: this.gestational_dm,
+        weight_baby: this.weight_of_baby_at_birthday,
+        hypertension: this.hypertension,
+        family_ihd: this.family_history_of_ihd,
+        parity: this.parity,
+        smbg: this.smbg,
+        ihd: this.ihd,
+        cva: this.cva,
+        pvd: this.pvd,
+        neuropathy: this.neuropathy,
+        retinopathy: this.retinopathy,
+        non_proliferative: this.non_proliferative,
+        proliferative_dr: this.proliferative_dr,
+        maculopathy: this.maculopathy,
+        gender: this.gender,
+        insulin: this.insulin,
+        amputation: this.amputation,
+        ed: this.ed,
+        nafld: this.nafld,
+        dermopathy: this.dermopathy,
+        diabetic_food: this.diabetic_food,
+        date_insulin: this.date_of_insulin,
+        glycemic_control: this.glycemic_control,
+        lipid_control: this.lipid_control,
+        pressure_control: this.pressure_control,
+        first_a1c: this.first_a1c,
+        referral: this.referral,
+        education_qualification: this.education_qualification,
+        marital_status: this.marital_status,
+        notes: this.notes,
+        family_history_of_ihd: this.family_history_of_ihd,
+        weight_of_baby_at_birthday: this.weight_of_baby_at_birthday,
+        date_of_dm: this.date_of_dm,
+        patient_number: this.patient_number,
+        social_status: this.social_status,
+      })
+          .then(({data}) => {
+            this.successAlert = true
+            // setTimeout(() => {
+            //   this.$router.push({path: `/viewpanels/${data.data.uuid}`})
+            // }, 2000)
+            console.log(data.data)
+            console.log(data)
+          }).catch(({response: {data}}) => {
+        console.log(data)
+      });
+    },
   }
 }
 </script>
