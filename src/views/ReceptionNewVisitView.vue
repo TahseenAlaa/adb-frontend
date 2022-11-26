@@ -153,10 +153,7 @@ export default {
 
     storeData() {
       this.postNewVisitData()
-
-      if (this.patient_read_only === false) {
-        this.storePatientUpdatedInfo()
-      }
+      this.storePatientUpdatedInfo()
     },
 
     postNewVisitData() {
