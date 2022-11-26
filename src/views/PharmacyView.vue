@@ -571,7 +571,7 @@ export default {
           .then(({data}) => {
             this.successAlert = true
             setTimeout(() => {
-              this.$router.push({name: 'home'})
+              this.$router.push({path: '/search/pharmacy'})
             }, 2000)
           })
           .catch(({response:{data}})=>{
