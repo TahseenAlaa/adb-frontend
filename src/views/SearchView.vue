@@ -370,10 +370,10 @@ export default {
         //this.full_name = null
       }
       // Clean Fields
-      this.full_name = null
-      this.patient_number = null
-      this.phone = null
-      this.patient_id = null
+      // this.full_name = null
+      // this.patient_number = null
+      // this.phone = null
+      // this.patient_id = null
 
       this.scrollToResul()
     },
