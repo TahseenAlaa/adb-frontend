@@ -166,7 +166,7 @@ export default {
               setTimeout(() => {
                 this.$router.push({path: '/search/reception'})
               }, 2000)
-              console.log(data)
+              // console.log(data)
             }).catch(({response:{data}})=>{
           console.log(data)
         });
