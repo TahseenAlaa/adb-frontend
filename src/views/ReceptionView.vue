@@ -689,9 +689,9 @@ export default {
           .then(({data}) => {
             this.successAlert = true
             setTimeout(() => {
-              this.$router.push({path: `/viewpanels/${data.data.uuid}`})
+              this.$router.push({path: '/search/reception'})
             }, 2000)
-            console.log(data)
+            // console.log(data)
           }).catch(({response: {data}}) => {
         console.log(data)
       });
