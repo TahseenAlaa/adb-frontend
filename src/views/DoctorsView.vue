@@ -443,11 +443,11 @@
                       <td>{{ test.test_groups.test_group }}</td>
                       <td>{{ test.test_groups.test_name }}</td>
                       <td>{{ test.doctor_notes }}</td>
-                      <td v-if="test.sampling_status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
-                      <td v-if="test.sampling_status === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
-                      <td v-if="test.sampling_status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="green darken-3">mdi-cloud-check</v-icon> Done</span></td>
-                      <td v-if="test.result === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
-                      <td v-if="test.result"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="green darken-3">mdi-cloud-check</v-icon> Done</span></td>
+                      <td v-if="test.sampling_status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                      <td v-if="test.sampling_status === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                      <td v-if="test.sampling_status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="green darken-3">mdi-check-circle</v-icon> Done</span></td>
+                      <td v-if="test.result === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                      <td v-if="test.result"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="20" color="green darken-3">mdi-check-circle</v-icon> Done</span></td>
                       <td>{{ humanReadableDateConverter(test.updated_at) }}</td>
                       <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
                       <td>
@@ -1018,12 +1018,12 @@
 
                       <td>{{ item.dose }}</td>
 
-                      <td v-if="item.drugs.drug_type === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
-                      <td v-if="item.drugs.drug_type === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-cloud-check</v-icon> Done</span></td>
+                      <td v-if="item.drugs.drug_type === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                      <td v-if="item.drugs.drug_type === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-check-circle</v-icon> Done</span></td>
 
-                      <td v-if="item.status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
-                      <td v-if="item.status === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-cloud-sync</v-icon> Pending</span></td>
-                      <td v-if="item.status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-cloud-check</v-icon> Done</span></td>
+                      <td v-if="item.status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                      <td v-if="item.status === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                      <td v-if="item.status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-check-circle</v-icon> Done</span></td>
 
                       <td>{{ humanReadableDateConverter(item.updated_at) }}</td>
                       <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>

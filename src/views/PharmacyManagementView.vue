@@ -1,6 +1,6 @@
 <template>
 
-  <v-container>
+  <v-container fluid>
     <v-card class="px-6 pb-12 mb-12">
       <v-card-title>Pharmacy Management</v-card-title>
       <v-simple-table dense>

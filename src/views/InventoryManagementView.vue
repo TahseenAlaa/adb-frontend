@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="mb-12 pb-12">
+  <v-container class="mb-12 pb-12" fluid>
 
     <v-card>
 <!--      START Input Documents -->

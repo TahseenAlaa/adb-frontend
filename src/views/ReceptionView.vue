@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="mb-16">
+  <v-container class="mb-16" fluid>
     <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
         <v-card-title>Reception & Statistics</v-card-title>

@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="mb-16">
+  <v-container class="mb-16" fluid>
     <v-expansion-panels
         focusable
         multiple

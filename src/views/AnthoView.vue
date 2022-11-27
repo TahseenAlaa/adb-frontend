@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mt-16" fluid>
     <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
         <v-card-title>Anthropology Measurement</v-card-title>

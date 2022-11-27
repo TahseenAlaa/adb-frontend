@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-card class="px-6">
       <v-card-title>Output New Document</v-card-title>
 

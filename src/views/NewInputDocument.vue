@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="px-6">
+    <v-card class="px-6" fluid>
       <v-card-title>Input New Document</v-card-title>
 
       <v-card-text>

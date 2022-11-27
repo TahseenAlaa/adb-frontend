@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="mb-16">
+  <v-container class="mb-16" fluid>
     <v-row class="mt-6">
       <v-col cols="3">
         <v-card
