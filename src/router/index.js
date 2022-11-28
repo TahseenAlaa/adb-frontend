@@ -161,6 +161,16 @@ const routes = [
     path: '/modify-patient-info/:patient_uuid',
     name: 'modify-patient-info',
     component: () => import(/* webpackChunkName: "about" */ '../views/ModifyPatientInfo.vue')
+  },
+  {
+    path: '/edit-input-document/:doc_id',
+    name: 'edit-input-document',
+    component: () => import(/* webpackChunkName: "about" */ '../views/editInputDocument.vue')
+  },
+  {
+    path: '/edit-output-document/:doc_id',
+    name: 'edit-output-document',
+    component: () => import(/* webpackChunkName: "about" */ '../views/editOutputDocument.vue')
   }
 
 ]

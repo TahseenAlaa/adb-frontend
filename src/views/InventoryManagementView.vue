@@ -73,7 +73,7 @@
                           color="teal darken-1"
                           dark
                           class="px-1 mx-1"
-                          @click=""
+                          @click="editInputDocument(item.id)"
                       >
                         <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
                         Edit
@@ -327,6 +327,14 @@ export default {
       });
     },
     // END Delete Output Document
+
+
+    // START Edit Input Documents
+    editInputDocument($item) {
+      console.log($item)
+    },
+    // END Edit Input Documents
+
 
     humanReadableDateConverter (date) {
       if (date) {
