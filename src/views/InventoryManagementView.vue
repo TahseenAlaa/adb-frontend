@@ -3,7 +3,6 @@
   <v-container class="mb-12 pb-12" fluid>
 
     <v-card>
-<!--      START Input Documents -->
       <v-tabs
           v-model="tab"
           background-color="deep-purple accent-4"
@@ -23,6 +22,7 @@
         </v-tab>
       </v-tabs>
 
+<!--      START Input Documents -->
       <v-tabs-items v-model="tab">
         <v-tab-item
             value="tab-input"
@@ -67,63 +67,28 @@
                     <td>{{ item.destination_name }}</td>
                     <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                     <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
-                    <td></td>
-<!--                    <td>-->
-<!--                      <v-btn-->
-<!--                          x-small-->
-<!--                          color="teal darken-1"-->
-<!--                          dark-->
-<!--                          class="px-1 mx-1"-->
-<!--                          @click=""-->
-<!--                      >-->
-<!--                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
-<!--                        Edit-->
-<!--                      </v-btn>-->
-<!--                      <v-btn-->
-<!--                          x-small-->
-<!--                          color="deep-orange darken-1 white&#45;&#45;text"-->
-<!--                          class="px-1 mx-1"-->
-<!--                          @click="activeDeleteDialog(test.id)"-->
-<!--                          :disabled="disableDeleteBTN"-->
-<!--                      >-->
-<!--                        <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>-->
-<!--                        Delete-->
-<!--                      </v-btn>-->
-<!--                    </td>-->
+                    <td>
+                      <v-btn
+                          x-small
+                          color="teal darken-1"
+                          dark
+                          class="px-1 mx-1"
+                          @click=""
+                      >
+                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                        Edit
+                      </v-btn>
+                      <v-btn
+                          x-small
+                          color="deep-orange darken-1 white--text"
+                          class="px-1 mx-1"
+                          @click="deleteDialogPopup('Input Document', item.id)"
+                      >
+                        <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                        Delete
+                      </v-btn>
+                    </td>
                   </tr>
-                  <!--              START Delete Dialog -->
-                  <v-row justify="center">
-                    <v-dialog
-                        persistent
-                        max-width="230"
-                    >
-                      <v-card>
-                        <v-card-title class="text-h5">
-                          Delete Test
-                        </v-card-title>
-                        <v-card-text class="text-center">
-                          Are you sure to delete this Test?
-                        </v-card-text>
-                        <v-card-actions class="d-flex justify-center">
-                          <v-btn
-                              dark
-                              class="deep-grey"
-                          >
-                            Close
-                          </v-btn>
-                          <v-btn
-                              color="deep-orange darken-1"
-                              dark
-                              class="px-1 mx-1"
-                          >
-                            <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
-                            Delete
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </v-row>
-                  <!--              END Delete Dialog -->
                   </tbody>
                 </template>
               </v-simple-table>
@@ -180,61 +145,27 @@
                     <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                     <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                     <td>
-<!--                      <v-btn-->
-<!--                          x-small-->
-<!--                          color="teal darken-1"-->
-<!--                          dark-->
-<!--                          class="px-1 mx-1"-->
-<!--                          @click=""-->
-<!--                      >-->
-<!--                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
-<!--                        Edit-->
-<!--                      </v-btn>-->
-<!--                      <v-btn-->
-<!--                          x-small-->
-<!--                          color="deep-orange darken-1 white&#45;&#45;text"-->
-<!--                          class="px-1 mx-1"-->
-<!--                          @click="activeDeleteDialog(test.id)"-->
-<!--                          :disabled="disableDeleteBTN"-->
-<!--                      >-->
-<!--                        <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>-->
-<!--                        Delete-->
-<!--                      </v-btn>-->
+                      <v-btn
+                          x-small
+                          color="teal darken-1"
+                          dark
+                          class="px-1 mx-1"
+                          @click=""
+                      >
+                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                        Edit
+                      </v-btn>
+                      <v-btn
+                          x-small
+                          color="deep-orange darken-1 white--text"
+                          class="px-1 mx-1"
+                          @click="deleteDialogPopup('Output Document', item.id)"
+                      >
+                        <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
+                        Delete
+                      </v-btn>
                     </td>
                   </tr>
-                  <!--              START Delete Dialog -->
-                  <v-row justify="center">
-                    <v-dialog
-                        persistent
-                        max-width="230"
-                    >
-                      <v-card>
-                        <v-card-title class="text-h5">
-                          Delete Test
-                        </v-card-title>
-                        <v-card-text class="text-center">
-                          Are you sure to delete this Test?
-                        </v-card-text>
-                        <v-card-actions class="d-flex justify-center">
-                          <v-btn
-                              dark
-                              class="deep-grey"
-                          >
-                            Close
-                          </v-btn>
-                          <v-btn
-                              color="deep-orange darken-1"
-                              dark
-                              class="px-1 mx-1"
-                          >
-                            <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
-                            Delete
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </v-row>
-                  <!--              END Delete Dialog -->
                   </tbody>
                 </template>
               </v-simple-table>
@@ -246,20 +177,67 @@
     </v-card>
 
 
+    <!--              START Delete Dialog -->
+    <v-row justify="center">
+      <v-dialog
+          persistent
+          max-width="230"
+          v-model="dialogs.delete.active"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            Delete Test
+          </v-card-title>
+          <v-card-text class="text-center">
+            Are you sure to delete this {{ dialogs.delete.title }}?
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                dark
+                class="deep-grey"
+                @click="dialogs.delete.active = false"
+            >
+              Close
+            </v-btn>
+            <v-btn
+                color="deep-orange darken-1"
+                dark
+                class="px-1 mx-1"
+                @click="deleteDialogAction()"
+            >
+              <v-icon size="30" class="pr-1">mdi-delete-forever</v-icon>
+              Delete
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!--              END Delete Dialog -->
 
-<LoadingDialogCompo :loading_-dialog="dialog.loading.active"></LoadingDialogCompo>
+    <!--    START Loading Dialog-->
+    <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
+    <!--    END Loading Dialog-->
+
+    <!--    START Error Message -->
+    <ErrorCompo
+        :active-dialog="this.errorDialogActive"
+        :message="this.errorDialogMessage"
+    ></ErrorCompo>
+    <!--    END Error Message -->
   </v-container>
 
 </template>
 
 <script>
-import {httpGET} from "@/utils/utils";
+import {httpDELETE, httpGET, httpPOST} from "@/utils/utils";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
+import ErrorCompo from "@/components/ErrorCompo";
 
 export default {
   name: "InventoryManagementView.vue",
   components: {
-    LoadingDialogCompo
+    LoadingDialogCompo,
+    ErrorCompo
   },
 
   data() {
@@ -267,15 +245,85 @@ export default {
       inventory: [],
       outputDocs: [],
       tab: null,
-      dialog: {
-        loading: {
-          active: false
+      errorDialogActive: false,
+      errorDialogMessage: '',
+      loading_Dialog: true,
+      dialogs: {
+        delete: {
+          title: '',
+          temp_id: null,
+          active: null
         }
       }
     }
   },
 
   methods: {
+
+    // START Delete Dialog and action
+    deleteDialogPopup($title, $id) {
+      this.dialogs.delete.title = $title
+      this.dialogs.delete.temp_id = $id
+      this.dialogs.delete.active = true
+    },
+
+    deleteDialogAction() {
+      if (this.dialogs.delete.title === 'Input Document') {
+        this.deleteInput()
+      } else if (this.dialogs.delete.title === 'Output Document') {
+        this.deleteOutput()
+      }
+    },
+    // END Delete Dialog and action
+
+    // START Delete Input Document
+    deleteInput() {
+        this.loading_Dialog = true
+        // START Delete Item
+        httpPOST('api/v1/documents/delete-input-document', {
+          id: this.dialogs.delete.temp_id
+        })
+            .then(({data}) => {
+              this.inventory = data.data
+            }).catch(({response: {data}}) => {
+          // Redirect to login page if not authenticated
+          if (!data || data.message === "Unauthenticated.") {
+            this.$store.commit('SET_AUTHENTICATED', false)
+          } else {
+            this.errorDialogMessage = data.message
+            this.errorDialogActive = true
+          }
+        }).finally(() => {
+          this.dialogs.delete.active = false
+          this.loading_Dialog = false
+        });
+    },
+    // END Delete Input Document
+
+    // START Delete Output Document
+    deleteOutput() {
+      this.loading_Dialog = true
+      // START Delete Item
+      httpPOST('api/v1/documents/delete-output-document', {
+        id: this.dialogs.delete.temp_id
+      })
+          .then(({data}) => {
+            this.inventory = data.outputDocs
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
+        }
+      }).finally(() => {
+        this.dialogs.delete.active = false
+        this.loading_Dialog = false
+      });
+    },
+    // END Delete Output Document
+
     humanReadableDateConverter (date) {
       if (date) {
         let newDate = new Date(date)
@@ -287,7 +335,7 @@ export default {
   },
 
   mounted() {
-    this.dialog.loading.active = true
+    this.loading_Dialog = true
   },
 
   created() {
@@ -300,7 +348,7 @@ export default {
           console.log(data)
         })
         .finally(() => {
-          this.dialog.loading.active = false
+          this.loading_Dialog = false
         });
     // END Fetch Input Documents List
 
@@ -314,7 +362,7 @@ export default {
           console.log(data)
         })
         .finally(() => {
-          this.dialog.loading.active = false
+          this.loading_Dialog = false
         });
     // END Fetch Output Documents List
   }
