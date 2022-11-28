@@ -132,7 +132,13 @@ export default {
     // START Fetch All drugs in pharmacy
     httpGET('api/v1/pharmacy/index')
         .then(({data}) => {
-          this.drugs = data.data
+
+          // Delete drugs quantity equal to ZERO
+          this.drugs = data.data.filter(item => {
+            if (item.diff > 0) {
+              return true
+            }
+          })
           // console.log(data.data)
         }).catch(({response: {data}}) => {
       console.log(data)
