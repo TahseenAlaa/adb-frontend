@@ -296,6 +296,8 @@ export default {
         }).finally(() => {
           this.dialogs.delete.active = false
           this.loading_Dialog = false
+          this.dialogs.delete.title = null
+          this.dialogs.delete.temp_id = null
         });
     },
     // END Delete Input Document
@@ -308,7 +310,7 @@ export default {
         id: this.dialogs.delete.temp_id
       })
           .then(({data}) => {
-            this.inventory = data.outputDocs
+            this.outputDocs = data.data
           }).catch(({response: {data}}) => {
         // Redirect to login page if not authenticated
         if (!data || data.message === "Unauthenticated.") {
@@ -320,6 +322,8 @@ export default {
       }).finally(() => {
         this.dialogs.delete.active = false
         this.loading_Dialog = false
+        this.dialogs.delete.title = null
+        this.dialogs.delete.temp_id = null
       });
     },
     // END Delete Output Document
@@ -345,7 +349,7 @@ export default {
           this.inventory = data.data
         })
         .catch(({response:{data}})=>{
-          console.log(data)
+          // console.log(data)
         })
         .finally(() => {
           this.loading_Dialog = false
@@ -356,7 +360,7 @@ export default {
     httpGET('api/v1/documents/output-document')
         .then(({data}) => {
           this.outputDocs = data.data
-          console.log(this.outputDocs)
+          // console.log(this.outputDocs)
         })
         .catch(({response:{data}})=>{
           console.log(data)
