@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="mb-16">
+  <v-container class="mb-16" fluid>
     <v-card>
       <v-card-title>
         <span class="text-h5">Lab Sampling</span>
