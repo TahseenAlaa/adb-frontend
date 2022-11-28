@@ -118,7 +118,7 @@
                 dark
                 class="deep-purple white--text px-1 mx-1"
                 @click="editItem(item)"
-                v-if="can('edit providers')"
+                v-if="can('edit providers') && item.title !== 'Alhasan Diabetes Center' && item.title !== 'Pharmacy'"
             >
               <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
               Edit
@@ -129,7 +129,7 @@
                 dark
                 class="px-1 mx-1"
                 @click="deleteItem(item)"
-                v-if="can('delete providers')"
+                v-if="can('delete providers') && item.title !== 'Alhasan Diabetes Center' && item.title !== 'Pharmacy'"
             >
               <v-icon size="20" class="pr-1">mdi-delete-forever</v-icon>
               Delete
