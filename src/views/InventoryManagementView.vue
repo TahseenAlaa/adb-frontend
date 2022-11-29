@@ -68,16 +68,16 @@
                     <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                     <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                     <td>
-                      <v-btn
-                          x-small
-                          color="teal darken-1"
-                          dark
-                          class="px-1 mx-1"
-                          @click="editInputDocument(item.id)"
-                      >
-                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
-                        Edit
-                      </v-btn>
+<!--                      <v-btn-->
+<!--                          x-small-->
+<!--                          color="teal darken-1"-->
+<!--                          dark-->
+<!--                          class="px-1 mx-1"-->
+<!--                          @click="editInputDocument(item.id)"-->
+<!--                      >-->
+<!--                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
+<!--                        Edit-->
+<!--                      </v-btn>-->
                       <v-btn
                           x-small
                           color="deep-orange darken-1 white--text"
@@ -145,16 +145,16 @@
                     <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                     <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                     <td>
-                      <v-btn
-                          x-small
-                          color="teal darken-1"
-                          dark
-                          class="px-1 mx-1"
-                          @click="editOuputDocument(item.id)"
-                      >
-                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
-                        Edit
-                      </v-btn>
+<!--                      <v-btn-->
+<!--                          x-small-->
+<!--                          color="teal darken-1"-->
+<!--                          dark-->
+<!--                          class="px-1 mx-1"-->
+<!--                          @click="editOuputDocument(item.id)"-->
+<!--                      >-->
+<!--                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
+<!--                        Edit-->
+<!--                      </v-btn>-->
                       <v-btn
                           x-small
                           color="deep-orange darken-1 white--text"
