@@ -49,7 +49,7 @@
       <v-btn
           class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
           :loading="loading_state"
-          :disabled="tests[0].sampling_status"
+          :disabled="tests[0]? tests[0].sampling_status : null"
       >
         <v-col @click="postSamplingData">
           <v-icon size="60">mdi-needle</v-icon>
