@@ -6,7 +6,8 @@
 export default {
   name: "LabCompo",
   props: [
-    'patient_uuid'
+      'patient_uuid',
+      'patient_history_uuid'
   ],
 
   methods: {

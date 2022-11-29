@@ -1,10 +1,20 @@
 <template>
-  <h1>Treatment History</h1>
+  <PharmacyCompo></PharmacyCompo>
 </template>
 
 <script>
+import PharmacyCompo from "@/components/PharmacyCompo";
+
 export default {
-  name: "TreatmentHistoryView.vue"
+  name: "TreatmentHistoryView.vue",
+  components: {
+    PharmacyCompo
+  },
+  data() {
+    return {
+      patient_history_uuid: this.$route.params.patient_history_uuid
+    }
+  }
 }
 </script>
 

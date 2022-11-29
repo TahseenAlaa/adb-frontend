@@ -5,7 +5,8 @@
 <script>
 export default {
   props: [
-      'patient_uuid'
+      'patient_uuid',
+      'patient_history_uuid'
   ],
   name: "DoctorCompo",
   methods: {
