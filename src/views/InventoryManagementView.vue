@@ -150,7 +150,7 @@
                           color="teal darken-1"
                           dark
                           class="px-1 mx-1"
-                          @click=""
+                          @click="editOuputDocument(item.id)"
                       >
                         <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
                         Edit
@@ -331,9 +331,15 @@ export default {
 
     // START Edit Input Documents
     editInputDocument($item) {
-      console.log($item)
+      this.$router.push({path: '/edit-input-document/' + $item})
     },
     // END Edit Input Documents
+
+    // START Edit Output Documents
+    editOuputDocument($item) {
+      this.$router.push({path: '/edit-output-document/' + $item})
+    },
+    // END Edit Output Documents
 
 
     humanReadableDateConverter (date) {
