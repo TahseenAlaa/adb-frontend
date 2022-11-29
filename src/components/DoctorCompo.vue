@@ -3,7 +3,7 @@
   <v-container class="mt-16">
           <v-card class="px-6">
             <v-card-title>Doctors</v-card-title>
-            <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
+            <v-card-subtitle>Find bellow the information history of the patient</v-card-subtitle>
 
             <!--              START Symptoms -->
             <div class="mt-6">
@@ -170,35 +170,23 @@
                     v-model="clinical_notes"
                     outlined
                     dense
+                    readonly
+                    hint="ReadOnly"
+                    persistent-hint
                 ></v-textarea>
               </v-col>
               <v-col cols="2">
                 <div>
-                  <v-menu
-                      v-model="DateOfNextVisitMenu"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                          label="Date of Next Visit"
-                          v-model="date_of_next_visit"
-                          prepend-icon="mdi-calendar"
-                          readonly
-                          outlined
-                          dense
-                          v-bind="attrs"
-                          v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                        v-model="date_of_next_visit"
-                        @input="DateOfNextVisitMenu = false"
-                    ></v-date-picker>
-                  </v-menu>
+                  <v-text-field
+                      label="Date of Next Visit"
+                      v-model="date_of_next_visit"
+                      prepend-inner-icon="mdi-calendar"
+                      outlined
+                      dense
+                      readonly
+                      hint="ReadOnly"
+                      persistent-hint
+                  ></v-text-field>
                 </div>
               </v-col>
             </v-row>
@@ -429,7 +417,9 @@ export default {
     // END Fetch symptoms of this patient
 
     // START Fetch the tests of this patient
-    httpGET('api/v1/lab/' + this.patient_uuid)
+    httpPOST('api/v1/history/show-tests', {
+      patient_history_uuid: this.patient_history_uuid
+    })
         .then(({data}) => {
           this.tests = data.data
         }).catch(({response: {data}}) => {
@@ -439,7 +429,9 @@ export default {
 
 
     // START Fetch diagnosis list
-    httpGET('api/v1/diagnosis/show/' + this.patient_uuid)
+    httpPOST('api/v1/history/show-diagnosis', {
+      patient_history_uuid: this.patient_history_uuid
+    })
         .then(({data}) => {
           this.diagnosis_list = data.data
         }).catch(({response:{data}})=>{
@@ -448,7 +440,9 @@ export default {
     // END Fetch diagnosis list
 
     // START Fetch Clinical Notes and next visit
-    httpGET('api/v1/patients/show-patient-history/' + this.patient_uuid)
+    httpPOST('api/v1/history/show-history', {
+      patient_history_uuid: this.patient_history_uuid
+    })
         .then(({data}) => {
           this.clinical_notes = data.data.clinical_notes
           this.date_of_next_visit = data.data.next_visit
