@@ -173,22 +173,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/editOutputDocument.vue')
   },
   {
-    path: '/antho-history',
+    path: '/antho-history/:patient_history_uuid',
     name: 'antho-history',
     component: () => import(/* webpackChunkName: "about" */ '../views/AnthoHistoryView.vue')
   },
   {
-    path: '/doctor-history',
+    path: '/doctor-history/:patient_history_uuid',
     name: 'doctor-history',
     component: () => import(/* webpackChunkName: "about" */ '../views/DoctorHistoryView.vue')
   },
   {
-    path: '/lab-history',
+    path: '/lab-history/:patient_history_uuid',
     name: 'lab-history',
     component: () => import(/* webpackChunkName: "about" */ '../views/LabHistoryView.vue')
   },
   {
-    path: '/treatment-history',
+    path: '/treatment-history/:patient_history_uuid',
     name: 'treatment-history',
     component: () => import(/* webpackChunkName: "about" */ '../views/TreatmentHistoryView.vue')
   }

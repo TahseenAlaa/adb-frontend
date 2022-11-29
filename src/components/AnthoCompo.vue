@@ -88,17 +88,17 @@
           ></v-text-field>
         </v-col>
         <v-col cols="4">
-          <v-radio-group
-              v-model="gender"
-              dense
-              row
-              readonly
-              hint="ReadOnly"
-              persistent-hint
-          >
-            <v-radio value="Male" label="Male"></v-radio>
-            <v-radio value="Female" label="Female"></v-radio>
-          </v-radio-group>
+<!--          <v-radio-group-->
+<!--              v-model="gender"-->
+<!--              dense-->
+<!--              row-->
+<!--              readonly-->
+<!--              hint="ReadOnly"-->
+<!--              persistent-hint-->
+<!--          >-->
+<!--            <v-radio value="Male" label="Male"></v-radio>-->
+<!--            <v-radio value="Female" label="Female"></v-radio>-->
+<!--          </v-radio-group>-->
         </v-col>
         <v-col cols="2">
 
@@ -108,6 +108,30 @@
           <v-text-field
               label="Mid-Parent Height"
               v-model="mid_parent_height"
+              outlined
+              dense
+              readonly
+              hint="ReadOnly"
+              persistent-hint
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row dense>
+        <v-col cols="6">
+          <v-text-field
+              label="Blood Pressure Systolic"
+              v-model="blood_pressure_systolic"
+              outlined
+              dense
+              readonly
+              hint="ReadOnly"
+              persistent-hint
+          ></v-text-field>
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+              label="Blood Pressure Diastolic"
+              v-model="blood_pressure_diastolic"
               outlined
               dense
               readonly
@@ -140,6 +164,8 @@ export default {
       mother_height: null,
       gender: null,
       mid_parent_height: null,
+      blood_pressure_systolic: null,
+      blood_pressure_diastolic: null
     }
   },
   created() {
@@ -149,15 +175,17 @@ export default {
       patient_history_uuid: this.patient_history_uuid
     })
         .then(({data}) => {
-      this.weight = data.patient_latest_history.weight
-      this.height = data.patient_latest_history.height
-      this.waist_circumference = data.patient_latest_history.waist_circumference
-      this.hip = data.patient_latest_history.hip
-      this.bmi = data.patient_latest_history.bmi
-      this.father_height = data.patient_latest_history.father_height
-      this.mother_height = data.patient_latest_history.mother_height
-      this.gender = data.patient_latest_history.gender
-      this.mid_parent_height = data.patient_latest_history.mid_height
+          this.weight = data.patient_latest_history.weight
+          this.height = data.patient_latest_history.height
+          this.waist_circumference = data.patient_latest_history.waist_circumference
+          this.hip = data.patient_latest_history.hip
+          this.bmi = data.patient_latest_history.bmi
+          this.father_height = data.patient_latest_history.father_height
+          this.mother_height = data.patient_latest_history.mother_height
+          this.gender = data.patient_latest_history.gender
+          this.mid_parent_height = data.patient_latest_history.mid_height
+          this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic
+          this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
     }).catch(({response:{data}})=>{
       console.log(data)
     });
