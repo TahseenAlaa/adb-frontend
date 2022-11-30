@@ -1,7 +1,15 @@
 <template>
 
   <v-container class="mb-16" fluid>
-    <v-form v-model="valid" lazy-validation ref="form" id="new-form">
+    <v-expansion-panels
+        focusable
+        multiple
+        v-model="autoOpenPanel"
+    >
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Lab Results</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-form v-model="valid" lazy-validation ref="form" id="new-form">
       <v-card class="px-16">
         <v-card-title>Pharmacy</v-card-title>
         <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
@@ -415,6 +423,30 @@
         <!-- END Drugs withdrawal       -->
       </v-card>
     </v-form>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <ReceptionCompo
+              :patient_uuid="patient_uuid"
+          >
+
+          </ReceptionCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <AnthoCompo
+              :patient_uuid="patient_uuid"
+          >
+
+          </AnthoCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
     <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
     <!--    END Loading Dialog-->
@@ -542,6 +574,7 @@ export default {
       errorDialogMessage: '',
       treatmentDialog: false,
       treatments: [],
+      autoOpenPanel: [0],
       rules: {
         required: value => !!value || 'Required Field',
       },

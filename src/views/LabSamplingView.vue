@@ -1,7 +1,15 @@
 <template>
 
   <v-container class="mb-16" fluid>
-    <v-card>
+    <v-expansion-panels
+        focusable
+        multiple
+        v-model="autoOpenPanel"
+    >
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Lab Sampling</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-card>
       <v-card-title>
         <span class="text-h5">Lab Sampling</span>
       </v-card-title>
@@ -42,7 +50,30 @@
         </template>
       </v-simple-table>
     </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <ReceptionCompo
+              :patient_uuid="patient_uuid"
+          >
 
+          </ReceptionCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <AnthoCompo
+              :patient_uuid="patient_uuid"
+          >
+
+          </AnthoCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
 
 <!--    START Save Button -->
     <v-row dense align="center" justify="center">
@@ -131,9 +162,17 @@
 
 <script>
 import {httpGET, httpPOST} from "@/utils/utils";
+import AnthoCompo from "@/components/AnthoCompo";
+import ReceptionCompo from "@/components/ReceptionCompo";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 
 export default {
   name: "LabSamplingView.vue",
+  components: {
+    ReceptionCompo,
+    AnthoCompo,
+    LoadingDialogCompo
+  },
   data() {
     return {
       patient_uuid: this.$route.params.patient_uuid,
@@ -141,6 +180,7 @@ export default {
       loading_state: false,
       historyDialog: false,
       patientHistoryList: [],
+      autoOpenPanel: [0]
     }
   },
   methods: {

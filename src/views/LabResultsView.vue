@@ -1,7 +1,15 @@
 <template>
 
-  <v-container class="mt-16" fluid>
-    <v-card>
+    <v-container class="mb-16" fluid>
+      <v-expansion-panels
+          focusable
+          multiple
+          v-model="autoOpenPanel"
+      >
+        <v-expansion-panel>
+          <v-expansion-panel-header><h2>Lab Results</h2></v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-card>
       <v-card-title>
         <span class="text-h5">Lab Resulting</span>
       </v-card-title>
@@ -147,6 +155,30 @@
         </v-col>
       </v-row>
     </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <ReceptionCompo
+                :patient_uuid="patient_uuid"
+            >
+
+            </ReceptionCompo>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <AnthoCompo
+                :patient_uuid="patient_uuid"
+            >
+
+            </AnthoCompo>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     <!--    START Loading Dialog -->
     <LoadingDialogCompo :loading_-dialog="dialogs.loading.active" />
     <!--    END Loading Dialog -->
@@ -156,10 +188,14 @@
 <script>
 import {httpGET, httpPOST} from "@/utils/utils";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
+import ReceptionCompo from "@/components/ReceptionCompo";
+import AnthoCompo from "@/components/AnthoCompo";
 
 export default {
   name: "LabResultsView.vue",
   components: {
+    ReceptionCompo,
+    AnthoCompo,
     LoadingDialogCompo
   },
   data() {
@@ -176,6 +212,7 @@ export default {
       inputs: [],
       historyDialog: false,
       patientHistoryList: [],
+      autoOpenPanel: [0]
     }
   },
   methods: {

@@ -7,28 +7,6 @@
         v-model="autoOpenPanel"
     >
       <v-expansion-panel>
-      <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <ReceptionCompo
-              :patient_uuid="patient_uuid"
-          >
-
-          </ReceptionCompo>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <v-expansion-panel>
-        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <AnthoCompo
-              :patient_uuid="patient_uuid"
-          >
-
-          </AnthoCompo>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <v-expansion-panel>
       <v-expansion-panel-header><h2>Doctors</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-form>
@@ -1103,6 +1081,27 @@
           </v-form>
         </v-expansion-panel-content>
       </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <ReceptionCompo
+              :patient_uuid="patient_uuid"
+          >
+
+          </ReceptionCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <AnthoCompo
+              :patient_uuid="patient_uuid"
+          >
+
+          </AnthoCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
     </v-expansion-panels>
 
     <v-row dense align="center" justify="center">
@@ -1306,7 +1305,7 @@ export default {
       diagnosis_list: null,
       treatmentDialog: false,
       labDialog: false,
-      autoOpenPanel:[2],
+      autoOpenPanel:[0],
       weight: null,
       height: null,
       bmi: null,
