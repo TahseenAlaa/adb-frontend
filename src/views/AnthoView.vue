@@ -338,7 +338,7 @@ export default {
       }
 
       // Calc Mid-Parent
-      if (this.father_height && this.mother_height && this.gender) {
+      if (this.father_height && this.mother_height) {
         if (this.gender === 0) { // Male
           this.mid_parent_height = parseInt(((parseInt(this.mother_height) + 13) + parseInt(this.father_height)) / 2)
         } else if (this.gender === 1) { // Female
