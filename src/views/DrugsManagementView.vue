@@ -360,13 +360,13 @@ export default {
 
     save () {
       this.loading_Dialog = true
-      if (
-          !this.editedItem.title ||
-          !this.editedItem.drug_type ||
-          !this.editedItem.item_type
-      ) {
-        this.required_fields_Dialog = true
-      } else {
+      // if (
+      //     !this.editedItem.title ||
+      //     !this.editedItem.drug_type ||
+      //     !this.editedItem.item_type
+      // ) {
+      //   this.required_fields_Dialog = true
+      // } else {
         if (this.editedIndex > -1) {
           // START Edit Item
           httpPOST('api/v1/drugs/update', {
@@ -387,6 +387,7 @@ export default {
             }
           }).finally(() => {
             this.loading_Dialog = false
+            this.close()
           });
           // END Edit Item
         } else {
@@ -409,11 +410,12 @@ export default {
             }
           }).finally(() => {
             this.loading_Dialog = false
+            this.close()
           });
           // END Add New Item
         }
-        this.close()
-      }
+      //   this.close()
+      // }
     },
 
     // START Fetch All drugs
