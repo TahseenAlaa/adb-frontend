@@ -1492,7 +1492,7 @@ export default {
       .then(({data})=>{
         this.successAlert = true
         setTimeout(() => {
-          this.$router.push({path: `/viewpanels/${this.patient_uuid}`})
+          this.$router.push({path: '/search/doctors'})
         }, 2000)
         // console.log(data)
       }).catch(({response:{data}})=>{
