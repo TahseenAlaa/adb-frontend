@@ -1,5 +1,7 @@
 <template>
-  <PharmacyCompo></PharmacyCompo>
+  <PharmacyCompo
+      :patient_history_uuid="patient_history_uuid"
+  ></PharmacyCompo>
 </template>
 
 <script>
