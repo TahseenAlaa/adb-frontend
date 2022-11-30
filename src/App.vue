@@ -193,15 +193,15 @@
                   <v-list-item-title>Users Management</v-list-item-title>
                 </v-list-item>
 
-                <v-list-item
-                    @click="$router.push({name: 'log_activities'})"
-                    v-if="can('access log')"
-                >
-                  <v-list-item-icon>
-                    <v-icon size="30" color="red">mdi-view-comfy</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title>Log Activities</v-list-item-title>
-                </v-list-item>
+<!--                <v-list-item-->
+<!--                    @click="$router.push({name: 'log_activities'})"-->
+<!--                    v-if="can('access log')"-->
+<!--                >-->
+<!--                  <v-list-item-icon>-->
+<!--                    <v-icon size="30" color="red">mdi-view-comfy</v-icon>-->
+<!--                  </v-list-item-icon>-->
+<!--                  <v-list-item-title>Log Activities</v-list-item-title>-->
+<!--                </v-list-item>-->
 
               </v-list-group>
             </v-list>
