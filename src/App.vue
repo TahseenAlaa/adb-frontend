@@ -208,6 +208,13 @@
               </v-list-group>
             </v-list>
 
+            <v-list-item @click="aboutDevelopersDialog = true">
+              <v-list-item-icon>
+                <v-icon size="30" color="cyan darken-3">mdi-account-box</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>About Developers</v-list-item-title>
+            </v-list-item>
+
             <v-list-item
                 @click="this.logout"
             >
@@ -221,6 +228,36 @@
 
       </v-navigation-drawer>
     </v-card>
+
+    <v-dialog
+        v-model="aboutDevelopersDialog"
+        width="600px"
+    >
+      <v-card>
+        <v-card-title class="grey">
+          <span class="text-h5 white--text">About Developers</span>
+        </v-card-title>
+        <v-card-text class="text-right">
+          <p class="d-flex align-center justify-center">
+            <v-img src="../src/assets/esite_logo.png" max-width="300" max-height="112" class="my-12"></v-img>
+          </p>
+          <h2>
+            شركة الموقع لتقنية المعلومات، شركة عراقية مختصة في تطوير البرمجيات، و لهم الخبرة في مجال تطوير البرمجيات المخصصة لمدة تزيد عن ١٠ سنوات، و تقدم خدماتها لمختلف انواع الاعمال، وتتميز اعمالهم بالجودة العالية و استخدام احدث التقنيات في مجالات الويب و الموبايل. لا تتردد بالاتصال بنا على
+            info@esite-iq.com أو +9647901611249
+          </h2>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="green darken-1"
+              text
+              @click="aboutDevelopersDialog = false"
+          >
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 <!--    END Navbar -->
 
 <!--    START Login Authentication-->
@@ -248,7 +285,8 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    loading_Dialog: false
+    loading_Dialog: false,
+    aboutDevelopersDialog: false
   }),
 
   components: {

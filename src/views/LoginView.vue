@@ -17,8 +17,8 @@
         <v-row align="center" justify="center">
 
           <v-col cols="12" sm="8" md="4">
-            <div class="justify-center align-center align-content-center d-flex flex pb-12 mb-6">
-              <v-img contain class="printlogo mb-3" src="../assets/esite_logo.png" />
+            <div class="justify-center align-center align-content-center d-flex flex mb-6">
+              <v-img contain class="printlogo" src="../assets/prs_main_logo.png" />
             </div>
             <v-card class="elevation-12">
               <v-card-text>
@@ -67,6 +67,10 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-footer fixed class="transparent">
+        <v-spacer></v-spacer>
+        <v-img src="../assets/esite_logo.png" max-height="60" max-width="120"></v-img>
+      </v-footer>
       <v-main class="mainbg">
       </v-main>
     </v-card>
