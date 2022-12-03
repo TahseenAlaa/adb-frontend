@@ -28,8 +28,8 @@
           </template>
 
           <template v-slot:item.item_type="{ item }">
-            <span v-if="item.drug_type === 0">Drugs</span>
-            <span v-if="item.drug_type === 1">Assets</span>
+            <span v-if="item.item_type === 0">Drugs</span>
+            <span v-if="item.item_type === 1">Assets</span>
           </template>
 
           <template v-slot:top>
@@ -359,15 +359,15 @@ export default {
     },
 
     save () {
-      this.loading_Dialog = true
-      // if (
-      //     !this.editedItem.title ||
-      //     !this.editedItem.drug_type ||
-      //     !this.editedItem.item_type
-      // ) {
-      //   this.required_fields_Dialog = true
-      // } else {
+      if (
+          this.editedItem.title === '' ||
+          this.editedItem.drug_type === '' ||
+          this.editedItem.item_type === ''
+      ) {
+        this.required_fields_Dialog = true
+      } else {
         if (this.editedIndex > -1) {
+          this.loading_Dialog = true
           // START Edit Item
           httpPOST('api/v1/drugs/update', {
             id: this.editedItem.id,
@@ -414,8 +414,8 @@ export default {
           });
           // END Add New Item
         }
-      //   this.close()
-      // }
+        this.close()
+      }
     },
 
     // START Fetch All drugs
