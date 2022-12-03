@@ -1,7 +1,17 @@
 <template>
-  <DoctorCompo
-      :patient_history_uuid="patient_history_uuid"
-  ></DoctorCompo>
+  <v-container class="mb-12" fluid>
+    <DoctorCompo
+        :patient_history_uuid="patient_history_uuid"
+    ></DoctorCompo>
+
+    <v-btn
+        @click="$router.go(-1)"
+        class="deep-purple white--text"
+    >
+      <v-icon size="30">mdi-chevron-left</v-icon>
+      Back
+    </v-btn>
+  </v-container>
 </template>
 
 <script>
