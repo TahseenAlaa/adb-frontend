@@ -14,11 +14,13 @@
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
         <v-spacer></v-spacer>
+        <img src="./assets/prs_logo.png" class="px-4" alt="Logo">
         <v-toolbar-title
             @click="$router.push({name: 'home'})"
             style="cursor: pointer"
         >
-          <h2>Alhasan Diabetes Center</h2></v-toolbar-title>
+            <h3>Al-Hasan Metabolism, Endocrine & Diabetes Center (HMEDC)</h3>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-icon
