@@ -97,6 +97,7 @@
                 :disabled="!valid"
             >Calculate</v-btn>
           </v-col>
+
           <v-spacer></v-spacer>
           <v-col cols="2">
             <v-text-field
@@ -135,7 +136,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
-
+        <small>Note:// Mid-Parent Height will not calculated if gender is not specified.</small>
       </v-card>
 
       <v-row dense align="center" justify="center">
@@ -412,6 +413,13 @@ export default {
     httpGET('api/v1/patients/show-patient-history/' + this.patient_uuid)
         .then(({data}) => {
           this.patient_history_uuid = data.data.uuid
+          this.weight = data.data.weight
+          this.height = data.data.height
+          this.waist_circumference = data.data.waist_circumference
+          this.hip = data.data.hip
+          this.bmi = data.data.bmi
+          this.blood_pressure_systolic = data.data.blood_pressure_systolic
+          this.blood_pressure_diastolic = data.data.blood_pressure_diastolic
           this.father_height = data.data.father_height
           this.mother_height = data.data.mother_height
           this.mid_parent_height = data.data.mid_height

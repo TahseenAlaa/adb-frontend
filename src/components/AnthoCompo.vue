@@ -88,17 +88,18 @@
           ></v-text-field>
         </v-col>
         <v-col cols="4">
-<!--          <v-radio-group-->
-<!--              v-model="gender"-->
-<!--              dense-->
-<!--              row-->
-<!--              readonly-->
-<!--              hint="ReadOnly"-->
-<!--              persistent-hint-->
-<!--          >-->
-<!--            <v-radio value="Male" label="Male"></v-radio>-->
-<!--            <v-radio value="Female" label="Female"></v-radio>-->
-<!--          </v-radio-group>-->
+          <v-radio-group
+              v-model="gender"
+              dense
+              row
+              readonly
+              persistent-hint
+              hint="ReadOnly"
+          >
+            <v-radio v-if="gender === 0" label="Male" :value="gender"></v-radio>
+            <v-radio v-if="gender === 1" label="Female" :value="gender"></v-radio>
+            <v-radio v-if="gender === null" label="Gender Not Found"></v-radio>
+          </v-radio-group>
         </v-col>
         <v-col cols="2">
 
@@ -182,7 +183,7 @@ export default {
           this.bmi = data.patient_latest_history.bmi
           this.father_height = data.patient_latest_history.father_height
           this.mother_height = data.patient_latest_history.mother_height
-          this.gender = data.patient_latest_history.gender
+          this.gender = data.patient_info.gender
           this.mid_parent_height = data.patient_latest_history.mid_height
           this.blood_pressure_systolic = data.patient_latest_history.blood_pressure_systolic
           this.blood_pressure_diastolic = data.patient_latest_history.blood_pressure_diastolic
