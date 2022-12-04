@@ -28,7 +28,7 @@
               <th>Notes</th>
               <th>Sampling</th>
               <th>Result</th>
-              <th class="text-left">Range (Min - Max)</th>
+              <th>Value</th>
               <th>Date of Adding Record</th>
               <th>Doctor's Name</th>
               <th>Result By</th>
@@ -45,17 +45,8 @@
               <td v-if="test.sampling_status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-check-circle</v-icon> Done</span></td>
               <td v-if="test.result === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
               <td v-if="test.result"><span class=" px-2 py-2 rounded-xl">{{ test.result }}</span></td>
-              <td>
-                <v-icon
-                    v-if="test.test_groups.gender === 'Male'"
-                    size="20"
-                >mdi-gender-male</v-icon>
-                <v-icon
-                    v-else-if="test.test_groups.gender === 'Female'"
-                    size="20"
-                >mdi-gender-female</v-icon>
-                {{ test.test_groups.min_range + ' - ' + test.test_groups.max_range + ' ' + test.test_groups.measurement_unit }}
-              </td>
+              <td><span v-if="test.test_groups.value" class=" px-2 py-2 rounded-xl">{{ test.test_groups.value }}</span></td>
+
               <td>{{ humanReadableDateConverter(test.test_groups.created_at) }}</td>
               <td>{{ test.updated_user? test.updated_user.full_name : test.user.full_name }}</td>
               <td>{{ test.result_user? test.result_user.full_name : null }}</td>

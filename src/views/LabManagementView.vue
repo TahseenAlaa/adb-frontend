@@ -22,22 +22,6 @@
             <span>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</span>
           </template>
 
-          <template v-slot:item.gender="{ item }">
-            <span>
-              <v-icon
-                  v-if="item.gender === 'Male'"
-                  size="20"
-                  color="blue"
-              >mdi-gender-male</v-icon>
-            <v-icon
-                v-else-if="item.gender === 'Female'"
-                size="20"
-                color="purple"
-            >mdi-gender-female</v-icon>
-            {{ item.min_range + ' - ' + item.max_range + ' ' + item.measurement_unit }}
-            </span>
-          </template>
-
           <template v-slot:top>
             <v-toolbar
                 flat
@@ -107,46 +91,15 @@
                         </v-col>
                       </v-row>
                       <v-row dense>
-                        <v-col cols="2">
+                        <v-col cols="12">
                           <v-text-field
-                              label="Min Range"
-                              v-model="editedItem.min_range"
+                              label="Value"
+                              v-model="editedItem.value"
                               outlined
                               dense
-                              :rules="[rules.required, numberRule]"
-                          >
-                          </v-text-field>
-                        </v-col>
-                        <v-col cols="2">
-                          <v-text-field
-                              label="Max Range"
-                              v-model="editedItem.max_range"
-                              outlined
-                              dense
-                              :rules="[rules.required, numberRule]"
-                          >
-                          </v-text-field>
-                        </v-col>
-                        <v-col cols="4">
-                          <v-text-field
-                              label="Measurement Unit"
-                              v-model="editedItem.measurement_unit"
-                              outlined
-                              dense
-                              :rules="[rules.required, nameRule]"
-                          >
-                          </v-text-field>
-                        </v-col>
-                        <v-col cols="4">
-                          <v-radio-group
-                              v-model="editedItem.gender"
-                              dense
-                              row
                               :rules="[rules.required]"
                           >
-                            <v-radio value="Male" label="Male"></v-radio>
-                            <v-radio value="Female" label="Female"></v-radio>
-                          </v-radio-group>
+                          </v-text-field>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -259,7 +212,7 @@ export default {
         { text: '#', value: 'id', sortable: false, align: 'start' },
         { text: 'Group', value: 'test_group', sortable: true },
         { text: 'Name', value: 'test_name', sortable: true },
-        { text: 'Gender', value: 'gender', sortable: false },
+        { text: 'Value', value: 'value', sortable: false },
         { text: 'Created By', value: 'created_by' },
         { text: 'Created At', value: 'created_at', sortable: false },
         { text: 'Action', value: 'actions', sortable: false },
@@ -269,19 +222,13 @@ export default {
         id: '',
         test_name: '',
         test_group: '',
-        min_range: '',
-        max_range: '',
-        measurement_unit: '',
-        gender: '',
+        value: ''
       },
       defaultItem: {
         id: '',
         test_name: '',
         test_group: '',
-        min_range: '',
-        max_range: '',
-        measurement_unit: '',
-        gender: '',
+        value: ''
       },
       temp: {
         deleteId: null
@@ -317,7 +264,6 @@ export default {
         return null
       }
     },
-
 
     editItem (item) {
       this.editedIndex = this.testGroups.indexOf(item)
@@ -379,10 +325,7 @@ export default {
       if (
           !this.editedItem.test_group ||
           !this.editedItem.test_name ||
-          !this.editedItem.min_range ||
-          !this.editedItem.max_range ||
-          !this.editedItem.measurement_unit ||
-          !this.editedItem.gender
+          !this.editedItem.value
       ) {
         this.required_fields_Dialog = true
       } else {
@@ -392,10 +335,7 @@ export default {
             id: this.editedItem.id,
             test_group: this.editedItem.test_group,
             test_name: this.editedItem.test_name,
-            min_range: this.editedItem.min_range,
-            max_range: this.editedItem.max_range,
-            unit: this.editedItem.measurement_unit,
-            gender: this.editedItem.gender,
+            value: this.editedItem.value
           })
               .then(({data}) => {
                 this.testGroups = data.data
@@ -416,10 +356,7 @@ export default {
           httpPOST('api/v1/lab-test-groups/store', {
             test_group: this.editedItem.test_group,
             test_name: this.editedItem.test_name,
-            min_range: this.editedItem.min_range,
-            max_range: this.editedItem.max_range,
-            unit: this.editedItem.measurement_unit,
-            gender: this.editedItem.gender,
+            value: this.editedItem.value
           })
               .then(({data}) => {
                 this.testGroups = data.data
