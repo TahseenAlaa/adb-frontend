@@ -2,7 +2,7 @@
   <v-container class="mt-16" fluid>
     <v-form v-model="valid" lazy-validation ref="form">
       <v-card class="px-6">
-        <v-card-title>Anthropology Measurement</v-card-title>
+        <v-card-title>Anthropometric Measurements</v-card-title>
         <v-card-subtitle>Enter the data of the patient</v-card-subtitle>
         <v-card-title class="subtitle-2">Physical Information</v-card-title>
 
