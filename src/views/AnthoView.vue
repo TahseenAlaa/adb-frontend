@@ -375,14 +375,14 @@ export default {
     // END Rules
 
     postAnthoData() {
-      if (
-          !this.weight ||
-          !this.height ||
-          !this.weight.trim() ||
-          !this.height.trim()
-      ) {
-        this.required_fields_Dialog = true
-      } else {
+      // if (
+      //     !this.weight ||
+      //     !this.height ||
+      //     !this.weight.trim() ||
+      //     !this.height.trim()
+      // ) {
+      //   this.required_fields_Dialog = true
+      // } else {
         this.loading = true
         // this.valid = false
         httpPOST('api/v1/patients/update-patient-history-by-antho/' + this.patient_history_uuid, {
@@ -403,9 +403,11 @@ export default {
         }).catch(({response:{data}})=>{
           this.errorAlert = true
           console.log(data)
+        }).finally(() => {
+          this.loading = false
         });
-        this.loading = false
-      }
+      //   this.loading = false
+      // }
     },
   },
   created() {

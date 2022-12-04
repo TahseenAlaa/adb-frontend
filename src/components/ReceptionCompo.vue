@@ -152,6 +152,7 @@
                 <v-radio v-if="gender === null" label="Gender Not Found"></v-radio>
               </div>
 
+<!--              TODO Gender selection issue -->
               <div v-if="!patient_read_only">
                 <v-radio label="Male" value="0"></v-radio>
                 <v-radio label="Female" value="1"></v-radio>
