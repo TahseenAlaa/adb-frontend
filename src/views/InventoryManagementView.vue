@@ -68,16 +68,16 @@
                     <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                     <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                     <td>
-<!--                      <v-btn-->
-<!--                          x-small-->
-<!--                          color="teal darken-1"-->
-<!--                          dark-->
-<!--                          class="px-1 mx-1"-->
-<!--                          @click="editInputDocument(item.id)"-->
-<!--                      >-->
-<!--                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
-<!--                        Edit-->
-<!--                      </v-btn>-->
+                      <v-btn
+                          x-small
+                          color="teal darken-1"
+                          dark
+                          class="px-1 mx-1"
+                          @click="viewInputDialogPopup(item.id)"
+                      >
+                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                        View
+                      </v-btn>
                       <v-btn
                           x-small
                           color="deep-orange darken-1 white--text"
@@ -145,16 +145,16 @@
                     <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                     <td>{{ item.updated_user? item.updated_user.full_name : item.user.full_name }}</td>
                     <td>
-<!--                      <v-btn-->
-<!--                          x-small-->
-<!--                          color="teal darken-1"-->
-<!--                          dark-->
-<!--                          class="px-1 mx-1"-->
-<!--                          @click="editOuputDocument(item.id)"-->
-<!--                      >-->
-<!--                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>-->
-<!--                        Edit-->
-<!--                      </v-btn>-->
+                      <v-btn
+                          x-small
+                          color="teal darken-1"
+                          dark
+                          class="px-1 mx-1"
+                          @click="viewOutputDialogPopup(item.id)"
+                      >
+                        <v-icon size="20" class="pr-1">mdi-lead-pencil</v-icon>
+                        View
+                      </v-btn>
                       <v-btn
                           x-small
                           color="deep-orange darken-1 white--text"
@@ -214,6 +214,282 @@
     </v-row>
     <!--              END Delete Dialog -->
 
+
+    <!--  START view input document  -->
+    <v-row justify="center">
+      <v-dialog
+          persistent
+          max-width="1256"
+          v-model="viewInputDialog"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            View Input Document
+          </v-card-title>
+          <v-card-text class="text-center">
+            <v-card-text>
+              <v-card>
+                <v-card-text>
+                  <v-row dense>
+                    <v-col cols="3">
+                      <v-select
+                          v-model="provider"
+                          :items="providers"
+                          label="Provider"
+                          item-text="title"
+                          item-value="id"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-select>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="source_reference"
+                          label="Source Reference"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="source_name"
+                          label="Source Name"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="source_job_title"
+                          label="Source Job title"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense>
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="destination_reference"
+                          label="Destination Reference"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="destination_job_title"
+                          label="Destination Job Title"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-select
+                          v-model="final_approval"
+                          :items="[
+                        {
+                          text: 'Yes',
+                          value: 1
+                        },
+                        {
+                          text: 'No',
+                          value: 0
+                        },
+                    ]"
+                          label="Final Approval"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-select>
+                    </v-col>
+
+                    <v-col
+                        cols="3"
+                    >
+                      <v-text-field
+                          v-model="final_approval_date"
+                          label="Final Approval At"
+                          prepend-inner-icon="mdi-calendar"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      >
+                      </v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense>
+
+                    <v-col cols="12">
+                      <v-text-field
+                          v-model="final_approval_by"
+                          label="Final Approval By"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-card-text>
+
+            <v-card-text class="mb-12">
+              <v-card>
+                <v-card-text>
+                  <v-row
+                      dense
+                      v-for="(item,k) in newItem" :key="k"
+                  >
+                    <v-col cols="2">
+                      <v-select
+                          v-model="item.drug_id"
+                          :items="drugs"
+                          label="Item Name"
+                          item-text="title"
+                          item-value="id"
+                          outlined
+                          dense
+                      ></v-select>
+                    </v-col>
+
+                    <v-col cols="2">
+                      <v-text-field
+                          v-model="item.batch"
+                          label="Batch Number"
+                          outlined
+                          dense
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                        cols="2"
+                    >
+                      <v-menu
+                          v-model="item.dialog.expire"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                              v-model="item.expire_date"
+                              label="Expire Date"
+                              prepend-inner-icon="mdi-calendar"
+                              readonly
+                              v-bind="attrs"
+                              v-on="on"
+                              outlined
+                              dense
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="item.expire_date"
+                            @input="item.dialog.expire = false"
+                        ></v-date-picker>
+                      </v-menu>
+                    </v-col>
+
+                    <v-col cols="2">
+                      <v-text-field
+                          v-model="item.quantity"
+                          label="Quantity"
+                          outlined
+                          dense
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="4">
+                      <v-text-field
+                          v-model="item.notes"
+                          label="Notes"
+                          outlined
+                          dense
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-card-text>
+
+
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                dark
+                class="deep-grey"
+                @click="viewInputDialog = false"
+            >
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!--  END view input document    -->
+
+
+    <!--  START view output document  -->
+    <v-row justify="center">
+      <v-dialog
+          persistent
+          max-width="230"
+          v-model="viewOutputDialog"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            View Output Document
+          </v-card-title>
+          <v-card-text class="text-center">
+            Content HERE
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn
+                dark
+                class="deep-grey"
+                @click="viewOutputDialog = false"
+            >
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <!--  END view output document    -->
+
     <!--    START Loading Dialog-->
     <LoadingDialogCompo :loading_-dialog="loading_Dialog"></LoadingDialogCompo>
     <!--    END Loading Dialog-->
@@ -254,7 +530,9 @@ export default {
           temp_id: null,
           active: null
         }
-      }
+      },
+      viewInputDialog: false,
+      viewOutputDialog: false,
     }
   },
 
@@ -265,6 +543,17 @@ export default {
       this.dialogs.delete.title = $title
       this.dialogs.delete.temp_id = $id
       this.dialogs.delete.active = true
+    },
+
+    // START view dialog
+    viewInputDialogPopup($id) {
+      this.viewInputDialog = true
+      console.log($id)
+    },
+
+    viewOutputDialogPopup($id) {
+      this.viewOutputDialog = true
+      console.log($id)
     },
 
     deleteDialogAction() {
