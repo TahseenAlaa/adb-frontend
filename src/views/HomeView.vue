@@ -63,9 +63,8 @@
         max-height="250"
         min-width="250"
         min-height="250"
+        @click="$router.push({path: '/search/doctors'})"
     >
-      <v-col>
-        <router-link to="/search/doctors" class="text-decoration-none black--text">
         <v-img
             src="../assets/doctors.svg"
             max-width="160"
@@ -77,8 +76,6 @@
 
             <h3 class=" text-uppercase mt-2">Doctors</h3>
         </v-card-actions>
-        </router-link>
-      </v-col>
     </v-card>
   </v-row>
 
@@ -93,9 +90,9 @@
           max-height="250"
           min-width="250"
           min-height="250"
+          @click="$router.push({path: '/search/lab'})"
+
       >
-        <v-col>
-          <router-link to="/search/lab" class="text-decoration-none black--text">
           <v-img
               src="../assets/lab.svg"
               max-width="160"
@@ -107,8 +104,7 @@
             <h3 class=" text-uppercase mt-2">Medical Lab</h3>
 
           </v-card-actions>
-          </router-link>
-        </v-col>
+
       </v-card>
 
       <v-card
@@ -118,9 +114,10 @@
           max-height="250"
           min-width="250"
           min-height="250"
+          @click="$router.push({path: '/search/pharmacy'})"
+
       >
-        <v-col>
-          <router-link to="/search/pharmacy" class="text-decoration-none black--text">
+
           <v-img
               src="../assets/pharmacy.svg"
               max-width="160"
@@ -132,8 +129,7 @@
             <h3 class=" text-uppercase mt-2">Pharmacy</h3>
 
           </v-card-actions>
-          </router-link>
-        </v-col>
+
       </v-card>
     </v-row>
   </v-container>

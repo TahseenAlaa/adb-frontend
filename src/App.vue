@@ -2,7 +2,7 @@
   <v-app>
     <link rel="icon" href="#">
 <!--    START Navbar -->
-    <v-card
+    <div
         v-if="isAuthenticated"
         class="mx-auto overflow-hidden fill-height rounded-0"
         style="min-width: 100%;"
@@ -45,6 +45,7 @@
         <router-view />
       </v-main>
 
+      <!--
       <v-footer fixed padless>
         <v-container class="fill-height">
           <v-divider></v-divider>
@@ -60,16 +61,17 @@
           </v-row>
         </v-container>
       </v-footer>
+      -->
 <!--      END Content Here-->
       <v-navigation-drawer
           v-model="drawer"
           absolute
           temporary
-          width="264px"
+          width="364px"
       >
         <v-list
             nav
-            dense
+
         >
           <v-list-item-group
               v-model="group"
@@ -227,7 +229,7 @@
         </v-list>
 
       </v-navigation-drawer>
-    </v-card>
+    </div>
 
     <v-dialog
         v-model="aboutDevelopersDialog"
