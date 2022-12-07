@@ -232,23 +232,20 @@
                 <v-card-text>
                   <v-row dense>
                     <v-col cols="3">
-                      <v-select
-                          v-model="provider"
-                          :items="providers"
+                      <v-text-field
+                          v-model="viewInput.provider"
                           label="Provider"
-                          item-text="title"
-                          item-value="id"
                           outlined
                           dense
                           readonly
                           persistent-hint
                           hint="ReadOnly"
-                      ></v-select>
+                      ></v-text-field>
                     </v-col>
 
                     <v-col cols="3">
                       <v-text-field
-                          v-model="source_reference"
+                          v-model="viewInput.source_reference"
                           label="Source Reference"
                           outlined
                           dense
@@ -260,7 +257,7 @@
 
                     <v-col cols="3">
                       <v-text-field
-                          v-model="source_name"
+                          v-model="viewInput.source_name"
                           label="Source Name"
                           outlined
                           dense
@@ -272,7 +269,7 @@
 
                     <v-col cols="3">
                       <v-text-field
-                          v-model="source_job_title"
+                          v-model="viewInput.source_job_title"
                           label="Source Job title"
                           outlined
                           dense
@@ -286,7 +283,7 @@
                   <v-row dense>
                     <v-col cols="3">
                       <v-text-field
-                          v-model="destination_reference"
+                          v-model="viewInput.destination_reference"
                           label="Destination Reference"
                           outlined
                           dense
@@ -298,7 +295,7 @@
 
                     <v-col cols="3">
                       <v-text-field
-                          v-model="destination_job_title"
+                          v-model="viewInput.destination_job_title"
                           label="Destination Job Title"
                           outlined
                           dense
@@ -310,7 +307,7 @@
 
                     <v-col cols="3">
                       <v-select
-                          v-model="final_approval"
+                          v-model="viewInput.final_approval"
                           :items="[
                         {
                           text: 'Yes',
@@ -334,7 +331,7 @@
                         cols="3"
                     >
                       <v-text-field
-                          v-model="final_approval_date"
+                          v-model="viewInput.final_approval_date"
                           label="Final Approval At"
                           prepend-inner-icon="mdi-calendar"
                           outlined
@@ -351,7 +348,7 @@
 
                     <v-col cols="12">
                       <v-text-field
-                          v-model="final_approval_by"
+                          v-model="viewInput.final_approval_by"
                           label="Final Approval By"
                           outlined
                           dense
@@ -370,57 +367,45 @@
                 <v-card-text>
                   <v-row
                       dense
-                      v-for="(item,k) in newItem" :key="k"
+                      v-for="item in viewInput.items"
                   >
                     <v-col cols="2">
-                      <v-select
-                          v-model="item.drug_id"
-                          :items="drugs"
+                      <v-text-field
+                          v-model="item.drugs.title"
                           label="Item Name"
-                          item-text="title"
-                          item-value="id"
                           outlined
                           dense
-                      ></v-select>
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
                     </v-col>
 
                     <v-col cols="2">
                       <v-text-field
-                          v-model="item.batch"
+                          v-model="item.batch_no"
                           label="Batch Number"
                           outlined
                           dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
                       ></v-text-field>
                     </v-col>
 
                     <v-col
                         cols="2"
                     >
-                      <v-menu
-                          v-model="item.dialog.expire"
-                          :close-on-content-click="false"
-                          :nudge-right="40"
-                          transition="scale-transition"
-                          offset-y
-                          min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                              v-model="item.expire_date"
-                              label="Expire Date"
-                              prepend-inner-icon="mdi-calendar"
-                              readonly
-                              v-bind="attrs"
-                              v-on="on"
-                              outlined
-                              dense
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker
-                            v-model="item.expire_date"
-                            @input="item.dialog.expire = false"
-                        ></v-date-picker>
-                      </v-menu>
+                      <v-text-field
+                        v-model="item.expire_date"
+                        label="Expire Date"
+                        prepend-inner-icon="mdi-calendar"
+                        outlined
+                        dense
+                        readonly
+                        persistent-hint
+                        hint="ReadOnly"
+                      ></v-text-field>
                     </v-col>
 
                     <v-col cols="2">
@@ -429,6 +414,9 @@
                           label="Quantity"
                           outlined
                           dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
                       ></v-text-field>
                     </v-col>
 
@@ -438,6 +426,9 @@
                           label="Notes"
                           outlined
                           dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -533,6 +524,18 @@ export default {
       },
       viewInputDialog: false,
       viewOutputDialog: false,
+      viewInput: {
+        provider: null,
+        source_reference: null,
+        source_name: null,
+        source_job_title: null,
+        destination_reference: null,
+        destination_job_title: null,
+        final_approval: null,
+        final_approval_date: null,
+        final_approval_by: null,
+        items: []
+      }
     }
   },
 
@@ -547,8 +550,35 @@ export default {
 
     // START view dialog
     viewInputDialogPopup($id) {
+      this.loading_Dialog = false
       this.viewInputDialog = true
-      console.log($id)
+      // console.log($id)
+
+      httpPOST('api/v1/documents/show-input-document-with-details', {
+        doc_id: $id
+      })
+          .then(({data}) => {
+            this.viewInput.provider = data.data.source.title
+            this.viewInput.source_reference = data.data.source_ref
+            this.viewInput.source_name = data.data.source_name
+            this.viewInput.source_job_title = data.data.source_job_title
+            this.viewInput.destination_reference = data.data.destination_ref
+            this.viewInput.destination_job_title = data.data.destination_job_title
+            this.viewInput.final_approval = data.data.final_approval
+            this.viewInput.final_approval_date = this.humanReadableDateConverter(data.data.approved_at)
+            this.viewInput.final_approval_by = data.data.approved_by
+            this.viewInput.items = data.data.items
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
     },
 
     viewOutputDialogPopup($id) {
@@ -616,20 +646,6 @@ export default {
       });
     },
     // END Delete Output Document
-
-
-    // START Edit Input Documents
-    editInputDocument($item) {
-      this.$router.push({path: '/edit-input-document/' + $item})
-    },
-    // END Edit Input Documents
-
-    // START Edit Output Documents
-    editOuputDocument($item) {
-      this.$router.push({path: '/edit-output-document/' + $item})
-    },
-    // END Edit Output Documents
-
 
     humanReadableDateConverter (date) {
       if (date) {
