@@ -776,7 +776,7 @@ export default {
       this.viewInputDialog = true
       // console.log($id)
 
-      httpPOST('api/v1/documents/show-input-document-with-details', {
+      httpPOST('api/v1/documents/show-document-with-details', {
         doc_id: $id
       })
           .then(({data}) => {
@@ -808,7 +808,7 @@ export default {
       this.viewOutputDialog = true
       // console.log($id)
 
-      httpPOST('api/v1/documents/show-input-document-with-details', {
+      httpPOST('api/v1/documents/show-document-with-details', {
         doc_id: $id
       })
           .then(({data}) => {
