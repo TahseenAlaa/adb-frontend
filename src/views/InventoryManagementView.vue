@@ -457,7 +457,7 @@
     <v-row justify="center">
       <v-dialog
           persistent
-          max-width="230"
+          max-width="1256"
           v-model="viewOutputDialog"
       >
         <v-card>
@@ -465,7 +465,216 @@
             View Output Document
           </v-card-title>
           <v-card-text class="text-center">
-            Content HERE
+            <v-card-text>
+              <v-card>
+                <v-card-text>
+                  <v-row dense>
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="viewOutput.source_reference"
+                          label="Source Reference"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="viewOutput.source_name"
+                          label="Source Name"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="viewOutput.source_job_title"
+                          label="Source Job title"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="viewOutput.destination_name"
+                          label="Destination Name"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense>
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="viewOutput.destination_reference"
+                          label="Destination Reference"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-text-field
+                          v-model="viewOutput.destination_job_title"
+                          label="Destination Job Title"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="3">
+                      <v-select
+                          v-model="viewOutput.final_approval"
+                          :items="[
+                        {
+                          text: 'Yes',
+                          value: 1
+                        },
+                        {
+                          text: 'No',
+                          value: 0
+                        },
+                    ]"
+                          label="Final Approval"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-select>
+                    </v-col>
+
+                    <v-col
+                        cols="3"
+                    >
+                      <v-text-field
+                          v-model="viewOutput.final_approval_date"
+                          label="Final Approval At"
+                          prepend-inner-icon="mdi-calendar"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      >
+                      </v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row dense>
+
+                    <v-col cols="12">
+                      <v-text-field
+                          v-model="viewOutput.final_approval_by"
+                          label="Final Approval By"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-card-text>
+
+            <v-card-text class="mb-12">
+              <v-card>
+                <v-card-text>
+                  <v-row
+                      dense
+                      v-for="item in viewOutput.items"
+                  >
+                    <v-col cols="2">
+                      <v-text-field
+                          v-model="item.drugs.title"
+                          label="Item Name"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="2">
+                      <v-text-field
+                          v-model="item.batch_no"
+                          label="Batch Number"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                        cols="2"
+                    >
+                      <v-text-field
+                          v-model="item.expire_date"
+                          label="Expire Date"
+                          prepend-inner-icon="mdi-calendar"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="2">
+                      <v-text-field
+                          v-model="item.quantity"
+                          label="Quantity"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="4">
+                      <v-text-field
+                          v-model="item.notes"
+                          label="Notes"
+                          outlined
+                          dense
+                          readonly
+                          persistent-hint
+                          hint="ReadOnly"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-card-text>
+
+
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
             <v-btn
@@ -496,7 +705,7 @@
 </template>
 
 <script>
-import {httpDELETE, httpGET, httpPOST} from "@/utils/utils";
+import {httpGET, httpPOST} from "@/utils/utils";
 import LoadingDialogCompo from "@/components/LoadingDialogCompo";
 import ErrorCompo from "@/components/ErrorCompo";
 
@@ -526,6 +735,19 @@ export default {
       viewOutputDialog: false,
       viewInput: {
         provider: null,
+        source_reference: null,
+        source_name: null,
+        source_job_title: null,
+        destination_reference: null,
+        destination_job_title: null,
+        final_approval: null,
+        final_approval_date: null,
+        final_approval_by: null,
+        items: []
+      },
+      viewOutput: {
+        provider: null,
+        destination_name: null,
         source_reference: null,
         source_name: null,
         source_job_title: null,
@@ -582,8 +804,35 @@ export default {
     },
 
     viewOutputDialogPopup($id) {
+      this.loading_Dialog = false
       this.viewOutputDialog = true
-      console.log($id)
+      // console.log($id)
+
+      httpPOST('api/v1/documents/show-input-document-with-details', {
+        doc_id: $id
+      })
+          .then(({data}) => {
+            this.viewOutput.destination_name = data.data.destination_name
+            this.viewOutput.source_reference = data.data.source_ref
+            this.viewOutput.source_name = data.data.source_name
+            this.viewOutput.source_job_title = data.data.source_job_title
+            this.viewOutput.destination_reference = data.data.destination_ref
+            this.viewOutput.destination_job_title = data.data.destination_job_title
+            this.viewOutput.final_approval = data.data.final_approval
+            this.viewOutput.final_approval_date = this.humanReadableDateConverter(data.data.approved_at)
+            this.viewOutput.final_approval_by = data.data.approved_by
+            this.viewOutput.items = data.data.items
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
     },
 
     deleteDialogAction() {
