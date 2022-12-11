@@ -380,7 +380,7 @@ export default {
     scrollToResul() {
       setTimeout(() => {
         document.getElementById("ResultsContainer").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-      }, "1000")
+      }, 1000)
 
     },
     humanReadableDateConverter (date) {
