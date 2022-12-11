@@ -1085,6 +1085,7 @@
         <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
           <ReceptionCompo
+              ref="reception_compo_ref"
               :patient_uuid="patient_uuid"
           >
 
@@ -1190,7 +1191,7 @@
       <v-btn
           class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
       >
-        <v-col @click="postPatientData">
+        <v-col @click="storeData">
           <v-icon size="60">mdi-content-save</v-icon>
           <h3 class="text-capitalize">SAVE CHANGES</h3>
         </v-col>
@@ -1500,6 +1501,18 @@ export default {
         console.log(data)
       });
       e.preventDefault()
+    },
+
+    storeData() {
+      this.storePatientUpdatedInfo()
+      this.postPatientData()
+    },
+
+    storePatientUpdatedInfo() {
+      // Call the update patient function from the Reception Component
+      this.$nextTick(() => {
+        this.$refs.reception_compo_ref.storePatientUpdatedInfo()
+      })
     },
 
     calcBMI() {
