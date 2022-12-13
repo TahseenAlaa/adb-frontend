@@ -1128,7 +1128,6 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn
               class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
-              :loading="loading"
               @click="historyPopup"
           >
             <v-col @click="">
