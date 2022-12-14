@@ -74,7 +74,6 @@
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
-                :loading="loading"
                 @click="historyPopup"
             >
               <v-col @click="">
@@ -271,7 +270,9 @@ export default {
     // END post result data
 
     numberRule: v  => {
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
       return 'Numbers only accepted!';
     }

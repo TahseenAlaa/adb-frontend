@@ -800,7 +800,9 @@ export default {
   methods: {
 
     numberRule: v  => {
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
       return 'Number Only Accepted';
     },

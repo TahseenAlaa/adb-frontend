@@ -350,7 +350,6 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                         class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
-                        :loading="loading"
                         @click="historyPopup"
                     >
                       <v-col @click="">
@@ -750,8 +749,10 @@ export default {
     },
 
     numberRule: v => {
-      if (v.trim() === '' || null) return true;
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (v.trim() === '' || null) return true;
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
       return 'Number Only Accepted';
     },

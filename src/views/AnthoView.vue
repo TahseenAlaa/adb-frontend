@@ -353,22 +353,30 @@ export default {
 
     // START Rules
     numberRule: v  => {
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 0 && v <= 999) return true;
       return 'Number has to be between 0 and 999';
     },
     weightRule: v  => {
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 1 && v <= 300) return true;
       return 'Number has to be between 1 and 300';
     },
     heightRule: v  => {
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 1 && v <= 210) return true;
       return 'Number has to be between 1 and 210';
     },
     bloodPressureRule: v => {
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 0 && v <= 300) return true;
       return 'Number has to be between 0 and 300';
     },

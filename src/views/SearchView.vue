@@ -392,13 +392,17 @@ export default {
       }
     },
     numberRule: v  => {
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!isNaN(parseFloat(v)) && v >= 1 && v <= 1000000) return true;
       return 'Number Only Accepted';
     },
     phoneRule: v =>  {
       const pattern = /^0?7[0-9]{9}$/;
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!pattern.test(v)) return 'Wrong Phone Number Format';
     },
     nameRule: value =>  {
