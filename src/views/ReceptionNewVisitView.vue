@@ -11,7 +11,7 @@
         <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
         <v-expansion-panel-content>
           <ReceptionCompo
-              ref="reception_compo_ref"
+              ref="reception_compo_ref_new_visit"
               :patient_uuid="this.patient_uuid"
           ></ReceptionCompo>
         </v-expansion-panel-content>
@@ -175,7 +175,7 @@ export default {
     storePatientUpdatedInfo() {
       // Call the update patient function from the Reception Component
       this.$nextTick(() => {
-        this.$refs.reception_compo_ref.storePatientUpdatedInfo()
+        this.$refs.reception_compo_ref_new_visit.storePatientUpdatedInfo()
       })
     }
   },

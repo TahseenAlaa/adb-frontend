@@ -808,7 +808,9 @@ export default {
     },
     phoneRule: v =>  {
       const pattern = /^0?7[0-9]{9}$/;
-      if (!v.trim()) return true;
+      if (v !== null) {
+        if (!v.trim()) return true;
+      }
       if (!pattern.test(v)) return 'Wrong Phone Number Format';
     },
     nameRule: value =>  {
@@ -836,7 +838,7 @@ export default {
     },
 
     storePatientUpdatedInfo() {
-      httpPOST('api/v1/patients/update/', {
+      httpPOST('api/v1/patients/update', {
         patient_uuid: this.patient_uuid,
         full_name: this.full_name,
         phone: this.phone,
