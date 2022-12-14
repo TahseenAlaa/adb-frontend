@@ -368,6 +368,7 @@
                   <v-row
                       dense
                       v-for="item in viewInput.items"
+                      :key="item.id"
                   >
                     <v-col cols="2">
                       <v-text-field
@@ -606,6 +607,7 @@
                   <v-row
                       dense
                       v-for="item in viewOutput.items"
+                      :key="item.id"
                   >
                     <v-col cols="2">
                       <v-text-field
