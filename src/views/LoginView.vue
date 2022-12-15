@@ -113,7 +113,16 @@ export default {
         localStorage.setItem('esite_token', data['token'].toString())
         this.$store.commit('SET_TOKEN', data['token'].toString())
         this.signIn()
-        router.push({name: 'home'})
+        router.push({name: 'home'}).catch(err => {
+          // Ignore the vuex err regarding  navigating to the page they are already on.
+          if (
+              err.name !== 'NavigationDuplicated' &&
+              !err.message.includes('Avoided redundant navigation to current location')
+          ) {
+            // But print any other errors to the console
+            console.log(err)
+          }
+        });
       }).catch(({response:{data}})=>{
         this.errorMsg = data.message;
         this.showLoadingBtn = false;
