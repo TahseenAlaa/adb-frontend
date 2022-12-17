@@ -277,6 +277,16 @@
                       label="Quantity"
                       outlined
                       dense
+                      :rules="[rules.required,
+                          v => {
+                              if (v !== null) {
+                                if (v.trim() === '' || null) return true;
+                                if (!v.trim()) return true;
+                              }
+                              if (!isNaN(parseFloat(v)) && v >= 1 && v <= item.diff) return true;
+                              return 'Quantity Error!';
+                            },
+                          ]"
                   ></v-text-field>
                 </v-col>
 
