@@ -30,6 +30,7 @@
             <th>Date of Adding Record</th>
             <th>Doctor's Name</th>
             <th>Sampling By</th>
+            <th>Action</th>
           </tr>
           </thead>
           <tbody>
@@ -45,6 +46,17 @@
             <td>{{ humanReadableDateConverter(test.created_at) }}</td>
             <td>{{ test.user.full_name }}</td>
             <td>{{ test.sampling_user? test.sampling_user.full_name : null }}</td>
+            <td>
+              <v-btn
+                  class="px-2 py-2 deep-purple white--text"
+                  :loading="loading_state"
+                  :disabled="!!test.sampling_status"
+              >
+                <v-col @click="postSamplingData(test.id)">
+                  <h3 class="text-capitalize"><v-icon size="30" class="px-2">mdi-needle</v-icon>Confirm</h3>
+                </v-col>
+              </v-btn>
+            </td>
           </tr>
           </tbody>
         </template>
@@ -75,7 +87,6 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-<!--    START Save Button -->
     <v-row dense align="center" justify="center">
       <v-spacer></v-spacer>
       <!-- START History       -->
@@ -143,19 +154,8 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <!-- END History       -->
-      <v-btn
-          class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
-          :loading="loading_state"
-          :disabled="tests[0]? tests[0].sampling_status : null"
-      >
-        <v-col @click="postSamplingData">
-          <v-icon size="60">mdi-needle</v-icon>
-          <h3 class="text-capitalize">Confirmation Sampling</h3>
-        </v-col>
-      </v-btn>
     </v-row>
-<!--    END Save Button -->
+    <!-- END History       -->
   </v-container>
 </template>
 
@@ -205,12 +205,12 @@ export default {
     },
 
     // START Post Sampling Data
-    postSamplingData() {
+    postSamplingData($testId) {
       this.loading_state = true
 
       httpPOST('api/v1/lab-sampling/store', {
         patient_uuid: this.patient_uuid,
-        tests: this.tests,
+        test_id: $testId
       }).then(({data}) => {
         this.tests = data.data
         // console.log('Done!')
