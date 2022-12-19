@@ -7,29 +7,6 @@
         v-model="autoOpenPanel"
     >
 
-      <!--      START Reception Section -->
-      <v-expansion-panel>
-        <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <ReceptionCompo
-              :patient_history_uuid="patient_history_uuid"
-          ></ReceptionCompo>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <!--      END Reception Section -->
-
-      <!--      START Antho Section -->
-      <v-expansion-panel>
-        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <AnthoCompo
-              :patient_history_uuid="patient_history_uuid"
-          >
-          </AnthoCompo>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <!--      END Antho Section -->
-
       <!--      START Committee Approval Section -->
       <v-expansion-panel>
         <v-expansion-panel-header><h2>Committee Approval Section</h2></v-expansion-panel-header>
@@ -166,6 +143,30 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
       <!--      END Committee Approval Section -->
+
+      <!--      START Reception Section -->
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Patient Information</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <ReceptionCompo
+              :patient_history_uuid="patient_history_uuid"
+          ></ReceptionCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <!--      END Reception Section -->
+
+      <!--      START Antho Section -->
+      <v-expansion-panel>
+        <v-expansion-panel-header><h2>Antho</h2></v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <AnthoCompo
+              :patient_history_uuid="patient_history_uuid"
+          >
+          </AnthoCompo>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <!--      END Antho Section -->
+
     </v-expansion-panels>
   </v-container>
 </template>
@@ -184,7 +185,7 @@ export default {
   data() {
     return {
       patient_history_uuid: this.$route.params.patient_history_uuid,
-      autoOpenPanel: [2],
+      autoOpenPanel: [0],
       treatments: [],
       approveDialog: false,
       rejectionDialog: false,
