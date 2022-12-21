@@ -104,8 +104,14 @@
                       @click="approveDialog = false"
                       dark
                       class="deep-purple"
+                  >Close
+                  </v-btn>
+                  <v-btn
+                      @click="postApprovalData(1)"
+                      dark
+                      class="text-h6 green"
                   >
-                    Ok
+                    Approve
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -122,7 +128,7 @@
             >
               <v-card>
                 <v-card-title class="text-h6 red">
-                  Approve
+                  Reject
                 </v-card-title>
                 <v-card-text class="text-center pt-6 text-h6">
                   Are you sure to reject this request?
@@ -133,7 +139,13 @@
                       dark
                       class="deep-purple"
                   >
-                    Ok
+                    Close
+                  </v-btn>
+                  <v-btn
+                      @click="postApprovalData(0)"
+                      dark
+                      class="text-h6 red"
+                  >Reject
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -174,7 +186,7 @@
 <script>
 import ReceptionCompo from "@/components/ReceptionCompo";
 import AnthoCompo from "@/components/AnthoCompo";
-import {httpGET} from "@/utils/utils";
+import {httpGET, httpPOST} from "@/utils/utils";
 
 export default {
   name: "CommitteeApprovalConfirmView.vue",
@@ -198,6 +210,7 @@ export default {
       httpGET('api/v1/committee-approval/index')
           .then(({data}) => {
             this.treatments = data.data
+            console.log(data.data)
           }).catch(({response: {data}}) => {
         // Redirect to login page if not authenticated
         if (!data || data.message === "Unauthenticated.") {
@@ -219,6 +232,13 @@ export default {
       } else {
         return null
       }
+    },
+
+    postApprovalData($state) {
+      // state: 0:Reject, 1:Approved
+      httpPOST('', {
+
+      })
     }
   },
 
