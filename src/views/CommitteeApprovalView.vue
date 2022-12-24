@@ -124,7 +124,7 @@ export default {
       httpGET('api/v1/committee-approval/index')
           .then(({data}) => {
             this.treatments = data.data
-            console.log(data.data)
+            // console.log(data.data)
           }).catch(({response: {data}}) => {
         // Redirect to login page if not authenticated
         if (!data || data.message === "Unauthenticated.") {

@@ -207,10 +207,12 @@ export default {
   methods: {
     // START Fetch All treatments
     fetchTreatments() {
-      httpGET('api/v1/committee-approval/index')
+      httpPOST('api/v1/committee-approval/show', {
+        patient_history_uuid: this.patient_history_uuid
+      })
           .then(({data}) => {
             this.treatments = data.data
-            console.log(data.data)
+            // console.log(data.data)
           }).catch(({response: {data}}) => {
         // Redirect to login page if not authenticated
         if (!data || data.message === "Unauthenticated.") {
