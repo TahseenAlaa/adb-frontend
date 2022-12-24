@@ -180,19 +180,24 @@
       <!--      END Antho Section -->
 
     </v-expansion-panels>
+    <LoadingDialogCompo :loading_-dialog="loading_Dialog">
+
+    </LoadingDialogCompo>
   </v-container>
 </template>
 
 <script>
 import ReceptionCompo from "@/components/ReceptionCompo";
 import AnthoCompo from "@/components/AnthoCompo";
-import {httpGET, httpPOST} from "@/utils/utils";
+import {httpPOST} from "@/utils/utils";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo.vue";
 
 export default {
   name: "CommitteeApprovalConfirmView.vue",
   components: {
     ReceptionCompo,
-    AnthoCompo
+    AnthoCompo,
+    LoadingDialogCompo
   },
   data() {
     return {
@@ -201,6 +206,7 @@ export default {
       treatments: [],
       approveDialog: false,
       rejectionDialog: false,
+      loading_Dialog: null
     }
   },
 
