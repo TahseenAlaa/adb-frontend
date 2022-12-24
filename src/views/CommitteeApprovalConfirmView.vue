@@ -237,6 +237,8 @@ export default {
     },
 
     postApprovalData($state) {
+      this.loading_Dialog = true
+
       // state: 0:Reject, 1:Approved
       httpPOST('api/v1/committee-approval/store', {
         treatments: this.treatments,
