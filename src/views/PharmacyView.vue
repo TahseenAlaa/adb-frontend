@@ -233,7 +233,7 @@
                 <v-col cols="2">
                   <v-select
                       v-model="item.name"
-                      :items="drugs"
+                      :items="treatment.drugs"
                       label="Item Name"
                       item-text="drugs.title"
                       item-value="id"
@@ -278,7 +278,7 @@
                       dense
                       :rules="[rules.required,
                           v => {
-                              if (v !== null) {
+                              if (v !== null && typeof v === 'string') {
                                 if (v.trim() === '' || null) return true;
                                 if (!v.trim()) return true;
                               }
@@ -762,7 +762,7 @@ export default {
     },
 
     numberRule: v => {
-      if (v !== null) {
+      if (v !== null && typeof v === 'string') {
         if (v.trim() === '' || null) return true;
         if (!v.trim()) return true;
       }
@@ -918,7 +918,7 @@ export default {
     httpGET('api/v1/pharmacy/index')
         .then(({data}) => {
           this.drugs = data.data
-          console.log(data.data)
+          // console.log(data.data)
           // console.log(data.inputInInventory)
           // console.log(data.inPharmacy)
         })
