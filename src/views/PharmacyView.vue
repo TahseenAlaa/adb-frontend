@@ -420,6 +420,7 @@
 
                 <v-btn
                     class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
+                    :disabled="!valid"
                 >
                   <v-col @click="storeOutputDocumentDataOfPharmacy">
                     <v-icon size="60">mdi-content-save</v-icon>
