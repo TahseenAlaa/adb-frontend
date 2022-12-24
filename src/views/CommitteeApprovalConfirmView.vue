@@ -109,7 +109,7 @@
                   <v-btn
                       @click="postApprovalData(1)"
                       dark
-                      class="text-h6 green"
+                      class="green"
                   >
                     Approve
                   </v-btn>
@@ -144,7 +144,7 @@
                   <v-btn
                       @click="postApprovalData(0)"
                       dark
-                      class="text-h6 red"
+                      class="red"
                   >Reject
                   </v-btn>
                 </v-card-actions>
@@ -227,7 +227,7 @@ export default {
     },
     // END Fetch All treatments
 
-    humanReadableDateConverter (date) {
+    humanReadableDateConverter(date) {
       if (date) {
         let newDate = new Date(date)
         return newDate.toLocaleDateString('en-GB')
@@ -238,17 +238,33 @@ export default {
 
     postApprovalData($state) {
       // state: 0:Reject, 1:Approved
-      httpPOST('', {
-
+      httpPOST('api/v1/committee-approval/store', {
+        treatments: this.treatments,
+        status: $state
       })
+          .then(() => {
+            setTimeout(() => {
+              this.$router.push({path: '/committee-approval'})
+            }, 2000)
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          this.errorDialogMessage = data.message
+          this.errorDialogActive = true
+        }
+      }).finally(() => {
+        this.loading_Dialog = false
+      });
     }
   },
 
-  created() {
-    // START Fetch All treatments
-    this.fetchTreatments()
+    created() {
+      // START Fetch All treatments
+      this.fetchTreatments()
+    }
   }
-}
 </script>
 
 <style scoped>
