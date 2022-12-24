@@ -193,8 +193,9 @@
 
                   <td>{{ item.dose }}</td>
 
-                  <td v-if="item.drugs.drug_type === 1 && item.status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
-                  <td v-if="item.drugs.drug_type === 1 && item.status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-check-circle</v-icon> Done</span></td>
+                  <td v-if="item.drugs.drug_type === 1 && item.committee_status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                  <td v-if="item.drugs.drug_type === 1 && item.committee_status === null"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
+                  <td v-if="item.drugs.drug_type === 1 && item.committee_status === 1"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl"><v-icon size="25" color="green darken-3">mdi-check-circle</v-icon> Done</span></td>
                   <td v-else-if="item.drugs.drug_type === 0"></td>
 
                   <td v-if="item.status === 0"><span class="blue-grey lighten-5 px-2 py-2 rounded-xl d-inline"><v-icon size="20" color="yellow darken-4">mdi-clock-time-four</v-icon> Pending</span></td>
