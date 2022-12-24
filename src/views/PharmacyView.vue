@@ -418,15 +418,17 @@
                 </v-dialog>
                 <!-- END History       -->
 
-                <v-btn
-                    class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
-                    :disabled="!valid"
-                >
-                  <v-col @click="storeOutputDocumentDataOfPharmacy">
-                    <v-icon size="60">mdi-content-save</v-icon>
-                    <h3 class="text-capitalize">SAVE</h3>
-                  </v-col>
-                </v-btn>
+                <div>
+                  <v-btn
+                      class="px-2 py-12 mt-6 mx-2 deep-purple white--text"
+                      :disabled="!valid || !validBecauseOfCommitteeApproval"
+                  >
+                    <v-col @click="storeOutputDocumentDataOfPharmacy">
+                      <v-icon size="60">mdi-content-save</v-icon>
+                      <h3 class="text-capitalize">SAVE</h3>
+                    </v-col>
+                  </v-btn>
+                </div>
               </v-row>
               <!--              END Flash Message -->
             </v-card-text>
@@ -587,6 +589,7 @@ export default {
       treatmentDialog: false,
       treatments: [],
       autoOpenPanel: [0],
+      validBecauseOfCommitteeApproval: true,
       rules: {
         required: value => !!value || 'Required Field',
       },
@@ -775,6 +778,14 @@ export default {
       })
           .then(({data}) => {
             this.treatments = data.data
+
+            if (this.treatments) {
+              this.treatments.forEach(e => {
+                if (e.drugs.drug_type === 1 && e.committee_status !== 1) {
+                  this.validBecauseOfCommitteeApproval = false
+                }
+              })
+            }
           }).catch(({response: {data}}) => {
         // Redirect to login page if not authenticated
         if (!data || data.message === "Unauthenticated.") {
