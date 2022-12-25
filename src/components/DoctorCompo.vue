@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="mt-16">
+  <v-container class="mt-16" fluid>
           <v-card class="px-6">
             <v-card-title>Doctors</v-card-title>
             <v-card-subtitle>Find bellow the information history of the patient</v-card-subtitle>
