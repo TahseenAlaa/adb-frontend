@@ -30,6 +30,7 @@
             <th>Date of Adding Record</th>
             <th>Doctor's Name</th>
             <th>Sampling By</th>
+            <th>Sample No.</th>
             <th>Action</th>
           </tr>
           </thead>
@@ -46,6 +47,16 @@
             <td>{{ humanReadableDateConverter(test.created_at) }}</td>
             <td>{{ test.user.full_name }}</td>
             <td>{{ test.sampling_user? test.sampling_user.full_name : null }}</td>
+            <td v-if="test.sample_no">{{ test.sample_no }}</td>
+            <td v-else-if="!test.sample_no">
+              <v-text-field
+                  outlined
+                  dense
+                  v-model="sample_no"
+                  :readonly="!!test.sampling_status"
+              >
+              </v-text-field>
+            </td>
             <td>
               <v-btn
                   class="px-2 py-2 deep-purple white--text"
@@ -179,7 +190,8 @@ export default {
       loading_state: false,
       historyDialog: false,
       patientHistoryList: [],
-      autoOpenPanel: [0]
+      autoOpenPanel: [0],
+      sample_no: null
     }
   },
   methods: {
@@ -210,7 +222,8 @@ export default {
 
       httpPOST('api/v1/lab-sampling/store', {
         patient_uuid: this.patient_uuid,
-        test_id: $testId
+        test_id: $testId,
+        sample_no: this.sample_no
       }).then(({data}) => {
         this.tests = data.data
         // console.log('Done!')
