@@ -1,5 +1,9 @@
 <template>
   <v-container class="mt-16" fluid>
+    <v-card class="px-6">
+      <v-card-title>Pharmacy</v-card-title>
+      <v-card-subtitle>Find bellow the information history of the patient</v-card-subtitle>
+
     <div class="mt-6">
       <v-row dense align="center" justify="center">
         <v-card-title class="subtitle-2">Drugs list for this patient</v-card-title>
@@ -33,6 +37,8 @@
       </template>
     </v-simple-table>
     <!--              END Treatment -->
+
+    </v-card>
   </v-container>
 </template>
 
