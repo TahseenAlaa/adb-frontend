@@ -174,6 +174,16 @@
               <v-list-item-title>Providers Management</v-list-item-title>
             </v-list-item>
 
+            <v-list-item
+                @click="$router.push({name: 'dashboard'})"
+                v-if="can('access dashboard')"
+            >
+              <v-list-item-icon>
+                <v-icon size="30" color="deep-orange darken-3">mdi-monitor-dashboard</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Dashboard</v-list-item-title>
+            </v-list-item>
+
             <v-list
                 v-if="can('list users') || can('')"
             >
