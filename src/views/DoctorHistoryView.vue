@@ -48,8 +48,9 @@
                         <td>{{ humanReadableDateConverter(item.created_at) }}</td>
                         <td>
                           <v-btn class="deep-purple white--text"
-                                 @click="$router.push({path: '/lab-history/' + item.uuid})"
-                          >View</v-btn>
+                                 @click="$router.push({path: '/doctor-history/' + item.uuid}).catch(err => {})"
+                          >View
+                          </v-btn>
                         </td>
                       </tr>
                       </tbody>
