@@ -104,55 +104,18 @@
         <v-card min-width="100%" min-height="100%" class="white">
           <v-card-subtitle><h2>Nearly expired drugs</h2></v-card-subtitle>
           <v-card-text>
-            <v-row>
+            <v-row v-for="item in drugs.expire_soon">
               <v-col cols="3">
-                <span>Paracetomol</span>
+                <span>{{ item.drugs.title }}</span>
               </v-col>
               <v-col cols="9">
                 <v-progress-linear
                     color="red darken-2"
                     rounded
-                    value="50"
+                    :value=getDaysCountFromToday(item.expire_date)*3.33
+                    buffer-value="100"
                 ></v-progress-linear>
                 <br>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="3">
-                <span>Saxenda</span>
-              </v-col>
-              <v-col cols="9">
-                <v-progress-linear
-                    color="indigo"
-                    rounded
-                    value="20"
-                ></v-progress-linear>
-                <br>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="3">
-                <span>Fuciden</span>
-              </v-col>
-              <v-col cols="9">
-                <v-progress-linear
-                    color="teal"
-                    rounded
-                    value="70"
-                ></v-progress-linear>
-                <br>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="3">
-                <span>Tramadol</span>
-              </v-col>
-              <v-col cols="9">
-                <v-progress-linear
-                    color="cyan darken-2"
-                    rounded
-                    value="30"
-                ></v-progress-linear>
               </v-col>
             </v-row>
           </v-card-text>
@@ -239,7 +202,16 @@ export default {
         this.loading_dialog = false
       });
       // END Fetch dashboard index
+    },
+
+  methods: {
+    getDaysCountFromToday($dateToCalc) {
+      const currentDate = new Date();
+      const targetDate = new Date($dateToCalc);
+      const timeDifference = targetDate.getTime() - currentDate.getTime();
+      return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
     }
+  }
 }
 </script>
 
