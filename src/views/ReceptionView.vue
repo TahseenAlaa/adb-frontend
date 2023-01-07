@@ -692,7 +692,7 @@ export default {
         family_history_of_ihd: this.family_history_of_ihd,
         weight_of_baby_at_birthday: this.weight_of_baby_at_birthday,
         date_of_dm: this.date_of_dm,
-        patient_number: this.patient_number,
+        patient_number: this.patient_number.toUpperCase().replaceAll(/\s/g,''),
         social_status: this.social_status,
 
       })
