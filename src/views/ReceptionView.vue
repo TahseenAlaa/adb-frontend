@@ -76,13 +76,23 @@
             ></v-select>
           </v-col>
           <v-col cols="2">
-            <v-text-field
+            <v-select
+                :items="[
+                    'Private Sector كاسب',
+                    'Public Sector موظف حكومي',
+                    'Student طالب',
+                    'Military عسكري',
+                    'Jobless عاطل عن العمل',
+                    'Housewife ربة منزل',
+                ]"
                 label="Occupation"
                 v-model="occupation"
-                outlined
                 dense
-                :rules="[nameRule]"
-            ></v-text-field>
+                outlined
+                :readonly="patient_read_only"
+                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :persistent-hint="patient_read_only"
+            ></v-select>
           </v-col>
           <v-col cols="4">
             <v-select
@@ -159,7 +169,7 @@
                   v-model="parity"
                   outlined
                   dense
-                  :rules="[nameRule]"
+                  :rules="[numberRule]"
               ></v-text-field>
             </v-col>
             <v-col cols="3">
