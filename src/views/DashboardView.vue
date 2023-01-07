@@ -77,25 +77,10 @@
         <v-card min-width="100%" min-height="100%" class="white">
           <v-card-subtitle><h2>Critical Storage drugs</h2></v-card-subtitle>
           <v-card-text>
-            <v-row>
-              <v-col cols="2">Storage Drug</v-col>
+            <v-row v-for="item in drugs.critical">
+              <v-col cols="2">{{ item.drugs.title }}</v-col>
               <v-col cols="8"></v-col>
-              <v-col cols="2">23 <v-icon size="20" color="red">mdi-arrow-bottom-right</v-icon></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2">Storage Drug</v-col>
-              <v-col cols="8"></v-col>
-              <v-col cols="2">50 <v-icon size="20" color="green">mdi-arrow-top-right</v-icon></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2">Storage Drug</v-col>
-              <v-col cols="8"></v-col>
-              <v-col cols="2">50 <v-icon size="20" color="green">mdi-arrow-top-right</v-icon></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2">Storage Drug</v-col>
-              <v-col cols="8"></v-col>
-              <v-col cols="2">23 <v-icon size="20" color="red">mdi-arrow-bottom-right</v-icon></v-col>
+              <v-col cols="2">{{ item.diff }}</v-col>
             </v-row>
           </v-card-text>
         </v-card>
