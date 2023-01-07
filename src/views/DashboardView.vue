@@ -9,7 +9,7 @@
         >
           <v-card-text class="text-h5 font-weight-bold white--text">
             <v-icon large dark>mdi-calendar-month-outline</v-icon>
-            {{ this.drugs.length }}
+            {{ this.drugs.total.length }}
             <v-card-subtitle>Total Drugs in Pharmacy</v-card-subtitle>
           </v-card-text>
         </v-card>
@@ -22,7 +22,7 @@
         >
           <v-card-text class="text-h5 font-weight-bold white--text">
             <v-icon large dark>mdi-timer-sync-outline</v-icon>
-            14
+            {{ this.drugs.expired.length }}
             <v-card-subtitle>Expired Items</v-card-subtitle>
           </v-card-text>
         </v-card>
@@ -179,7 +179,10 @@ export default {
   data() {
     return {
       loading_Dialog: false,
-      drugs: [],
+      drugs: {
+        total: [],
+        expired: []
+      },
     }
   },
 
@@ -190,13 +193,21 @@ export default {
             // console.log(Object.keys(data.totalDrugsCount.original.data).length)
             // console.log(data.totalDrugsCount.original.data)
 
-            // Delete drugs quantity equal to ZERO
-            this.drugs = data.totalDrugsCount.original.data.filter(item => {
+            // Total drugs
+            this.drugs.total = data.totalDrugsCount.original.data.filter(item => {
               if (item.diff > 0) {
                 return true
               }
             })
-            console.log(this.drugs.length)
+
+            // Expired drugs
+            this.drugs.expired = this.drugs.total.filter(item => {
+              const today = new Date()
+              if ((new Date(item.expire_date)).getTime() < today.getTime()) {
+                return true
+              }
+            })
+
             this.loaded = true
           }).catch(({response: {data}}) => {
         // Redirect to login page if not authenticated
