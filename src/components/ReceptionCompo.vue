@@ -231,7 +231,7 @@
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
-                :rules="[nameRule]"
+                :rules="[numberRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
