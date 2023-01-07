@@ -56,12 +56,13 @@
     </v-row>
 
     <v-row class="mt-4">
-      <v-col cols="8">
-          <v-card min-width="100%" min-height="100%" class="white">
+      <v-col cols="6">
+          <v-card class="white">
             <v-card-subtitle><h2>Number of visits this month</h2></v-card-subtitle>
+            <BarChart />
           </v-card>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="6">
         <v-card min-width="100%" min-height="100%" class="white">
           <v-card-subtitle><h2>Most used drugs this month</h2></v-card-subtitle>
           <v-card-text>
@@ -158,16 +159,26 @@
         </v-card>
       </v-col>
     </v-row>
+
   </v-container>
 
 </template>
 
 <script>
 
+import {httpGET} from "@/utils/utils";
+import LoadingDialogCompo from "@/components/LoadingDialogCompo";
+import BarChart from "@/components/BarChart.vue";
+
 export default {
   name: "Dashboard",
+  components: {
+    BarChart,
+    LoadingDialogCompo
+  },
   date() {
     return {
+      loading_Dialog: false,
       value1: 30,
       value2: 80,
       value3: 20,
