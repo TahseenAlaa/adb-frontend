@@ -35,7 +35,7 @@
         >
           <v-card-text class="text-h5 font-weight-bold white--text">
             <v-icon large dark>mdi-circle-off-outline</v-icon>
-            3
+            {{ this.drugs.critical.length }}
             <v-card-subtitle>Critical Items</v-card-subtitle>
           </v-card-text>
         </v-card>
@@ -48,7 +48,7 @@
         >
           <v-card-text class="text-h5 font-weight-bold white--text">
             <v-icon large dark>mdi-pill-multiple</v-icon>
-            7
+            {{ this.drugs.expire_soon.length }}
             <v-card-subtitle>Items will Expire</v-card-subtitle>
           </v-card-text>
         </v-card>
@@ -181,7 +181,9 @@ export default {
       loading_Dialog: false,
       drugs: {
         total: [],
-        expired: []
+        expired: [],
+        critical: [],
+        expire_soon: []
       },
     }
   },
@@ -207,6 +209,23 @@ export default {
                 return true
               }
             })
+
+            // Critical drugs
+            this.drugs.critical = this.drugs.total.filter(item => {
+              if (item.diff <= 20) {
+                return true
+              }
+            })
+
+            // Expire soon drugs - After one month
+            this.drugs.expire_soon = this.drugs.total.filter(item => {
+              const next_month = new Date()
+              next_month.setMonth(next_month.getMonth() + 1);
+              if ((new Date(item.expire_date)).getTime() <= next_month.getTime()) {
+                return true
+              }
+            })
+
 
             this.loaded = true
           }).catch(({response: {data}}) => {
