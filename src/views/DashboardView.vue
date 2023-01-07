@@ -9,8 +9,8 @@
         >
           <v-card-text class="text-h5 font-weight-bold white--text">
             <v-icon large dark>mdi-calendar-month-outline</v-icon>
-            128
-            <v-card-subtitle>Total Items</v-card-subtitle>
+            {{ this.drugs.length }}
+            <v-card-subtitle>Total Drugs in Pharmacy</v-card-subtitle>
           </v-card-text>
         </v-card>
       </v-col>
@@ -176,15 +176,40 @@ export default {
     BarChart,
     LoadingDialogCompo
   },
-  date() {
+  data() {
     return {
       loading_Dialog: false,
-      value1: 30,
-      value2: 80,
-      value3: 20,
-      value4: 10,
+      drugs: [],
     }
   },
+
+    created() {
+      // START Fetch dashboard index
+      httpGET('api/v1/dashboard/index')
+          .then(({data}) => {
+            // console.log(Object.keys(data.totalDrugsCount.original.data).length)
+            // console.log(data.totalDrugsCount.original.data)
+
+            // Delete drugs quantity equal to ZERO
+            this.drugs = data.totalDrugsCount.original.data.filter(item => {
+              if (item.diff > 0) {
+                return true
+              }
+            })
+            console.log(this.drugs.length)
+            this.loaded = true
+          }).catch(({response: {data}}) => {
+        // Redirect to login page if not authenticated
+        if (!data || data.message === "Unauthenticated.") {
+          this.$store.commit('SET_AUTHENTICATED', false)
+        } else {
+          console.log(data)
+        }
+      }).finally(() => {
+        this.loading_dialog = false
+      });
+      // END Fetch dashboard index
+    }
 }
 </script>
 
