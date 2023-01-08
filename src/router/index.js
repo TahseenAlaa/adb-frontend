@@ -50,6 +50,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/SearchView.vue')
   },
   {
+    path: '/advance-search',
+    name: 'advance_search',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdvanceSearchView.vue')
+  },
+  {
     path: '/pharmacy/:patient_uuid?',
     name: 'pharmacy',
     component: () => import(/* webpackChunkName: "about" */ '../views/PharmacyView.vue')

@@ -1,5 +1,5 @@
 <template>
-
+  <h1>Advance Search</h1>
 </template>
 
 <script>

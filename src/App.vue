@@ -95,6 +95,16 @@
             </v-list-item>
 
             <v-list-item
+                @click="$router.push({name: 'advance_search'})"
+                v-if="can('list patients')"
+            >
+              <v-list-item-icon>
+                <v-icon size="30" color="lime darken-3">mdi-account-search</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Advance Search</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item
                 @click="$router.push({name: 'diagnosis_management'})"
                 v-if="can('list diagnosis')"
             >
