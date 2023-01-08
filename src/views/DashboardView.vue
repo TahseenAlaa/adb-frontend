@@ -66,7 +66,11 @@
         <v-card min-width="100%" min-height="100%" class="white">
           <v-card-subtitle><h2>Most used drugs this month</h2></v-card-subtitle>
           <v-card-text>
-
+            <v-row v-for="item in drugs.most_used">
+              <v-col cols="2">{{ item.drugs.title }}</v-col>
+              <v-col cols="8"></v-col>
+              <v-col cols="2">{{ item.count }}</v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
@@ -131,7 +135,8 @@ export default {
         total: [],
         expired: [],
         critical: [],
-        expire_soon: []
+        expire_soon: [],
+        most_used: []
       },
     }
   },
@@ -174,6 +179,8 @@ export default {
               }
             })
 
+            // Most Used Drugs
+            this.drugs.most_used = data.mostUsedDrugsThisMonth
 
             this.loaded = true
           }).catch(({response: {data}}) => {
