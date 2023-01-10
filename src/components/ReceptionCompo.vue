@@ -124,14 +124,14 @@
           <v-col cols="4">
             <v-select
                 :items="[
-                    'غير متعلم',
-                    'ابتدائية',
-                    'متوسطة',
-                    'اعدادية',
-                    'معهد',
-                    'بكالوريوس',
-                    'ماجستير',
-                    'دكتوراه',
+                    'غير متعلم Uneducated',
+                    'ابتدائية Primary',
+                    'متوسطة Secondary',
+                    'اعدادية High School',
+                    'معهد Institute',
+                    'بكالوريوس  BSc',
+                    'ماجستير Masters',
+                    'دكتوراه PhD',
                 ]"
                 label="Education Qualification"
                 v-model="education_qualification"
@@ -149,7 +149,7 @@
                 dense
                 row
                 :readonly="patient_read_only"
-                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :hint="patient_read_only === false? '' : 'Read Only'"
                 :persistent-hint="patient_read_only"
             >
 
@@ -186,22 +186,28 @@
                 outlined
                 dense
                 :readonly="patient_read_only"
-                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :hint="patient_read_only === false? '' : 'Read Only'"
                 :persistent-hint="patient_read_only"
                 :rules="[nameRule]"
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <v-text-field
+            <v-select
+                :items="[
+                    'Poor ضعيف',
+                    'Fair مقبول',
+                    'Good جيد',
+                    'Very good جيد جداً'
+                ]"
                 label="Social Status"
                 v-model="social_status"
                 outlined
                 dense
                 :readonly="patient_read_only"
-                :hint="patient_read_only === false? '' : 'ReadOnly'"
+                :hint="patient_read_only === false? '' : 'Read Only'"
                 :persistent-hint="patient_read_only"
                 :rules="[nameRule]"
-            ></v-text-field>
+            ></v-select>
           </v-col>
           <v-col cols="3">
             <v-text-field
@@ -221,6 +227,8 @@
                 v-model="patient_number"
                 outlined
                 dense
+                @input="patient_number = patient_number.toUpperCase()"
+                :rules="[oldFileRule]"
                 :readonly="patient_read_only"
                 :hint="patient_read_only === false? '' : 'ReadOnly'"
                 :persistent-hint="patient_read_only"
@@ -833,7 +841,10 @@ export default {
       const pattern = /^([^0-9]*)$/;
       return pattern.test(value) || 'Only Letters Accepted'
     },
-
+    oldFileRule: value => {
+      const pattern = /^([0-9]{1,8})+([A-Z]{1})$/;
+      return pattern.test(value) || 'File number should be in format of 123A'
+    },
     // START Check Permissions
     can($permit) {
       return !!this.$store.getters.user.permissions.find(v => v.name === $permit);
